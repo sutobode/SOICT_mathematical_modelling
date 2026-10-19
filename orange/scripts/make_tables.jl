@@ -10,9 +10,11 @@ fmt(x; d=4) = isnan(x) ? "--" : string(round(x, digits=d))
 function status_summary(rows)
     st = [r["status"] for r in rows]
     k = count(==("Optimal"), st)
-    k == length(st) && return "Optimal"
-    k == 0 && return join(unique(st), "/")
-    return "Optimal $k/$(length(st))"
+    bad = count(r -> !startswith(r["check"], "ok"), rows)
+    tag = bad > 0 ? " (check failed $bad)" : ""
+    k == length(st) && return "Optimal" * tag
+    k == 0 && return join(unique(st), "/") * tag
+    return "Optimal $k/$(length(st))" * tag
 end
 function table(P)
     io = IOBuffer()
@@ -28,10 +30,12 @@ function table(P)
             println(io, "$name & $(r1["n"]) & $(r1["m"]) & $(r1["nD"]) & \\multicolumn{8}{l}{$(replace(r1["status"], "_" => "\\_"))} \\\\")
             continue
         end
-        g(k) = avg([num(r, k) for r in rows])
+        good = filter(r -> startswith(r["check"], "ok"), rows)   # chỉ lấy các lần chạy có nghiệm đã kiểm tra
+        g(k) = avg([num(r, k) for r in good])
+        gt(k) = avg([num(r, k) for r in rows])
         println(io, join([name, r1["n"], r1["m"], r1["nD"], fmt(num(r1, "mlu_base")), fmt(g("mlu")),
-                          fmt(100 * g("improvement"); d=1), fmt(g("solve_time"); d=1), status_summary(rows),
-                          fmt(g("gap")), fmt(g("nodes"); d=0), string(length(rows))], " & "), " \\\\")
+                          fmt(100 * g("improvement"); d=1), fmt(gt("solve_time"); d=1), status_summary(rows),
+                          fmt(gt("gap")), fmt(gt("nodes"); d=0), string(length(rows))], " & "), " \\\\")
     end
     println(io, "\\hline\n\\end{tabular}")
     return String(take!(io))

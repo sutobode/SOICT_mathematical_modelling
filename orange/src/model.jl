@@ -1,6 +1,7 @@
 function build_model(inst::Instance, rs, P::Int, optimizer;
-                     tlimit=Inf, silent=true, eps=1e-7, warm_start=true)
+                     tlimit=Inf, silent=true, eps=nothing, warm_start=true, acyclic=false)
     n, nD = inst.n, length(inst.dem_s)
+    eps = eps === nothing ? 1e-7 / nD : eps               # tổng phạt eps*sum(x) <= ~1e-7*maxSeg*P
     model = Model(optimizer)
     silent && set_silent(model)
     isfinite(tlimit) && set_time_limit_sec(model, tlimit)
@@ -32,6 +33,23 @@ function build_model(inst::Instance, rs, P::Int, optimizer;
         rhs = i == inst.dem_s[d] ? 1 : (i == inst.dem_t[d] ? -1 : 0)
         @constraint(model, sum(x[d, p, i, j] for j in 1:n if j != i) -
                            sum(x[d, p, j, i] for j in 1:n if j != i) == rhs)
+    end
+
+    # mỗi nút có tối đa một đoạn vào và một đoạn ra: đường đơn (+ chu trình rời)
+    for d in 1:nD, p in 1:P, i in 1:n
+        @constraint(model, sum(x[d, p, i, j] for j in 1:n if j != i) <= 1)
+        @constraint(model, sum(x[d, p, j, i] for j in 1:n if j != i) <= 1)
+    end
+
+    # (tùy chọn) loại hẳn chu trình rời bằng thứ tự MTZ: x_ij = 1 => u_j >= u_i + 1
+    if acyclic
+        M = inst.maxseg + 1
+        u = @variable(model, [d=1:nD, p=1:P, i=1:n], lower_bound = 0, upper_bound = inst.maxseg)
+        for d in 1:nD, p in 1:P, i in 1:n, j in 1:n
+            i == j && continue
+            (is_fixed(x[d, p, i, j]) && fix_value(x[d, p, i, j]) == 0.0) && continue
+            @constraint(model, u[d, p, j] >= u[d, p, i] + 1 - M * (1 - x[d, p, i, j]))
+        end
     end
 
     # (2) số đoạn

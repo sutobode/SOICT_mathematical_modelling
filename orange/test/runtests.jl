@@ -260,3 +260,37 @@ end
     @test value(z) <= zstar + 1e-6
     @test sum(value(load[1][a]) / inst.cap[a] for a in 1:inst.m) <= total1 + 1e-6
 end
+
+@testset "acyclic model has simple paths only" begin
+    inst = read_instance(TOY; budget=2)
+    rs = [build_r(inst, p) for p in 1:2]
+    model, x, z = build_model(inst, rs, 2, OPT; acyclic=true)
+    optimize!(model)
+    @test termination_status(model) == MOI.OPTIMAL
+    paths = extract_paths(inst, x, 2)
+    for d in 1:2, p in 1:2
+        nsel = count(v -> value(v) > 0.5, [x[d, p, i, j] for i in 1:inst.n for j in 1:inst.n if i != j])
+        @test nsel == length(paths[(d, p)]) - 1               # không có đoạn thừa/chu trình
+    end
+    @test check_solution(inst, rs, paths, 2, value(z)).budget_ok
+end
+
+@testset "degree constraints and scaled eps" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, 1)]
+    model, x, z = build_model(inst, rs, 1, OPT)
+    @test coefficient(objective_function(model), x[1, 1, 1, 6]) ≈ 1e-7 / 2    # eps = 1e-7/nD
+    @test num_constraints(model, AffExpr, MOI.LessThan{Float64}) >=
+          2 * inst.n * 2 + 2 + inst.m                                         # in/out degree <= 1 per (d,node), maxSeg, load
+end
+
+@testset "runner reports actual gap and objective" begin
+    out = mktempdir()
+    csv = run_instance(TOY, "toy", 2, 60; runs=1, outdir=out)
+    head = split(readlines(csv)[1], ",")
+    row = split(readlines(csv)[2], ",")
+    @test head[end] == "obj"
+    zv, obj, gap = parse(Float64, row[8]), parse(Float64, row[end]), parse(Float64, row[13])
+    @test obj >= zv - 1e-12
+    @test 0.0 <= gap < 1e-5                                    # gap thật, không phải 0 cố định
+end

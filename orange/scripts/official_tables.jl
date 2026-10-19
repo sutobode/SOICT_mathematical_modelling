@@ -27,8 +27,10 @@ fmte(x) = isnan(x) ? "--" : (x == 0 ? "0" : string(round(x, sigdigits=2)))
 # các lần chạy của mô hình theo cung nằm ở setA-XX-P{P}[-pc].csv và các file bổ sung ...-r4-10.csv (lần 4..10); gộp lại,
 # bỏ trùng số thứ tự lần chạy (giữ lần đầu)
 function arc_rows(name, P)
-    pat = Regex("^" * name * "-P" * string(P) * arc_tag * "(-r\d+-\d+)?\.csv\$")
-    files = sort(filter(f -> occursin(pat, basename(f)), readdir(resdir; join=true)))
+    stem = name * "-P" * string(P) * arc_tag
+    ismatch(b) = endswith(b, ".csv") && (b == stem * ".csv" ||
+                 (startswith(b, stem * "-r") && occursin(r"^-r[0-9]+-[0-9]+$", b[length(stem)+1:end-4])))
+    files = sort(filter(f -> ismatch(basename(f)), readdir(resdir; join=true)))
     rows = Dict{String,String}[]
     seen = Set{String}()
     for f in files, r in readcsv(f)

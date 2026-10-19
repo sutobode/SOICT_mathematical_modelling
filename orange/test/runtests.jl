@@ -379,3 +379,22 @@ end
     optimize!(model)
     @test objective_value(model) <= max_utilization(inst, rs, wp, 2) + 1e-6
 end
+
+@testset "waypoint runner writes csv with adaptive K" begin
+    out = mktempdir()
+    csv = run_wp_instance(TOY, "toy", 2, 60; outdir=out)
+    head = split(readlines(csv)[1], ",")
+    r = Dict(zip(head, split(readlines(csv)[2], ",")))
+    @test r["status"] == "Optimal" && r["check"] == "ok"
+    @test parse(Float64, r["mlu"]) <= parse(Float64, r["heur_mlu"]) + 1e-9
+    @test parse(Float64, r["heur_mlu"]) <= parse(Float64, r["mlu_base"]) + 1e-9
+    @test parse(Int, r["K"]) == 5                                  # n=7 nút: K = n-2 ứng viên mỗi demand
+    @test isfile(joinpath(out, "toy-wp-P2-srpaths.json"))
+    # giới hạn kích thước: K giảm khi vượt max_binaries
+    csv2 = run_wp_instance(TOY, "toy", 2, 60; outdir=out, max_binaries=2 * 2 * 3, tag="-small")
+    r2 = Dict(zip(split(readlines(csv2)[1], ","), split(readlines(csv2)[2], ",")))
+    @test parse(Int, r2["K"]) == 2                                 # (nD*P*(K+1)) <= max_binaries -> K=2
+    # lỗi đọc dữ liệu: ghi ERROR, không ném
+    csv3 = run_wp_instance(joinpath(out, "missing"), "missing", 1, 10; outdir=out)
+    @test split(readlines(csv3)[2], ",")[8] == "ERROR"
+end

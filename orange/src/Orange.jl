@@ -13,5 +13,5 @@ export Instance, read_instance,
        check_solution, write_srpaths, write_loads,
        build_model, extract_paths, lex_second_stage!,
        candidates, build_wp_model, extract_wp_paths,
-       run_instance, local_search
+       run_instance, run_wp_instance, local_search
 end

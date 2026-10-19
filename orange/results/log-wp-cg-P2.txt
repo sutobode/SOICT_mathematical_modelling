@@ -14,3 +14,4 @@
 == setA-14 P=2 cg=true pc=false  free RAM 13.0 GiB
 == setA-15 P=2 cg=true pc=false  free RAM 13.2 GiB
 == setA-16 P=2 cg=true pc=false  free RAM 13.1 GiB
+== setA-17 P=2 cg=true pc=false  free RAM 12.5 GiB

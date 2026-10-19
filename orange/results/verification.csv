@@ -1,2 +1,2 @@
 file,r_mode,mlu_independent,mlu_csv,abs_diff,mlu_tol1e-6,tol_sensitive,changes_t1,problems
-setA-10-wp-P2-cg-lns-srpaths.json,ecmp,0.1086957,0.1086957,0.00e+00,0.1086957,False,0,
+setA-13-wp-P2-cg-lns-srpaths.json,ecmp,0.076923,0.076923,0.00e+00,0.076923,False,12,

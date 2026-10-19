@@ -659,3 +659,24 @@ end
     @test Dict(zip(split(readlines(csv2)[1], ","), split(readlines(csv2)[2], ",")))["status"] == "Optimal"
     @test Orange.arc_bytes_estimate(980_000, 2) > Orange.arc_bytes_estimate(980_000, 1)
 end
+
+@testset "filter_cands keeps only waypoints valid in every period" begin
+    inst = read_instance(TOY)
+    rs = [build_r(inst, p) for p in 1:2]
+    C = filter_cands(inst, rs, [[0, 1, 3, 6], [0, 2, 3]])          # demand 1: s=1, t=6; demand 2: s=3, t=6
+    @test C[1] == [0, 3]                                            # 1 = s và 6 = t bị loại
+    @test C[2] == [0, 2]                                            # 3 = s bị loại
+end
+
+@testset "fast pipeline: no MILP, column generation on the first period, LNS" begin
+    out = mktempdir()
+    csv = run_wp_instance(TOY, "toy", 2, 60; outdir=out, use_colgen=true, cg_first=true, skip_milp=true,
+                          use_lns=true, lns_time=5.0, tag="-fast")
+    r = Dict(zip(split(readlines(csv)[1], ","), split(readlines(csv)[2], ",")))
+    @test r["status"] == "Not Optimal" && r["check"] == "ok"        # không chứng minh tối ưu, nghiệm đã được kiểm tra
+    @test parse(Float64, r["mlu"]) <= parse(Float64, r["heur_mlu"]) + 1e-9
+    @test parse(Float64, r["solve_time"]) == 0.0                    # không giải MILP
+    @test isnan(parse(Float64, r["cg_lp"]))                         # P > 1: không có cận LP hợp lệ
+    @test parse(Float64, r["lns_mlu"]) >= parse(Float64, r["mlu"]) - 1e-9
+    @test isfile(joinpath(out, "toy-wp-P2-fast-srpaths.json"))
+end

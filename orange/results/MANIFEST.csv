@@ -8,6 +8,7 @@ log-P2.txt,66,4edc62a65fef2502f0fe27e3966c00652e623d5fc6f3b241004ccb53c35e7f97,2
 log-pc-P1.txt,164,e4bc5971881389f16ef3a8b7420a9be6213d71a136fc0f009ca272ed00210a1b,2026-10-19 14:05:55,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 log-pc-P1b.txt,696,f723588447dad09c9407a67926c783b43d42455d00619fdfb09ccc16a4fecb64,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 log-pc-P2.txt,164,02c049d1c073966f570e6ad632f6024a7a26b6e18668c99f615d149abb41b375,2026-10-19 17:15:27,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
+log-pc-P2b.txt,41,9cb6d6b394149e45ab05413a4dd3da7eb9541627b0616524f5c8c3cb100090b3,2026-10-19 20:39:05,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 log-wp-P1.txt,442,d5732faa8ea3742d6c34001df94e7d5a81a8d49a789d363229d80ec37e3a03d7,2026-10-19 11:55:19,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
 log-wp-P2.txt,204,b1956ecee33853037a2c13cc9071b73316e0d66aa127a93158224433bab0f472,2026-10-19 11:45:40,beee52c,perf: compact budget formulation for single-waypoint choices
 log-wp-cg-P1.txt,840,e94b17c9195c4f49c16481b555695a054dab53751cfc42ad1ecf1e1437526e6c,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
@@ -102,7 +103,7 @@ setA-04-P1-pc-srpaths.json,503,e2e30047bab9af58016abf076e2fc06121dfa9519d7c79b35
 setA-04-P1-pc.csv,780,3d7125207912e505c8077688a18a8e0be921858bb5556de1ae7f56ccdee6c7ce,2026-10-19 15:50:33,b2e405c,feat: brief status mode
 setA-04-P1-srpaths.json,503,e2e30047bab9af58016abf076e2fc06121dfa9519d7c79b35746cbce6a8bf702,2026-10-19 11:44:42,beee52c,perf: compact budget formulation for single-waypoint choices
 setA-04-P1.csv,780,22e7dec096aa7f65c3086aebdec43d9278315b7a631ff7141c80ed50f3c9e73f,2026-10-19 12:47:06,916b227,feat: best-known aggregation script
-setA-04-P2-pc.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 17:15:27,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
+setA-04-P2-pc.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 20:39:16,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 setA-04-wp-P1-cg-loads.csv,8306,b60d3f0ad2415732d1797bf33d3b89362594d941545d233cb0e061911c62d91a,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
 setA-04-wp-P1-cg-pc-loads.csv,8306,b60d3f0ad2415732d1797bf33d3b89362594d941545d233cb0e061911c62d91a,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-04-wp-P1-cg-pc-srpaths.json,17407,43abce766b682601dfe3d08e4938f9d1831ad40b11a8cdc7d3348dd091999af0,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -242,7 +243,9 @@ setA-13-wp-P1-cg-lns.csv,435,84bbe27882f2cc54286df5df13b22fe62a2ce905162b2c7d4d7
 setA-13-wp-P1-cg-loads.csv,34339,f37aa2fc7e612dfdbde789003fc50269a1fbe53d3a5eafb57de527db0036d31c,2026-10-19 13:18:54,916b227,feat: best-known aggregation script
 setA-13-wp-P1-cg-srpaths.json,219645,322f673c91e086e9e6b61e54ec40b544c757d4e493a3e1d8e2aeaf99b876463f,2026-10-19 13:18:54,916b227,feat: best-known aggregation script
 setA-13-wp-P1-cg.csv,376,919ace4cb0c1ad97a5e448b683887d3ccbd3714343f4f20a2eabdc275e01a399,2026-10-19 13:18:54,916b227,feat: best-known aggregation script
-setA-13-wp-P2-cg-lns.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 19:11:36,6f47b83,"data: results snapshot, results guide and packaging script"
+setA-13-wp-P2-cg-lns-loads.csv,69063,9a6ebe2d869d6d1821839455a1353dbc91f991d63b290d5660e554651a5c012b,2026-10-19 20:28:28,76edee0,"feat: traceability manifest (SHA-256, code commit, commands) and results snapshot"
+setA-13-wp-P2-cg-lns-srpaths.json,278787,1592cd861a1a4be2fc33efed0e47363987402229baf9436db72fed8a5db28e32,2026-10-19 20:28:26,76edee0,"feat: traceability manifest (SHA-256, code commit, commands) and results snapshot"
+setA-13-wp-P2-cg-lns.csv,381,27375748d88d94a20b8c74a724a81a92a84a75929ec4290a3b66eef63d8ccb2b,2026-10-19 20:28:28,76edee0,"feat: traceability manifest (SHA-256, code commit, commands) and results snapshot"
 setA-13-wp-P2-cg-loads.csv,68183,6310205be86d4c721472eff4117dfa715268f1f456817ac506b924d844af1eed,2026-10-19 18:27:04,6f47b83,"data: results snapshot, results guide and packaging script"
 setA-13-wp-P2-cg-srpaths.json,721,d6a6eb16aab97bbb09de5e5e932b5e772a55d77e39c029c0ed2b0473eb5105ca,2026-10-19 18:27:04,6f47b83,"data: results snapshot, results guide and packaging script"
 setA-13-wp-P2-cg.csv,370,e4743c2c3e01ebab5cd365ba349e992fc89bc391b8b26066ff6696789ea87db1,2026-10-19 18:27:04,6f47b83,"data: results snapshot, results guide and packaging script"
@@ -307,6 +310,6 @@ table_official_P1.csv,1453,6c9d7b909aa0e3cc49a0cfc87a6243f0b0204d0e1ff1427f8ea1c
 table_official_P1.md,2597,8ffc8371c5540ab1825f841c467002bc0863ecf3994161b39c1988e2a11c019c,2026-10-19 17:03:44,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
 table_official_P2.csv,1334,91757c62bb4a709cf2390007ece62e714f7c0dec9537ddc65858f37efa0caa43,2026-10-19 17:03:44,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
 table_official_P2.md,2492,1a1451ffbd40f532e389124314db88194e530cac13618f4f9a3c21486eac9774,2026-10-19 17:03:44,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-verification.csv,180,bb3112fbbe6b70391fefcd5643d260b73aee71925af4e1c1265ae395f5f97d00,2026-10-19 17:40:41,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
+verification.csv,178,fb7ded141bbeb2674353f283da4b477b5ee50bcf27b9a5a1b7c11e6bdfac4b24,2026-10-19 20:28:38,76edee0,"feat: traceability manifest (SHA-256, code commit, commands) and results snapshot"
 watch_exclude.txt,6,ba29f616b53540227e14465245b3553e9267cca7bdeef42abad1f86c3ab805d0,2026-10-19 12:07:25,5e64eae,feat: cg option in run_wp script
 watchdog.log,144,6849daccf9aca1808b0494ebca6da624784ef310430cca71a9312a350ae94c32,2026-10-19 12:07:26,5e64eae,feat: cg option in run_wp script

@@ -124,7 +124,8 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
                          outdir::AbstractString="results", r_mode::Symbol=:ecmp, budget=nothing,
                          tag::AbstractString="", max_binaries::Int=1_500_000, heur_time::Real=30.0,
                          use_colgen::Bool=false, K0::Int=3, cg_extra::Int=10, mem_budget_bytes=nothing,
-                         use_lns::Bool=false, lns_time::Real=300.0, lns_frac::Real=0.15)
+                         use_lns::Bool=false, lns_time::Real=300.0, lns_frac::Real=0.15,
+                         skip_milp::Bool=false, cg_first::Bool=false)
     mkpath(outdir)
     csv = joinpath(outdir, "$(name)-wp-P$(P)$(tag).csv")
     open(csv, "w") do io
@@ -148,27 +149,44 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
             cg_lp, cg_iters, cg_time = NaN, 0, 0.0
             cands = nothing
             if use_colgen                      # ứng viên do sinh cột chọn (thay cho K nút có độ vòng nhỏ nhất)
-                cg_time = @elapsed (cands, cg_lp, cg_iters) = colgen(inst, rs, P; K0=K0, extra=cg_extra)
+                if cg_first && P > 1           # nhanh: sinh cột chỉ trên thời kỳ đầu, rồi lọc theo mọi thời kỳ
+                    cg_time = @elapsed (c1, _, cg_iters) = colgen(inst, rs[1:1], 1; K0=K0, extra=cg_extra)
+                    cands = filter_cands(inst, rs, c1)
+                else
+                    cg_time = @elapsed (cands, cg_lp, cg_iters) = colgen(inst, rs, P; K0=K0, extra=cg_extra)
+                end
                 K = K0
                 P > 1 && (cg_lp = NaN)         # với P > 1 ngân sách không được định giá: LP không phải cận dưới hợp lệ
             end
-            model, y, C = build_wp_model(inst, rs, P, opt; K=K, tlimit=tlimit, start_paths=hp, cands=cands)
-            binaries = sum(length(C[d]) for d in 1:nD) * P
-            optimize!(model)
-            st = termination_status(model)
-            status = st == MOI.OPTIMAL ? "Optimal" : st == MOI.INFEASIBLE ? "Infeasible" : "Not Optimal"
-            bnd = try objective_bound(model) catch; NaN end
-            nodes = try node_count(model) catch; NaN end
+            status, bnd, nodes, solve_t, binaries = "Not Optimal", NaN, NaN, 0.0, 0
             mlu = obj = gap = NaN
             lns_mlu, lns_time_used = NaN, NaN
             check = "no_solution"
-            if has_values(model)
-                obj = objective_value(model)
-                gap = max(0.0, 1.0 - bnd / obj)
-                paths = extract_wp_paths(inst, y, C, P)
-                chk = check_solution(inst, rs, paths, P, obj + 1e-5)
+            paths, chk = nothing, nothing
+            if skip_milp                       # bỏ MILP (kẹt ở gốc B&B với instance lớn có ngân sách): dùng heuristic + LNS
+                binaries = cands === nothing ? 0 : sum(length.(cands)) * P
+                paths, obj = hp, hm
+                chk = check_solution(inst, rs, paths, P, hm + 1e-5)
                 mlu = chk.mlu
-                if use_lns                      # tinh chỉnh bằng LNS từ nghiệm MILP; giữ nghiệm tốt hơn
+            else
+                model, y, C = build_wp_model(inst, rs, P, opt; K=K, tlimit=tlimit, start_paths=hp, cands=cands)
+                binaries = sum(length(C[d]) for d in 1:nD) * P
+                optimize!(model)
+                st = termination_status(model)
+                status = st == MOI.OPTIMAL ? "Optimal" : st == MOI.INFEASIBLE ? "Infeasible" : "Not Optimal"
+                bnd = try objective_bound(model) catch; NaN end
+                nodes = try node_count(model) catch; NaN end
+                solve_t = solve_time(model)
+                if has_values(model)
+                    obj = objective_value(model)
+                    gap = max(0.0, 1.0 - bnd / obj)
+                    paths = extract_wp_paths(inst, y, C, P)
+                    chk = check_solution(inst, rs, paths, P, obj + 1e-5)
+                    mlu = chk.mlu
+                end
+            end
+            if paths !== nothing
+                if use_lns                      # tinh chỉnh bằng LNS từ nghiệm hiện có; giữ nghiệm tốt hơn
                     lns_time_used = @elapsed (lpaths, lm) = lns(inst, rs, P, opt; K=K, cands=cands, start_paths=paths,
                                                                 iters=10_000, frac=Float64(lns_frac), tlimit_iter=20.0,
                                                                 total_limit=Float64(lns_time))
@@ -184,7 +202,7 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
                 write_loads(inst, rs, paths, P, joinpath(outdir, "$(name)-wp-P$(P)$(tag)-loads.csv"))
             end
             impr = 1.0 - mlu / mlu_base
-            "$name,$P,$K,$(inst.n),$(inst.m),$nD,$binaries,$status,$mlu,$mlu_base,$impr,$bnd,$gap,$(solve_time(model)),$nodes,$check,$obj,$hm,$th,$cg_lp,$cg_iters,$cg_time,$lns_mlu,$lns_time_used"
+            "$name,$P,$K,$(inst.n),$(inst.m),$nD,$binaries,$status,$mlu,$mlu_base,$impr,$bnd,$gap,$solve_t,$nodes,$check,$obj,$hm,$th,$cg_lp,$cg_iters,$cg_time,$lns_mlu,$lns_time_used"
         catch e
             msg = sprint(showerror, e)
             st = occursin("SKIPPED_LOW_MEMORY", msg) ? "SKIPPED_LOW_MEMORY" : "ERROR"

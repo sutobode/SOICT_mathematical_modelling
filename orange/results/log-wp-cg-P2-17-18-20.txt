@@ -1,0 +1,1 @@
+== setA-17 P=2 cg=true pc=false  free RAM 12.6 GiB

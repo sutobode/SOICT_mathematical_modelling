@@ -1,11 +1,11 @@
 # Hồ sơ truy vết kết quả thực nghiệm
 
-Tạo lúc: 2026-10-19 19:20:01
+Tạo lúc: 2026-10-19 21:04:56
 
 ## Phiên bản mã nguồn
 
 - Repository: `https://github.com/sutobode/SOICT_mathematical_modelling.git`
-- Nhánh: `feature/tasr`; commit hiện tại: `1811663` (docs: note on machine sleep and keep-awake)
+- Nhánh: `feature/tasr`; commit hiện tại: `77b6346` (fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner)
 - Commit chưa lưu (thay đổi chưa commit trong `orange/src`): 0 file
 - SHA-256 của `orange/Manifest.toml` (khóa phiên bản thư viện Julia): `268873ad2c6ebc345270b30f982354b34d73580d0ce29ed47724c5e22ff8b8b2`
 

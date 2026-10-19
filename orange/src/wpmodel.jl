@@ -20,6 +20,13 @@ function candidates(inst::Instance, rs, K::Int)
     return C
 end
 
+"Giữ lại các waypoint hợp lệ ở MỌI thời kỳ (có đường s->w và w->t trong mỗi G_t); 0 (không waypoint) luôn được giữ."
+function filter_cands(inst::Instance, rs, C)
+    P = length(rs)
+    return [[w for w in C[d] if w == 0 || all(p -> haskey(rs[p], (inst.dem_s[d], w)) && haskey(rs[p], (w, inst.dem_t[d])), 1:P)]
+            for d in eachindex(C)]
+end
+
 wp_seq(inst, d, wl) = vcat(inst.dem_s[d], wl, inst.dem_t[d])
 
 function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::Int=0, tlimit=Inf, silent=true,

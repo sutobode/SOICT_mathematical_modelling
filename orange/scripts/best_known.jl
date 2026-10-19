@@ -1,7 +1,7 @@
 # Tổng hợp nghiệm tốt nhất theo từng instance và P từ ba nguồn trong orange/results:
 #   arc : setA-XX-P{P}.csv        (mô hình theo cung của đề, maxSeg = 6)
 #   wp  : setA-XX-wp-P{P}.csv     (mô hình waypoint, K ứng viên theo độ vòng; K = n-2 là mô hình đầy đủ)
-#   cg  : setA-XX-wp-P{P}-cg.csv  (mô hình waypoint, ứng viên do sinh cột chọn)
+#   wp-cg, wp-cg-lns, ...: setA-XX-wp-P{P}-cg[-pc|-lns].csv (sinh cột, có thể kèm LNS; -pc: r theo calculating_r.pdf)
 # Mọi nghiệm đều khả thi cho bài toán gốc (một waypoint <= maxSeg - 1), nên best_mlu là cận trên hợp lệ của tối ưu gốc.
 #
 # Cận dưới trên MLU z (đã trừ phần phạt eps*sum(x) của hàm mục tiêu; eps = 1e-7/|D|):
@@ -40,17 +40,21 @@ open(joinpath(resdir, "best_known.csv"), "w") do io
             isnan(b) || (lb_orig = maxnan(lb_orig, b - 1e-7 * P * 6))
             get(r, "status", "") == "Optimal" && good(r) && (lb_orig = maxnan(lb_orig, num(r, "mlu")))
         end
-        for (tag, suffix) in (("wp", ""), ("cg", "-cg"))
-            for r in readcsv(joinpath(resdir, "$name-wp-P$P$suffix.csv"))
+        # mọi file waypoint của (instance, P): hậu tố "", "-cg", "-cg-lns", "-cg-pc", ... ("-pc": r theo calculating_r.pdf)
+        for f in sort(filter(f -> startswith(basename(f), "$name-wp-P$P") && endswith(f, ".csv") && !endswith(f, "-loads.csv"),
+                             readdir(resdir; join=true)))
+            suffix = replace(basename(f), "$name-wp-P$P" => "", ".csv" => "")
+            tag = isempty(suffix) ? "wp" : "wp" * suffix
+            for r in readcsv(f)
                 if good(r)
                     push!(cand, (num(r, "mlu"), tag))
                     isnan(base) && (base = num(r, "mlu_base"))
                 end
                 n = num(r, "n")
-                if tag == "wp" && num(r, "K") == n - 2 && !isnan(num(r, "bound"))
+                if isempty(suffix) && num(r, "K") == n - 2 && !isnan(num(r, "bound"))
                     lb_1wp = maxnan(lb_1wp, num(r, "bound") - 1e-7 * P)         # mô hình đầy đủ: bound hợp lệ
                 end
-                if tag == "cg" && P == 1 && !isnan(num(r, "cg_lp"))
+                if occursin("cg", suffix) && P == 1 && !isnan(num(r, "cg_lp"))
                     lb_1wp = maxnan(lb_1wp, num(r, "cg_lp") - 1e-7 * P)
                 end
             end

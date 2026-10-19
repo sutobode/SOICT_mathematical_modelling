@@ -554,3 +554,17 @@ end
     csv2 = run_wp_instance(TOY, "toy", 2, 60; outdir=out, mem_budget_bytes=1e12, tag="-ok")
     @test Dict(zip(split(readlines(csv2)[1], ","), split(readlines(csv2)[2], ",")))["status"] == "Optimal"
 end
+
+@testset "column enrichment adds the lowest reduced-cost columns" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, 1)]
+    C0, lp0, _ = colgen(inst, rs, 1; K0=0)
+    C2, lp2, _ = colgen(inst, rs, 1; K0=0, extra=2)
+    @test all(length(C2[d]) >= length(C0[d]) for d in 1:2)
+    @test any(length(C2[d]) > length(C0[d]) for d in 1:2)
+    @test all(length(C2[d]) <= length(C0[d]) + 2 for d in 1:2)
+    @test lp2 ≈ lp0 atol = 1e-9                              # làm giàu không đổi cận dưới LP
+    model, y, W = build_wp_model(inst, rs, 1, OPT; cands=C2)
+    optimize!(model)
+    @test objective_value(model) ≈ brute_best(inst, 1) atol = 1e-5
+end

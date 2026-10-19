@@ -108,7 +108,7 @@ sao cho |D|·P·(K+1) ≤ max_binaries, tối đa n-2 (mọi nút). Nghiệm heu
 function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, tlimit::Real;
                          outdir::AbstractString="results", r_mode::Symbol=:ecmp, budget=nothing,
                          tag::AbstractString="", max_binaries::Int=1_500_000, heur_time::Real=30.0,
-                         use_colgen::Bool=false, K0::Int=3, mem_budget_bytes=nothing)
+                         use_colgen::Bool=false, K0::Int=3, cg_extra::Int=10, mem_budget_bytes=nothing)
     mkpath(outdir)
     csv = joinpath(outdir, "$(name)-wp-P$(P)$(tag).csv")
     open(csv, "w") do io
@@ -132,7 +132,7 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
             cg_lp, cg_iters, cg_time = NaN, 0, 0.0
             cands = nothing
             if use_colgen                      # ứng viên do sinh cột chọn (thay cho K nút có độ vòng nhỏ nhất)
-                cg_time = @elapsed (cands, cg_lp, cg_iters) = colgen(inst, rs, P; K0=K0)
+                cg_time = @elapsed (cands, cg_lp, cg_iters) = colgen(inst, rs, P; K0=K0, extra=cg_extra)
                 K = K0
                 P > 1 && (cg_lp = NaN)         # với P > 1 ngân sách không được định giá: LP không phải cận dưới hợp lệ
             end

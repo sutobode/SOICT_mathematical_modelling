@@ -152,10 +152,11 @@ end
 Sinh cột cho mô hình waypoint (chỉ một waypoint). Lặp: giải LP của mô hình thu gọn, lấy đối ngẫu λ của các ràng
 buộc tải và μ của ràng buộc gán, định giá mọi waypoint w của mỗi demand bằng chi phí rút gọn
 rc = eps + δ(d,p)·(g_p(s,w) + g_p(w,τ)) − μ(d,p), với g_p(u,v) = Σ_a λ(a,p)·r(u,v,a,p), rồi thêm các w có rc < 0.
+Tham số `extra`: sau khi hội tụ, thêm tối đa `extra` cột chi phí rút gọn thấp nhất cho mỗi demand (làm giàu).
 Trả về (C, lp, iters): tập ứng viên, giá trị LP cuối và số vòng lặp. Với P = 1, khi hội tụ `lp` là cận dưới hợp lệ
 của bài toán một waypoint. Với P > 1 ngân sách không được đưa vào bước định giá (chỉ để chọn ứng viên).
 """
-function colgen(inst::Instance, rs, P::Int; K0::Int=3, add_per_demand::Int=3, max_iter::Int=50, tol::Float64=1e-9)
+function colgen(inst::Instance, rs, P::Int; K0::Int=3, add_per_demand::Int=3, max_iter::Int=50, tol::Float64=1e-9, extra::Int=0)
     nD = length(inst.dem_s)
     eps = 1e-7 / nD
     allw = candidates(inst, rs, inst.n)             # mọi waypoint hợp lệ của từng demand (phần tử đầu là 0)
@@ -178,6 +179,7 @@ function colgen(inst::Instance, rs, P::Int; K0::Int=3, add_per_demand::Int=3, ma
             sum(lam[p][a] * fr for (a, fr) in rs[p][(u, v)]; init=0.0)
         end
         added = 0
+        pending = [Tuple{Float64,Int}[] for _ in 1:nD]       # các cột chi phí rút gọn thấp nhất (để làm giàu)
         for d in 1:nD
             s, t = inst.dem_s[d], inst.dem_t[d]
             inC = Set(C[d])
@@ -185,15 +187,23 @@ function colgen(inst::Instance, rs, P::Int; K0::Int=3, add_per_demand::Int=3, ma
             for w in allw[d]
                 (w == 0 || w in inC) && continue
                 rc = minimum(eps + inst.vol[d, p] * (g(p, s, w) + g(p, w, t)) - dual(model[:assign][d][p]) for p in 1:P)
-                rc < -tol && push!(scored, (rc, w))
+                push!(scored, (rc, w))
             end
             sort!(scored)
-            for (_, w) in scored[1:min(add_per_demand, length(scored))]
+            extra > 0 && (pending[d] = scored[1:min(extra, length(scored))])
+            for (rc, w) in scored[1:min(add_per_demand, length(scored))]
+                rc < -tol || break
                 push!(C[d], w)
                 added += 1
             end
         end
-        added == 0 && break
+        if added == 0
+            # hội tụ: làm giàu thêm `extra` cột chi phí rút gọn thấp nhất mỗi demand để MILP có nhiều lựa chọn nguyên
+            for d in 1:nD, (_, w) in pending[d]
+                w in C[d] || push!(C[d], w)
+            end
+            break
+        end
     end
     return C, lp, iters
 end

@@ -31,8 +31,7 @@ ALLOWED = [
 
 def git(*args):
     r = subprocess.run(["git", "-C", ROOT, *args], capture_output=True, text=True)
-    return r.returncode, r.stdout.rstrip("
-"), r.stderr.strip()
+    return r.returncode, r.stdout.rstrip("\r\n"), r.stderr.strip()
 
 
 def main():

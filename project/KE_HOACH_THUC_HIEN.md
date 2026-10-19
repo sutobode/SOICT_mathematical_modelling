@@ -12,6 +12,26 @@
 
 **Cách theo dõi:** đánh dấu `- [x]` vào từng bước khi hoàn thành. Bảng tiến độ ở mục "Lịch thực hiện" cập nhật cột "Trạng thái".
 
+### Tiến độ (cập nhật 19/10, nhánh `feature/tasr`)
+
+| Task | Nội dung | Trạng thái |
+|---|---|---|
+| 0 | Khởi tạo package, dữ liệu toy | ✅ xong (câu hỏi cho thầy: **chưa gửi**, việc của bạn) |
+| 1 | Đọc dữ liệu | ✅ xong |
+| 2 | Hệ số tách $r$ (ECMP + đếm đường) | ✅ xong, khớp Bảng 2 của đề |
+| 3 | Mô hình JuMP | ✅ xong, khớp vét cạn trên toy |
+| 4 | Kiểm tra nghiệm, `srpaths` | ✅ xong |
+| 5 | Toy $t=0,1$, setA-01 | ✅ xong; ngưỡng `max_vars` giữ $3\cdot10^6$ |
+| 6 | Runner thực nghiệm | ✅ xong |
+| 7 | Chạy thực nghiệm đầy đủ | 🔄 **đang chạy nền** ($t=0$ rồi $t=0,1$), log: `orange/results/log-P{1,2}.txt` |
+| 8 | Bảng và báo cáo | 🔄 `make_tables.jl` và phần 1–3.2 của `report.tex` xong; còn kết quả và nhận xét |
+| 9, 10 | Độ nhạy ngân sách, so sánh $r$ | ⏳ script đã viết, chạy sau Task 7 |
+| 11 | Heuristic | ✅ xong (script `run_heuristic.jl`, chạy cả 20 instance sau Task 7) |
+| 12 | Lexicographic hai bước | ✅ xong |
+| Review | Review toàn nhánh (reviewer độc lập) | ✅ 2 lỗi Important đã sửa; Minor ghi trong sổ |
+
+Thay đổi so với kế hoạch gốc: MILP được khởi tạo bằng nghiệm heuristic; chu trình rời bị chặn bằng ràng buộc bậc (và MTZ khi cần); `mip_rel_gap=1e-6`; $\varepsilon=10^{-7}/|D|$.
+
 ---
 
 ## Global Constraints

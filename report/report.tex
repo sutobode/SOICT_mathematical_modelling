@@ -1,0 +1,55 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,booktabs,graphicx,pgfplots,hyperref}
+\pgfplotsset{compat=1.18}
+\setlength{\parskip}{0.4em}
+\title{Adaptive Segment Routing (Challenge EURO/ROADEF 2026):\\ a mixed-integer programming approach}
+\author{SOICT -- Mathematical Modelling project}
+\date{}
+\begin{document}
+\maketitle
+
+\section{Introduction}
+Orange operates large IP/MPLS backbone networks, where \emph{traffic engineering} aims at avoiding congestion and keeping a good quality of service, also when some links are unavailable because of failures or planned maintenance. With \emph{Segment Routing} (SR) a packet carries a list of waypoints: between two consecutive waypoints it follows the usual shortest paths, and when several shortest paths exist the traffic is split evenly at every node (ECMP). Choosing waypoints therefore allows to leave the shortest paths and to balance the load without changing the routers' configuration.
+
+The \emph{$T$-Adaptive Segment Routing} problem (T-ASR) of the Orange challenge is the following. We are given a directed network $G=(V,A)$ with an arc weight $\omega(a)$ and a capacity $c(a)$, a set $D$ of demands $d=(s_d,\tau_d)$ with a traffic volume $\delta(d,t)$ for every time period $t\in T=\{0,\dots,h-1\}$, a maintenance scenario $q(t)\subseteq A$ (arcs that are down at period $t$), a budget $\beta(t)$ limiting the number of changes of the routing between $t-1$ and $t$, and a maximum number of segments $\mathrm{maxSeg}$ per demand. We must choose an SR path for every demand and every period so that the loads of the links are as balanced as possible. In this work we study periods $T=\{0,1\}$: period $0$ is the nominal state (no budget, no failure), and period~$1$ has one link down and a budget.
+
+\section{Mathematical model}
+\subsection{Data}
+\textbf{Network.} $V$ is the set of nodes ($n=|V|$), $A$ the set of arcs ($m=|A|$), $\omega(a)>0$ the weight (field \texttt{metric}) and $c(a)>0$ the capacity (field \texttt{capacity}) of arc $a$; they are read from the \texttt{net} file. $G_t=(V,A\setminus q(t))$ is the graph at period $t$, with $q(t)$ read from the \texttt{scenario} file (the links are given by their identifier). \textbf{Demands.} $D$ and $\delta(d,t)$ are read from the \texttt{tm} file, $\mathrm{maxSeg}$ and the budget $\beta(1)$ from the \texttt{scenario} file; at $t=0$ there is no budget.
+
+\textbf{Split coefficients.} Let $FG_t(i,j)$ be the set of arcs lying on a shortest $i$--$j$ path of $G_t$. For $i\neq j$ and an arc $a$, $r(i,j,a,t)\in[0,1]$ is the fraction of a unit of flow from $i$ to $j$ that crosses $a$ when, at every node, the incoming flow is split evenly among the outgoing arcs belonging to $FG_t(i,j)$ (ECMP). It is zero when $a\notin FG_t(i,j)$ and, by construction, when $a\in q(t)$. We compute $r$ for all pairs $(i,j)$: run Dijkstra's algorithm from every node of $G_t$ to get the distance matrix $\mathrm{dist}$; an arc $a=(x,y)$ is in $FG_t(i,j)$ iff $\mathrm{dist}(i,x)+\omega(a)+\mathrm{dist}(y,j)=\mathrm{dist}(i,j)$; then propagate a unit flow from $i$ over the nodes of $FG_t(i,j)$ sorted by $\mathrm{dist}(i,\cdot)$, splitting evenly. Distances are compared with a relative tolerance of $10^{-9}$ since some instances have real-valued weights.
+
+\emph{Remark.} The note \texttt{calculating\_r.pdf} defines the coefficient instead as the proportion of shortest paths using $a$, $\sigma_{iu}\sigma_{vj}/\sigma_{ij}$. This differs from the ECMP definition of the problem statement: on the toy instance of the statement, the arc $a_{1,4}$ carries $r(v_0,v_5,a_{1,4},0)=0.5$ under ECMP (Table~2 of the statement) but $2/3$ with path counting. The statement's loads ($0.3125$ on $a_{4,6}$, maximum $0.4375$) are reproduced exactly with ECMP only; we therefore use ECMP in all experiments (both variants are implemented).
+
+\subsection{Variables}
+$x^{dt}_{ij}\in\{0,1\}$ for $d\in D$, $t\in T$, $i\in V$, $j\in V\setminus\{i\}$: equal to $1$ iff the segment path of demand $d$ at period $t$ contains the segment $(i,j)$. The variable $z\ge 0$ is the maximum link utilization (MLU). For the budget constraint we add $y^{dt}_{ij}\ge 0$ ($t\ge 1$) linearizing $|x^{dt}_{ij}-x^{d,t-1}_{ij}|$.
+
+\subsection{Constraints}
+\begin{align}
+&\sum_{j\ne i} x^{dt}_{ij}-\sum_{j\ne i} x^{dt}_{ji}=\begin{cases}1 & i=s_d\\ -1 & i=\tau_d\\ 0&\text{otherwise}\end{cases} && d\in D,\ t\in T,\ i\in V \label{c1}\\
+&\sum_{i,j\in V, i\neq j} x^{dt}_{ij}\le \mathrm{maxSeg} && d\in D,\ t\in T \label{c2}\\
+&\sum_{d\in D}\sum_{i\ne j} r(i,j,a,t)\,\delta(d,t)\,x^{dt}_{ij}\le c(a)\,z && t\in T,\ a\in A\setminus q(t) \label{c3}\\
+&y^{dt}_{ij}\ge x^{dt}_{ij}-x^{d,t-1}_{ij},\quad y^{dt}_{ij}\ge x^{d,t-1}_{ij}-x^{dt}_{ij},\quad \sum_{d,i\ne j} y^{dt}_{ij}\le \beta(t) && t\in T\setminus\{0\} \label{c4}
+\end{align}
+Constraints \eqref{c1} say that the segments of demand $d$ form a path from $s_d$ to $\tau_d$ (a segment $(i,j)$ is a waypoint-to-waypoint leg); \eqref{c2} limits the number of segments (waypoints $+1$); \eqref{c3} bounds the load of every arc that is up; \eqref{c4} bounds the number of segments that change between two periods, which is exactly $\mathrm{dist}(P^{t-1},P^t)$. A segment $(i,j)$ such that $j$ is not reachable from $i$ in $G_t$ is fixed to $0$.
+
+\subsection{Objective}
+The statement asks for the lexicographic minimization of the sorted vector of all loads. We minimize its first component, the maximum link utilization, with a tiny penalty on the number of segments,
+\begin{equation}
+\min\ z+\varepsilon\sum_{d,t,i\ne j}x^{dt}_{ij},\qquad \varepsilon=10^{-7}. \label{obj}
+\end{equation}
+The penalty only prevents useless disconnected cycles that constraints \eqref{c1} would allow; it does not change the optimal value of $z$ beyond $\varepsilon$. The first-stage optimum $z^*$ can be followed by a second stage that fixes $z\le z^*$ and minimizes the total load, which gives the first two levels of the lexicographic order; we did not use it in the experiments.
+
+\section{Numerical experiments}
+\subsection{Instances and implementation}
+We use the 20 instances of set~A ($20\le n\le 400$ nodes, $80\le m\le 2000$ arcs, $20\le |D|\le 6000$ demands), each with two periods, $\mathrm{maxSeg}=6$, and one link down at period $1$ with a budget $\beta(1)$ between $1$ and $90$. Some instances declare \texttt{multigraph: true} without containing parallel arcs, and four instances (05, 08, 12, 14) have real-valued weights; these facts were checked on the data.
+
+The code is written in Julia\,1.13 with JuMP and the open-source MILP solver HiGHS, run on a single thread. Environment: Intel Core i7-1270P, 31.6~GB RAM, Windows~11. The CPU time reported is the solve time of the call to \texttt{optimize!} only. The solver is warm-started with the solution without any waypoint (all demands on their shortest paths), which is always feasible. Each solution is checked by an independent recomputation of the loads from the waypoints (also exported in the SR-path format of the statement), and the model was validated on the toy instance of the statement against an exhaustive enumeration of the waypoints.
+
+\subsection{Protocol}
+The reported values are averages over the runs performed (different solver seeds). Ten runs are done when the first run finishes within 120~s; otherwise one run is done (column ``Runs''). The time limit is 1800~s for period $0$ alone and 3600~s for periods $0$ and $1$ with the budget constraint. The gap of a run that is not optimal is $1-\mathrm{LB}/\mathrm{UB}$.
+The model has $|D|\,n(n-1)$ binary variables per period; this exceeds $4.9\cdot 10^6$ already for instance 06 and $9.5\cdot10^8$ for instance 20, so that the model cannot be built in memory for the large instances; they are marked ``SKIPPED\_TOO\_LARGE'' in the tables.
+
+%RESULTS-PLACEHOLDER
+\end{document}

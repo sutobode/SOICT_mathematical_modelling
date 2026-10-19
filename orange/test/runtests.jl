@@ -91,9 +91,9 @@ end
 end
 
 # vét cạn: mỗi demand đi thẳng hoặc qua đúng 1 waypoint (tương ứng maxSeg = 2)
-function brute_best(inst, P)
+function brute_best(inst, P; mode=:ecmp)
     n, nD = inst.n, length(inst.dem_s)
-    rs = [build_r(inst, p) for p in 1:P]
+    rs = [build_r(inst, p; mode=mode) for p in 1:P]
     seq(d, w) = w == 0 ? [inst.dem_s[d], inst.dem_t[d]] : [inst.dem_s[d], w, inst.dem_t[d]]
     opts = [[w for w in 0:n if w == 0 || (w != inst.dem_s[d] && w != inst.dem_t[d])] for d in 1:nD]
     joint = collect(Iterators.product(opts...))
@@ -604,4 +604,27 @@ end
     write_srpaths(inst, paths, 2, f)
     back = read_srpaths(inst, f, 2)
     @test back == paths
+end
+
+@testset "pipeline with the calculating_r.pdf coefficients (path-count) equals brute force" begin
+    for (b, P) in ((20, 1), (3, 2))
+        inst = read_instance(TOY; maxseg=2, budget=b)
+        rs = [build_r(inst, p; mode=:pathcount) for p in 1:P]
+        model, y, W = build_wp_model(inst, rs, P, OPT; K=inst.n)
+        optimize!(model)
+        @test objective_value(model) ≈ brute_best(inst, P; mode=:pathcount) atol = 1e-5
+        amodel, x, z = build_model(inst, rs, P, OPT)                    # mô hình theo cung của đề, cùng r
+        optimize!(amodel)
+        @test value(z) ≈ brute_best(inst, P; mode=:pathcount) atol = 1e-5
+    end
+    inst = read_instance(TOY)
+    @test base_mlu(inst, [build_r(inst, 1; mode=:pathcount)], 1) != base_mlu(inst, [build_r(inst, 1)], 1)   # hai cách tính r khác nhau thật
+end
+
+@testset "run_instance writes -pc results when asked for path-count r" begin
+    out = mktempdir()
+    csv = run_instance(TOY, "toy", 1, 60; runs=1, outdir=out, r_mode=:pathcount, tag="-pc")
+    @test basename(csv) == "toy-P1-pc.csv"
+    r = Dict(zip(split(readlines(csv)[1], ","), split(readlines(csv)[2], ",")))
+    @test r["status"] == "Optimal" && r["check"] == "ok"
 end

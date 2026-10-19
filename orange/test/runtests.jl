@@ -221,3 +221,16 @@ end
     chk = check_solution(inst, rs, extract_paths(inst, x, 1), 1, value(z); tol=1e-5)
     @test chk.mlu <= base_mlu(inst, rs, 1) + 1e-9
 end
+
+@testset "runner writes csv and survives errors" begin
+    out = mktempdir()
+    csv = run_instance(TOY, "toy", 2, 60; runs=2, outdir=out)
+    lines = readlines(csv)
+    @test startswith(lines[1], "instance,P,run,n,m,nD,status,z,mlu,mlu_base")
+    @test length(lines) == 3
+    @test split(lines[2], ",")[7] == "Optimal"
+    @test isfile(joinpath(out, "toy-P2-srpaths.json")) && isfile(joinpath(out, "toy-P2-loads.csv"))
+    # instance không tồn tại: ghi ERROR, không ném lỗi
+    csv2 = run_instance(joinpath(out, "missing"), "missing", 1, 10; runs=1, outdir=out)
+    @test split(readlines(csv2)[2], ",")[7] == "ERROR"
+end

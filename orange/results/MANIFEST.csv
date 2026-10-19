@@ -12,12 +12,15 @@ log-pc-P2b.txt,41,9cb6d6b394149e45ab05413a4dd3da7eb9541627b0616524f5c8c3cb100090
 log-wp-P1.txt,442,d5732faa8ea3742d6c34001df94e7d5a81a8d49a789d363229d80ec37e3a03d7,2026-10-19 11:55:19,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
 log-wp-P2.txt,204,b1956ecee33853037a2c13cc9071b73316e0d66aa127a93158224433bab0f472,2026-10-19 11:45:40,beee52c,perf: compact budget formulation for single-waypoint choices
 log-wp-cg-P1.txt,840,e94b17c9195c4f49c16481b555695a054dab53751cfc42ad1ecf1e1437526e6c,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
-log-wp-cg-P2.txt,816,6d5ebb3d164366ff88d46ad8d46eb33c04f97f1bfbf0bab8a6e07d54f8c32d01,2026-10-19 18:28:39,6f47b83,"data: results snapshot, results guide and packaging script"
+log-wp-cg-P2-17-18-20.txt,51,dd4e621b81a8a2bb1b402245cd13bc54327dcd020424698c47f7093c709cba79,2026-10-19 21:28:05,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+log-wp-cg-P2-19.txt,51,004b6bdddd5bad5b895ba9d417f34e0697f3fd5bbb019cccd132a35f1808362e,2026-10-19 21:28:05,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+log-wp-cg-P2.txt,867,b0d80f1f4e5673977935221229a260ea2442c4f2f2d3502626db8a25c0b0d914,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 log-wp-cg-lns-P1.txt,153,e21d54a9b930213b7cfd29d151517be1c07250a2b1e76af40871a5d66f1d309f,2026-10-19 14:35:10,dda59ed,docs: how to follow the running experiments
 log-wp-cg-lns-P2-13.txt,51,33dd43483c217fc5dda169c12b34caf56ff72808933912a3f1485b491738f19b,2026-10-19 19:11:22,6f47b83,"data: results snapshot, results guide and packaging script"
 log-wp-cg-lns-P2.txt,51,f58fcc8a3f65b5be51e1fa3fef5982b28388c1e3b3000c911678ca77b9f7bced,2026-10-19 17:02:55,f17e509,feat: configurable LNS time in run_wp script
 log-wp-cg-pc-18-20.txt,200,aba47705171eb8e9295ad046e2775032b4c3d79243cd85ad131c48d7e80fcaab,2026-10-19 14:07:34,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
 log-wp-cg-pc-P1.txt,500,cf59e966a02975e6b83c79295e5ae7a4e9341726108fa2862c46a6d2c8a7b038,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
+log-wp-fast-P2.txt,51,54d102adfbce2db20a4df980bdc35f08aaa01b8b0934ad10f974a82a7e62a5ab,2026-10-19 21:33:25,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
 r_difference.csv,976,9ae4e91cf226c0459f2cb1312891927d488dc576fd2f8dc84c4d7f0ca29d8332,2026-10-19 14:06:14,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-01-P1-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 11:12:39,9560fe1,feat: run 3 times (instead of once) on slow instances
 setA-01-P1-pc-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 14:03:08,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -273,12 +276,16 @@ setA-16-P1.csv,218,dd902a37580c00a135ab1cf7fd96fdb2dfdd2d64fbfda2662587504be1d21
 setA-16-wp-P1-cg-loads.csv,51747,a264e0cb629c88ed343001269815e85778a43829101e0d7783ce07ad34629dab,2026-10-19 13:25:55,916b227,feat: best-known aggregation script
 setA-16-wp-P1-cg-srpaths.json,539612,9cca2e1ffadb58c49383443397ad3e36e169664dd87bb1f4081e0ead26301fda,2026-10-19 13:25:55,916b227,feat: best-known aggregation script
 setA-16-wp-P1-cg.csv,379,dd45d38dfff9e517776202638e134a9e1b9cdae7d20bc433aa8e38957374f4f6,2026-10-19 13:25:55,916b227,feat: best-known aggregation script
-setA-16-wp-P2-cg.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 18:28:39,6f47b83,"data: results snapshot, results guide and packaging script"
+setA-16-wp-P2-cg-lns-fast.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 21:33:48,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
+setA-16-wp-P2-cg-loads.csv,100960,99ea2f4ae0264ae41b5c844ba492d8feba4a280965163aca3902b1c19fe619f9,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+setA-16-wp-P2-cg-srpaths.json,604,87f98af735d62cdea9cb8dba2d661e782bee9dce01f722f3e1d0c1ceb49d08ad,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+setA-16-wp-P2-cg.csv,386,8f866668d9386f65cf8eea1b7085f1626d8a32a131a0c917dd829732814587ec,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 setA-17-P1-pc.csv,218,8693aeed809339915c552d0bdfb479ebb85270d5a06f3393d4ed7e74e0120b32,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 setA-17-P1.csv,218,8693aeed809339915c552d0bdfb479ebb85270d5a06f3393d4ed7e74e0120b32,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
 setA-17-wp-P1-cg-loads.csv,51707,b656936d6fc22214b9fd299c52e3b2cf47ca8dba7bdba8acc3d99dc25a87861c,2026-10-19 13:26:04,916b227,feat: best-known aggregation script
 setA-17-wp-P1-cg-srpaths.json,141,21f042fe54a4533450d82226c09d0070feb0205931e3595618e17bcf23f04ec8,2026-10-19 13:26:04,916b227,feat: best-known aggregation script
 setA-17-wp-P1-cg.csv,362,e898bfb4810918cfa62bc5046e5164e88bf0b551b3c60a89977216127c62a153,2026-10-19 13:26:04,916b227,feat: best-known aggregation script
+setA-17-wp-P2-cg.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 21:28:29,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 setA-18-P1-pc.csv,218,28acd2081dfc1b69e7f76b7924cf93477c7cb82f7338f18e73064c9f2ad4c3c7,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 setA-18-P1.csv,218,28acd2081dfc1b69e7f76b7924cf93477c7cb82f7338f18e73064c9f2ad4c3c7,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
 setA-18-wp-P1-cg-loads.csv,55959,246102e767d37d5e0b7a9ea50e654ed56b2dedb3afdf9b3961c46064083356a5,2026-10-19 13:26:12,916b227,feat: best-known aggregation script
@@ -295,6 +302,7 @@ setA-19-P1.csv,218,e1b0a30fd160db818ab8f6385ecaff34d10242824386c7eeaff39b83ff1bc
 setA-19-wp-P1-cg-loads.csv,69928,0c5ab80e191c9f912b875030b8dce466551e2669a5038967b6182275d4c7259f,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
 setA-19-wp-P1-cg-srpaths.json,680837,d29af24efaa4ec43418112a6801b1762b7b04ff3da0cfd08ae9d13852b1b82b8,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
 setA-19-wp-P1-cg.csv,374,f72d0c14108fb74e2c03e53b92067ec7b3ff1b258401330bfd9e5898c004cf39,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
+setA-19-wp-P2-cg.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 21:28:29,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 setA-20-P1-pc.csv,218,462a9222b41c105c8ee00b6bfd26f62967aa191160da2588c23305f9018b0c3b,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 setA-20-P1.csv,218,462a9222b41c105c8ee00b6bfd26f62967aa191160da2588c23305f9018b0c3b,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
 setA-20-wp-P1-cg-loads.csv,80360,52d1d2941860b4bb63fdc05a8fd600c902fe9928a7fe5d2e89733b2f55126b4e,2026-10-19 14:46:25,73eef0d,feat: best-known table reads all waypoint result variants
@@ -312,4 +320,4 @@ table_official_P2.csv,1334,91757c62bb4a709cf2390007ece62e714f7c0dec9537ddc65858f
 table_official_P2.md,2492,1a1451ffbd40f532e389124314db88194e530cac13618f4f9a3c21486eac9774,2026-10-19 17:03:44,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
 verification.csv,178,fb7ded141bbeb2674353f283da4b477b5ee50bcf27b9a5a1b7c11e6bdfac4b24,2026-10-19 20:28:38,76edee0,"feat: traceability manifest (SHA-256, code commit, commands) and results snapshot"
 watch_exclude.txt,6,ba29f616b53540227e14465245b3553e9267cca7bdeef42abad1f86c3ab805d0,2026-10-19 12:07:25,5e64eae,feat: cg option in run_wp script
-watchdog.log,144,6849daccf9aca1808b0494ebca6da624784ef310430cca71a9312a350ae94c32,2026-10-19 12:07:26,5e64eae,feat: cg option in run_wp script
+watchdog.log,196,ec4c1f26e8203b47aecc4295ab4a0a7de9c5dbd47d1136fbe116378cf068f083,2026-10-19 21:28:03,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner

@@ -680,3 +680,18 @@ end
     @test parse(Float64, r["lns_mlu"]) >= parse(Float64, r["mlu"]) - 1e-9
     @test isfile(joinpath(out, "toy-wp-P2-fast-srpaths.json"))
 end
+
+@testset "extra runs can be appended to an existing csv (runs 4..N)" begin
+    out = mktempdir()
+    csv = run_instance(TOY, "toy", 2, 60; runs=3, outdir=out)
+    @test length(readlines(csv)) == 1 + 3
+    csv2 = run_instance(TOY, "toy", 2, 60; runs=5, first_run=4, append=true, force_runs=true, outdir=out)
+    lines = readlines(csv2)
+    @test csv2 == csv && length(lines) == 1 + 5                      # một tiêu đề, 5 dòng
+    ids = [parse(Int, split(l, ",")[3]) for l in lines[2:end]]
+    @test ids == [1, 2, 3, 4, 5]
+    @test count(startswith("instance"), lines) == 1
+    # force_runs bỏ qua chính sách "chậm thì chỉ chạy slow_runs lần"
+    csv3 = run_instance(TOY, "toy", 2, 60; runs=4, fast_threshold=0.0, slow_runs=1, force_runs=true, outdir=out, tag="-force")
+    @test length(readlines(csv3)) == 1 + 4
+end

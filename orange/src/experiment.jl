@@ -42,11 +42,13 @@ end
 function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlimit::Real;
                       runs::Int=10, slow_runs::Int=3, fast_threshold::Real=120.0, max_vars::Int=3_000_000,
                       outdir::AbstractString="results", r_mode::Symbol=:ecmp,
-                      budget=nothing, tag::AbstractString="", mem_budget_bytes=nothing)
+                      budget=nothing, tag::AbstractString="", mem_budget_bytes=nothing,
+                      first_run::Int=1, append::Bool=false, force_runs::Bool=false)
     mkpath(outdir)
     csv = joinpath(outdir, "$(name)-P$(P)$(tag).csv")
-    open(csv, "w") do io
-        println(io, CSV_HEADER)
+    has_header = append && isfile(csv) && filesize(csv) > 0
+    open(csv, append ? "a" : "w") do io
+        has_header || println(io, CSV_HEADER)
         local inst, rs, mlu_base, start_paths, start_mlu, start_time
         try
             inst = read_instance(prefix; budget=budget)
@@ -72,7 +74,7 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
             return
         end
         nD = length(inst.dem_s)
-        nruns, run_id = runs, 1
+        nruns, run_id = runs, first_run          # chạy các lần first_run..runs (seed = số thứ tự lần chạy)
         while run_id <= nruns
             res = (; status="ERROR", zv=NaN, mlu=NaN, obj=NaN, bnd=NaN, gap=NaN, t=NaN, nodes=NaN,
                    check="", paths=nothing)
@@ -97,7 +99,7 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
             println(io, "$name,$P,$run_id,$(inst.n),$(inst.m),$nD,$(res.status),$(res.zv),$(res.mlu),$mlu_base,$impr,$(res.bnd),$(res.gap),$(res.t),$(res.nodes),$(res.check),$(res.obj),$start_time,$start_mlu")
             flush(io)
             # lần đầu giải nhanh: chạy đủ `runs` lần; nếu chậm: chỉ `slow_runs` lần
-            run_id == 1 && !(res.t <= fast_threshold) && (nruns = min(runs, slow_runs))
+            run_id == first_run && !force_runs && !(res.t <= fast_threshold) && (nruns = min(runs, slow_runs))
             run_id += 1
         end
     end

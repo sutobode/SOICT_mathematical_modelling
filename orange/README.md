@@ -24,6 +24,7 @@ Bộ test mất khoảng 30 giây và gồm: đọc dữ liệu của cả 20 in
 ```bash
 # MILP: <P> <giới hạn giây> [instance đầu] [instance cuối]
 julia --project=orange orange/scripts/run_experiments.jl 1 1800      # chỉ t=0 (bước 6 của readme)
+julia --project=orange orange/scripts/run_experiments.jl 1 1800 1 20 pc   # như trên với r theo công thức của calculating_r.pdf (kết quả hậu tố -pc)
 julia --project=orange orange/scripts/run_experiments.jl 2 3600      # t=0 và t=1, có ngân sách (bước 9)
 julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 5  # chỉ instance 04 và 05
 
@@ -140,6 +141,20 @@ Các lần chạy dài trên máy dùng chung nên có các biện pháp sau:
   powershell -NoProfile -ExecutionPolicy Bypass -File orange\scripts\watchdog.ps1 -MinFreeGB 1.5 -IntervalSec 15
   ```
   Nếu watchdog đã dừng một tiến trình, dòng tương ứng trong CSV sẽ thiếu hoặc dừng giữa chừng; chạy lại instance đó.
+
+## 5e. Đối chiếu với yêu cầu của thầy (`project/readme`)
+
+| Yêu cầu | Cách đáp ứng | Mức độ |
+|---|---|---|
+| Bước 2: dựng đồ thị $G$ ở $t=0$ bằng script Pluto | `read_instance` đọc cùng 3 file JSON và tạo cùng đồ thị (cùng ánh xạ id, cung, metric, capacity). Không dùng chính notebook vì notebook v2 từ chối `multigraph=true` (10/20 file khai như vậy dù **không** có cung song song). | tương đương, không giống từng chữ |
+| Bước 3: tính $r$ theo `calculating_r.pdf` | Có cả hai: `build_r(inst, p; mode=:pathcount)` là công thức của thầy ($\sigma_{iu}\sigma_{vj}/\sigma_{ij}$ khi $d_{iu}+c_a+d_{vj}=d_{ij}$), `mode=:ecmp` (mặc định) là định nghĩa của đề. **Đã đo trên cả 20 instance** (`scripts/r_difference.jl`, `results/r_difference.csv`): hai cách cho **cùng hệ số trên 18/20 instance**; setA-18 và setA-20 mỗi instance chỉ có **1 cặp nút** (trên 89 700 và 159 600 cặp) lệch nhau (độ lệch 0,167). Hai cách chỉ khác nhau khi có đường ngắn nhất bằng nhau, và SetA hầu như không có. Vì vậy kết quả ECMP vẫn đúng theo công thức của thầy cho 18 instance; hai instance còn lại được chạy riêng với `-pc`. | đáp ứng |
+| Bước 4: phần Data ($r$, $c$, $v$, MaxSeg) | `read_instance` + `build_r` | đáp ứng |
+| Bước 5–6: mô hình $t=0$ không có ngân sách; SetA; 1800 s; bảng gồm số đỉnh, cung, demand, giá trị, CPU time của `optimize!`, status, gap, (số nút B&B) | `run_experiments.jl <P=1> 1800` ghi đủ các cột trong CSV | đáp ứng cho instance **01–05** |
+| Bước 7–9: thêm $t=1$, ngân sách; 3600 s | `run_experiments.jl <P=2> 3600` | đáp ứng cho instance **01–05** |
+| Trung bình 10 lần chạy | 10 lần nếu lần đầu giải trong 120 s, ngược lại 3 lần (cột `run` trong CSV) | một phần |
+| Môi trường chạy | `results/environment.txt` | đáp ứng |
+
+**Phần không phủ được bằng mô hình theo đề:** instance 06–20 cần từ 5 triệu đến gần 1 tỷ biến nhị phân và không dựng nổi trong RAM của máy (ghi `SKIPPED_TOO_LARGE`). Với các instance này, nghiệm đến từ mô hình waypoint (mục 5b, 5c), là bài toán *hạn chế* (một waypoint mỗi demand); nghiệm vẫn hợp lệ cho bài toán gốc và đã được kiểm chứng độc lập (`scripts/verify_srpaths.py`). Trên các instance giải được cả hai cách (01–05) nghiệm waypoint trùng hoặc gần trùng tối ưu của mô hình theo đề (setA-05 trùng đến 8 chữ số; setA-04 cách cận dưới của bài toán gốc 0,011%).
 
 ## 6. Giới hạn đã biết
 

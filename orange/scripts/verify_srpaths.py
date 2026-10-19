@@ -5,6 +5,9 @@ tải của mọi cung, MLU, số đoạn (<= max_segments) và ngân sách (dis
 của CSV tương ứng. Mỗi nghiệm được kiểm tra với hai dung sai hòa khoảng cách (1e-9 và 1e-6) để phát hiện nghiệm nhạy
 với sai số số học.
 
+File có "-pc" trong tên (hệ số tách theo công thức đếm đường của calculating_r.pdf) được kiểm tra với r = sigma_iu*sigma_vj/sigma_ij,
+các file còn lại với ECMP từng chặng (đúng định nghĩa của đề).
+
 Chạy: python -I orange/scripts/verify_srpaths.py [mẫu tên file, ví dụ setA-0]   -> orange/results/verification.csv
 """
 import csv
@@ -35,8 +38,9 @@ def load_instance(name):
 class Period:
     """Đồ thị G_t: khoảng cách ngắn nhất và hàm chia ECMP, có nhớ theo (u, v)."""
 
-    def __init__(self, net, down_ids, tol):
+    def __init__(self, net, down_ids, tol, mode="ecmp"):
         self.tol = tol
+        self.mode = mode
         self.ids = [x["id"] for x in net["nodes"]]
         self.out = {i: [] for i in self.ids}
         self.arcs = {}
@@ -49,6 +53,16 @@ class Period:
         for s in self.ids:
             self.D[s] = self._dijkstra(s)
         self.memo = {}
+        self.sigma = {}
+        if mode == "pc":
+            for s in self.ids:                       # số đường ngắn nhất từ s tới mọi nút (calculating_r.pdf, mục 1)
+                order = sorted(self.D[s], key=lambda x: self.D[s][x])
+                sg = {s: 1.0}
+                for x in order:
+                    for _, y, w in self.out[x]:
+                        if y in self.D[s] and isclose(self.D[s][x] + w, self.D[s][y], tol):
+                            sg[y] = sg.get(y, 0.0) + sg[x]
+                self.sigma[s] = sg
 
     def _dijkstra(self, s):
         d = {s: 0.0}
@@ -73,6 +87,13 @@ class Period:
         if u == v or Duv is None:
             self.memo[key] = res
             return res
+        if self.mode == "pc":
+            for x in self.D[u]:
+                for i, y, w in self.out[x]:
+                    if v in self.D[y] and isclose(self.D[u][x] + w + self.D[y][v], Duv, self.tol):
+                        res[i] = self.sigma[u][x] * self.sigma[y][v] / self.sigma[u][v]
+            self.memo[key] = res
+            return res
         nodes = [x for x in self.D[u] if v in self.D[x] and isclose(self.D[u][x] + self.D[x][v], Duv, self.tol)]
         nodes.sort(key=lambda x: self.D[u][x])
         flow = {u: 1.0}
@@ -91,7 +112,7 @@ class Period:
         return res
 
 
-def verify(name, P, srfile, tol):
+def verify(name, P, srfile, tol, mode="ecmp"):
     net, tm, sc = load_instance(name)
     caps = {l["id"]: float(l["capacity"]) for l in net["links"]}
     down = [set() for _ in range(P)]
@@ -105,7 +126,7 @@ def verify(name, P, srfile, tol):
     wp = {}
     for e in json.load(open(srfile))["srpaths"]:
         wp[(e["d"], e["t"])] = list(e["w"])
-    periods = [Period(net, down[t], tol) for t in range(P)]
+    periods = [Period(net, down[t], tol, mode) for t in range(P)]
     problems = []
     mlu = 0.0
     seqs = {}
@@ -167,13 +188,14 @@ def main():
     files = [f for f in files if pat in os.path.basename(f)]
     out = open(os.path.join(RES, "verification.csv"), "w", newline="")
     wr = csv.writer(out)
-    wr.writerow(["file", "mlu_independent", "mlu_csv", "abs_diff", "mlu_tol1e-6", "tol_sensitive", "changes_t1", "problems"])
+    wr.writerow(["file", "r_mode", "mlu_independent", "mlu_csv", "abs_diff", "mlu_tol1e-6", "tol_sensitive", "changes_t1", "problems"])
     worst, bad = 0.0, 0
     for f in files:
         m = re.search(r"(setA-\d+)(?:-wp)?-P(\d)", os.path.basename(f))
         name, P = m.group(1), int(m.group(2))
-        mlu, ch, pr = verify(name, P, f, 1e-9)
-        mlu2, _, _ = verify(name, P, f, 1e-6)
+        mode = "pc" if "-pc-" in os.path.basename(f) else "ecmp"
+        mlu, ch, pr = verify(name, P, f, 1e-9, mode)
+        mlu2, _, _ = verify(name, P, f, 1e-6, mode)
         ref = csv_mlu(f)
         diff = abs(mlu - ref) if ref is not None else float("nan")
         sens = abs(mlu - mlu2) > 1e-6
@@ -183,7 +205,7 @@ def main():
             bad += 1
         if ref is not None:
             worst = max(worst, diff)
-        wr.writerow([os.path.basename(f), f"{mlu:.10g}", ref, f"{diff:.2e}", f"{mlu2:.10g}", sens, ch.get(1, ""), "; ".join(pr[:3])])
+        wr.writerow([os.path.basename(f), mode, f"{mlu:.10g}", ref, f"{diff:.2e}", f"{mlu2:.10g}", sens, ch.get(1, ""), "; ".join(pr[:3])])
         print(f"{os.path.basename(f):45s} mlu={mlu:.8f} csv={ref} diff={diff:.1e} tol_sens={sens} problems={len(pr)}", flush=True)
     out.close()
     print(f"checked {len(files)} files; with problems or tolerance sensitivity: {bad}; max |MLU - CSV| = {worst:.2e}")

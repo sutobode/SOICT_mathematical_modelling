@@ -41,6 +41,10 @@ Ghi lại theo thứ tự thời gian **mọi lần khởi động, dừng, sự
 | **23:10:53** | **Watchdog dừng tiến trình thứ hai** (5,8 GB) vì RAM trống 1,03 GB; tiến trình chính được bảo vệ. Kết luận: **không chạy hai tiến trình setA-04 $t=0,1$ cùng lúc** trên máy này (đỉnh RAM khi dựng mô hình ~8 GB). |
 | 23:12 | Kiểm tra độc lập (Python) cho 91 file nghiệm: 0 vi phạm, MLU khớp tuyệt đối (`verification.csv`, `log-verify-all.txt`). |
 | 23:50 | Gói sao lưu zip (mỗi 30 phút, `C:\Users\X1\Project\SOICT_results_backup`). |
+| 23:57–00:20 (20/10) | Chuẩn bị chia việc cho 2 thành viên khác: `HUONG_DAN_CHAY_SONG_SONG.md`, `START_HERE.md`, `AGENTS.md`, `project/AGENT_BRIEFS/`, các script `preflight.py`, `check_range.py`, `publish_member_results.py`, `merge_member_branch.py`, `pack_member_results.py` (đã thử trên kho cục bộ và trên bản clone mới từ GitHub). Phân công: M1 (máy này) giữ setA-04 $t=0$ lần 8–10, setA-02 và setA-03 $t=0,1$ lần 6–10, setA-04 $t=0,1$ lần 3–4; M2: pilot setA-05 lần 1, setA-04 $t=0,1$ lần 5–7, setA-05 lần 2–5; M3: setA-04 $t=0,1$ lần 8–10, setA-05 lần 6–10. Khoảng seed rời nhau. |
+| 00:07 | setA-04 $t=0,1$ (bảng chính thức): lần 2 và 3 xong (Not Optimal, MLU 0,58857, 3603 s và 3611 s). |
+| 00:15 | **Dòng cuối của Phase 1 xong:** setA-19 $t=0,1$ (đường nhanh: sinh cột thời kỳ đầu + LNS): MLU 0,10258. Hai bảng chính thức đủ 20 dòng. |
+| 00:18–00:22 | Chốt Phase 1: tạo lại `best_known.csv` và hai bảng chính thức, kiểm tra độc lập 92 file nghiệm (0 vi phạm, MLU khớp tuyệt đối), manifest (350 file kết quả, 60 file đầu vào), zip sao lưu. Đẩy nhánh `feature/tasr` lên GitHub (commit `e9cacd5`). |
 
 ## C. Quyết định đã tự chốt (thầy không trả lời câu hỏi)
 

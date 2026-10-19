@@ -1,11 +1,11 @@
 # Hồ sơ truy vết kết quả thực nghiệm
 
-Tạo lúc: 2026-10-19 21:34:58
+Tạo lúc: 2026-10-20 00:22:15
 
 ## Phiên bản mã nguồn
 
 - Repository: `https://github.com/sutobode/SOICT_mathematical_modelling.git`
-- Nhánh: `feature/tasr`; commit hiện tại: `53ca7d4` (feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances)
+- Nhánh: `feature/tasr`; commit hiện tại: `e9cacd5` (docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch)
 - Commit chưa lưu (thay đổi chưa commit trong `orange/src`): 0 file
 - SHA-256 của `orange/Manifest.toml` (khóa phiên bản thư viện Julia): `268873ad2c6ebc345270b30f982354b34d73580d0ce29ed47724c5e22ff8b8b2`
 

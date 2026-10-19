@@ -1,18 +1,26 @@
 file,bytes,sha256,modified,code_commit,code_commit_subject
-README_KET_QUA.md,5626,9ae5f6284eb7fc60c336c94a31b7f1e415d0fd4f3848af2877af3c7d52619bae,2026-10-19 19:20:01,1811663,docs: note on machine sleep and keep-awake
-best_known.csv,3724,358a9a09f7fb40542a57dd20e752138ccf7ce4b4e586c9ffc5f636ff96c7213f,2026-10-19 17:03:21,f17e509,feat: configurable LNS time in run_wp script
+README_KET_QUA.md,7092,0c82ea292e9f42f4c5eec80193c9381b35b667b60d6217d699f496ddb51e310f,2026-10-19 23:17:58,1d19ca6,feat: official tables report Optimal k/n when runs disagree
+RUN_JOURNAL.md,9305,6d1bb7bd6a6d1055e66a5619593d9fac5b101da0154646cec5adc749c5fe1770,2026-10-19 23:56:57,fd53c46,feat: handoff zip includes report sources and team plan
+best_known.csv,4245,93c7ef664541a24cf693a08c7e29ff271bcfcc35ebd4ba274baf2d76e11bd508,2026-10-20 00:18:23,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
 environment.txt,1080,8a17d4a7179a3b592f0ef06c7316ddc9434ad214dc6eb5dda4c9879600dc3e51,2026-10-19 10:41:04,7c6f669,"feat: experiment runner (csv, srpaths, loads, error-tolerant)"
 keep_awake.log,42,2bbaa836cbc2c79e8464080e4f268fa957bf3c43339aec2518061e8e1e040488,2026-10-19 19:13:37,db6ae21,feat: keep-awake script for long runs
 log-P1.txt,656,2bdaf3fdb7c187134d0dc9761cd09f8c1479989b496b51247dcdc664359a08b7,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
 log-P2.txt,66,4edc62a65fef2502f0fe27e3966c00652e623d5fc6f3b241004ccb53c35e7f97,2026-10-19 13:12:36,916b227,feat: best-known aggregation script
+log-pc-P1-04-r4-10.txt,41,619790c25f04c18f0ce64df1d00ba9ebaac3a225382feafe51e42a74b83b99f5,2026-10-19 21:44:21,b0c3e95,feat: extra runs (seeds 4..10) for the official tables
+log-pc-P1-05-r4-10.txt,41,52c600b5e078e44471f8cf322f67708166672b509a7f24aaf49e12d068ee9a69,2026-10-19 21:45:20,b0c3e95,feat: extra runs (seeds 4..10) for the official tables
 log-pc-P1.txt,164,e4bc5971881389f16ef3a8b7420a9be6213d71a136fc0f009ca272ed00210a1b,2026-10-19 14:05:55,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 log-pc-P1b.txt,696,f723588447dad09c9407a67926c783b43d42455d00619fdfb09ccc16a4fecb64,2026-10-19 16:03:56,b2e405c,feat: brief status mode
+log-pc-P2-02-r4-10.txt,41,71bc2a8c853e9ab9043683a20c69edc5fa11338223eccd6ab6900c67eabdcf9a,2026-10-19 21:44:21,b0c3e95,feat: extra runs (seeds 4..10) for the official tables
+log-pc-P2-03-r4-10.txt,41,612fd6c7a1151432e388d0c7785bf9419c38218fb020ed3e25999c378ee285a5,2026-10-19 22:49:07,1d19ca6,feat: official tables report Optimal k/n when runs disagree
+log-pc-P2-04-r2-10.txt,41,6edd68acc16c9183fd5764e6d4b0b4320ccd8a6bca79db9ec2496d3a04d68bcb,2026-10-19 21:55:18,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
+log-pc-P2-04-r7-10.txt,40,0728e21ee2f5a7a0de1a50bb3bfc82974b0cbcc8c92323ec584321c7bc0e3ce8,2026-10-19 22:55:23,1d19ca6,feat: official tables report Optimal k/n when runs disagree
 log-pc-P2.txt,164,02c049d1c073966f570e6ad632f6024a7a26b6e18668c99f615d149abb41b375,2026-10-19 17:15:27,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
 log-pc-P2b.txt,41,9cb6d6b394149e45ab05413a4dd3da7eb9541627b0616524f5c8c3cb100090b3,2026-10-19 20:39:05,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+log-verify-all.txt,11364,b7bad135294e3461d0990abfc3ef2999fdaf889a148c68a7ebc25f18ea35187a,2026-10-20 00:22:12,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
 log-wp-P1.txt,442,d5732faa8ea3742d6c34001df94e7d5a81a8d49a789d363229d80ec37e3a03d7,2026-10-19 11:55:19,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
 log-wp-P2.txt,204,b1956ecee33853037a2c13cc9071b73316e0d66aa127a93158224433bab0f472,2026-10-19 11:45:40,beee52c,perf: compact budget formulation for single-waypoint choices
 log-wp-cg-P1.txt,840,e94b17c9195c4f49c16481b555695a054dab53751cfc42ad1ecf1e1437526e6c,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
-log-wp-cg-P2-17-18-20.txt,51,dd4e621b81a8a2bb1b402245cd13bc54327dcd020424698c47f7093c709cba79,2026-10-19 21:28:05,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+log-wp-cg-P2-17-18-20.txt,153,48422909f548cf0eff8b3fd9a9a52d05dc937cfc49954e32b354123bd96ab233,2026-10-19 21:39:01,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
 log-wp-cg-P2-19.txt,51,004b6bdddd5bad5b895ba9d417f34e0697f3fd5bbb019cccd132a35f1808362e,2026-10-19 21:28:05,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 log-wp-cg-P2.txt,867,b0d80f1f4e5673977935221229a260ea2442c4f2f2d3502626db8a25c0b0d914,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 log-wp-cg-lns-P1.txt,153,e21d54a9b930213b7cfd29d151517be1c07250a2b1e76af40871a5d66f1d309f,2026-10-19 14:35:10,dda59ed,docs: how to follow the running experiments
@@ -20,7 +28,7 @@ log-wp-cg-lns-P2-13.txt,51,33dd43483c217fc5dda169c12b34caf56ff72808933912a3f1485
 log-wp-cg-lns-P2.txt,51,f58fcc8a3f65b5be51e1fa3fef5982b28388c1e3b3000c911678ca77b9f7bced,2026-10-19 17:02:55,f17e509,feat: configurable LNS time in run_wp script
 log-wp-cg-pc-18-20.txt,200,aba47705171eb8e9295ad046e2775032b4c3d79243cd85ad131c48d7e80fcaab,2026-10-19 14:07:34,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
 log-wp-cg-pc-P1.txt,500,cf59e966a02975e6b83c79295e5ae7a4e9341726108fa2862c46a6d2c8a7b038,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-log-wp-fast-P2.txt,51,54d102adfbce2db20a4df980bdc35f08aaa01b8b0934ad10f974a82a7e62a5ab,2026-10-19 21:33:25,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
+log-wp-fast-P2.txt,101,08e65cd925bdb82de88ed030665f797ce416bb838ae96b5e20966c4653ec6da5,2026-10-19 22:09:13,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
 r_difference.csv,976,9ae4e91cf226c0459f2cb1312891927d488dc576fd2f8dc84c4d7f0ca29d8332,2026-10-19 14:06:14,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-01-P1-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 11:12:39,9560fe1,feat: run 3 times (instead of once) on slow instances
 setA-01-P1-pc-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 14:03:08,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -57,6 +65,7 @@ setA-02-P1-srpaths.json,706,e5bcbfb432521fcb451e3f52e3767fb2362385174ea81ac07d90
 setA-02-P1.csv,2149,7a8edbe7d8f6b6c8d5037b546a2bdc3fbe431fb47e0060e0c7b1f08bb1bd37df,2026-10-19 11:13:20,8e92740,docs: orange README and decision log (teacher unavailable)
 setA-02-P2-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
 setA-02-P2-pc-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 14:58:24,b2e405c,feat: brief status mode
+setA-02-P2-pc-r4-10.csv,500,8c7952e80a49119f08e1dbf88bd95c85f998bd44a5b9b76f864f982d458937a9,2026-10-19 23:44:54,df0f215,docs: detailed plan of phases up to Wednesday
 setA-02-P2-pc-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 14:58:24,b2e405c,feat: brief status mode
 setA-02-P2-pc.csv,708,c51188fb5c04e40fd3308134fadd10e2ff948fc5fa100c320e1bba41e66e2e54,2026-10-19 16:36:58,b2e405c,feat: brief status mode
 setA-02-P2-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
@@ -83,6 +92,7 @@ setA-03-P1-pc.csv,2141,304f49f852bd7a47e836e07dba8aae9eb6e0e23c52d3c275171047412
 setA-03-P1-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 11:13:26,8e92740,docs: orange README and decision log (teacher unavailable)
 setA-03-P1.csv,2137,acc49053217dda16b646079a9d9a94b630dfed605c75d0813d7cb03171addf79,2026-10-19 11:14:16,8e157ea,docs: fix corrupted varepsilon in decision log
 setA-03-P2-pc-loads.csv,9076,f58298c041f001162ba8ab8f60cf15b554bbcbd924d3b68941506c4ae709c690,2026-10-19 16:41:53,b2e405c,feat: brief status mode
+setA-03-P2-pc-r4-10.csv,710,613ca19478831022866b6832db8a82685fbccd3482d93c29d1a3c47646344ccf,2026-10-20 00:02:48,2210f2f,docs: minor fixes in the parallel run guide
 setA-03-P2-pc-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 16:41:53,b2e405c,feat: brief status mode
 setA-03-P2-pc.csv,722,af3d3c46ede80b22d305397746a670243e7006b4798847672577751b267545e8,2026-10-19 17:15:27,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
 setA-03-wp-P1-cg-loads.csv,4558,2ca712a6a6143a73f630236ea227f979cdfd909454702e2d9110de0a641c583f,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
@@ -102,11 +112,16 @@ setA-03-wp-P2-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77
 setA-03-wp-P2.csv,307,0c6831bb7cc7dfc95eae0f6e64f9162a015bfcf14625a0fb17121a54b07894d0,2026-10-19 11:43:51,beee52c,perf: compact budget formulation for single-waypoint choices
 setA-04-P1-loads.csv,8205,1aba738b690702bf7e1813958eb22b05e08e10496f06959156567e8c646eaff2,2026-10-19 11:44:42,beee52c,perf: compact budget formulation for single-waypoint choices
 setA-04-P1-pc-loads.csv,8205,1aba738b690702bf7e1813958eb22b05e08e10496f06959156567e8c646eaff2,2026-10-19 14:49:04,b2e405c,feat: brief status mode
+setA-04-P1-pc-r4-10.csv,1002,94b2fc5f91c5c39842529911784444abcf60188f04eb89334bc74d0b9da9966b,2026-10-19 23:50:44,fd53c46,feat: handoff zip includes report sources and team plan
 setA-04-P1-pc-srpaths.json,503,e2e30047bab9af58016abf076e2fc06121dfa9519d7c79b35746cbce6a8bf702,2026-10-19 14:49:02,b2e405c,feat: brief status mode
 setA-04-P1-pc.csv,780,3d7125207912e505c8077688a18a8e0be921858bb5556de1ae7f56ccdee6c7ce,2026-10-19 15:50:33,b2e405c,feat: brief status mode
 setA-04-P1-srpaths.json,503,e2e30047bab9af58016abf076e2fc06121dfa9519d7c79b35746cbce6a8bf702,2026-10-19 11:44:42,beee52c,perf: compact budget formulation for single-waypoint choices
 setA-04-P1.csv,780,22e7dec096aa7f65c3086aebdec43d9278315b7a631ff7141c80ed50f3c9e73f,2026-10-19 12:47:06,916b227,feat: best-known aggregation script
-setA-04-P2-pc.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 20:39:16,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+setA-04-P2-pc-loads.csv,16586,bf6e78e92da13bc2e6e84a685fbe169ceb06e90ffe764465b3d3f0eb17b45e64,2026-10-19 21:42:37,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
+setA-04-P2-pc-r2-10.csv,518,bd7bfeba2260a01e1680ad1fa67e10ff1181728915e23f26ff84bde7c46d9f7a,2026-10-20 00:02:09,c7727d2,docs: parallel run plan and member assignment (M1/M2/M3)
+setA-04-P2-pc-r7-10.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 22:55:40,1d19ca6,feat: official tables report Optimal k/n when runs disagree
+setA-04-P2-pc-srpaths.json,1056,986ad4042aa1587318a7ac160c3f5d4b38d01902db9e412fb1449fa3af5b0845,2026-10-19 21:42:35,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
+setA-04-P2-pc.csv,301,1f0873bc76f4103249c3f70a92f0b6beef3021ae8646187fb231a5c0c40e8196,2026-10-19 21:42:37,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
 setA-04-wp-P1-cg-loads.csv,8306,b60d3f0ad2415732d1797bf33d3b89362594d941545d233cb0e061911c62d91a,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
 setA-04-wp-P1-cg-pc-loads.csv,8306,b60d3f0ad2415732d1797bf33d3b89362594d941545d233cb0e061911c62d91a,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-04-wp-P1-cg-pc-srpaths.json,17407,43abce766b682601dfe3d08e4938f9d1831ad40b11a8cdc7d3348dd091999af0,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -124,6 +139,7 @@ setA-04-wp-P2-srpaths.json,37041,00134659b2a2b0ad8ffd4c84836319a7472245e76b306be
 setA-04-wp-P2.csv,305,f4a67ec95c951992e2f4e89797f0c186a59afa60eb6bc8a94870fcbd829a05f8,2026-10-19 11:44:52,beee52c,perf: compact budget formulation for single-waypoint choices
 setA-05-P1-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 12:52:51,916b227,feat: best-known aggregation script
 setA-05-P1-pc-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 15:54:54,b2e405c,feat: brief status mode
+setA-05-P1-pc-r4-10.csv,1689,11732021d5fa6edeb2f95a20e643f32c55b7928d353f9f0edf596dc853e98bc4,2026-10-19 22:49:04,1d19ca6,feat: official tables report Optimal k/n when runs disagree
 setA-05-P1-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 15:54:54,b2e405c,feat: brief status mode
 setA-05-P1-pc.csv,788,3fd8425208c294df092c9269b18f57c0803bb2ee510c111040c8cdb152e7bb1f,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 setA-05-P1-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 12:52:51,916b227,feat: best-known aggregation script
@@ -276,7 +292,9 @@ setA-16-P1.csv,218,dd902a37580c00a135ab1cf7fd96fdb2dfdd2d64fbfda2662587504be1d21
 setA-16-wp-P1-cg-loads.csv,51747,a264e0cb629c88ed343001269815e85778a43829101e0d7783ce07ad34629dab,2026-10-19 13:25:55,916b227,feat: best-known aggregation script
 setA-16-wp-P1-cg-srpaths.json,539612,9cca2e1ffadb58c49383443397ad3e36e169664dd87bb1f4081e0ead26301fda,2026-10-19 13:25:55,916b227,feat: best-known aggregation script
 setA-16-wp-P1-cg.csv,379,dd45d38dfff9e517776202638e134a9e1b9cdae7d20bc433aa8e38957374f4f6,2026-10-19 13:25:55,916b227,feat: best-known aggregation script
-setA-16-wp-P2-cg-lns-fast.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 21:33:48,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
+setA-16-wp-P2-cg-lns-fast-loads.csv,101676,c59ba6938e46ff61a4879ec14925e272d27afdbcf530107b8eb658282cfd8556,2026-10-19 22:09:07,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
+setA-16-wp-P2-cg-lns-fast-srpaths.json,207628,777400f117cce5445645ff7bcc58e8fbf6eeb1e8c00a73887703b73383b9aab7,2026-10-19 22:09:01,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
+setA-16-wp-P2-cg-lns-fast.csv,360,4397e99d04f2a9755004e68b2b5d60d8a3ebc65c424cd0d2bec197f2f552817c,2026-10-19 22:09:07,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
 setA-16-wp-P2-cg-loads.csv,100960,99ea2f4ae0264ae41b5c844ba492d8feba4a280965163aca3902b1c19fe619f9,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 setA-16-wp-P2-cg-srpaths.json,604,87f98af735d62cdea9cb8dba2d661e782bee9dce01f722f3e1d0c1ceb49d08ad,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 setA-16-wp-P2-cg.csv,386,8f866668d9386f65cf8eea1b7085f1626d8a32a131a0c917dd829732814587ec,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
@@ -285,7 +303,9 @@ setA-17-P1.csv,218,8693aeed809339915c552d0bdfb479ebb85270d5a06f3393d4ed7e74e0120
 setA-17-wp-P1-cg-loads.csv,51707,b656936d6fc22214b9fd299c52e3b2cf47ca8dba7bdba8acc3d99dc25a87861c,2026-10-19 13:26:04,916b227,feat: best-known aggregation script
 setA-17-wp-P1-cg-srpaths.json,141,21f042fe54a4533450d82226c09d0070feb0205931e3595618e17bcf23f04ec8,2026-10-19 13:26:04,916b227,feat: best-known aggregation script
 setA-17-wp-P1-cg.csv,362,e898bfb4810918cfa62bc5046e5164e88bf0b551b3c60a89977216127c62a153,2026-10-19 13:26:04,916b227,feat: best-known aggregation script
-setA-17-wp-P2-cg.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 21:28:29,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+setA-17-wp-P2-cg-loads.csv,104496,10e3378e6f6786d0b89fe2e99759d14d7bd7c1ff5f239d93e9c20fc69f01032d,2026-10-19 21:38:03,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
+setA-17-wp-P2-cg-srpaths.json,957,f383d84457facd2daa0639920815803bda3b15cd81e9d8fb02cbf80940db2855,2026-10-19 21:38:02,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
+setA-17-wp-P2-cg.csv,375,df66eb8560e5779913eb415b08797fdbea704bbadb5cc89837c22538d7f0b8e1,2026-10-19 21:38:03,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
 setA-18-P1-pc.csv,218,28acd2081dfc1b69e7f76b7924cf93477c7cb82f7338f18e73064c9f2ad4c3c7,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 setA-18-P1.csv,218,28acd2081dfc1b69e7f76b7924cf93477c7cb82f7338f18e73064c9f2ad4c3c7,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
 setA-18-wp-P1-cg-loads.csv,55959,246102e767d37d5e0b7a9ea50e654ed56b2dedb3afdf9b3961c46064083356a5,2026-10-19 13:26:12,916b227,feat: best-known aggregation script
@@ -294,15 +314,20 @@ setA-18-wp-P1-cg-pc-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0
 setA-18-wp-P1-cg-pc.csv,347,4a7faa6b251891c3a2ece49523ca95192f9ec54373158c886a3ff0dffd5a28f2,2026-10-19 14:05:47,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-18-wp-P1-cg-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 13:26:12,916b227,feat: best-known aggregation script
 setA-18-wp-P1-cg.csv,347,5d6e9e6c94f9c4b2726854a21213373293e45cc28c17fe9fc58952000ba5b6ad,2026-10-19 13:26:12,916b227,feat: best-known aggregation script
+setA-18-wp-P2-cg-loads.csv,113110,6787785b7a6c6bbc8c4556cf3adb4f6621548a122ee13c90123b81ff2f7db43c,2026-10-19 21:38:59,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
 setA-18-wp-P2-cg-pc-loads.csv,113110,6787785b7a6c6bbc8c4556cf3adb4f6621548a122ee13c90123b81ff2f7db43c,2026-10-19 14:07:31,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
 setA-18-wp-P2-cg-pc-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 14:07:31,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
 setA-18-wp-P2-cg-pc.csv,333,74bd191f3bf0f898225f80b01d4835d85c745711f7a4538ed925fed58fb7165d,2026-10-19 14:07:31,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
+setA-18-wp-P2-cg-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 21:38:57,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
+setA-18-wp-P2-cg.csv,359,ac6a970c3799c439d452f25f6c05eb5da549c89e62f1889d05e09e8b2dde7b0e,2026-10-19 21:38:59,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
 setA-19-P1-pc.csv,218,e1b0a30fd160db818ab8f6385ecaff34d10242824386c7eeaff39b83ff1bc870,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 setA-19-P1.csv,218,e1b0a30fd160db818ab8f6385ecaff34d10242824386c7eeaff39b83ff1bc870,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
 setA-19-wp-P1-cg-loads.csv,69928,0c5ab80e191c9f912b875030b8dce466551e2669a5038967b6182275d4c7259f,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
 setA-19-wp-P1-cg-srpaths.json,680837,d29af24efaa4ec43418112a6801b1762b7b04ff3da0cfd08ae9d13852b1b82b8,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
 setA-19-wp-P1-cg.csv,374,f72d0c14108fb74e2c03e53b92067ec7b3ff1b258401330bfd9e5898c004cf39,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
-setA-19-wp-P2-cg.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 21:28:29,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+setA-19-wp-P2-cg-lns-fast-loads.csv,139594,dab0f5217ab8f0e3c21d4aa6ffa902ba006045d82012f112fa7d5d7507151fae,2026-10-20 00:04:48,2210f2f,docs: minor fixes in the parallel run guide
+setA-19-wp-P2-cg-lns-fast-srpaths.json,1088676,86d0e0eb31dd5256cbe559b3def503f677209603b9ca5a94a55b2627d4c70280,2026-10-20 00:04:45,2210f2f,docs: minor fixes in the parallel run guide
+setA-19-wp-P2-cg-lns-fast.csv,378,932ce3db15ddeff619b2550290e85ba615453f0586b90cdad8d3278bd2b9de71,2026-10-20 00:04:48,2210f2f,docs: minor fixes in the parallel run guide
 setA-20-P1-pc.csv,218,462a9222b41c105c8ee00b6bfd26f62967aa191160da2588c23305f9018b0c3b,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 setA-20-P1.csv,218,462a9222b41c105c8ee00b6bfd26f62967aa191160da2588c23305f9018b0c3b,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
 setA-20-wp-P1-cg-loads.csv,80360,52d1d2941860b4bb63fdc05a8fd600c902fe9928a7fe5d2e89733b2f55126b4e,2026-10-19 14:46:25,73eef0d,feat: best-known table reads all waypoint result variants
@@ -311,13 +336,16 @@ setA-20-wp-P1-cg-pc-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f
 setA-20-wp-P1-cg-pc.csv,363,0a5d46cb22cdc9e905113458c602f8cf9b223113fb0a07bd8a441ed556f0661d,2026-10-19 14:06:29,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-20-wp-P1-cg-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 14:46:25,73eef0d,feat: best-known table reads all waypoint result variants
 setA-20-wp-P1-cg.csv,363,c1daaef8b99e792cde25229ef5a106a6748d71b95c01ba39de5cb882f19bb861,2026-10-19 14:46:25,73eef0d,feat: best-known table reads all waypoint result variants
+setA-20-wp-P2-cg-loads.csv,161733,056fedaf16e5d466bca03d7c76adbe8d3b2e0dcccdb9954bb7d8225e8078f139,2026-10-19 21:55:09,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
 setA-20-wp-P2-cg-pc-loads.csv,161733,056fedaf16e5d466bca03d7c76adbe8d3b2e0dcccdb9954bb7d8225e8078f139,2026-10-19 14:17:38,31fd7e8,feat: LNS polishing option in the waypoint runner and script
 setA-20-wp-P2-cg-pc-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 14:17:37,31fd7e8,feat: LNS polishing option in the waypoint runner and script
 setA-20-wp-P2-cg-pc.csv,350,90273b9feb93fab968d590b689c53b0f907e2e83b12d5aa2265a750b9d92ce0e,2026-10-19 14:17:38,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-table_official_P1.csv,1453,6c9d7b909aa0e3cc49a0cfc87a6243f0b0204d0e1ff1427f8ea1c4475d83c80a,2026-10-19 17:03:44,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-table_official_P1.md,2597,8ffc8371c5540ab1825f841c467002bc0863ecf3994161b39c1988e2a11c019c,2026-10-19 17:03:44,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-table_official_P2.csv,1334,91757c62bb4a709cf2390007ece62e714f7c0dec9537ddc65858f37efa0caa43,2026-10-19 17:03:44,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-table_official_P2.md,2492,1a1451ffbd40f532e389124314db88194e530cac13618f4f9a3c21486eac9774,2026-10-19 17:03:44,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-verification.csv,178,fb7ded141bbeb2674353f283da4b477b5ee50bcf27b9a5a1b7c11e6bdfac4b24,2026-10-19 20:28:38,76edee0,"feat: traceability manifest (SHA-256, code commit, commands) and results snapshot"
+setA-20-wp-P2-cg-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 21:55:08,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
+setA-20-wp-P2-cg.csv,375,4945c9f0973c2256aa82801a215ead1fc9aa65e0543b57a4dba81178da80692a,2026-10-19 21:55:09,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
+table_official_P1.csv,1456,fed960157d193ff07c499ad2c5e181f54267576069d10d09d379d01fb2bdcdaf,2026-10-20 00:18:29,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
+table_official_P1.md,2600,89a2e7c13b42d9321f852199bd76c9da41f74a8aaf4dbaa057dc27dba2d0d381,2026-10-20 00:18:29,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
+table_official_P2.csv,1520,0befd7af68fb7ea8dedb88af2fea295f3273865988b9924aabc2ce14c2f6a733,2026-10-20 00:18:29,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
+table_official_P2.md,2678,4c927ba2d2a6dac62d0a41d9934c5723b18ab77c400306bfd3eea5a97fe774fc,2026-10-20 00:18:29,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
+verification.csv,8815,625fee54995809f2e0fb3da9e28c5775cb4402ab97556ed6a2a86037b6151f32,2026-10-20 00:22:12,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
 watch_exclude.txt,6,ba29f616b53540227e14465245b3553e9267cca7bdeef42abad1f86c3ab805d0,2026-10-19 12:07:25,5e64eae,feat: cg option in run_wp script
-watchdog.log,196,ec4c1f26e8203b47aecc4295ab4a0a7de9c5dbd47d1136fbe116378cf068f083,2026-10-19 21:28:03,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
+watchdog.log,541,aee591789d2de4a656d80a1091e4eca6dd937a5fe03fcadf6032b8defee41baf,2026-10-19 23:10:53,1d19ca6,feat: official tables report Optimal k/n when runs disagree

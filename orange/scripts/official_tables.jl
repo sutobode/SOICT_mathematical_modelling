@@ -35,7 +35,10 @@ function arc_rows(name, P)
     seen = Set{String}()
     for f in files, r in readcsv(f)
         key = get(r, "run", "")
-        key in seen && continue
+        if key in seen
+            @warn "run $key of $name P=$P appears in more than one file (kept the first): overlapping assignment?"
+            continue
+        end
         push!(seen, key)
         push!(rows, r)
     end

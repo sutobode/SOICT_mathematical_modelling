@@ -4,6 +4,7 @@ include("io.jl")
 include("ecmp.jl")
 include("verify.jl")
 include("model.jl")
+include("wpmodel.jl")
 include("experiment.jl")
 include("heuristic.jl")
 export Instance, read_instance,
@@ -11,5 +12,6 @@ export Instance, read_instance,
        changes, utilization, direct_paths, max_utilization, base_mlu,
        check_solution, write_srpaths, write_loads,
        build_model, extract_paths, lex_second_stage!,
+       candidates, build_wp_model, extract_wp_paths,
        run_instance, local_search
 end

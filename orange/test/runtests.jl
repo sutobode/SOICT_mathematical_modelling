@@ -324,3 +324,46 @@ end
     fast = run_instance(TOY, "toy", 2, 60; runs=5, fast_threshold=1e6, slow_runs=3, outdir=out)
     @test length(readlines(fast)) == 1 + 5
 end
+
+@testset "candidates: K smallest detours, valid in all periods" begin
+    inst = read_instance(TOY)
+    rs = [build_r(inst, p) for p in 1:2]
+    C = candidates(inst, rs, 2)
+    @test length(C) == 2 && all(c -> c[1] == 0 && length(c) <= 3, C)       # 0 = không waypoint, tối đa K=2 ứng viên
+    for d in 1:2, w in C[d][2:end]
+        @test w != inst.dem_s[d] && w != inst.dem_t[d]
+        @test all(p -> haskey(rs[p], (inst.dem_s[d], w)) && haskey(rs[p], (w, inst.dem_t[d])), 1:2)
+    end
+    Call = candidates(inst, rs, 100)                                         # K lớn: mọi nút hợp lệ
+    @test length(Call[1]) == 1 + (inst.n - 2)
+end
+
+@testset "waypoint model equals brute force (K=all)" begin
+    for b in (0, 3, 20), P in (1, 2)
+        inst = read_instance(TOY; maxseg=2, budget=b)
+        rs = [build_r(inst, p) for p in 1:P]
+        model, y, C = build_wp_model(inst, rs, P, OPT; K=100)
+        optimize!(model)
+        @test termination_status(model) == MOI.OPTIMAL
+        zstar = objective_value(model)
+        @test zstar ≈ brute_best(inst, P) atol = 1e-5
+        paths = extract_wp_paths(inst, y, C, P)
+        chk = check_solution(inst, rs, paths, P, zstar + 1e-5)
+        @test chk.budget_ok
+    end
+end
+
+@testset "waypoint model warm start and restricted candidates" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, p) for p in 1:2]
+    wp = Dict((1, 1) => [1, 5, 6], (2, 1) => [3, 6], (1, 2) => [1, 5, 6], (2, 2) => [3, 6])
+    model, y, C = build_wp_model(inst, rs, 2, OPT; K=3, start_paths=wp)
+    c1 = findfirst(==(5), C[1])
+    @test c1 !== nothing && start_value(y[1][1][c1]) == 1.0                 # waypoint v4 phải nằm trong ứng viên và được dùng làm khởi tạo
+    optimize!(model)
+    @test objective_value(model) <= max_utilization(inst, rs, wp, 2) + 1e-6
+    restricted = objective_value(model)
+    full_model, _, _ = build_wp_model(inst, rs, 2, OPT; K=100)
+    optimize!(full_model)
+    @test objective_value(full_model) <= restricted + 1e-9                   # nhiều ứng viên hơn không tệ hơn
+end

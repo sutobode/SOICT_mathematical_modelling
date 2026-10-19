@@ -149,7 +149,7 @@ setA-05-P1-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1
 setA-05-P1.csv,788,9644351a70ced602dba322ee6220a85ed9644e1b401f16c4299ed669f11a6c85,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
 setA-05-P2-pc-r1-5-loads.csv,23986,ce8897e19a1787531254b75553ede25341ef551e9dcd3cf716ecacb733621a16,2026-10-20 02:12:33,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
 setA-05-P2-pc-r1-5-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-20 02:12:31,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
-setA-05-P2-pc-r1-5.csv,642,188950ba384e006f4adf22879296912708b3f625ba9bb08b207cd6821e97b6d1,2026-10-20 04:23:30,8ed0a43,"data: 03:45 setA-02 t=0,1 reached 10 runs; tables regenerated"
+setA-05-P2-pc-r1-5.csv,818,5fa32b564218934539ff5158db2185aacd35a6d0030a3c60581e88aa30bc9d20,2026-10-20 05:28:56,d39bfd7,"data: 04:30 setA-05 t=0,1 seed 3"
 setA-05-wp-P1-cg-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
 setA-05-wp-P1-cg-pc-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-05-wp-P1-cg-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -351,7 +351,8 @@ setA-20-wp-P2-cg.csv,375,4945c9f0973c2256aa82801a215ead1fc9aa65e0543b57a4dba8117
 solverlogs/setA-05-P2-pc-r1-5-run1.log,2814,511e64a38cf665168e0e596253076609d99e9c5cdc1e413e1e8d7226a39ede80,2026-10-20 02:12:20,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
 solverlogs/setA-05-P2-pc-r1-5-run2.log,2814,229675a2da9d5c8367fbd8d020cbd8ac87ac63038d1c9442129cb21fda0969c6,2026-10-20 03:17:59,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 solverlogs/setA-05-P2-pc-r1-5-run3.log,2814,54c19de3fff779354afd189e2d10877d3e21b438dbdf8850b7d78824c7cc655c,2026-10-20 04:23:23,8ed0a43,"data: 03:45 setA-02 t=0,1 reached 10 runs; tables regenerated"
-solverlogs/setA-05-P2-pc-r1-5-run4.log,1205,d3ade12a2d791ed36cc2b0d8949d59d9bffd1dbe22e14e2ffb808d319dc62c58,2026-10-20 04:28:42,8ed0a43,"data: 03:45 setA-02 t=0,1 reached 10 runs; tables regenerated"
+solverlogs/setA-05-P2-pc-r1-5-run4.log,2814,c5c9f24e44d51c10b5fdb11b607a8bab6efda1df299b91f05dc09740bf2a2c8c,2026-10-20 05:28:49,d39bfd7,"data: 04:30 setA-05 t=0,1 seed 3"
+solverlogs/setA-05-P2-pc-r1-5-run5.log,1961,679201f57873aadd41c1a26e04bd8c77309dcc00b49874d974046ce5aaaa14b3,2026-10-20 05:35:37,d39bfd7,"data: 04:30 setA-05 t=0,1 seed 3"
 table_official_P1.csv,1456,13b095d79c8c22fc1b51889171628b6e75e54ff3c48a6765bee4c631c0d20cdd,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 table_official_P1.md,2600,4e1200e9dc928a4b263e087cf956bbba634f324826554cd9472a4a5db37d2224,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 table_official_P2.csv,1533,6a7e233080101d4d7c1e6c6ef4f9ec85b0bd57beb7c2e104cfe36c15f8921eaa,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"

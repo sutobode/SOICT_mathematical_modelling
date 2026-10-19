@@ -288,9 +288,31 @@ end
     out = mktempdir()
     csv = run_instance(TOY, "toy", 2, 60; runs=1, outdir=out)
     head = split(readlines(csv)[1], ",")
-    row = split(readlines(csv)[2], ",")
-    @test head[end] == "obj"
-    zv, obj, gap = parse(Float64, row[8]), parse(Float64, row[end]), parse(Float64, row[13])
+    r = Dict(zip(head, split(readlines(csv)[2], ",")))
+    @test haskey(r, "obj")
+    zv, obj, gap = parse(Float64, r["z"]), parse(Float64, r["obj"]), parse(Float64, r["gap"])
     @test obj >= zv - 1e-12
     @test 0.0 <= gap < 1e-5                                    # gap thật, không phải 0 cố định
+end
+
+@testset "warm start from given paths" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, p) for p in 1:2]
+    wp = Dict((1, 1) => [1, 5, 6], (2, 1) => [3, 6], (1, 2) => [1, 5, 6], (2, 2) => [3, 6])
+    model, x, z = build_model(inst, rs, 2, OPT; start_paths=wp)
+    @test start_value(x[1, 1, 1, 5]) == 1.0 && start_value(x[1, 1, 5, 6]) == 1.0
+    @test start_value(x[1, 1, 1, 6]) == 0.0
+    @test start_value(z) ≈ max_utilization(inst, rs, wp, 2)
+    optimize!(model)
+    @test value(z) <= max_utilization(inst, rs, wp, 2) + 1e-9
+end
+
+@testset "runner uses heuristic start" begin
+    out = mktempdir()
+    csv = run_instance(TOY, "toy", 2, 60; runs=1, outdir=out)
+    head = split(readlines(csv)[1], ",")
+    row = Dict(zip(head, split(readlines(csv)[2], ",")))
+    @test haskey(row, "start_time") && haskey(row, "start_mlu")
+    @test parse(Float64, row["start_mlu"]) >= parse(Float64, row["z"]) - 1e-9    # MILP no worse than its start
+    @test parse(Float64, row["start_mlu"]) <= parse(Float64, row["mlu_base"]) + 1e-9
 end

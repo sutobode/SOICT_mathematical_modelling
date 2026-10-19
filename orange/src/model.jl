@@ -1,5 +1,5 @@
 function build_model(inst::Instance, rs, P::Int, optimizer;
-                     tlimit=Inf, silent=true, eps=nothing, warm_start=true, acyclic=false)
+                     tlimit=Inf, silent=true, eps=nothing, warm_start=true, acyclic=false, start_paths=nothing)
     n, nD = inst.n, length(inst.dem_s)
     eps = eps === nothing ? 1e-7 / nD : eps               # tổng phạt eps*sum(x) <= ~1e-7*maxSeg*P
     model = Model(optimizer)
@@ -72,11 +72,11 @@ function build_model(inst::Instance, rs, P::Int, optimizer;
     end
 
     # (4) ngân sách giữa p-1 và p
-    ys = []
+    ys = Tuple{Int,Any}[]
     for p in 2:P
         isfinite(inst.budget[p]) || continue
         y = @variable(model, [d=1:nD, i=1:n, j=1:n; i != j], lower_bound = 0)
-        push!(ys, y)
+        push!(ys, (p, y))
         for d in 1:nD, i in 1:n, j in 1:n
             i == j && continue
             @constraint(model, y[d, i, j] >= x[d, p, i, j] - x[d, p-1, i, j])
@@ -87,15 +87,24 @@ function build_model(inst::Instance, rs, P::Int, optimizer;
 
     @objective(model, Min, z + eps * sum(x))
 
-    # khởi tạo bằng nghiệm "đi thẳng" (luôn khả thi: dist = 0)
+    # khởi tạo bằng start_paths (mặc định: "đi thẳng", luôn khả thi vì dist = 0)
+    sp = start_paths === nothing ? direct_paths(inst, P) : start_paths
     if warm_start && all(haskey(rs[p], (inst.dem_s[d], inst.dem_t[d])) for d in 1:nD, p in 1:P)
-        for d in 1:nD, p in 1:P, i in 1:n, j in 1:n
-            i == j && continue
-            set_start_value(x[d, p, i, j], (i == inst.dem_s[d] && j == inst.dem_t[d]) ? 1.0 : 0.0)
+        on(d, p) = Set(zip(sp[(d, p)], sp[(d, p)][2:end]))
+        for d in 1:nD, p in 1:P
+            S = on(d, p)
+            for i in 1:n, j in 1:n
+                i == j && continue
+                set_start_value(x[d, p, i, j], (i, j) in S ? 1.0 : 0.0)
+            end
         end
-        set_start_value(z, base_mlu(inst, rs, P))
-        for y in ys, v in y
-            set_start_value(v, 0.0)
+        set_start_value(z, max_utilization(inst, rs, sp, P))
+        for (p, y) in ys, d in 1:nD
+            S0, S1 = on(d, p - 1), on(d, p)
+            for i in 1:n, j in 1:n
+                i == j && continue
+                set_start_value(y[d, i, j], ((i, j) in S0) != ((i, j) in S1) ? 1.0 : 0.0)
+            end
         end
     end
     return model, x, z, load

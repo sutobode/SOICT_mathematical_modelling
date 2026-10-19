@@ -16,7 +16,7 @@
 
 | Task | Nội dung | Trạng thái |
 |---|---|---|
-| 0 | Khởi tạo package, dữ liệu toy | ✅ xong (câu hỏi cho thầy: **chưa gửi**, việc của bạn) |
+| 0 | Khởi tạo package, dữ liệu toy | ✅ xong (thầy không trả lời nên các câu hỏi đã được tự quyết, xem "Nhật ký quyết định") |
 | 1 | Đọc dữ liệu | ✅ xong |
 | 2 | Hệ số tách $r$ (ECMP + đếm đường) | ✅ xong, khớp Bảng 2 của đề |
 | 3 | Mô hình JuMP | ✅ xong, khớp vét cạn trên toy |
@@ -1534,10 +1534,10 @@ git add orange && git commit -m "feat: lexicographic second stage"
 
 | Ngày | Câu hỏi | Quyết định | Nguồn |
 |---|---|---|---|
-| 19/10 | Cách tính $r$ | Tạm dùng ECMP từng chặng; hỗ trợ cả đếm đường | Kiểm chứng toy, chờ thầy |
-| 19/10 | Ý nghĩa bước 9 | Tạm hiểu là $t=0$ và $t=1$ | Chờ thầy |
-| 19/10 | Số lần chạy | 10 lần nếu lần đầu < 120 s, nếu không 1 lần | Chờ thầy |
-| 19/10 | Mục tiêu | min MLU + $\varepsilon\sum x$ | Chờ thầy |
-| 19/10 | Solver | HiGHS, 1 luồng | Mặc định |
-| 19/10 | Bước 8–9: tối ưu đồng thời hay tuần tự | Tạm tối ưu đồng thời $t=0,1$ (đúng công thức của đề) | Chờ thầy |
-| 19/10 | Instance quá lớn cho MILP | Ghi "too large", bổ sung heuristic (Task 11) | Chờ thầy; ngưỡng chốt sau Task 5 Step 3 |
+| 19/10 | Cách tính $r$ | **Chốt: ECMP từng chặng** làm chính (khớp đề và Bảng 2); đếm đường chỉ để so sánh (Task 10) | Thầy không trả lời; tự quyết theo tài liệu |
+| 19/10 | Ý nghĩa bước 9 | **Chốt: giải chung $t=0,1$** (readme bước 8) | Thầy không trả lời; tự quyết theo tài liệu |
+| 19/10 | Số lần chạy | **Chốt: 10 lần nếu lần đầu ≤ 120 s, ngược lại 3 lần** (trước đây 1 lần) | readme yêu cầu 10 lần, quỹ thời gian không đủ |
+| 19/10 | Mục tiêu | **Chốt: min MLU + $arepsilon\sum x$** | readme chỉ yêu cầu một giá trị mục tiêu |
+| 19/10 | Solver | HiGHS, 1 luồng, `mip_rel_gap=1e-6` | Mặc định |
+| 19/10 | Công thức gap | **Chốt: $1-\mathrm{LB}/\mathrm{UB}$** | readme ghi rõ |
+| 19/10 | Instance quá lớn cho MILP | **Chốt: ghi "too large" và bổ sung heuristic** (Task 11); `max_vars` giữ $3\cdot10^6$ theo phép đo bộ nhớ (Task 5 Step 3) | Tự quyết theo tài liệu |

@@ -149,7 +149,7 @@ setA-05-P1-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1
 setA-05-P1.csv,788,9644351a70ced602dba322ee6220a85ed9644e1b401f16c4299ed669f11a6c85,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
 setA-05-P2-pc-r1-5-loads.csv,23986,ce8897e19a1787531254b75553ede25341ef551e9dcd3cf716ecacb733621a16,2026-10-20 02:12:33,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
 setA-05-P2-pc-r1-5-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-20 02:12:31,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
-setA-05-P2-pc-r1-5.csv,466,2361d95eebf6b6fb3e5c14962aaf57872d0435c410f627e64707ec9faa8f1d99,2026-10-20 03:18:03,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
+setA-05-P2-pc-r1-5.csv,642,188950ba384e006f4adf22879296912708b3f625ba9bb08b207cd6821e97b6d1,2026-10-20 04:23:30,8ed0a43,"data: 03:45 setA-02 t=0,1 reached 10 runs; tables regenerated"
 setA-05-wp-P1-cg-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
 setA-05-wp-P1-cg-pc-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-05-wp-P1-cg-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -350,11 +350,12 @@ setA-20-wp-P2-cg-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf
 setA-20-wp-P2-cg.csv,375,4945c9f0973c2256aa82801a215ead1fc9aa65e0543b57a4dba81178da80692a,2026-10-19 21:55:09,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
 solverlogs/setA-05-P2-pc-r1-5-run1.log,2814,511e64a38cf665168e0e596253076609d99e9c5cdc1e413e1e8d7226a39ede80,2026-10-20 02:12:20,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
 solverlogs/setA-05-P2-pc-r1-5-run2.log,2814,229675a2da9d5c8367fbd8d020cbd8ac87ac63038d1c9442129cb21fda0969c6,2026-10-20 03:17:59,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
-solverlogs/setA-05-P2-pc-r1-5-run3.log,1961,3a066813d41ff4bfcfff1318c51abfe39f7e92c4d9f6bc4682a1be8ddd1245d3,2026-10-20 03:24:53,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
+solverlogs/setA-05-P2-pc-r1-5-run3.log,2814,54c19de3fff779354afd189e2d10877d3e21b438dbdf8850b7d78824c7cc655c,2026-10-20 04:23:23,8ed0a43,"data: 03:45 setA-02 t=0,1 reached 10 runs; tables regenerated"
+solverlogs/setA-05-P2-pc-r1-5-run4.log,1205,d3ade12a2d791ed36cc2b0d8949d59d9bffd1dbe22e14e2ffb808d319dc62c58,2026-10-20 04:28:42,8ed0a43,"data: 03:45 setA-02 t=0,1 reached 10 runs; tables regenerated"
 table_official_P1.csv,1456,13b095d79c8c22fc1b51889171628b6e75e54ff3c48a6765bee4c631c0d20cdd,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 table_official_P1.md,2600,4e1200e9dc928a4b263e087cf956bbba634f324826554cd9472a4a5db37d2224,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 table_official_P2.csv,1533,6a7e233080101d4d7c1e6c6ef4f9ec85b0bd57beb7c2e104cfe36c15f8921eaa,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 table_official_P2.md,2691,b819507d0da2eb09aaba0d6d9744ff32d6978a3a5ad87370b3d7b675cf1528dc,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
-verification.csv,8912,887f56baf9b786572c693c868aebcc6920c878a138606bd4c3eb147e9cc6a8d6,2026-10-20 03:48:33,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
+verification.csv,8912,887f56baf9b786572c693c868aebcc6920c878a138606bd4c3eb147e9cc6a8d6,2026-10-20 03:48:33,8ed0a43,"data: 03:45 setA-02 t=0,1 reached 10 runs; tables regenerated"
 watch_exclude.txt,6,ba29f616b53540227e14465245b3553e9267cca7bdeef42abad1f86c3ab805d0,2026-10-19 12:07:25,5e64eae,feat: cg option in run_wp script
 watchdog.log,541,aee591789d2de4a656d80a1091e4eca6dd937a5fe03fcadf6032b8defee41baf,2026-10-19 23:10:53,1d19ca6,feat: official tables report Optimal k/n when runs disagree

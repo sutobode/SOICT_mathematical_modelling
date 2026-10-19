@@ -1,7 +1,7 @@
 file,bytes,sha256,modified,code_commit,code_commit_subject
 README_KET_QUA.md,7092,0c82ea292e9f42f4c5eec80193c9381b35b667b60d6217d699f496ddb51e310f,2026-10-19 23:17:58,1d19ca6,feat: official tables report Optimal k/n when runs disagree
 RUN_JOURNAL.md,11361,9527852a06489962706a323baadf2878f37109aab0ec7087da1cfb39cb6122f2,2026-10-20 00:33:00,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
-best_known.csv,4245,93c7ef664541a24cf693a08c7e29ff271bcfcc35ebd4ba274baf2d76e11bd508,2026-10-20 00:18:23,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
+best_known.csv,4245,93c7ef664541a24cf693a08c7e29ff271bcfcc35ebd4ba274baf2d76e11bd508,2026-10-20 03:45:13,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 environment.txt,1080,8a17d4a7179a3b592f0ef06c7316ddc9434ad214dc6eb5dda4c9879600dc3e51,2026-10-19 10:41:04,7c6f669,"feat: experiment runner (csv, srpaths, loads, error-tolerant)"
 keep_awake.log,42,2bbaa836cbc2c79e8464080e4f268fa957bf3c43339aec2518061e8e1e040488,2026-10-19 19:13:37,db6ae21,feat: keep-awake script for long runs
 log-P1.txt,656,2bdaf3fdb7c187134d0dc9761cd09f8c1479989b496b51247dcdc664359a08b7,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
@@ -68,7 +68,7 @@ setA-02-P1-srpaths.json,706,e5bcbfb432521fcb451e3f52e3767fb2362385174ea81ac07d90
 setA-02-P1.csv,2149,7a8edbe7d8f6b6c8d5037b546a2bdc3fbe431fb47e0060e0c7b1f08bb1bd37df,2026-10-19 11:13:20,8e92740,docs: orange README and decision log (teacher unavailable)
 setA-02-P2-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
 setA-02-P2-pc-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 14:58:24,b2e405c,feat: brief status mode
-setA-02-P2-pc-r4-10.csv,1289,d41a9aad5e27f0e111c91b6d215029a1158dfe721ae7de8a34cc1526f1b9d601,2026-10-20 02:50:04,428be76,"data: setA-05 t=0,1 pilot seed 1 (arc model, Not Optimal at 3600 s); setA-02 extra runs"
+setA-02-P2-pc-r4-10.csv,1487,bd2f59d414946f2037248e0076cd07e4d3d37ebf14189d71729b83e6cd6a427e,2026-10-20 03:33:23,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 setA-02-P2-pc-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 14:58:24,b2e405c,feat: brief status mode
 setA-02-P2-pc.csv,708,c51188fb5c04e40fd3308134fadd10e2ff948fc5fa100c320e1bba41e66e2e54,2026-10-19 16:36:58,b2e405c,feat: brief status mode
 setA-02-P2-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
@@ -149,7 +149,7 @@ setA-05-P1-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1
 setA-05-P1.csv,788,9644351a70ced602dba322ee6220a85ed9644e1b401f16c4299ed669f11a6c85,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
 setA-05-P2-pc-r1-5-loads.csv,23986,ce8897e19a1787531254b75553ede25341ef551e9dcd3cf716ecacb733621a16,2026-10-20 02:12:33,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
 setA-05-P2-pc-r1-5-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-20 02:12:31,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
-setA-05-P2-pc-r1-5.csv,290,e7d31306df5a64a95859af27df8bce39900d7138a6a6ef1eda0cc37136540afc,2026-10-20 02:12:33,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
+setA-05-P2-pc-r1-5.csv,466,2361d95eebf6b6fb3e5c14962aaf57872d0435c410f627e64707ec9faa8f1d99,2026-10-20 03:18:03,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 setA-05-wp-P1-cg-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
 setA-05-wp-P1-cg-pc-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-05-wp-P1-cg-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -349,11 +349,12 @@ setA-20-wp-P2-cg-pc.csv,350,90273b9feb93fab968d590b689c53b0f907e2e83b12d5aa2265a
 setA-20-wp-P2-cg-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 21:55:08,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
 setA-20-wp-P2-cg.csv,375,4945c9f0973c2256aa82801a215ead1fc9aa65e0543b57a4dba81178da80692a,2026-10-19 21:55:09,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
 solverlogs/setA-05-P2-pc-r1-5-run1.log,2814,511e64a38cf665168e0e596253076609d99e9c5cdc1e413e1e8d7226a39ede80,2026-10-20 02:12:20,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
-solverlogs/setA-05-P2-pc-r1-5-run2.log,1961,2ee93c925a234b1a648e5537520dd195c2bc0446216ffbdc28bc3a00b2da8e9f,2026-10-20 02:19:32,428be76,"data: setA-05 t=0,1 pilot seed 1 (arc model, Not Optimal at 3600 s); setA-02 extra runs"
-table_official_P1.csv,1456,03908e056a554990870acb1fc1d4719b3d01b3ba5795dfe94cec886d3948dbe8,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
-table_official_P1.md,2600,c5fd115adf687e4ccf2bebbf66d6bdb23b0efb3ae795a31a794dcf90ebd5415a,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
-table_official_P2.csv,1520,0befd7af68fb7ea8dedb88af2fea295f3273865988b9924aabc2ce14c2f6a733,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
-table_official_P2.md,2678,4c927ba2d2a6dac62d0a41d9934c5723b18ab77c400306bfd3eea5a97fe774fc,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
-verification.csv,8815,625fee54995809f2e0fb3da9e28c5775cb4402ab97556ed6a2a86037b6151f32,2026-10-20 00:22:12,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
+solverlogs/setA-05-P2-pc-r1-5-run2.log,2814,229675a2da9d5c8367fbd8d020cbd8ac87ac63038d1c9442129cb21fda0969c6,2026-10-20 03:17:59,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
+solverlogs/setA-05-P2-pc-r1-5-run3.log,1961,3a066813d41ff4bfcfff1318c51abfe39f7e92c4d9f6bc4682a1be8ddd1245d3,2026-10-20 03:24:53,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
+table_official_P1.csv,1456,13b095d79c8c22fc1b51889171628b6e75e54ff3c48a6765bee4c631c0d20cdd,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
+table_official_P1.md,2600,4e1200e9dc928a4b263e087cf956bbba634f324826554cd9472a4a5db37d2224,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
+table_official_P2.csv,1533,6a7e233080101d4d7c1e6c6ef4f9ec85b0bd57beb7c2e104cfe36c15f8921eaa,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
+table_official_P2.md,2691,b819507d0da2eb09aaba0d6d9744ff32d6978a3a5ad87370b3d7b675cf1528dc,2026-10-20 03:45:15,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
+verification.csv,8912,887f56baf9b786572c693c868aebcc6920c878a138606bd4c3eb147e9cc6a8d6,2026-10-20 03:48:33,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
 watch_exclude.txt,6,ba29f616b53540227e14465245b3553e9267cca7bdeef42abad1f86c3ab805d0,2026-10-19 12:07:25,5e64eae,feat: cg option in run_wp script
 watchdog.log,541,aee591789d2de4a656d80a1091e4eca6dd937a5fe03fcadf6032b8defee41baf,2026-10-19 23:10:53,1d19ca6,feat: official tables report Optimal k/n when runs disagree

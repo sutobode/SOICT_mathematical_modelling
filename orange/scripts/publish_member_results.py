@@ -29,6 +29,14 @@ ALLOWED = [
 ]
 
 
+# log chạy do script giữ máy thức / giám sát RAM ghi thêm vào: file này đã được theo dõi nên bị "sửa", cho phép bỏ qua (không bao giờ được add)
+RUNTIME_LOGS = {
+    "orange/results/keep_awake.log",
+    "orange/results/watchdog.log",
+    "orange/results/STATUS.md",
+}
+
+
 def git(*args):
     r = subprocess.run(["git", "-C", ROOT, *args], capture_output=True, text=True)
     return r.returncode, r.stdout.rstrip("\r\n"), r.stderr.strip()
@@ -53,7 +61,7 @@ def main():
         if code == "??":
             if any(fnmatch.fnmatch(path, pat) for pat in allowed):
                 candidates.append(path)
-        else:
+        elif path not in RUNTIME_LOGS:
             modified.append(f"{code} {path}")
     if modified:
         print("TU CHOI: co file da duoc theo doi bi sua (khong duoc phep):")

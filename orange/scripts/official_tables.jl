@@ -99,6 +99,20 @@ for P in (1, 2)
                     "(restricted problem: at most one waypoint per demand) because the arc-based model does not fit in memory; their status and gap refer to that restricted problem. " *
                     "Time, gap and nodes are averages over the runs listed in column Runs. Last column: best MLU found by any method (waypoint model, column generation, LNS), for comparison with the arc-model row.")
     end
+    # LaTeX cho báo cáo (\input{table_official_P1}); đặt trong report/ để người viết báo cáo dùng trực tiếp
+    texesc(x) = replace(replace(replace(x, "_" => raw"\_"), "&" => raw"\&"), "%" => raw"\%")
+    reportdir = joinpath(@__DIR__, "..", "..", "report")
+    isdir(reportdir) && open(joinpath(reportdir, "table_official_P$P.tex"), "w") do io
+        println(io, "% sinh tự động bởi orange/scripts/official_tables.jl -- KHÔNG sửa tay")
+        println(io, raw"\begin{tabular}{lrrrrrlrrrll}")
+        println(io, raw"\toprule")
+        println(io, raw"Inst & $n$ & $m$ & $|D|$ & Best obj. & CPU (s) & Status & Gap & Nodes & Runs & Model & Best known \\ \midrule")
+        for r in rows_out
+            println(io, join(texesc.(r), " & "), " \\\\")
+        end
+        println(io, raw"\bottomrule")
+        println(io, raw"\end{tabular}")
+    end
     open(joinpath(resdir, "table_official_P$P.csv"), "w") do io
         println(io, join(head, ","))
         for r in rows_out

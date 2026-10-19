@@ -52,7 +52,7 @@ cd report && pdflatex report.tex && pdflatex report.tex
 | `setA-XX-P{1,2}.csv` | một dòng mỗi lần chạy, các cột bên dưới |
 | `setA-XX-P{1,2}-srpaths.json` | nghiệm lần chạy đầu, đúng định dạng `srpaths` của đề (`d`, `t` từ 0; `w` là id nút) |
 | `setA-XX-P{1,2}-loads.csv` | tải đã sắp giảm dần, trước (`base`) và sau (`opt`) khi tối ưu, dùng vẽ biểu đồ |
-| `setA-XX-wp-P{1,2}.csv` (+ `-srpaths.json`, `-loads.csv`) | kết quả mô hình waypoint, cột: `instance, P, K, n, m, nD, binaries, status, mlu, mlu_base, improvement, bound, gap, solve_time, nodes, check, obj, heur_mlu, heur_time` |
+| `setA-XX-wp-P{1,2}[-cg].csv` (+ `-srpaths.json`, `-loads.csv`) | kết quả mô hình waypoint (`-cg`: ứng viên do sinh cột chọn), cột: `instance, P, K, n, m, nD, binaries, status, mlu, mlu_base, improvement, bound, gap, solve_time, nodes, check, obj, heur_mlu, heur_time, cg_lp, cg_iters, cg_time` |
 | `log-P{1,2}.txt`, `log-wp-P{1,2}.txt` | log chạy |
 | `environment.txt` | phiên bản Julia, gói, CPU, RAM |
 
@@ -72,7 +72,7 @@ Các cột của CSV: `instance, P, run, n, m, nD, status, z, mlu, mlu_base, imp
 | `src/ecmp.jl` | hệ số tách $r$ | `routing`, `ecmp_split`, `pathcount_split`, `build_r(inst, p; mode=:ecmp)` |
 | `src/verify.jl` | kiểm tra độc lập | `utilization`, `max_utilization`, `base_mlu`, `changes`, `check_solution`, `write_srpaths`, `write_loads` |
 | `src/model.jl` | mô hình JuMP | `build_model`, `extract_paths`, `lex_second_stage!` |
-| `src/wpmodel.jl` | MILP chọn waypoint theo đường | `candidates`, `build_wp_model(...; K, K2)`, `extract_wp_paths` |
+| `src/wpmodel.jl` | MILP chọn waypoint theo đường, sinh cột, tinh chỉnh từ điển | `candidates`, `build_wp_model(...; K, K2)`, `extract_wp_paths`, `colgen`, `lex_refine` |
 | `src/experiment.jl` | chạy và ghi CSV | `run_instance` (mô hình theo cung), `run_wp_instance` (mô hình waypoint) |
 | `src/heuristic.jl` | tìm kiếm cục bộ | `local_search` |
 
@@ -114,6 +114,32 @@ Mô hình theo cung ở mục 5 có $\lvert D\rvert\,n(n-1)$ biến nhị phân 
 - **Khởi tạo:** nghiệm heuristic được thêm vào tập phương án nếu hợp lệ ở mọi thời kỳ.
 - **Kích thước:** $\lvert D\rvert\cdot P\cdot\lvert W_d\rvert$ biến (ví dụ setA-06: 49 500 biến thay vì 4,95 triệu). `run_wp_instance` chọn $K$ lớn nhất sao cho số biến không vượt `max_binaries` (mặc định $1{,}5\cdot10^6$).
 - **Chất lượng đo được** ($t=0$, $K=n-2$, một waypoint, HiGHS 1 luồng): giải tối ưu trong vài giây cho setA-01 đến 09; ví dụ setA-06: MLU 0,0986 (heuristic: 0,2676); setA-05 với $t=0,1$: 0,205 (heuristic bị kẹt ở 1,0).
+
+## 5c. Sinh cột (`colgen`) và tinh chỉnh từ điển (`lex_refine`)
+
+**Sinh cột cho mô hình waypoint.** Thay vì lấy $K$ ứng viên theo độ vòng, bắt đầu từ ít ứng viên ($K_0=3$) rồi lặp: giải LP của mô hình thu gọn, lấy đối ngẫu $\lambda_{a,t}\ge0$ của ràng buộc tải và $\mu_{d,t}$ của ràng buộc gán, định giá mọi waypoint $w$ của mỗi demand bằng chi phí rút gọn
+
+$$\mathrm{rc}(d,w)=\varepsilon+\min_t\Big[\delta(d,t)\big(g_t(s,w)+g_t(w,\tau)\big)-\mu_{d,t}\Big],\qquad g_t(u,v)=\sum_a\lambda_{a,t}\,r(u,v,a,t),$$
+
+và thêm các $w$ có $\mathrm{rc}<0$. Chi phí định giá mỗi vòng là $O(n^2\cdot\text{độ dài }FG+\lvert D\rvert n)$ nhờ nhớ $g_t(u,v)$. Khi hội tụ:
+- với $P=1$, giá trị LP cuối là **cận dưới hợp lệ** của bài toán một waypoint (cột `cg_lp`); với $P>1$ ngân sách không được đưa vào bước định giá nên chỉ dùng để chọn ứng viên (`cg_lp` = NaN);
+- **làm giàu**: thêm `extra` (mặc định 10) cột có chi phí rút gọn thấp nhất cho mỗi demand, vì nghiệm nguyên cần những cột mà nghiệm LP không dùng (ví dụ setA-06: LP 0,0986 nhưng MILP chỉ trên cột LP được 0,1014).
+Mô hình cuối chỉ có vài trăm đến vài nghìn biến thay vì hàng chục nghìn. Chạy: `run_wp.jl <P> <giây> <đầu> <cuối> 1500000 cg` (kết quả có hậu tố `-cg`).
+
+**Tinh chỉnh từ điển** (`lex_refine`, mục tiêu (5) của đề): sau khi giải min MLU, "đóng băng" các cung đang chạm mức tối đa, giải lại để tối thiểu MLU trên các cung còn lại, lặp tối đa `levels` mức. Luôn trả về nghiệm không tệ hơn nghiệm đầu vào theo thứ tự từ điển (có test). Đây là heuristic cho thứ tự từ điển (đóng băng mọi cung chạm mức tối đa, không chỉ những cung buộc phải ở mức đó).
+
+## 5d. Vận hành an toàn (RAM và luồng)
+
+Các lần chạy dài trên máy dùng chung nên có các biện pháp sau:
+- **Một luồng:** HiGHS chạy `threads=1`; chạy script với `JULIA_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1`.
+- **Ưu tiên thấp:** hạ độ ưu tiên tiến trình thực nghiệm để máy không bị đơ: PowerShell `(Get-Process -Id <PID>).PriorityClass = 'BelowNormal'`.
+- **Số tiến trình nặng đồng thời tối đa 2 đến 3.** Đã đo: tiến trình mô hình theo cung cho setA-04/05 dùng 2 đến 3 GB, mô hình waypoint đầy đủ cho instance lớn có thể dùng nhiều hơn.
+- **Bảo vệ trong thuật toán:** `run_wp_instance` giảm $K$ cho vừa 50% RAM trống (`choose_K`; ước lượng khoảng $200\cdot\text{độ dài }FG+800$ byte mỗi biến nhị phân) và ghi `SKIPPED_LOW_MEMORY` nếu ngay cả $K=0$ không vừa; ngưỡng `max_vars` của mô hình theo cung ngăn dựng mô hình quá lớn.
+- **Giám sát RAM:** `scripts/watchdog.ps1` dừng tiến trình Julia tốn RAM nhất khi RAM trống dưới 1,5 GB (trừ các PID trong `results/watch_exclude.txt`, ví dụ Julia của IDE) và ghi `results/watchdog.log`:
+  ```powershell
+  powershell -NoProfile -ExecutionPolicy Bypass -File orange\scripts\watchdog.ps1 -MinFreeGB 1.5 -IntervalSec 15
+  ```
+  Nếu watchdog đã dừng một tiến trình, dòng tương ứng trong CSV sẽ thiếu hoặc dừng giữa chừng; chạy lại instance đó.
 
 ## 6. Giới hạn đã biết
 

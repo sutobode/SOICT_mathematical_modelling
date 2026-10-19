@@ -63,7 +63,8 @@ for P in (1, 2)
         arc = arc_rows(name, P)
         ok = filter(r -> startswith(get(r, "check", ""), "ok"), arc)
         if !isempty(ok)
-            status = all(r -> r["status"] == "Optimal", ok) ? "Optimal" : "Not Optimal"
+            nopt = count(r -> r["status"] == "Optimal", ok)
+            status = nopt == length(ok) ? "Optimal" : (nopt == 0 ? "Not Optimal" : "Optimal $nopt/$(length(ok))")   # lần chạy bị kéo dài do máy tải nặng có thể chạm giới hạn thời gian
             gap = status == "Optimal" ? "--" : fmte(avg([num(r, "gap") for r in ok]))
             push!(rows_out, [name, arc[1]["n"], arc[1]["m"], arc[1]["nD"], fmt(minimum(num(r, "mlu") for r in ok)),
                              fmt(avg([num(r, "solve_time") for r in ok]); d=1), status, gap,

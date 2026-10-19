@@ -156,6 +156,14 @@ Các lần chạy dài trên máy dùng chung nên có các biện pháp sau:
 
 **Phần không phủ được bằng mô hình theo đề:** instance 06–20 cần từ 5 triệu đến gần 1 tỷ biến nhị phân và không dựng nổi trong RAM của máy (ghi `SKIPPED_TOO_LARGE`). Với các instance này, nghiệm đến từ mô hình waypoint (mục 5b, 5c), là bài toán *hạn chế* (một waypoint mỗi demand); nghiệm vẫn hợp lệ cho bài toán gốc và đã được kiểm chứng độc lập (`scripts/verify_srpaths.py`). Trên các instance giải được cả hai cách (01–05) nghiệm waypoint trùng hoặc gần trùng tối ưu của mô hình theo đề (setA-05 trùng đến 8 chữ số; setA-04 cách cận dưới của bài toán gốc 0,011%).
 
+## 5f. Theo dõi tiến độ khi đang chạy
+
+- **Trang trạng thái:** `orange/results/STATUS.md` (mở trong VS Code, tự tải lại khi file đổi). Trang gồm giờ, RAM trống, các tiến trình Julia (PID, giờ bắt đầu, RAM, CPU), dòng cuối của từng log, bảng kết quả theo từng file CSV (số lần chạy, trạng thái, MLU tốt nhất, thời gian trung bình, gap, số phút kể từ lần ghi cuối) và các lần watchdog đã can thiệp.
+- **Tạo hoặc làm mới:** `python -I orange/scripts/status.py` (một lần) hoặc `python -I orange/scripts/status.py --loop 60 --hours 24` (mỗi 60 giây).
+- **Log chi tiết:** `orange/results/log-*.txt`; mỗi dòng `== setA-XX ...` là lúc một instance bắt đầu. Một instance chậm không ghi gì cho đến khi xong lần chạy đầu, nên nếu `log` đứng yên thì xem cột "Cập nhật" trong STATUS và CPU của tiến trình: CPU vẫn tăng nghĩa là đang chạy.
+- **Số lần chạy đã xong của một instance:** đếm số dòng trong `setA-XX-P{1,2}[-pc].csv` (mỗi lần chạy một dòng).
+- **Dừng khẩn cấp một chuỗi:** `Stop-Process -Id <PID>` (PowerShell); kết quả của các instance đã xong vẫn còn trong CSV.
+
 ## 6. Giới hạn đã biết
 
 - **Mô hình theo cung chỉ chạy được cho instance 01–05** (xem mục 5b cho mô hình waypoint chạy được nhiều hơn). Số biến là $\lvert D\rvert\,n(n-1)$ mỗi thời kỳ: từ 15 nghìn (setA-01) đến 958 triệu (setA-20); ngưỡng `max_vars = 3·10⁶`. Đo thực tế: dựng mô hình của setA-05 (990 nghìn biến) cần 3,8 GiB, nên setA-06 cần khoảng 19 GiB. Các instance còn lại ghi `SKIPPED_TOO_LARGE`, được bù bằng heuristic (một waypoint, không đảm bảo tối ưu).

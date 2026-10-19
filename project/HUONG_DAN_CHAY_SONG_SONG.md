@@ -175,3 +175,20 @@ Mỗi việc nằm ở **file riêng** để không xung đột; làm trên **b�
 - Phân công này **không đổi các số liệu đã có**; nó chỉ **bổ sung các lần chạy còn thiếu** để mỗi dòng theo đề đủ 10 lần.
 - Số liệu thời gian giữa các máy khác nhau do phần cứng khác nhau: mỗi máy ghi `environment-<ten>.txt`, và báo cáo sẽ nêu rõ.
 - Mọi sự kiện được ghi vào `orange/results/RUN_JOURNAL.md` (M1 cập nhật).
+
+## 12. Dùng coding agent để làm các việc trên
+
+Mỗi thành viên có thể giao toàn bộ phần việc của mình cho một coding agent (Claude Code, Cursor, Codex, ...):
+
+1. Giải nén `member_kit_<commit>.zip`, **mở thư mục đó** bằng agent.
+2. Mở `project/AGENT_BRIEFS/M2_BRIEF.md` (hoặc `M3_BRIEF.md`), sao chép **khối PROMPT** và dán vào agent. Ngữ cảnh chung và các quy tắc bắt buộc nằm ở `project/AGENT_BRIEFS/00_NGU_CANH_CHUNG.md` (agent tự đọc).
+3. Agent tự làm: kiểm tra máy (`orange/scripts/preflight.py`), cài thư viện, chạy bộ test, ghi `environment-<ten>.txt`, chạy các lệnh được giao ở chế độ nền, kiểm tra từng khoảng bằng `orange/scripts/check_range.py`, đóng gói bằng `pack_member_results.py` và viết báo cáo cuối theo mẫu.
+4. Bạn (thành viên) chỉ cần: giữ máy thức và đóng ứng dụng nặng, trả lời khi agent hỏi (ví dụ xác nhận RAM trống, hoặc kết quả pilot của M2 trước khi M3 chạy setA-05), và gửi file zip kết quả cho M1.
+5. Các việc **code** không bắt buộc (heuristic, chạy LNS cho dòng yếu) nằm ở `project/AGENT_BRIEFS/CODE_TASKS.md`; chỉ giao sau khi xong phần chạy.
+
+**Các rào chắn đã đặt cho agent** (đều có trong brief): không sửa file được theo dõi, không dùng git, chỉ một tiến trình Julia nặng một lúc, không chạy lại khoảng đã có CSV, mọi lệnh dài chạy nền và chỉ kiểm tra mỗi 20–30 phút, dừng và hỏi người khi có bất thường.
+
+**Script hỗ trợ agent:**
+- `python orange/scripts/preflight.py` — kiểm tra Julia/RAM/dữ liệu, kết luận máy nhận được việc nào.
+- `python orange/scripts/check_range.py <csv> <seed_đầu> <seed_cuối>` — kết luận `COMPLETE` / `INCOMPLETE` / `PROBLEM` (mã thoát 0 / 2 / 3).
+- `python orange/scripts/pack_member_results.py <ten>` — đóng gói kết quả để gửi M1.

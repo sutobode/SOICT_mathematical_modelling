@@ -54,9 +54,8 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
     y = [[@variable(model, [1:length(W[d])], Bin) for p in 1:P] for d in 1:nD]
     @variable(model, z >= 0)
 
-    for d in 1:nD, p in 1:P
-        @constraint(model, sum(y[d][p]) == 1)
-    end
+    assign = [[@constraint(model, sum(y[d][p]) == 1) for p in 1:P] for d in 1:nD]
+    loadcon = [Dict{Int,Any}() for _ in 1:P]
 
     # tải: mỗi phương án đóng góp r(đoạn)·lưu lượng trên từng đoạn của đường
     for p in 1:P
@@ -73,7 +72,7 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
         end
         for a in 1:inst.m
             a in inst.down[p] && continue
-            @constraint(model, load[a] <= inst.cap[a] * z)
+            loadcon[p][a] = @constraint(model, load[a] <= inst.cap[a] * z)
         end
     end
 
@@ -133,6 +132,8 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
             end
         end
     end
+    model[:assign] = assign                  # tham chiếu ràng buộc, dùng để lấy đối ngẫu (sinh cột)
+    model[:loadcon] = loadcon
     return model, y, W
 end
 
@@ -143,4 +144,54 @@ function extract_wp_paths(inst::Instance, y, W, P::Int)
         paths[(d, p)] = wp_seq(inst, d, W[d][c])
     end
     return paths
+end
+
+"""
+Sinh cột cho mô hình waypoint (chỉ một waypoint). Lặp: giải LP của mô hình thu gọn, lấy đối ngẫu λ của các ràng
+buộc tải và μ của ràng buộc gán, định giá mọi waypoint w của mỗi demand bằng chi phí rút gọn
+rc = eps + δ(d,p)·(g_p(s,w) + g_p(w,τ)) − μ(d,p), với g_p(u,v) = Σ_a λ(a,p)·r(u,v,a,p), rồi thêm các w có rc < 0.
+Trả về (C, lp, iters): tập ứng viên, giá trị LP cuối và số vòng lặp. Với P = 1, khi hội tụ `lp` là cận dưới hợp lệ
+của bài toán một waypoint. Với P > 1 ngân sách không được đưa vào bước định giá (chỉ để chọn ứng viên).
+"""
+function colgen(inst::Instance, rs, P::Int; K0::Int=3, add_per_demand::Int=3, max_iter::Int=50, tol::Float64=1e-9)
+    nD = length(inst.dem_s)
+    eps = 1e-7 / nD
+    allw = candidates(inst, rs, inst.n)             # mọi waypoint hợp lệ của từng demand (phần tử đầu là 0)
+    C = candidates(inst, rs, K0)
+    lp = NaN
+    iters = 0
+    for it in 1:max_iter
+        iters = it
+        opt = optimizer_with_attributes(HiGHS.Optimizer, "threads" => 1)
+        model, y, W = build_wp_model(inst, rs, P, opt; cands=C)
+        relax_integrality(model)
+        optimize!(model)
+        lp = objective_value(model)
+        lam = [zeros(inst.m) for _ in 1:P]
+        for p in 1:P, (a, con) in model[:loadcon][p]
+            lam[p][a] = max(0.0, -dual(con))
+        end
+        memo = [Dict{Tuple{Int,Int},Float64}() for _ in 1:P]
+        g(p, u, v) = get!(memo[p], (u, v)) do
+            sum(lam[p][a] * fr for (a, fr) in rs[p][(u, v)]; init=0.0)
+        end
+        added = 0
+        for d in 1:nD
+            s, t = inst.dem_s[d], inst.dem_t[d]
+            inC = Set(C[d])
+            scored = Tuple{Float64,Int}[]
+            for w in allw[d]
+                (w == 0 || w in inC) && continue
+                rc = minimum(eps + inst.vol[d, p] * (g(p, s, w) + g(p, w, t)) - dual(model[:assign][d][p]) for p in 1:P)
+                rc < -tol && push!(scored, (rc, w))
+            end
+            sort!(scored)
+            for (_, w) in scored[1:min(add_per_demand, length(scored))]
+                push!(C[d], w)
+                added += 1
+            end
+        end
+        added == 0 && break
+    end
+    return C, lp, iters
 end

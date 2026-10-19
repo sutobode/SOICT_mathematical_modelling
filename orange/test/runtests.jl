@@ -450,3 +450,47 @@ end
     model2, _, W2 = build_wp_model(inst, rs, 2, OPT; K=100, K2=100)
     @test num_variables(model2) > 2 * sum(length.(W2)) + 1
 end
+
+function lp_value_full(inst, rs, P)
+    model, y, W = build_wp_model(inst, rs, P, OPT; K=inst.n)
+    relax_integrality(model)
+    optimize!(model)
+    return objective_value(model)
+end
+
+@testset "column generation reaches the full LP value (P=1)" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, 1)]
+    C, lp, iters = colgen(inst, rs, 1; K0=0)
+    @test all(c -> c[1] == 0, C)
+    @test lp ≈ lp_value_full(inst, rs, 1) atol = 1e-6          # hội tụ về LP của mô hình đầy đủ
+    @test iters >= 1
+    # MILP trên các cột sinh ra có cùng nghiệm tối ưu với mô hình đầy đủ
+    model, y, W = build_wp_model(inst, rs, 1, OPT; cands=C)
+    optimize!(model)
+    @test objective_value(model) ≈ brute_best(inst, 1) atol = 1e-5
+end
+
+@testset "column generation on a real instance finds the optimum with few candidates" begin
+    inst = read_instance(joinpath(SETA, "setA-04"))
+    rs = [build_r(inst, 1)]
+    C, lp, iters = colgen(inst, rs, 1; K0=2, max_iter=40)
+    @test sum(length.(C)) < 0.5 * length(inst.dem_s) * (inst.n - 1)          # ít cột hơn nhiều so với đầy đủ
+    model, y, W = build_wp_model(inst, rs, 1, OPT; cands=C)
+    optimize!(model)
+    @test objective_value(model) ≈ 0.45912 atol = 1e-4                      # tối ưu mô hình đầy đủ (đã đo)
+    @test lp <= objective_value(model) + 1e-9                               # cận dưới hợp lệ
+end
+
+@testset "column generation with budget (P=2) returns valid candidates" begin
+    inst = read_instance(TOY; maxseg=2, budget=3)
+    rs = [build_r(inst, p) for p in 1:2]
+    C, lp, iters = colgen(inst, rs, 2; K0=0)
+    for d in 1:2, w in C[d][2:end]
+        @test all(p -> haskey(rs[p], (inst.dem_s[d], w)) && haskey(rs[p], (w, inst.dem_t[d])), 1:2)
+    end
+    model, y, W = build_wp_model(inst, rs, 2, OPT; cands=C)
+    optimize!(model)
+    @test termination_status(model) == MOI.OPTIMAL
+    @test objective_value(model) <= base_mlu(inst, rs, 2) + 1e-9
+end

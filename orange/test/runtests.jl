@@ -568,3 +568,28 @@ end
     optimize!(model)
     @test objective_value(model) ≈ brute_best(inst, 1) atol = 1e-5
 end
+
+@testset "LNS never worsens the start and reaches the optimum when everything is free" begin
+    for (b, P) in ((20, 1), (3, 2))
+        inst = read_instance(TOY; maxseg=2, budget=b)
+        rs = [build_r(inst, p) for p in 1:P]
+        start = direct_paths(inst, P)
+        base = max_utilization(inst, rs, start, P)
+        paths, mlu = lns(inst, rs, P, OPT; K=inst.n, start_paths=start, iters=1, frac=1.0)
+        @test mlu <= base + 1e-9
+        @test mlu ≈ brute_best(inst, P) atol = 1e-5                 # mọi demand tự do => một vòng giải chính xác
+        @test check_solution(inst, rs, paths, P, mlu + 1e-6).budget_ok
+        paths2, mlu2 = lns(inst, rs, P, OPT; K=inst.n, start_paths=start, iters=5, frac=0.5, seed=3)
+        @test mlu2 <= base + 1e-9 && mlu2 >= brute_best(inst, P) - 1e-5
+        @test check_solution(inst, rs, paths2, P, mlu2 + 1e-6).budget_ok
+    end
+end
+
+@testset "frozen demands keep their start choice" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, 1)]
+    start = Dict((1, 1) => [1, 5, 6], (2, 1) => [3, 6])
+    model, y, W = build_wp_model(inst, rs, 1, OPT; K=inst.n, start_paths=start, freeze=[1])
+    optimize!(model)
+    @test extract_wp_paths(inst, y, W, 1)[(1, 1)] == [1, 5, 6]      # demand 1 bị đóng băng
+end

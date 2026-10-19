@@ -23,7 +23,7 @@ end
 wp_seq(inst, d, wl) = vcat(inst.dem_s[d], wl, inst.dem_t[d])
 
 function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::Int=0, tlimit=Inf, silent=true,
-                        eps=nothing, start_paths=nothing, cands=nothing, ucap=nothing)
+                        eps=nothing, start_paths=nothing, cands=nothing, ucap=nothing, freeze=Int[])
     nD = length(inst.dem_s)
     eps = eps === nothing ? 1e-7 / nD : eps
     C = cands === nothing ? candidates(inst, rs, K) : cands
@@ -131,6 +131,16 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
             c === nothing && (c = 1)
             for k in 1:length(W[d])
                 set_start_value(y[d][p][k], k == c ? 1.0 : 0.0)
+            end
+        end
+    end
+    if !isempty(freeze)               # demand bị đóng băng giữ nguyên lựa chọn của start_paths (dùng cho LNS)
+        start_paths === nothing && error("freeze requires start_paths")
+        for d in freeze, p in 1:P
+            c = findfirst(==(start_paths[(d, p)][2:end-1]), W[d])
+            c === nothing && continue
+            for k in 1:length(W[d])
+                fix(y[d][p][k], k == c ? 1.0 : 0.0; force=true)
             end
         end
     end

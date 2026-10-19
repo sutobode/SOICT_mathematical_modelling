@@ -1,0 +1,4 @@
+[2026-10-20 00:31:49] start: PID setA-04 t=0,1 = 34040; M1 se chay setA-05 t=0,1 seed 1..5
+[2026-10-20 01:05:49] setA-04 t=0,1: da co cac lan [1, 2, 3, 4]
+[2026-10-20 01:05:50] da dung PID 34040 (setA-04 t=0,1): cac lan 5..10 se do M2/M3 chay (hoac lam sau); nhuong RAM cho setA-05
+[2026-10-20 01:06:01] lan thu 1: julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 1 5 -r1-5 12  (free RAM 15.9 GB)

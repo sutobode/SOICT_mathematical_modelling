@@ -1,11 +1,12 @@
 file,bytes,sha256,modified,code_commit,code_commit_subject
 README_KET_QUA.md,7092,0c82ea292e9f42f4c5eec80193c9381b35b667b60d6217d699f496ddb51e310f,2026-10-19 23:17:58,1d19ca6,feat: official tables report Optimal k/n when runs disagree
-RUN_JOURNAL.md,9305,6d1bb7bd6a6d1055e66a5619593d9fac5b101da0154646cec5adc749c5fe1770,2026-10-19 23:56:57,fd53c46,feat: handoff zip includes report sources and team plan
+RUN_JOURNAL.md,11361,9527852a06489962706a323baadf2878f37109aab0ec7087da1cfb39cb6122f2,2026-10-20 00:33:00,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
 best_known.csv,4245,93c7ef664541a24cf693a08c7e29ff271bcfcc35ebd4ba274baf2d76e11bd508,2026-10-20 00:18:23,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
 environment.txt,1080,8a17d4a7179a3b592f0ef06c7316ddc9434ad214dc6eb5dda4c9879600dc3e51,2026-10-19 10:41:04,7c6f669,"feat: experiment runner (csv, srpaths, loads, error-tolerant)"
 keep_awake.log,42,2bbaa836cbc2c79e8464080e4f268fa957bf3c43339aec2518061e8e1e040488,2026-10-19 19:13:37,db6ae21,feat: keep-awake script for long runs
 log-P1.txt,656,2bdaf3fdb7c187134d0dc9761cd09f8c1479989b496b51247dcdc664359a08b7,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
 log-P2.txt,66,4edc62a65fef2502f0fe27e3966c00652e623d5fc6f3b241004ccb53c35e7f97,2026-10-19 13:12:36,916b227,feat: best-known aggregation script
+log-overnight-m1-console.txt,423,0a77ac62784abc338bf4a73716f4a4bd8dcd35347f57a24cb05904d8a5740828,2026-10-20 01:06:01,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
 log-pc-P1-04-r4-10.txt,41,619790c25f04c18f0ce64df1d00ba9ebaac3a225382feafe51e42a74b83b99f5,2026-10-19 21:44:21,b0c3e95,feat: extra runs (seeds 4..10) for the official tables
 log-pc-P1-05-r4-10.txt,41,52c600b5e078e44471f8cf322f67708166672b509a7f24aaf49e12d068ee9a69,2026-10-19 21:45:20,b0c3e95,feat: extra runs (seeds 4..10) for the official tables
 log-pc-P1.txt,164,e4bc5971881389f16ef3a8b7420a9be6213d71a136fc0f009ca272ed00210a1b,2026-10-19 14:05:55,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -14,6 +15,7 @@ log-pc-P2-02-r4-10.txt,41,71bc2a8c853e9ab9043683a20c69edc5fa11338223eccd6ab6900c
 log-pc-P2-03-r4-10.txt,41,612fd6c7a1151432e388d0c7785bf9419c38218fb020ed3e25999c378ee285a5,2026-10-19 22:49:07,1d19ca6,feat: official tables report Optimal k/n when runs disagree
 log-pc-P2-04-r2-10.txt,41,6edd68acc16c9183fd5764e6d4b0b4320ccd8a6bca79db9ec2496d3a04d68bcb,2026-10-19 21:55:18,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
 log-pc-P2-04-r7-10.txt,40,0728e21ee2f5a7a0de1a50bb3bfc82974b0cbcc8c92323ec584321c7bc0e3ce8,2026-10-19 22:55:23,1d19ca6,feat: official tables report Optimal k/n when runs disagree
+log-pc-P2-05-r1-5.txt,41,933f84ce4d98d9a1d03449bf3a18c5a1aaa9448fefa1f3b30030e807b9ad699c,2026-10-20 01:06:03,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
 log-pc-P2.txt,164,02c049d1c073966f570e6ad632f6024a7a26b6e18668c99f615d149abb41b375,2026-10-19 17:15:27,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
 log-pc-P2b.txt,41,9cb6d6b394149e45ab05413a4dd3da7eb9541627b0616524f5c8c3cb100090b3,2026-10-19 20:39:05,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
 log-verify-all.txt,11364,b7bad135294e3461d0990abfc3ef2999fdaf889a148c68a7ebc25f18ea35187a,2026-10-20 00:22:12,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
@@ -29,6 +31,7 @@ log-wp-cg-lns-P2.txt,51,f58fcc8a3f65b5be51e1fa3fef5982b28388c1e3b3000c911678ca77
 log-wp-cg-pc-18-20.txt,200,aba47705171eb8e9295ad046e2775032b4c3d79243cd85ad131c48d7e80fcaab,2026-10-19 14:07:34,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
 log-wp-cg-pc-P1.txt,500,cf59e966a02975e6b83c79295e5ae7a4e9341726108fa2862c46a6d2c8a7b038,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 log-wp-fast-P2.txt,101,08e65cd925bdb82de88ed030665f797ce416bb838ae96b5e20966c4653ec6da5,2026-10-19 22:09:13,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
+overnight_m1.log,423,0a77ac62784abc338bf4a73716f4a4bd8dcd35347f57a24cb05904d8a5740828,2026-10-20 01:06:01,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
 r_difference.csv,976,9ae4e91cf226c0459f2cb1312891927d488dc576fd2f8dc84c4d7f0ca29d8332,2026-10-19 14:06:14,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-01-P1-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 11:12:39,9560fe1,feat: run 3 times (instead of once) on slow instances
 setA-01-P1-pc-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 14:03:08,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -65,7 +68,7 @@ setA-02-P1-srpaths.json,706,e5bcbfb432521fcb451e3f52e3767fb2362385174ea81ac07d90
 setA-02-P1.csv,2149,7a8edbe7d8f6b6c8d5037b546a2bdc3fbe431fb47e0060e0c7b1f08bb1bd37df,2026-10-19 11:13:20,8e92740,docs: orange README and decision log (teacher unavailable)
 setA-02-P2-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
 setA-02-P2-pc-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 14:58:24,b2e405c,feat: brief status mode
-setA-02-P2-pc-r4-10.csv,500,8c7952e80a49119f08e1dbf88bd95c85f998bd44a5b9b76f864f982d458937a9,2026-10-19 23:44:54,df0f215,docs: detailed plan of phases up to Wednesday
+setA-02-P2-pc-r4-10.csv,896,1ef6711c0824550efad7f72fcf65808ec850dc544cc29f1025d40ffde8173072,2026-10-20 01:24:28,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
 setA-02-P2-pc-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 14:58:24,b2e405c,feat: brief status mode
 setA-02-P2-pc.csv,708,c51188fb5c04e40fd3308134fadd10e2ff948fc5fa100c320e1bba41e66e2e54,2026-10-19 16:36:58,b2e405c,feat: brief status mode
 setA-02-P2-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
@@ -92,7 +95,7 @@ setA-03-P1-pc.csv,2141,304f49f852bd7a47e836e07dba8aae9eb6e0e23c52d3c275171047412
 setA-03-P1-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 11:13:26,8e92740,docs: orange README and decision log (teacher unavailable)
 setA-03-P1.csv,2137,acc49053217dda16b646079a9d9a94b630dfed605c75d0813d7cb03171addf79,2026-10-19 11:14:16,8e157ea,docs: fix corrupted varepsilon in decision log
 setA-03-P2-pc-loads.csv,9076,f58298c041f001162ba8ab8f60cf15b554bbcbd924d3b68941506c4ae709c690,2026-10-19 16:41:53,b2e405c,feat: brief status mode
-setA-03-P2-pc-r4-10.csv,710,613ca19478831022866b6832db8a82685fbccd3482d93c29d1a3c47646344ccf,2026-10-20 00:02:48,2210f2f,docs: minor fixes in the parallel run guide
+setA-03-P2-pc-r4-10.csv,1507,2fedd8c96ac3af1e25c8d5869f07e8c974131e06658ce64109db5829299830ed,2026-10-20 01:22:07,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
 setA-03-P2-pc-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 16:41:53,b2e405c,feat: brief status mode
 setA-03-P2-pc.csv,722,af3d3c46ede80b22d305397746a670243e7006b4798847672577751b267545e8,2026-10-19 17:15:27,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
 setA-03-wp-P1-cg-loads.csv,4558,2ca712a6a6143a73f630236ea227f979cdfd909454702e2d9110de0a641c583f,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
@@ -112,13 +115,13 @@ setA-03-wp-P2-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77
 setA-03-wp-P2.csv,307,0c6831bb7cc7dfc95eae0f6e64f9162a015bfcf14625a0fb17121a54b07894d0,2026-10-19 11:43:51,beee52c,perf: compact budget formulation for single-waypoint choices
 setA-04-P1-loads.csv,8205,1aba738b690702bf7e1813958eb22b05e08e10496f06959156567e8c646eaff2,2026-10-19 11:44:42,beee52c,perf: compact budget formulation for single-waypoint choices
 setA-04-P1-pc-loads.csv,8205,1aba738b690702bf7e1813958eb22b05e08e10496f06959156567e8c646eaff2,2026-10-19 14:49:04,b2e405c,feat: brief status mode
-setA-04-P1-pc-r4-10.csv,1002,94b2fc5f91c5c39842529911784444abcf60188f04eb89334bc74d0b9da9966b,2026-10-19 23:50:44,fd53c46,feat: handoff zip includes report sources and team plan
+setA-04-P1-pc-r4-10.csv,1670,99caa07426ee0c6017336a5a0fec2c344f394d4c90ce7725bc4e8298ba150726,2026-10-20 01:25:02,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
 setA-04-P1-pc-srpaths.json,503,e2e30047bab9af58016abf076e2fc06121dfa9519d7c79b35746cbce6a8bf702,2026-10-19 14:49:02,b2e405c,feat: brief status mode
 setA-04-P1-pc.csv,780,3d7125207912e505c8077688a18a8e0be921858bb5556de1ae7f56ccdee6c7ce,2026-10-19 15:50:33,b2e405c,feat: brief status mode
 setA-04-P1-srpaths.json,503,e2e30047bab9af58016abf076e2fc06121dfa9519d7c79b35746cbce6a8bf702,2026-10-19 11:44:42,beee52c,perf: compact budget formulation for single-waypoint choices
 setA-04-P1.csv,780,22e7dec096aa7f65c3086aebdec43d9278315b7a631ff7141c80ed50f3c9e73f,2026-10-19 12:47:06,916b227,feat: best-known aggregation script
 setA-04-P2-pc-loads.csv,16586,bf6e78e92da13bc2e6e84a685fbe169ceb06e90ffe764465b3d3f0eb17b45e64,2026-10-19 21:42:37,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-04-P2-pc-r2-10.csv,518,bd7bfeba2260a01e1680ad1fa67e10ff1181728915e23f26ff84bde7c46d9f7a,2026-10-20 00:02:09,c7727d2,docs: parallel run plan and member assignment (M1/M2/M3)
+setA-04-P2-pc-r2-10.csv,705,8c6b6c4c8d77859d580021e25094afc0cf64d926280b84dc29c356d03146ea85,2026-10-20 01:05:18,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
 setA-04-P2-pc-r7-10.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 22:55:40,1d19ca6,feat: official tables report Optimal k/n when runs disagree
 setA-04-P2-pc-srpaths.json,1056,986ad4042aa1587318a7ac160c3f5d4b38d01902db9e412fb1449fa3af5b0845,2026-10-19 21:42:35,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
 setA-04-P2-pc.csv,301,1f0873bc76f4103249c3f70a92f0b6beef3021ae8646187fb231a5c0c40e8196,2026-10-19 21:42:37,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
@@ -144,6 +147,7 @@ setA-05-P1-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453d
 setA-05-P1-pc.csv,788,3fd8425208c294df092c9269b18f57c0803bb2ee510c111040c8cdb152e7bb1f,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 setA-05-P1-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 12:52:51,916b227,feat: best-known aggregation script
 setA-05-P1.csv,788,9644351a70ced602dba322ee6220a85ed9644e1b401f16c4299ed669f11a6c85,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
+setA-05-P2-pc-r1-5.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-20 01:06:13,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
 setA-05-wp-P1-cg-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
 setA-05-wp-P1-cg-pc-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-05-wp-P1-cg-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -342,10 +346,11 @@ setA-20-wp-P2-cg-pc-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f
 setA-20-wp-P2-cg-pc.csv,350,90273b9feb93fab968d590b689c53b0f907e2e83b12d5aa2265a750b9d92ce0e,2026-10-19 14:17:38,31fd7e8,feat: LNS polishing option in the waypoint runner and script
 setA-20-wp-P2-cg-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 21:55:08,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
 setA-20-wp-P2-cg.csv,375,4945c9f0973c2256aa82801a215ead1fc9aa65e0543b57a4dba81178da80692a,2026-10-19 21:55:09,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-table_official_P1.csv,1456,fed960157d193ff07c499ad2c5e181f54267576069d10d09d379d01fb2bdcdaf,2026-10-20 00:18:29,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
-table_official_P1.md,2600,89a2e7c13b42d9321f852199bd76c9da41f74a8aaf4dbaa057dc27dba2d0d381,2026-10-20 00:18:29,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
-table_official_P2.csv,1520,0befd7af68fb7ea8dedb88af2fea295f3273865988b9924aabc2ce14c2f6a733,2026-10-20 00:18:29,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
-table_official_P2.md,2678,4c927ba2d2a6dac62d0a41d9934c5723b18ab77c400306bfd3eea5a97fe774fc,2026-10-20 00:18:29,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
+solverlogs/setA-05-P2-pc-r1-5-run1.log,1961,649ef04d08ba2eb6c33ca953fc40f159cc08d731ca6abaa79485a9e4df02bc51,2026-10-20 01:13:58,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
+table_official_P1.csv,1456,03908e056a554990870acb1fc1d4719b3d01b3ba5795dfe94cec886d3948dbe8,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
+table_official_P1.md,2600,c5fd115adf687e4ccf2bebbf66d6bdb23b0efb3ae795a31a794dcf90ebd5415a,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
+table_official_P2.csv,1520,0befd7af68fb7ea8dedb88af2fea295f3273865988b9924aabc2ce14c2f6a733,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
+table_official_P2.md,2678,4c927ba2d2a6dac62d0a41d9934c5723b18ab77c400306bfd3eea5a97fe774fc,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
 verification.csv,8815,625fee54995809f2e0fb3da9e28c5775cb4402ab97556ed6a2a86037b6151f32,2026-10-20 00:22:12,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
 watch_exclude.txt,6,ba29f616b53540227e14465245b3553e9267cca7bdeef42abad1f86c3ab805d0,2026-10-19 12:07:25,5e64eae,feat: cg option in run_wp script
 watchdog.log,541,aee591789d2de4a656d80a1091e4eca6dd937a5fe03fcadf6032b8defee41baf,2026-10-19 23:10:53,1d19ca6,feat: official tables report Optimal k/n when runs disagree

@@ -1,6 +1,6 @@
 # Phân công nhóm (3 thành viên) — làm song song, không chờ nhau
 
-> Lập lúc 00:05 Thứ Ba 20/10. Mốc cứng: **xong hết trước Thứ Tư 21/10 (T4)**; hạn nộp thầy: Chủ nhật 25/10.
+> Lập lúc 23:50 Thứ Hai 19/10. Mốc cứng: **xong hết trước Thứ Tư 21/10 (T4)**; hạn nộp thầy: Chủ nhật 25/10.
 > Nguyên tắc: mỗi người **sở hữu file riêng**, nên không xung đột khi dùng git; số liệu cập nhật **tự động** khi máy chạy xong, không ai phải chờ ai.
 
 ## 1. Cái gì đã sẵn sàng NGAY BÂY GIỜ (không còn nghẽn)

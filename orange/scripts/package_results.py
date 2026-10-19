@@ -30,7 +30,12 @@ def main():
             if os.path.isfile(f):
                 z.write(f, os.path.join("results", os.path.relpath(f, RES)))
                 n += 1
-        for extra in ("orange/README.md", "project/BAI_TOAN_FINAL.md", "project/KE_HOACH_THUC_HIEN.md", "project/readme"):
+        for f in sorted(glob.glob(os.path.join(ROOT, "report", "**", "*"), recursive=True)):
+            if os.path.isfile(f) and not f.endswith((".aux", ".log", ".out", ".pdf")):
+                z.write(f, os.path.relpath(f, ROOT))
+                n += 1
+        for extra in ("orange/README.md", "project/BAI_TOAN_FINAL.md", "project/KE_HOACH_THUC_HIEN.md", "project/KE_HOACH_CAC_GIAI_DOAN.md",
+                      "project/PHAN_CONG_NHOM.md", "project/readme"):
             p = os.path.join(ROOT, extra)
             if os.path.isfile(p):
                 z.write(p, extra)

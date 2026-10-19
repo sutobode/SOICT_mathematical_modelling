@@ -593,3 +593,15 @@ end
     optimize!(model)
     @test extract_wp_paths(inst, y, W, 1)[(1, 1)] == [1, 5, 6]      # demand 1 bị đóng băng
 end
+
+@testset "read_srpaths is the inverse of write_srpaths" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, p) for p in 1:2]
+    model, x, z = build_model(inst, rs, 2, OPT)
+    optimize!(model)
+    paths = extract_paths(inst, x, 2)
+    f = tempname() * ".json"
+    write_srpaths(inst, paths, 2, f)
+    back = read_srpaths(inst, f, 2)
+    @test back == paths
+end

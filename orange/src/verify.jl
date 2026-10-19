@@ -69,3 +69,14 @@ function lex_leq(a, b; tol=1e-7)
     end
     return true
 end
+
+"Đọc file srpaths (định dạng của đề) thành paths[(d,p)] = [nguồn, waypoint..., đích] theo chỉ số đỉnh."
+function read_srpaths(inst::Instance, file::AbstractString, P::Int)
+    v_of = Dict(id => k for (k, id) in enumerate(inst.node_id))
+    wp = Dict{Tuple{Int,Int},Vector{Int}}()
+    for e in JSON3.read(read(file, String)).srpaths
+        wp[(Int(e.d) + 1, Int(e.t) + 1)] = Int[v_of[Int(w)] for w in e.w]
+    end
+    return Dict((d, p) => vcat(inst.dem_s[d], get(wp, (d, p), Int[]), inst.dem_t[d])
+                for d in eachindex(inst.dem_s), p in 1:P)
+end

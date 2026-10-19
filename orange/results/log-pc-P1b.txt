@@ -1,0 +1,17 @@
+== setA-04 P=1 pc=true  1.792394278391e9
+== setA-05 P=1 pc=true  1.792399833724e9
+== setA-06 P=1 pc=true  1.792400636038e9
+== setA-07 P=1 pc=true  1.792400636038e9
+== setA-08 P=1 pc=true  1.792400636054e9
+== setA-09 P=1 pc=true  1.792400636054e9
+== setA-10 P=1 pc=true  1.79240063607e9
+== setA-11 P=1 pc=true  1.792400636078e9
+== setA-12 P=1 pc=true  1.792400636086e9
+== setA-13 P=1 pc=true  1.792400636097e9
+== setA-14 P=1 pc=true  1.792400636102e9
+== setA-15 P=1 pc=true  1.792400636117e9
+== setA-16 P=1 pc=true  1.792400636133e9
+== setA-17 P=1 pc=true  1.792400636181e9
+== setA-18 P=1 pc=true  1.792400636198e9
+== setA-19 P=1 pc=true  1.792400636213e9
+== setA-20 P=1 pc=true  1.792400636244e9

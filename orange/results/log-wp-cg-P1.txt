@@ -17,3 +17,4 @@
 == setA-17 P=1 cg=true  free RAM 15.0 GiB
 == setA-18 P=1 cg=true  free RAM 15.0 GiB
 == setA-19 P=1 cg=true  free RAM 15.0 GiB
+== setA-20 P=1 cg=true  free RAM 13.4 GiB

@@ -1,0 +1,13 @@
+== setA-01 P=2 cg=true pc=false  free RAM 14.0 GiB
+== setA-02 P=2 cg=true pc=false  free RAM 13.5 GiB
+== setA-03 P=2 cg=true pc=false  free RAM 13.5 GiB
+== setA-04 P=2 cg=true pc=false  free RAM 13.5 GiB
+== setA-05 P=2 cg=true pc=false  free RAM 13.6 GiB
+== setA-06 P=2 cg=true pc=false  free RAM 13.7 GiB
+== setA-07 P=2 cg=true pc=false  free RAM 13.8 GiB
+== setA-08 P=2 cg=true pc=false  free RAM 13.8 GiB
+== setA-09 P=2 cg=true pc=false  free RAM 13.7 GiB
+== setA-10 P=2 cg=true pc=false  free RAM 13.8 GiB
+== setA-11 P=2 cg=true pc=false  free RAM 15.5 GiB
+== setA-12 P=2 cg=true pc=false  free RAM 15.4 GiB
+== setA-13 P=2 cg=true pc=false  free RAM 15.3 GiB

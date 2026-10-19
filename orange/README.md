@@ -27,6 +27,10 @@ julia --project=orange orange/scripts/run_experiments.jl 1 1800      # chỉ t=0
 julia --project=orange orange/scripts/run_experiments.jl 2 3600      # t=0 và t=1, có ngân sách (bước 9)
 julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 5  # chỉ instance 04 và 05
 
+# Mô hình waypoint (chạy được cho nhiều instance hơn nhiều): <P> <giây> [đầu] [cuối] [max_binaries]
+julia --project=orange orange/scripts/run_wp.jl 1 1800
+julia --project=orange orange/scripts/run_wp.jl 2 3600
+
 # Heuristic cho cả 20 instance: <P> <giây> [đầu] [cuối]
 julia --project=orange orange/scripts/run_heuristic.jl 1 600
 julia --project=orange orange/scripts/run_heuristic.jl 2 600
@@ -48,7 +52,8 @@ cd report && pdflatex report.tex && pdflatex report.tex
 | `setA-XX-P{1,2}.csv` | một dòng mỗi lần chạy, các cột bên dưới |
 | `setA-XX-P{1,2}-srpaths.json` | nghiệm lần chạy đầu, đúng định dạng `srpaths` của đề (`d`, `t` từ 0; `w` là id nút) |
 | `setA-XX-P{1,2}-loads.csv` | tải đã sắp giảm dần, trước (`base`) và sau (`opt`) khi tối ưu, dùng vẽ biểu đồ |
-| `log-P{1,2}.txt` | log chạy |
+| `setA-XX-wp-P{1,2}.csv` (+ `-srpaths.json`, `-loads.csv`) | kết quả mô hình waypoint, cột: `instance, P, K, n, m, nD, binaries, status, mlu, mlu_base, improvement, bound, gap, solve_time, nodes, check, obj, heur_mlu, heur_time` |
+| `log-P{1,2}.txt`, `log-wp-P{1,2}.txt` | log chạy |
 | `environment.txt` | phiên bản Julia, gói, CPU, RAM |
 
 Các cột của CSV: `instance, P, run, n, m, nD, status, z, mlu, mlu_base, improvement, bound, gap, solve_time, nodes, check, obj, start_time, start_mlu`.
@@ -67,7 +72,8 @@ Các cột của CSV: `instance, P, run, n, m, nD, status, z, mlu, mlu_base, imp
 | `src/ecmp.jl` | hệ số tách $r$ | `routing`, `ecmp_split`, `pathcount_split`, `build_r(inst, p; mode=:ecmp)` |
 | `src/verify.jl` | kiểm tra độc lập | `utilization`, `max_utilization`, `base_mlu`, `changes`, `check_solution`, `write_srpaths`, `write_loads` |
 | `src/model.jl` | mô hình JuMP | `build_model`, `extract_paths`, `lex_second_stage!` |
-| `src/experiment.jl` | chạy và ghi CSV | `run_instance` |
+| `src/wpmodel.jl` | MILP chọn waypoint theo đường | `candidates`, `build_wp_model(...; K, K2)`, `extract_wp_paths` |
+| `src/experiment.jl` | chạy và ghi CSV | `run_instance` (mô hình theo cung), `run_wp_instance` (mô hình waypoint) |
 | `src/heuristic.jl` | tìm kiếm cục bộ | `local_search` |
 
 Ví dụ dùng trực tiếp:
@@ -98,9 +104,20 @@ Mô hình đúng theo đề: biến nhị phân $x^{dt}_{ij}$, ràng buộc bả
 | **HiGHS 1 luồng, `mip_rel_gap = 1e-6`** | để `solve_time` xấp xỉ CPU time và gap báo cáo có ý nghĩa. |
 | **Số lần chạy:** 10 nếu lần đầu giải trong 120 s, còn lại 3 lần | readme yêu cầu 10 lần, nhưng 10 lần × 1 giờ × nhiều instance vượt quỹ thời gian còn lại. Cột số lần chạy được ghi trong bảng. |
 
+## 5b. Mô hình waypoint (thuật toán mở rộng, `src/wpmodel.jl`)
+
+Mô hình theo cung ở mục 5 có $\lvert Dvert\,n(n-1)$ biến nhị phân mỗi thời kỳ nên chỉ chạy được cho setA-01 đến 05, và cận dưới LP rất yếu. Mô hình waypoint thay thế biến cung bằng **biến chọn phương án**: với mỗi demand $d$ và thời kỳ $t$, chọn đúng một phương án trong $W_d$ = {không waypoint} $\cup$ {một waypoint $w\in C_d$} $\cup$ {cặp $(w_1,w_2)$ lấy từ $K_2$ ứng viên đầu}.
+
+- **Tải:** phương án $c$ đóng góp $r(	ext{đoạn},a,t)\,\delta(d,t)$ trên từng đoạn của đường $s	o w	o	au$; ràng buộc $	ext{tải}(a)\le c(a)\,z$ như cũ.
+- **Ngân sách:** $\sum_d\sum_{	ext{đoạn}}\lvert g_t-g_{t-1}vert\leeta(t)$ với $g$ là chỉ báo (0/1) đoạn đó nằm trong đường được chọn; đây chính là định nghĩa `dist` của đề.
+- **Ứng viên $C_d$:** $K$ nút có độ vòng $D[s,w]+D[w,	au]-D[s,	au]$ nhỏ nhất và có đường ở mọi thời kỳ. Với $K=n-2$ (mọi nút) và $K_2=0$ mô hình là **chính xác** cho bài toán gốc khi $	ext{maxSeg}=2$ (đã kiểm chứng bằng vét cạn trên toy với ngân sách 0, 3, 20 và $P=1,2$); với $K_2=n-2$ là chính xác khi $	ext{maxSeg}=3$. Với $	ext{maxSeg}$ lớn hơn (SetA có $	ext{maxSeg}=6$) nghiệm là **cận trên** của bài toán gốc.
+- **Khởi tạo:** nghiệm heuristic được thêm vào tập phương án nếu hợp lệ ở mọi thời kỳ.
+- **Kích thước:** $\lvert Dvert\cdot P\cdot\lvert W_dvert$ biến (ví dụ setA-06: 49 500 biến thay vì 4,95 triệu). `run_wp_instance` chọn $K$ lớn nhất sao cho số biến không vượt `max_binaries` (mặc định $1{,}5\cdot10^6$).
+- **Chất lượng đo được** ($t=0$, $K=n-2$, một waypoint, HiGHS 1 luồng): giải tối ưu trong vài giây cho setA-01 đến 09; ví dụ setA-06: MLU 0,0986 (heuristic: 0,2676); setA-05 với $t=0,1$: 0,205 (heuristic bị kẹt ở 1,0).
+
 ## 6. Giới hạn đã biết
 
-- **Chỉ instance 01–05 chạy được MILP.** Số biến là $\lvert D\rvert\,n(n-1)$ mỗi thời kỳ: từ 15 nghìn (setA-01) đến 958 triệu (setA-20); ngưỡng `max_vars = 3·10⁶`. Đo thực tế: dựng mô hình của setA-05 (990 nghìn biến) cần 3,8 GiB, nên setA-06 cần khoảng 19 GiB. Các instance còn lại ghi `SKIPPED_TOO_LARGE`, được bù bằng heuristic (một waypoint, không đảm bảo tối ưu).
+- **Mô hình theo cung chỉ chạy được cho instance 01–05** (xem mục 5b cho mô hình waypoint chạy được nhiều hơn). Số biến là $\lvert D\rvert\,n(n-1)$ mỗi thời kỳ: từ 15 nghìn (setA-01) đến 958 triệu (setA-20); ngưỡng `max_vars = 3·10⁶`. Đo thực tế: dựng mô hình của setA-05 (990 nghìn biến) cần 3,8 GiB, nên setA-06 cần khoảng 19 GiB. Các instance còn lại ghi `SKIPPED_TOO_LARGE`, được bù bằng heuristic (một waypoint, không đảm bảo tối ưu).
 - **Gap có thể rất lớn** khi hết giờ: nới lỏng LP của mô hình yếu, nên cận dưới thường bằng 0 ở instance vừa (ví dụ setA-02 với $t=0,1$ sau 120 s).
 - **Thời gian đo là wall-clock** (với 1 luồng gần bằng CPU time).
 - **Heuristic** dừng khi cung tải lớn nhất không cải thiện được, kể cả khi nhiều cung cùng mức tải; chỉ xét tối đa một waypoint mỗi demand.

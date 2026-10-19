@@ -66,9 +66,9 @@ project/KE_HOACH_THUC_HIEN.md   (file này)
 | T2 19/10 | Task 0 (gửi câu hỏi cho thầy, setup), Task 1, Task 2 | ☐ |
 | T3 20/10 | Task 3, 4, 5 | ☐ |
 | T4 21/10 | Task 6; tối: chạy Task 7 phần $t=0$ qua đêm (≤ 10 giờ) | ☐ |
-| T5 22/10 | Task 7 phần $t=0,1$ chạy nền (≤ 20 giờ); viết phần 1–2 của báo cáo | ☐ |
-| T6 23/10 | Task 8 (bảng, biểu đồ); tùy chọn: Task 9, 10 trên instance nhỏ | ☐ |
-| T7 24/10 | Hoàn thiện báo cáo; tùy chọn: Task 11 | ☐ |
+| T5 22/10 | Task 7 phần $t=0,1$ chạy nền; Task 11 (heuristic); viết phần 1–2 của báo cáo | ☐ |
+| T6 23/10 | Chạy heuristic cho các instance lớn (sau khi Task 7 xong, để không làm nhiễu thời gian đo); Task 8 (bảng, biểu đồ) | ☐ |
+| T7 24/10 | Hoàn thiện báo cáo; tùy chọn: Task 9, 10 trên instance nhỏ | ☐ |
 | CN 25/10 | Dự phòng, nộp | ☐ |
 
 **Chính sách số lần chạy (chờ thầy xác nhận):** 20 instance × 10 lần × 1800 s là 100 giờ, không khả thi. Mặc định: chạy lần 1; nếu lần 1 xong dưới 120 s thì chạy đủ 10 lần, nếu không chỉ chạy 1 lần và **ghi rõ trong báo cáo** (cột "Runs"). Instance vượt `max_vars` (3·10⁶ biến) ghi `SKIPPED_TOO_LARGE`.
@@ -77,7 +77,8 @@ project/KE_HOACH_THUC_HIEN.md   (file này)
 
 - **Bắt buộc:** Task 0–8 (đáp ứng readme).
 - **Cải thiện có trong các task bắt buộc** (chi phí thấp): khởi tạo solver bằng nghiệm không waypoint (Task 3), cố định demand có lưu lượng 0 (Task 3), cột MLU ban đầu và % cải thiện (Task 6, 8), biểu đồ tải đã sắp xếp (Task 6, 8), hỗ trợ hai cách tính $r$ (Task 2).
-- **Tùy chọn, nếu còn thời gian:** Task 9 (độ nhạy ngân sách), Task 10 (so sánh cách tính $r$), Task 11 (heuristic cho instance lớn), Task 12 (mục tiêu lexicographic hai bước).
+- **Khuyến nghị mạnh:** Task 11 (heuristic). Lý do: MILP theo mô hình của đề chỉ dựng được cho khoảng 5–9/20 instance (xem Task 5 Step 3). Không có heuristic thì bảng kết quả có 11–15 dòng "không chạy". Heuristic cho mỗi instance một nghiệm và % cải thiện so với định tuyến thường. Làm sau Task 6, trong lúc Task 7 chạy nền.
+- **Tùy chọn, nếu còn thời gian:** Task 9 (độ nhạy ngân sách), Task 10 (so sánh cách tính $r$), Task 12 (mục tiêu lexicographic hai bước).
 - **Ghi chú, không có task:** dùng Gurobi nếu có giấy phép học thuật (chỉ đổi `HiGHS.Optimizer` thành `Gurobi.Optimizer`); giới hạn waypoint vào tập ứng viên K nút (nếu làm phải ghi rõ là bài toán hạn chế).
 
 ---
@@ -105,6 +106,12 @@ Nội dung gợi ý (readme viết bằng tiếng Anh nên gửi bằng tiếng 
 4. Objective: is minimizing the maximum link utilization acceptable instead of the
    lexicographic objective (5)?
 5. Gap: confirm gap = 1 - (best lower bound)/(best solution value).
+6. Steps 8-9: should periods 0 and 1 be optimized jointly (one model, as in the
+   subject), or should period 1 be optimized with the period-0 routing fixed?
+7. The arc-segment model has |D|*n(n-1) binaries per period: about 5e6 for setA-06
+   and 1e9 for setA-20, beyond what a MILP solver can build on our 32 GB machine.
+   For such instances, may we report "model too large" and add a heuristic
+   (local search on waypoints) as a complement?
 ```
 Ghi câu trả lời vào cuối file này (mục "Nhật ký quyết định").
 
@@ -932,7 +939,24 @@ end
 Run: `julia --project=orange orange/test/runtests.jl`
 Expected: PASS. Ghi lại thời gian và MLU của setA-01 (dòng `@info`) để ước lượng thời gian các instance sau. setA-01 chỉ có 15 200 biến; nếu không xong trong 120 s, xem lại mô hình trước khi sang Task 6.
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 3: Hiệu chỉnh ngưỡng `max_vars` theo bộ nhớ thật** (máy có 32 GB RAM)
+
+Số biến $x$ theo instance ($|D|\cdot n(n-1)$ mỗi thời kỳ): 01–05 từ 15 nghìn đến 990 nghìn; 06–09 từ 4,5 đến 7,9 triệu; 10–20 từ 16 triệu đến 958 triệu. Với `max_vars = 3·10⁶` chỉ 01–05 được chạy. Đo bộ nhớ thật để quyết định có nâng ngưỡng cho 06–09 không:
+```bash
+julia --project=orange -e '
+using Orange, JuMP, HiGHS
+for i in (4, 5, 6)
+    inst = read_instance("project/setA/setA-" * lpad(i, 2, "0"))
+    st = @timed begin
+        rs = [build_r(inst, 1)]
+        build_model(inst, rs, 1, HiGHS.Optimizer)
+    end
+    println("setA-0$i: build ", round(st.time, digits=1), " s, alloc ", round(st.bytes / 2^30, digits=2), " GiB, free RAM ", round(Sys.free_memory() / 2^30, digits=1), " GiB")
+end'
+```
+Expected: in thời gian và bộ nhớ dựng mô hình. Quy tắc: nếu dựng setA-06 dùng dưới khoảng 8 GiB thì nâng `max_vars` lên `1e7` (06–09 sẽ được thử, HiGHS cần thêm bộ nhớ khi giải); nếu không thì giữ `3e6`. Ghi kết quả vào "Nhật ký quyết định". Nếu đổi ngưỡng, sửa giá trị mặc định `max_vars` trong `run_instance` (Task 6).
+
+- [ ] **Step 4: Commit**
 
 ```bash
 git add orange && git commit -m "test: toy two-period and setA-01 smoke tests"
@@ -1494,3 +1518,5 @@ git add orange && git commit -m "feat: lexicographic second stage"
 | 19/10 | Số lần chạy | 10 lần nếu lần đầu < 120 s, nếu không 1 lần | Chờ thầy |
 | 19/10 | Mục tiêu | min MLU + $\varepsilon\sum x$ | Chờ thầy |
 | 19/10 | Solver | HiGHS, 1 luồng | Mặc định |
+| 19/10 | Bước 8–9: tối ưu đồng thời hay tuần tự | Tạm tối ưu đồng thời $t=0,1$ (đúng công thức của đề) | Chờ thầy |
+| 19/10 | Instance quá lớn cho MILP | Ghi "too large", bổ sung heuristic (Task 11) | Chờ thầy; ngưỡng chốt sau Task 5 Step 3 |

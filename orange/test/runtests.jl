@@ -628,3 +628,17 @@ end
     r = Dict(zip(split(readlines(csv)[1], ","), split(readlines(csv)[2], ",")))
     @test r["status"] == "Optimal" && r["check"] == "ok"
 end
+
+@testset "waypoint runner with LNS polishing" begin
+    out = mktempdir()
+    csv = run_wp_instance(TOY, "toy", 2, 60; outdir=out, use_colgen=true, K0=1, use_lns=true, lns_time=5.0, tag="-lns")
+    r = Dict(zip(split(readlines(csv)[1], ","), split(readlines(csv)[2], ",")))
+    @test haskey(r, "lns_mlu") && haskey(r, "lns_time")
+    @test r["status"] == "Optimal" && r["check"] == "ok"
+    @test parse(Float64, r["mlu"]) <= parse(Float64, r["lns_mlu"]) + 1e-9         # mlu cuối là tốt nhất của MILP và LNS
+    @test parse(Float64, r["mlu"]) <= parse(Float64, r["heur_mlu"]) + 1e-9
+    # LNS tắt: cột có mặt nhưng NaN
+    csv2 = run_wp_instance(TOY, "toy", 2, 60; outdir=out, tag="-nolns")
+    r2 = Dict(zip(split(readlines(csv2)[1], ","), split(readlines(csv2)[2], ",")))
+    @test isnan(parse(Float64, r2["lns_mlu"]))
+end

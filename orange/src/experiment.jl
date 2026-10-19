@@ -99,7 +99,7 @@ function choose_K(nD::Int, P::Int, nmax::Int, avg_len::Real, budget_bytes::Real)
     return K < 0 ? nothing : min(K, nmax)
 end
 
-const WP_HEADER = "instance,P,K,n,m,nD,binaries,status,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,heur_mlu,heur_time,cg_lp,cg_iters,cg_time"
+const WP_HEADER = "instance,P,K,n,m,nD,binaries,status,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,heur_mlu,heur_time,cg_lp,cg_iters,cg_time,lns_mlu,lns_time"
 
 """
 Chạy mô hình waypoint (≤ 1 waypoint mỗi demand) cho một instance. K (số ứng viên mỗi demand) là lớn nhất
@@ -108,7 +108,8 @@ sao cho |D|·P·(K+1) ≤ max_binaries, tối đa n-2 (mọi nút). Nghiệm heu
 function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, tlimit::Real;
                          outdir::AbstractString="results", r_mode::Symbol=:ecmp, budget=nothing,
                          tag::AbstractString="", max_binaries::Int=1_500_000, heur_time::Real=30.0,
-                         use_colgen::Bool=false, K0::Int=3, cg_extra::Int=10, mem_budget_bytes=nothing)
+                         use_colgen::Bool=false, K0::Int=3, cg_extra::Int=10, mem_budget_bytes=nothing,
+                         use_lns::Bool=false, lns_time::Real=300.0, lns_frac::Real=0.15)
     mkpath(outdir)
     csv = joinpath(outdir, "$(name)-wp-P$(P)$(tag).csv")
     open(csv, "w") do io
@@ -144,6 +145,7 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
             bnd = try objective_bound(model) catch; NaN end
             nodes = try node_count(model) catch; NaN end
             mlu = obj = gap = NaN
+            lns_mlu, lns_time_used = NaN, NaN
             check = "no_solution"
             if has_values(model)
                 obj = objective_value(model)
@@ -151,16 +153,27 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
                 paths = extract_wp_paths(inst, y, C, P)
                 chk = check_solution(inst, rs, paths, P, obj + 1e-5)
                 mlu = chk.mlu
+                if use_lns                      # tinh chỉnh bằng LNS từ nghiệm MILP; giữ nghiệm tốt hơn
+                    lns_time_used = @elapsed (lpaths, lm) = lns(inst, rs, P, opt; K=K, cands=cands, start_paths=paths,
+                                                                iters=10_000, frac=Float64(lns_frac), tlimit_iter=20.0,
+                                                                total_limit=Float64(lns_time))
+                    lns_mlu = lm
+                    if lm < mlu - 1e-12
+                        paths = lpaths
+                        chk = check_solution(inst, rs, paths, P, lm + 1e-5)
+                        mlu = chk.mlu
+                    end
+                end
                 check = chk.budget_ok ? "ok" : "budget_violation"
                 write_srpaths(inst, paths, P, joinpath(outdir, "$(name)-wp-P$(P)$(tag)-srpaths.json"))
                 write_loads(inst, rs, paths, P, joinpath(outdir, "$(name)-wp-P$(P)$(tag)-loads.csv"))
             end
             impr = 1.0 - mlu / mlu_base
-            "$name,$P,$K,$(inst.n),$(inst.m),$nD,$binaries,$status,$mlu,$mlu_base,$impr,$bnd,$gap,$(solve_time(model)),$nodes,$check,$obj,$hm,$th,$cg_lp,$cg_iters,$cg_time"
+            "$name,$P,$K,$(inst.n),$(inst.m),$nD,$binaries,$status,$mlu,$mlu_base,$impr,$bnd,$gap,$(solve_time(model)),$nodes,$check,$obj,$hm,$th,$cg_lp,$cg_iters,$cg_time,$lns_mlu,$lns_time_used"
         catch e
             msg = sprint(showerror, e)
             st = occursin("SKIPPED_LOW_MEMORY", msg) ? "SKIPPED_LOW_MEMORY" : "ERROR"
-            "$name,$P,NaN,NaN,NaN,NaN,NaN,$st,NaN,NaN,NaN,NaN,NaN,NaN,NaN,$(clean(msg)),NaN,NaN,NaN,NaN,NaN,NaN"
+            "$name,$P,NaN,NaN,NaN,NaN,NaN,$st,NaN,NaN,NaN,NaN,NaN,NaN,NaN,$(clean(msg)),NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN"
         end
         println(io, row)
     end

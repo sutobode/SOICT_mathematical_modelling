@@ -112,11 +112,37 @@ def build():
     return "\n".join(out)
 
 
+def brief():
+    """Tóm tắt ngắn: giờ, RAM, log còn hoạt động và các CSV vừa thay đổi trong 20 phút gần nhất."""
+    lines = [f"[{datetime.now():%H:%M}] RAM trống {sh('[math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1MB,1)')} GB; "
+             f"tiến trình Julia: {sh('(Get-Process julia -ErrorAction SilentlyContinue | Measure-Object).Count')}"]
+    for lg in sorted(glob.glob(os.path.join(RES, "log-*.txt"))):
+        age = (time.time() - os.path.getmtime(lg)) / 60
+        if age < 75:
+            t = tail(lg)
+            lines.append(f"  log {os.path.basename(lg)[4:-4]}: {t[0][:70] if t else ''} (ghi {age:.0f}p trước)")
+    recent = []
+    for f in glob.glob(os.path.join(RES, "setA-*.csv")):
+        if f.endswith("-loads.csv"):
+            continue
+        d, sm = describe(f), None
+        if d is None or (time.time() - os.path.getmtime(f)) / 60 > 20:
+            continue
+        sm = summarize(f)
+        if sm:
+            recent.append(f"  mới: {d[0]} t={'0' if d[1] == 1 else '0,1'} {d[2]}: {sm['runs']} lần, {sm['status']}, MLU {sm['mlu']:.5f}, {sm['time']:.0f}s")
+    lines += sorted(recent) or ["  (không có CSV nào thay đổi trong 20 phút qua)"]
+    return chr(10).join(lines)
+
+
 def main():
     try:
         sys.stdout.reconfigure(encoding="utf-8")
     except Exception:  # noqa: BLE001
         pass
+    if "--brief" in sys.argv:
+        print(brief())
+        return
     loop = 0
     hours = 24.0
     if "--loop" in sys.argv:

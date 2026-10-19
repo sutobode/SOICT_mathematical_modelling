@@ -25,3 +25,38 @@ max_utilization(inst::Instance, rs, paths, P::Int) =
     maximum(maximum(utilization(inst, rs, paths, p)) for p in 1:P)
 
 base_mlu(inst::Instance, rs, P::Int) = max_utilization(inst, rs, direct_paths(inst, P), P)
+
+function check_solution(inst::Instance, rs, paths, P::Int, z::Real; tol=1e-6)
+    mlu = max_utilization(inst, rs, paths, P)
+    mlu <= z + tol * max(1.0, abs(z)) || error("recomputed MLU $mlu exceeds solver z=$z")
+    budget_ok = true
+    for p in 2:P
+        isfinite(inst.budget[p]) || continue
+        ch = sum(changes(paths[(d, p-1)], paths[(d, p)]) for d in eachindex(inst.dem_s))
+        ch <= inst.budget[p] || (budget_ok = false)
+    end
+    return (mlu=mlu, budget_ok=budget_ok)
+end
+
+function write_srpaths(inst::Instance, paths, P::Int, file::AbstractString)
+    entries = Dict{String,Any}[]
+    for d in eachindex(inst.dem_s), p in 1:P
+        seq = paths[(d, p)]
+        length(seq) > 2 || continue
+        push!(entries, Dict("d" => d - 1, "t" => p - 1, "w" => [inst.node_id[v] for v in seq[2:end-1]]))
+    end
+    open(io -> JSON3.pretty(io, Dict("srpaths" => entries)), file, "w")
+end
+
+function write_loads(inst::Instance, rs, paths, P::Int, file::AbstractString)
+    collect_loads(ps) = sort(vcat([utilization(inst, rs, ps, p)[[a for a in 1:inst.m if !(a in inst.down[p])]]
+                                   for p in 1:P]...); rev=true)
+    base = collect_loads(direct_paths(inst, P))
+    opt = collect_loads(paths)
+    open(file, "w") do io
+        println(io, "rank,base,opt")
+        for k in eachindex(base)
+            println(io, "$k,$(base[k]),$(opt[k])")
+        end
+    end
+end

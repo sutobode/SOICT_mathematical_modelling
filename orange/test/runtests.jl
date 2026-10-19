@@ -164,3 +164,36 @@ end
     @test paths[(1, 1)] == [1, 2, 6]
     @test paths[(2, 1)] == [3, 6]
 end
+
+@testset "solution check, srpaths, loads (t=0,1)" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, p) for p in 1:2]
+    model, x, z = build_model(inst, rs, 2, OPT)
+    optimize!(model)
+    @test termination_status(model) == MOI.OPTIMAL
+    paths = extract_paths(inst, x, 2)
+    chk = check_solution(inst, rs, paths, 2, value(z))
+    @test chk.budget_ok
+    @test chk.mlu ≈ value(z) atol = 1e-6
+    @test value(z) ≈ brute_best(inst, 2) atol = 1e-6
+    f = tempname() * ".json"
+    write_srpaths(inst, paths, 2, f)
+    js = Orange.JSON3.read(read(f, String))
+    @test all(e -> e.t in (0, 1) && e.d in (0, 1) && !isempty(e.w), js.srpaths)
+    g = tempname() * ".csv"
+    write_loads(inst, rs, paths, 2, g)
+    lines = readlines(g)
+    @test lines[1] == "rank,base,opt"
+    @test parse(Float64, split(lines[2], ",")[2]) ≈ base_mlu(inst, rs, 2)
+    @test_throws ErrorException check_solution(inst, rs, paths, 2, value(z) - 0.1)
+end
+
+@testset "budget 0 forces identical routing" begin
+    inst = read_instance(TOY; maxseg=2, budget=0)
+    rs = [build_r(inst, p) for p in 1:2]
+    model, x, z = build_model(inst, rs, 2, OPT)
+    optimize!(model)
+    paths = extract_paths(inst, x, 2)
+    @test all(d -> paths[(d, 1)] == paths[(d, 2)], 1:2)
+    @test value(z) ≈ brute_best(inst, 2) atol = 1e-6
+end

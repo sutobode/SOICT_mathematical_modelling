@@ -816,7 +816,8 @@ git add orange && git commit -m "feat: JuMP model with warm start, path extracti
     @test termination_status(model) == MOI.OPTIMAL
     paths = extract_paths(inst, x, 2)
     chk = check_solution(inst, rs, paths, 2, value(z))
-    @test chk.budget_ok && chk.mlu ≈ value(z) atol = 1e-6
+    @test chk.budget_ok
+    @test chk.mlu ≈ value(z) atol = 1e-6
     @test value(z) ≈ brute_best(inst, 2) atol = 1e-6
     f = tempname() * ".json"
     write_srpaths(inst, paths, 2, f)

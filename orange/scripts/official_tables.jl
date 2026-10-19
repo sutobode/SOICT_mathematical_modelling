@@ -24,6 +24,22 @@ avg(v) = (w = filter(!isnan, v); isempty(w) ? NaN : mean(w))
 fmt(x; d=5) = isnan(x) ? "--" : string(round(x, digits=d))
 fmte(x) = isnan(x) ? "--" : (x == 0 ? "0" : string(round(x, sigdigits=2)))
 
+# các lần chạy của mô hình theo cung nằm ở setA-XX-P{P}[-pc].csv và các file bổ sung ...-r4-10.csv (lần 4..10); gộp lại,
+# bỏ trùng số thứ tự lần chạy (giữ lần đầu)
+function arc_rows(name, P)
+    pat = Regex("^" * name * "-P" * string(P) * arc_tag * "(-r\d+-\d+)?\.csv\$")
+    files = sort(filter(f -> occursin(pat, basename(f)), readdir(resdir; join=true)))
+    rows = Dict{String,String}[]
+    seen = Set{String}()
+    for f in files, r in readcsv(f)
+        key = get(r, "run", "")
+        key in seen && continue
+        push!(seen, key)
+        push!(rows, r)
+    end
+    return rows
+end
+
 best = Dict{Tuple{String,Int},Dict{String,String}}()
 for r in readcsv(joinpath(resdir, "best_known.csv"))
     best[(r["instance"], parse(Int, r["P"]))] = r
@@ -42,7 +58,7 @@ for P in (1, 2)
     rows_out = Vector{Vector{String}}()
     for i in 1:20
         name = "setA-" * lpad(i, 2, '0')
-        arc = readcsv(joinpath(resdir, "$name-P$P$arc_tag.csv"))
+        arc = arc_rows(name, P)
         ok = filter(r -> startswith(get(r, "check", ""), "ok"), arc)
         if !isempty(ok)
             status = all(r -> r["status"] == "Optimal", ok) ? "Optimal" : "Not Optimal"

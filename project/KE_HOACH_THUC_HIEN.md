@@ -1537,7 +1537,7 @@ git add orange && git commit -m "feat: lexicographic second stage"
 | 19/10 | Cách tính $r$ | **Chốt: ECMP từng chặng** làm chính (khớp đề và Bảng 2); đếm đường chỉ để so sánh (Task 10) | Thầy không trả lời; tự quyết theo tài liệu |
 | 19/10 | Ý nghĩa bước 9 | **Chốt: giải chung $t=0,1$** (readme bước 8) | Thầy không trả lời; tự quyết theo tài liệu |
 | 19/10 | Số lần chạy | **Chốt: 10 lần nếu lần đầu ≤ 120 s, ngược lại 3 lần** (trước đây 1 lần) | readme yêu cầu 10 lần, quỹ thời gian không đủ |
-| 19/10 | Mục tiêu | **Chốt: min MLU + $arepsilon\sum x$** | readme chỉ yêu cầu một giá trị mục tiêu |
+| 19/10 | Mục tiêu | **Chốt: min MLU + $\varepsilon\sum x$** | readme chỉ yêu cầu một giá trị mục tiêu |
 | 19/10 | Solver | HiGHS, 1 luồng, `mip_rel_gap=1e-6` | Mặc định |
 | 19/10 | Công thức gap | **Chốt: $1-\mathrm{LB}/\mathrm{UB}$** | readme ghi rõ |
 | 19/10 | Instance quá lớn cho MILP | **Chốt: ghi "too large" và bổ sung heuristic** (Task 11); `max_vars` giữ $3\cdot10^6$ theo phép đo bộ nhớ (Task 5 Step 3) | Tự quyết theo tài liệu |

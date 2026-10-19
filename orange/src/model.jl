@@ -114,3 +114,11 @@ function extract_paths(inst::Instance, x, P::Int; val=value)
     end
     return paths
 end
+
+"Giai đoạn 2 của lex-min: giữ z <= z*, tối thiểu tổng tải (mức thứ hai của thứ tự từ điển)."
+function lex_second_stage!(model, z, load, inst::Instance, zstar::Real)
+    @constraint(model, z <= zstar * (1 + 1e-6) + 1e-9)
+    @objective(model, Min, sum(load[p][a] / inst.cap[a] for p in eachindex(load), a in 1:inst.m
+                               if !(a in inst.down[p])))
+    return model
+end

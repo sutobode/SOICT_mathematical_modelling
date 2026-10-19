@@ -246,3 +246,17 @@ end
     paths0, _ = local_search(inst0, rs, 2; time_limit=5.0)
     @test all(d -> paths0[(d, 1)] == paths0[(d, 2)], 1:2)
 end
+
+@testset "lex second stage keeps MLU" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, 1)]
+    model, x, z, load = build_model(inst, rs, 1, OPT)
+    optimize!(model)
+    zstar = value(z)
+    total1 = sum(value(load[1][a]) / inst.cap[a] for a in 1:inst.m)
+    lex_second_stage!(model, z, load, inst, zstar)
+    optimize!(model)
+    @test termination_status(model) == MOI.OPTIMAL
+    @test value(z) <= zstar + 1e-6
+    @test sum(value(load[1][a]) / inst.cap[a] for a in 1:inst.m) <= total1 + 1e-6
+end

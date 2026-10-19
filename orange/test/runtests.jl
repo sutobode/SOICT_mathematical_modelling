@@ -316,3 +316,11 @@ end
     @test parse(Float64, row["start_mlu"]) >= parse(Float64, row["z"]) - 1e-9    # MILP no worse than its start
     @test parse(Float64, row["start_mlu"]) <= parse(Float64, row["mlu_base"]) + 1e-9
 end
+
+@testset "slow instances get slow_runs runs, fast get all runs" begin
+    out = mktempdir()
+    slow = run_instance(TOY, "toy", 2, 60; runs=5, fast_threshold=0.0, slow_runs=3, outdir=out)
+    @test length(readlines(slow)) == 1 + 3
+    fast = run_instance(TOY, "toy", 2, 60; runs=5, fast_threshold=1e6, slow_runs=3, outdir=out)
+    @test length(readlines(fast)) == 1 + 5
+end

@@ -31,7 +31,7 @@ function evaluate(inst, rs, P, model, x, z)
 end
 
 function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlimit::Real;
-                      runs::Int=10, fast_threshold::Real=120.0, max_vars::Int=3_000_000,
+                      runs::Int=10, slow_runs::Int=3, fast_threshold::Real=120.0, max_vars::Int=3_000_000,
                       outdir::AbstractString="results", r_mode::Symbol=:ecmp,
                       budget=nothing, tag::AbstractString="")
     mkpath(outdir)
@@ -81,8 +81,8 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
             impr = isnan(res.mlu) ? NaN : 1.0 - res.mlu / mlu_base
             println(io, "$name,$P,$run_id,$(inst.n),$(inst.m),$nD,$(res.status),$(res.zv),$(res.mlu),$mlu_base,$impr,$(res.bnd),$(res.gap),$(res.t),$(res.nodes),$(res.check),$(res.obj),$start_time,$start_mlu")
             flush(io)
-            # chỉ chạy đủ số lần nếu lần đầu giải nhanh
-            run_id == 1 && !(res.t <= fast_threshold) && (nruns = 1)
+            # lần đầu giải nhanh: chạy đủ `runs` lần; nếu chậm: chỉ `slow_runs` lần
+            run_id == 1 && !(res.t <= fast_threshold) && (nruns = min(runs, slow_runs))
             run_id += 1
         end
     end

@@ -1,2 +1,0 @@
-instance,P,run,n,m,nD,status,z,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj
-setA-02,2,1,30,150,45,Not Optimal,1.0980781976744185,1.0980781976744185,1.0980781976744185,0.0,0.0,1.0,120.18630814552307,0,ok,1.0980783976744184

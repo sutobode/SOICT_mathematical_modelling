@@ -1,0 +1,26 @@
+\section{Mathematical model}
+\subsection{Data}
+\textbf{Network.} $V$ is the set of nodes ($n=|V|$), $A$ the set of arcs ($m=|A|$), $\omega(a)>0$ the weight (field \texttt{metric}) and $c(a)>0$ the capacity (field \texttt{capacity}) of arc $a$; they are read from the \texttt{net} file. $G_t=(V,A\setminus q(t))$ is the graph at period $t$, with $q(t)$ read from the \texttt{scenario} file (the links are given by their identifier). \textbf{Demands.} $D$ and $\delta(d,t)$ are read from the \texttt{tm} file, $\mathrm{maxSeg}$ and the budget $\beta(1)$ from the \texttt{scenario} file; at $t=0$ there is no budget.
+
+\textbf{Split coefficients.} Let $FG_t(i,j)$ be the set of arcs lying on a shortest $i$--$j$ path of $G_t$. For $i\neq j$ and an arc $a$, $r(i,j,a,t)\in[0,1]$ is the fraction of a unit of flow from $i$ to $j$ that crosses $a$ when, at every node, the incoming flow is split evenly among the outgoing arcs belonging to $FG_t(i,j)$ (ECMP). It is zero when $a\notin FG_t(i,j)$ and, by construction, when $a\in q(t)$. We compute $r$ for all pairs $(i,j)$: run Dijkstra's algorithm from every node of $G_t$ to get the distance matrix $\mathrm{dist}$; an arc $a=(x,y)$ is in $FG_t(i,j)$ iff $\mathrm{dist}(i,x)+\omega(a)+\mathrm{dist}(y,j)=\mathrm{dist}(i,j)$; then propagate a unit flow from $i$ over the nodes of $FG_t(i,j)$ sorted by $\mathrm{dist}(i,\cdot)$, splitting evenly. Distances are compared with a relative tolerance of $10^{-9}$ since some instances have real-valued weights.
+
+\emph{Remark.} The note \texttt{calculating\_r.pdf} defines the coefficient instead as the proportion of shortest paths using $a$, $\sigma_{iu}\sigma_{vj}/\sigma_{ij}$. This differs from the ECMP definition of the problem statement: on the toy instance of the statement, the arc $a_{1,4}$ carries $r(v_0,v_5,a_{1,4},0)=0.5$ under ECMP (Table~2 of the statement) but $2/3$ with path counting. The statement's loads ($0.3125$ on $a_{4,6}$, maximum $0.4375$) are reproduced exactly with ECMP only; we therefore use ECMP in all experiments (both variants are implemented).
+
+\subsection{Variables}
+$x^{dt}_{ij}\in\{0,1\}$ for $d\in D$, $t\in T$, $i\in V$, $j\in V\setminus\{i\}$: equal to $1$ iff the segment path of demand $d$ at period $t$ contains the segment $(i,j)$. The variable $z\ge 0$ is the maximum link utilization (MLU). For the budget constraint we add $y^{dt}_{ij}\ge 0$ ($t\ge 1$) linearizing $|x^{dt}_{ij}-x^{d,t-1}_{ij}|$.
+
+\subsection{Constraints}
+\begin{align}
+&\sum_{j\ne i} x^{dt}_{ij}-\sum_{j\ne i} x^{dt}_{ji}=\begin{cases}1 & i=s_d\\ -1 & i=\tau_d\\ 0&\text{otherwise}\end{cases} && d\in D,\ t\in T,\ i\in V \label{c1}\\
+&\sum_{i,j\in V, i\neq j} x^{dt}_{ij}\le \mathrm{maxSeg} && d\in D,\ t\in T \label{c2}\\
+&\sum_{d\in D}\sum_{i\ne j} r(i,j,a,t)\,\delta(d,t)\,x^{dt}_{ij}\le c(a)\,z && t\in T,\ a\in A\setminus q(t) \label{c3}\\
+&y^{dt}_{ij}\ge x^{dt}_{ij}-x^{d,t-1}_{ij},\quad y^{dt}_{ij}\ge x^{d,t-1}_{ij}-x^{dt}_{ij},\quad \sum_{d,i\ne j} y^{dt}_{ij}\le \beta(t) && t\in T\setminus\{0\} \label{c4}
+\end{align}
+Constraints \eqref{c1} say that the segments of demand $d$ form a path from $s_d$ to $\tau_d$ (a segment $(i,j)$ is a waypoint-to-waypoint leg); \eqref{c2} limits the number of segments (waypoints $+1$); \eqref{c3} bounds the load of every arc that is up; \eqref{c4} bounds the number of segments that change between two periods, which is exactly $\mathrm{dist}(P^{t-1},P^t)$. A segment $(i,j)$ such that $j$ is not reachable from $i$ in $G_t$ is fixed to $0$.
+
+\subsection{Objective}
+The statement asks for the lexicographic minimization of the sorted vector of all loads. We minimize its first component, the maximum link utilization, with a tiny penalty on the number of segments,
+\begin{equation}
+\min\ z+\varepsilon\sum_{d,t,i\ne j}x^{dt}_{ij},\qquad \varepsilon=10^{-7}. \label{obj}
+\end{equation}
+The penalty only prevents useless disconnected cycles that constraints \eqref{c1} would allow; it does not change the optimal value of $z$ beyond $\varepsilon$. The first-stage optimum $z^*$ can be followed by a second stage that fixes $z\le z^*$ and minimizes the total load, which gives the first two levels of the lexicographic order; we did not use it in the experiments.

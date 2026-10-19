@@ -2,10 +2,19 @@ const CSV_HEADER = "instance,P,run,n,m,nD,status,z,mlu,mlu_base,improvement,boun
 
 clean(s) = replace(string(s), "," => ";", "\n" => " ")
 
+const PRESOLVE_OFF_VARS = 1_200_000
+
+"Presolve của HiGHS không kiểm tra giới hạn thời gian: với mô hình rất lớn nó chạy hàng giờ vượt xa giới hạn (đã đo: setA-04, t=0,1, 1,47 triệu biến); tắt presolve thì `optimize!` trả về gần đúng hạn."
+presolve_setting(nvars::Integer) = nvars > PRESOLVE_OFF_VARS ? "off" : "choose"
+
+"Ước lượng byte cho mô hình theo cung (đo: ~3,9 GiB cho 1 triệu biến x ở P=1; thêm ~25% cho biến y của ngân sách khi P > 1)."
+arc_bytes_estimate(nx::Integer, P::Integer) = 4500.0 * nx * (P > 1 ? 1.25 : 1.0)
+
 function solve_once(inst, rs, P, tlimit, seed, acyclic, start_paths)
     opt = optimizer_with_attributes(HiGHS.Optimizer, "random_seed" => seed, "threads" => 1,
                                     "mip_rel_gap" => 1e-6)
     model, x, z = build_model(inst, rs, P, opt; tlimit=tlimit, acyclic=acyclic, start_paths=start_paths)
+    set_optimizer_attribute(model, "presolve", presolve_setting(num_variables(model)))
     optimize!(model)
     return model, x, z
 end
@@ -33,7 +42,7 @@ end
 function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlimit::Real;
                       runs::Int=10, slow_runs::Int=3, fast_threshold::Real=120.0, max_vars::Int=3_000_000,
                       outdir::AbstractString="results", r_mode::Symbol=:ecmp,
-                      budget=nothing, tag::AbstractString="")
+                      budget=nothing, tag::AbstractString="", mem_budget_bytes=nothing)
     mkpath(outdir)
     csv = joinpath(outdir, "$(name)-P$(P)$(tag).csv")
     open(csv, "w") do io
@@ -44,6 +53,12 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
             nvars = length(inst.dem_s) * P * inst.n * (inst.n - 1)
             if nvars > max_vars
                 println(io, "$name,$P,0,$(inst.n),$(inst.m),$(length(inst.dem_s)),SKIPPED_TOO_LARGE,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,nvars=$nvars,NaN,NaN,NaN")
+                return
+            end
+            # bảo vệ bộ nhớ: bỏ qua nếu mô hình ước lượng vượt 70% RAM trống (tránh làm sập máy / bị watchdog dừng)
+            budget_bytes = mem_budget_bytes === nothing ? 0.7 * Sys.free_memory() : mem_budget_bytes
+            if arc_bytes_estimate(nvars, P) > budget_bytes
+                println(io, "$name,$P,0,$(inst.n),$(inst.m),$(length(inst.dem_s)),SKIPPED_LOW_MEMORY,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,est_bytes=$(round(Int, arc_bytes_estimate(nvars, P))),NaN,NaN,NaN")
                 return
             end
             rs = [build_r(inst, p; mode=r_mode) for p in 1:P]

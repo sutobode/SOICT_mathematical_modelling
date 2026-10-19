@@ -642,3 +642,20 @@ end
     r2 = Dict(zip(split(readlines(csv2)[1], ","), split(readlines(csv2)[2], ",")))
     @test isnan(parse(Float64, r2["lns_mlu"]))
 end
+
+@testset "presolve is switched off only for very large arc models" begin
+    @test Orange.presolve_setting(990_000) == "choose"          # setA-05, t=0: giải được với presolve (172 s)
+    @test Orange.presolve_setting(1_470_001) == "off"           # setA-04, t=0,1: presolve không tôn trọng giới hạn thời gian
+end
+
+@testset "arc runner skips instead of exhausting memory" begin
+    out = mktempdir()
+    csv = run_instance(TOY, "toy", 2, 60; runs=1, outdir=out, mem_budget_bytes=1.0)
+    lines = readlines(csv)
+    r = Dict(zip(split(lines[1], ","), split(lines[2], ",")))
+    @test r["status"] == "SKIPPED_LOW_MEMORY"
+    @test length(split(lines[2], ",")) == length(split(lines[1], ","))
+    csv2 = run_instance(TOY, "toy", 2, 60; runs=1, outdir=out, mem_budget_bytes=1e12, tag="-ok")
+    @test Dict(zip(split(readlines(csv2)[1], ","), split(readlines(csv2)[2], ",")))["status"] == "Optimal"
+    @test Orange.arc_bytes_estimate(980_000, 2) > Orange.arc_bytes_estimate(980_000, 1)
+end

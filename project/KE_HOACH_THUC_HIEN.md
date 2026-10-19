@@ -362,7 +362,7 @@ git add orange && git commit -m "feat: read instances from json"
     @test f[arc(inst, 6)] ≈ 0.75                         # a3,5
     @test f[arc(inst, 18)] ≈ 0.25                        # a4,3
     @test f[arc(inst, 9)] ≈ 0.25                         # a4,6
-    @test f[arc(inst, 10)] ≈ 0.25                        # a6,5
+    @test f[arc(inst, 21)] ≈ 0.25                        # a6,5 (id 21: 6->5)
     g = ecmp_split(inst, R, 3, 6)                        # v2 -> v5
     @test g[arc(inst, 4)] ≈ 1.0 && g[arc(inst, 9)] ≈ 0.5
     @test (f[arc(inst, 9)] * 50 + g[arc(inst, 9)] * 100) / 200 ≈ 0.3125

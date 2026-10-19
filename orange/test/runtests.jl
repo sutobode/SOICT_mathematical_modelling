@@ -197,3 +197,27 @@ end
     @test all(d -> paths[(d, 1)] == paths[(d, 2)], 1:2)
     @test value(z) ≈ brute_best(inst, 2) atol = 1e-6
 end
+
+@testset "toy t=0,1 with maxSeg=4 (có thể có chu trình)" begin
+    inst = read_instance(TOY)
+    rs = [build_r(inst, p) for p in 1:2]
+    model, x, z = build_model(inst, rs, 2, OPT; tlimit=120)
+    optimize!(model)
+    @test termination_status(model) == MOI.OPTIMAL
+    paths = extract_paths(inst, x, 2)
+    chk = check_solution(inst, rs, paths, 2, value(z))
+    @test chk.budget_ok
+    @test chk.mlu <= base_mlu(inst, rs, 2) + 1e-9
+    @test chk.mlu <= brute_best(read_instance(TOY; maxseg=2), 2) + 1e-6   # nhiều đoạn hơn không tệ hơn
+end
+
+@testset "setA-01 smoke (t=0)" begin
+    inst = read_instance(joinpath(SETA, "setA-01"))
+    rs = [build_r(inst, 1)]
+    model, x, z = build_model(inst, rs, 1, OPT; tlimit=120)
+    t = @elapsed optimize!(model)
+    @info "setA-01 t=0" termination_status(model) value(z) base_mlu(inst, rs, 1) t
+    @test has_values(model)
+    chk = check_solution(inst, rs, extract_paths(inst, x, 1), 1, value(z); tol=1e-5)
+    @test chk.mlu <= base_mlu(inst, rs, 1) + 1e-9
+end

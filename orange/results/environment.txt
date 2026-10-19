@@ -1,0 +1,26 @@
+Julia Version 1.13.1
+Commit 96ca370cf0 (2026-09-25 19:34 UTC)
+Build Info:
+  Official https://julialang.org release
+Platform Info:
+  OS: Windows (x86_64-w64-mingw32)
+  CPU: 16 × 12th Gen Intel(R) Core(TM) i7-1270P
+  WORD_SIZE: 64
+  LLVM: libLLVM-20.1.8 (ORCJIT, alderlake)
+  GC: Built with stock GC
+Threads: 1 default, 1 interactive, 1 GC (on 16 virtual cores)
+Project Orange v0.1.0
+Status `C:\Users\X1\Project\SOICT_mathematical_modelling\orange\Project.toml`
+  [86223c79] Graphs v1.15.0
+  [87dc4568] HiGHS v1.26.0
+  [0f8b85d8] JSON3 v1.14.3 [deprecated]
+  [4076af6c] JuMP v1.32.1
+  [10745b16] Statistics v1.11.5
+  [9a3f8284] Random v1.11.0
+  [2f01184e] SparseArrays v1.13.0
+  [8dfed614] Test v1.11.0
+Info Packages marked with [deprecated] are no longer maintained. Use `status --deprecated` to see more information.
+Warning The project dependencies or compat requirements have changed since the manifest was last resolved. It is recommended to `Pkg.resolve()` or consider `Pkg.update()` if necessary.
+12th Gen Intel(R) Core(TM) i7-1270P
+RAM GB: 31.6
+Microsoft Windows 11 Pro

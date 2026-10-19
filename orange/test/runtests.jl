@@ -234,3 +234,15 @@ end
     csv2 = run_instance(joinpath(out, "missing"), "missing", 1, 10; runs=1, outdir=out)
     @test split(readlines(csv2)[2], ",")[7] == "ERROR"
 end
+
+@testset "local search" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, p) for p in 1:2]
+    paths, mlu = local_search(inst, rs, 1; time_limit=5.0)
+    @test mlu <= base_mlu(inst, rs, 1) + 1e-12
+    @test mlu >= brute_best(inst, 1) - 1e-9
+    @test mlu ≈ max_utilization(inst, rs, paths, 1)
+    inst0 = read_instance(TOY; maxseg=2, budget=0)
+    paths0, _ = local_search(inst0, rs, 2; time_limit=5.0)
+    @test all(d -> paths0[(d, 1)] == paths0[(d, 2)], 1:2)
+end

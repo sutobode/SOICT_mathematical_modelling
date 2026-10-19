@@ -358,7 +358,7 @@ end
     rs = [build_r(inst, p) for p in 1:2]
     wp = Dict((1, 1) => [1, 5, 6], (2, 1) => [3, 6], (1, 2) => [1, 5, 6], (2, 2) => [3, 6])
     model, y, C = build_wp_model(inst, rs, 2, OPT; K=3, start_paths=wp)
-    c1 = findfirst(==(5), C[1])
+    c1 = findfirst(==([5]), C[1])
     @test c1 !== nothing && start_value(y[1][1][c1]) == 1.0                 # waypoint v4 phải nằm trong ứng viên và được dùng làm khởi tạo
     optimize!(model)
     @test objective_value(model) <= max_utilization(inst, rs, wp, 2) + 1e-6
@@ -373,8 +373,8 @@ end
     rs = [build_r(inst, p) for p in 1:2]
     wp = Dict((1, 1) => [1, 5, 6], (2, 1) => [3, 6], (1, 2) => [1, 5, 6], (2, 2) => [3, 6])
     model, y, C = build_wp_model(inst, rs, 2, OPT; K=0, start_paths=wp)      # K=0: chỉ "không waypoint"
-    @test 5 in C[1] && C[2] == [0]
-    c = findfirst(==(5), C[1])
+    @test [5] in C[1] && C[2] == [Int[]]
+    c = findfirst(==([5]), C[1])
     @test start_value(y[1][1][c]) == 1.0 && start_value(y[1][2][c]) == 1.0
     optimize!(model)
     @test objective_value(model) <= max_utilization(inst, rs, wp, 2) + 1e-6
@@ -397,4 +397,45 @@ end
     # lỗi đọc dữ liệu: ghi ERROR, không ném
     csv3 = run_wp_instance(joinpath(out, "missing"), "missing", 1, 10; outdir=out)
     @test split(readlines(csv3)[2], ",")[8] == "ERROR"
+end
+
+# vét cạn với tối đa 2 waypoint mỗi demand (tương ứng maxSeg = 3)
+function brute2_best(inst, P)
+    n, nD = inst.n, length(inst.dem_s)
+    rs = [build_r(inst, p) for p in 1:P]
+    seq(d, w) = vcat(inst.dem_s[d], w, inst.dem_t[d])
+    opts = [vcat([Int[]], [[w] for w in 1:n if w != inst.dem_s[d] && w != inst.dem_t[d]],
+                 [[a, b] for a in 1:n for b in 1:n if a != b && a != inst.dem_s[d] && a != inst.dem_t[d] &&
+                  b != inst.dem_s[d] && b != inst.dem_t[d]]) for d in 1:nD]
+    joint = collect(Iterators.product(opts...))
+    u = [[maximum(utilization(inst, rs, Dict((d, p) => seq(d, c[d]) for d in 1:nD), p)) for c in joint] for p in 1:P]
+    best = Inf
+    for (i0, c0) in enumerate(joint)
+        if P == 1
+            best = min(best, u[1][i0]); continue
+        end
+        for (i1, c1) in enumerate(joint)
+            ch = sum(changes(seq(d, c0[d]), seq(d, c1[d])) for d in 1:nD)
+            ch <= inst.budget[2] && (best = min(best, max(u[1][i0], u[2][i1])))
+        end
+    end
+    return best
+end
+
+@testset "waypoint model with pairs equals brute force (maxSeg=3)" begin
+    for (b, P) in ((20, 1), (3, 2))
+        inst = read_instance(TOY; maxseg=3, budget=b)
+        rs = [build_r(inst, p) for p in 1:P]
+        model, y, W = build_wp_model(inst, rs, P, OPT; K=100, K2=100)
+        optimize!(model)
+        @test termination_status(model) == MOI.OPTIMAL
+        z2 = objective_value(model)
+        @test z2 ≈ brute2_best(inst, P) atol = 1e-5
+        single, _, _ = build_wp_model(inst, rs, P, OPT; K=100)
+        optimize!(single)
+        @test z2 <= objective_value(single) + 1e-6               # thêm cặp waypoint không tệ hơn (HiGHS mip_abs_gap = 1e-6)
+        paths = extract_wp_paths(inst, y, W, P)
+        @test all(length(paths[(d, p)]) <= 4 for d in 1:2, p in 1:P)
+        @test check_solution(inst, rs, paths, P, z2 + 1e-5).budget_ok
+    end
 end

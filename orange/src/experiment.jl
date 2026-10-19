@@ -89,6 +89,16 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
     return csv
 end
 
+"Ước lượng byte cho mỗi biến nhị phân của mô hình waypoint (2 đoạn/đường, mỗi hạng tử ~100 B, cộng ~800 B cố định)."
+wp_bytes_per_binary(avg_len) = 2 * avg_len * 100 + 800
+
+"K lớn nhất (≤ nmax) sao cho mô hình vừa `budget_bytes` RAM; `nothing` nếu ngay cả K = 0 cũng không vừa."
+function choose_K(nD::Int, P::Int, nmax::Int, avg_len::Real, budget_bytes::Real)
+    maxbin = floor(Int, budget_bytes / wp_bytes_per_binary(avg_len))
+    K = maxbin ÷ (nD * P) - 1
+    return K < 0 ? nothing : min(K, nmax)
+end
+
 const WP_HEADER = "instance,P,K,n,m,nD,binaries,status,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,heur_mlu,heur_time,cg_lp,cg_iters,cg_time"
 
 """
@@ -98,7 +108,7 @@ sao cho |D|·P·(K+1) ≤ max_binaries, tối đa n-2 (mọi nút). Nghiệm heu
 function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, tlimit::Real;
                          outdir::AbstractString="results", r_mode::Symbol=:ecmp, budget=nothing,
                          tag::AbstractString="", max_binaries::Int=1_500_000, heur_time::Real=30.0,
-                         use_colgen::Bool=false, K0::Int=3)
+                         use_colgen::Bool=false, K0::Int=3, mem_budget_bytes=nothing)
     mkpath(outdir)
     csv = joinpath(outdir, "$(name)-wp-P$(P)$(tag).csv")
     open(csv, "w") do io
@@ -109,6 +119,14 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
             K = inst.maxseg >= 2 ? clamp(max_binaries ÷ (nD * P) - 1, 0, inst.n - 2) : 0
             rs = [build_r(inst, p; mode=r_mode) for p in 1:P]
             mlu_base = base_mlu(inst, rs, P)
+            # bảo vệ bộ nhớ: giảm K cho vừa 50% RAM trống (hoặc ngân sách được chỉ định); không vừa thì bỏ qua
+            avg_len = sum(length(v) for v in values(rs[1])) / max(1, length(rs[1]))
+            budget_bytes = mem_budget_bytes === nothing ? 0.5 * Sys.free_memory() : mem_budget_bytes
+            Kmem = choose_K(nD, P, inst.n - 2, avg_len, budget_bytes)
+            if !use_colgen
+                Kmem === nothing && error("SKIPPED_LOW_MEMORY")
+                K = min(K, Kmem)
+            end
             th = @elapsed (hp, hm) = local_search(inst, rs, P; time_limit=min(heur_time, 0.05 * tlimit))
             opt = optimizer_with_attributes(HiGHS.Optimizer, "threads" => 1, "mip_rel_gap" => 1e-6)
             cg_lp, cg_iters, cg_time = NaN, 0, 0.0
@@ -140,7 +158,9 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
             impr = 1.0 - mlu / mlu_base
             "$name,$P,$K,$(inst.n),$(inst.m),$nD,$binaries,$status,$mlu,$mlu_base,$impr,$bnd,$gap,$(solve_time(model)),$nodes,$check,$obj,$hm,$th,$cg_lp,$cg_iters,$cg_time"
         catch e
-            "$name,$P,NaN,NaN,NaN,NaN,NaN,ERROR,NaN,NaN,NaN,NaN,NaN,NaN,NaN,$(clean(sprint(showerror, e))),NaN,NaN,NaN,NaN,NaN,NaN"
+            msg = sprint(showerror, e)
+            st = occursin("SKIPPED_LOW_MEMORY", msg) ? "SKIPPED_LOW_MEMORY" : "ERROR"
+            "$name,$P,NaN,NaN,NaN,NaN,NaN,$st,NaN,NaN,NaN,NaN,NaN,NaN,NaN,$(clean(msg)),NaN,NaN,NaN,NaN,NaN,NaN"
         end
         println(io, row)
     end

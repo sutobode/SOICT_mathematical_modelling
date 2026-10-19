@@ -60,3 +60,12 @@ function write_loads(inst::Instance, rs, paths, P::Int, file::AbstractString)
         end
     end
 end
+
+"a <=_lex b (hai vector đã sắp giảm dần), so sánh có dung sai."
+function lex_leq(a, b; tol=1e-7)
+    for (x, y) in zip(a, b)
+        x < y - tol && return true
+        x > y + tol && return false
+    end
+    return true
+end

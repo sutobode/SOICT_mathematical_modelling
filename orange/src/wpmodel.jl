@@ -23,7 +23,7 @@ end
 wp_seq(inst, d, wl) = vcat(inst.dem_s[d], wl, inst.dem_t[d])
 
 function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::Int=0, tlimit=Inf, silent=true,
-                        eps=nothing, start_paths=nothing, cands=nothing)
+                        eps=nothing, start_paths=nothing, cands=nothing, ucap=nothing)
     nD = length(inst.dem_s)
     eps = eps === nothing ? 1e-7 / nD : eps
     C = cands === nothing ? candidates(inst, rs, K) : cands
@@ -72,7 +72,9 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
         end
         for a in 1:inst.m
             a in inst.down[p] && continue
-            loadcon[p][a] = @constraint(model, load[a] <= inst.cap[a] * z)
+            # ucap[p][a] hữu hạn: cung đã bị "đóng băng" ở mức tải tối đa đó (dùng cho lex_refine)
+            level = (ucap === nothing || !isfinite(ucap[p][a])) ? z : ucap[p][a]
+            loadcon[p][a] = @constraint(model, load[a] <= inst.cap[a] * level)
         end
     end
 
@@ -194,4 +196,37 @@ function colgen(inst::Instance, rs, P::Int; K0::Int=3, add_per_demand::Int=3, ma
         added == 0 && break
     end
     return C, lp, iters
+end
+
+"""
+Tinh chỉnh theo thứ tự từ điển trên vector tải (mục tiêu (5) của đề): giải min MLU, "đóng băng" các cung đang chạm
+mức tối đa (không cho vượt mức đó), rồi giải lại để tối thiểu MLU trên các cung còn lại; lặp tối đa `levels` mức.
+Trả về (paths, số mức đã giải). Luôn trả về nghiệm tốt hơn hoặc bằng `start_paths` theo thứ tự từ điển.
+"""
+function lex_refine(inst::Instance, rs, P::Int, optimizer; K::Int=20, cands=nothing, levels::Int=5,
+                    tlimit=Inf, start_paths=nothing)
+    vec(paths) = sort(vcat([utilization(inst, rs, paths, p)[[a for a in 1:inst.m if !(a in inst.down[p])]] for p in 1:P]...); rev=true)
+    ucap = [fill(Inf, inst.m) for _ in 1:P]
+    best = start_paths
+    cur = start_paths
+    done = 0
+    for lv in 1:levels
+        model, y, W = build_wp_model(inst, rs, P, optimizer; K=K, cands=cands, tlimit=tlimit, start_paths=cur, ucap=ucap)
+        optimize!(model)
+        has_values(model) || break
+        cur = extract_wp_paths(inst, y, W, P)
+        done = lv
+        (best === nothing || lex_leq(vec(cur), vec(best))) && (best = cur)
+        u = [utilization(inst, rs, cur, p) for p in 1:P]
+        free = [(p, a) for p in 1:P for a in 1:inst.m if !(a in inst.down[p]) && !isfinite(ucap[p][a])]
+        isempty(free) && break
+        zk = maximum(u[p][a] for (p, a) in free)
+        zk <= 1e-9 && break
+        tight = [(p, a) for (p, a) in free if u[p][a] >= zk - 1e-7 * max(1.0, zk)]
+        for (p, a) in tight
+            ucap[p][a] = zk * (1 + 1e-9) + 1e-12
+        end
+        length(tight) == length(free) && break
+    end
+    return best, done
 end

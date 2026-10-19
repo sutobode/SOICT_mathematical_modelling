@@ -507,3 +507,50 @@ end
     @test parse(Int, rc["cg_iters"]) >= 1
     @test parse(Int, rc["binaries"]) <= parse(Int, rp["binaries"])
 end
+
+lexcmp_leq(a, b; tol=1e-7) = begin
+    for (x, y) in zip(a, b)
+        x < y - tol && return true
+        x > y + tol && return false
+    end
+    true
+end
+
+sorted_loads(inst, rs, paths, P) = sort(vcat([utilization(inst, rs, paths, p)[[a for a in 1:inst.m if !(a in inst.down[p])]] for p in 1:P]...); rev=true)
+
+@testset "lexicographic refinement never worsens the sorted load vector" begin
+    for (b, P) in ((20, 1), (20, 2), (3, 2))
+        inst = read_instance(TOY; maxseg=2, budget=b)
+        rs = [build_r(inst, p) for p in 1:P]
+        model, y, W = build_wp_model(inst, rs, P, OPT; K=inst.n)
+        optimize!(model)
+        base_paths = extract_wp_paths(inst, y, W, P)
+        zstar = maximum(sorted_loads(inst, rs, base_paths, P))
+        paths, levels = lex_refine(inst, rs, P, OPT; K=inst.n, levels=6, start_paths=base_paths)
+        v0, v1 = sorted_loads(inst, rs, base_paths, P), sorted_loads(inst, rs, paths, P)
+        @test v1[1] ≈ zstar atol = 1e-6                              # mức đầu giữ nguyên
+        @test lexcmp_leq(v1, v0)
+        @test levels >= 1
+        @test check_solution(inst, rs, paths, P, zstar + 1e-5).budget_ok
+    end
+end
+
+
+@testset "choose_K fits the memory budget" begin
+    per_binary = Orange.wp_bytes_per_binary(10.0)
+    @test per_binary == 2 * 10.0 * 100 + 800
+    # nD=2, P=2: mỗi tăng K thêm 4 nhị phân; ngân sách vừa đủ 12 nhị phân => K=2
+    @test Orange.choose_K(2, 2, 5, 10.0, 12 * per_binary) == 2
+    @test Orange.choose_K(2, 2, 5, 10.0, 1e12) == 5                 # đủ RAM: lấy mọi nút (n-2)
+    @test Orange.choose_K(2, 2, 5, 10.0, 3 * per_binary) === nothing  # không đủ cho cả K=0 (4 nhị phân)
+end
+
+@testset "waypoint runner skips instead of exhausting memory" begin
+    out = mktempdir()
+    csv = run_wp_instance(TOY, "toy", 2, 60; outdir=out, mem_budget_bytes=1.0)
+    r = Dict(zip(split(readlines(csv)[1], ","), split(readlines(csv)[2], ",")))
+    @test r["status"] == "SKIPPED_LOW_MEMORY"
+    @test length(split(readlines(csv)[2], ",")) == length(split(readlines(csv)[1], ","))
+    csv2 = run_wp_instance(TOY, "toy", 2, 60; outdir=out, mem_budget_bytes=1e12, tag="-ok")
+    @test Dict(zip(split(readlines(csv2)[1], ","), split(readlines(csv2)[2], ",")))["status"] == "Optimal"
+end

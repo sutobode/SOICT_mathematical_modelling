@@ -32,7 +32,9 @@ def main():
         sys.exit(1)
     who = re.sub(r"[^A-Za-z0-9_-]", "", sys.argv[1])
     files = []
-    files += [f for f in glob.glob(os.path.join(RES, "setA-*-r[0-9]*-[0-9]*.csv"))]
+    files += [f for f in glob.glob(os.path.join(RES, "setA-*-r[0-9]*-[0-9]*.csv"))]          # kết quả các lần chạy (cả -loads.csv)
+    files += glob.glob(os.path.join(RES, "setA-*-r[0-9]*-[0-9]*-*.csv"))
+    files += glob.glob(os.path.join(RES, "setA-*-r[0-9]*-[0-9]*-srpaths.json"))               # nghiệm của lần chạy đầu trong khoảng
     files += glob.glob(os.path.join(RES, "solverlogs", "*.log"))
     files += glob.glob(os.path.join(RES, "log-*.txt"))
     env = os.path.join(RES, f"environment-{who}.txt")

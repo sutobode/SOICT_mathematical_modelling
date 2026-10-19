@@ -8,3 +8,6 @@
 == setA-08 P=1  free RAM 14.0 GiB
 == setA-09 P=1  free RAM 13.9 GiB
 == setA-10 P=1  free RAM 14.0 GiB
+== setA-11 P=1  free RAM 12.8 GiB
+== setA-12 P=1  free RAM 12.8 GiB
+== setA-13 P=1  free RAM 12.7 GiB

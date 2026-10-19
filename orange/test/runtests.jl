@@ -494,3 +494,16 @@ end
     @test termination_status(model) == MOI.OPTIMAL
     @test objective_value(model) <= base_mlu(inst, rs, 2) + 1e-9
 end
+
+@testset "waypoint runner with column generation" begin
+    out = mktempdir()
+    plain = run_wp_instance(TOY, "toy", 1, 60; outdir=out)
+    cg = run_wp_instance(TOY, "toy", 1, 60; outdir=out, use_colgen=true, K0=0, tag="-cg")
+    rp = Dict(zip(split(readlines(plain)[1], ","), split(readlines(plain)[2], ",")))
+    rc = Dict(zip(split(readlines(cg)[1], ","), split(readlines(cg)[2], ",")))
+    @test rc["status"] == "Optimal" && rc["check"] == "ok"
+    @test parse(Float64, rc["mlu"]) ≈ parse(Float64, rp["mlu"]) atol = 1e-6          # cùng nghiệm tối ưu
+    @test parse(Float64, rc["cg_lp"]) <= parse(Float64, rc["obj"]) + 1e-9            # cận dưới hợp lệ (P=1)
+    @test parse(Int, rc["cg_iters"]) >= 1
+    @test parse(Int, rc["binaries"]) <= parse(Int, rp["binaries"])
+end

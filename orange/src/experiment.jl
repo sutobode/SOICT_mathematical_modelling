@@ -89,7 +89,7 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
     return csv
 end
 
-const WP_HEADER = "instance,P,K,n,m,nD,binaries,status,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,heur_mlu,heur_time"
+const WP_HEADER = "instance,P,K,n,m,nD,binaries,status,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,heur_mlu,heur_time,cg_lp,cg_iters,cg_time"
 
 """
 Chạy mô hình waypoint (≤ 1 waypoint mỗi demand) cho một instance. K (số ứng viên mỗi demand) là lớn nhất
@@ -97,7 +97,8 @@ sao cho |D|·P·(K+1) ≤ max_binaries, tối đa n-2 (mọi nút). Nghiệm heu
 """
 function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, tlimit::Real;
                          outdir::AbstractString="results", r_mode::Symbol=:ecmp, budget=nothing,
-                         tag::AbstractString="", max_binaries::Int=1_500_000, heur_time::Real=30.0)
+                         tag::AbstractString="", max_binaries::Int=1_500_000, heur_time::Real=30.0,
+                         use_colgen::Bool=false, K0::Int=3)
     mkpath(outdir)
     csv = joinpath(outdir, "$(name)-wp-P$(P)$(tag).csv")
     open(csv, "w") do io
@@ -110,7 +111,14 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
             mlu_base = base_mlu(inst, rs, P)
             th = @elapsed (hp, hm) = local_search(inst, rs, P; time_limit=min(heur_time, 0.05 * tlimit))
             opt = optimizer_with_attributes(HiGHS.Optimizer, "threads" => 1, "mip_rel_gap" => 1e-6)
-            model, y, C = build_wp_model(inst, rs, P, opt; K=K, tlimit=tlimit, start_paths=hp)
+            cg_lp, cg_iters, cg_time = NaN, 0, 0.0
+            cands = nothing
+            if use_colgen                      # ứng viên do sinh cột chọn (thay cho K nút có độ vòng nhỏ nhất)
+                cg_time = @elapsed (cands, cg_lp, cg_iters) = colgen(inst, rs, P; K0=K0)
+                K = K0
+                P > 1 && (cg_lp = NaN)         # với P > 1 ngân sách không được định giá: LP không phải cận dưới hợp lệ
+            end
+            model, y, C = build_wp_model(inst, rs, P, opt; K=K, tlimit=tlimit, start_paths=hp, cands=cands)
             binaries = sum(length(C[d]) for d in 1:nD) * P
             optimize!(model)
             st = termination_status(model)
@@ -130,9 +138,9 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
                 write_loads(inst, rs, paths, P, joinpath(outdir, "$(name)-wp-P$(P)$(tag)-loads.csv"))
             end
             impr = 1.0 - mlu / mlu_base
-            "$name,$P,$K,$(inst.n),$(inst.m),$nD,$binaries,$status,$mlu,$mlu_base,$impr,$bnd,$gap,$(solve_time(model)),$nodes,$check,$obj,$hm,$th"
+            "$name,$P,$K,$(inst.n),$(inst.m),$nD,$binaries,$status,$mlu,$mlu_base,$impr,$bnd,$gap,$(solve_time(model)),$nodes,$check,$obj,$hm,$th,$cg_lp,$cg_iters,$cg_time"
         catch e
-            "$name,$P,NaN,NaN,NaN,NaN,NaN,ERROR,NaN,NaN,NaN,NaN,NaN,NaN,NaN,$(clean(sprint(showerror, e))),NaN,NaN,NaN"
+            "$name,$P,NaN,NaN,NaN,NaN,NaN,ERROR,NaN,NaN,NaN,NaN,NaN,NaN,NaN,$(clean(sprint(showerror, e))),NaN,NaN,NaN,NaN,NaN,NaN"
         end
         println(io, row)
     end

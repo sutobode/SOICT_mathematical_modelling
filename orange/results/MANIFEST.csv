@@ -68,7 +68,7 @@ setA-02-P1-srpaths.json,706,e5bcbfb432521fcb451e3f52e3767fb2362385174ea81ac07d90
 setA-02-P1.csv,2149,7a8edbe7d8f6b6c8d5037b546a2bdc3fbe431fb47e0060e0c7b1f08bb1bd37df,2026-10-19 11:13:20,8e92740,docs: orange README and decision log (teacher unavailable)
 setA-02-P2-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
 setA-02-P2-pc-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 14:58:24,b2e405c,feat: brief status mode
-setA-02-P2-pc-r4-10.csv,896,1ef6711c0824550efad7f72fcf65808ec850dc544cc29f1025d40ffde8173072,2026-10-20 01:24:28,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
+setA-02-P2-pc-r4-10.csv,1093,de18b016a7bcb0a015fc0404f0ec353cc9764507d996b7e3720e3642eb0e0a46,2026-10-20 02:08:51,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
 setA-02-P2-pc-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 14:58:24,b2e405c,feat: brief status mode
 setA-02-P2-pc.csv,708,c51188fb5c04e40fd3308134fadd10e2ff948fc5fa100c320e1bba41e66e2e54,2026-10-19 16:36:58,b2e405c,feat: brief status mode
 setA-02-P2-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
@@ -147,7 +147,9 @@ setA-05-P1-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453d
 setA-05-P1-pc.csv,788,3fd8425208c294df092c9269b18f57c0803bb2ee510c111040c8cdb152e7bb1f,2026-10-19 16:03:56,b2e405c,feat: brief status mode
 setA-05-P1-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 12:52:51,916b227,feat: best-known aggregation script
 setA-05-P1.csv,788,9644351a70ced602dba322ee6220a85ed9644e1b401f16c4299ed669f11a6c85,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-05-P2-pc-r1-5.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-20 01:06:13,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
+setA-05-P2-pc-r1-5-loads.csv,23986,ce8897e19a1787531254b75553ede25341ef551e9dcd3cf716ecacb733621a16,2026-10-20 02:12:33,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
+setA-05-P2-pc-r1-5-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-20 02:12:31,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
+setA-05-P2-pc-r1-5.csv,290,e7d31306df5a64a95859af27df8bce39900d7138a6a6ef1eda0cc37136540afc,2026-10-20 02:12:33,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
 setA-05-wp-P1-cg-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
 setA-05-wp-P1-cg-pc-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
 setA-05-wp-P1-cg-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
@@ -346,7 +348,8 @@ setA-20-wp-P2-cg-pc-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f
 setA-20-wp-P2-cg-pc.csv,350,90273b9feb93fab968d590b689c53b0f907e2e83b12d5aa2265a750b9d92ce0e,2026-10-19 14:17:38,31fd7e8,feat: LNS polishing option in the waypoint runner and script
 setA-20-wp-P2-cg-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 21:55:08,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
 setA-20-wp-P2-cg.csv,375,4945c9f0973c2256aa82801a215ead1fc9aa65e0543b57a4dba81178da80692a,2026-10-19 21:55:09,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-solverlogs/setA-05-P2-pc-r1-5-run1.log,1961,649ef04d08ba2eb6c33ca953fc40f159cc08d731ca6abaa79485a9e4df02bc51,2026-10-20 01:13:58,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
+solverlogs/setA-05-P2-pc-r1-5-run1.log,2814,511e64a38cf665168e0e596253076609d99e9c5cdc1e413e1e8d7226a39ede80,2026-10-20 02:12:20,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
+solverlogs/setA-05-P2-pc-r1-5-run2.log,208,23585b9c9d998fe10c3867d35d3570472d5ad7679e8df4cc5f981709dbec945b,2026-10-20 02:13:45,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
 table_official_P1.csv,1456,03908e056a554990870acb1fc1d4719b3d01b3ba5795dfe94cec886d3948dbe8,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
 table_official_P1.md,2600,c5fd115adf687e4ccf2bebbf66d6bdb23b0efb3ae795a31a794dcf90ebd5415a,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"
 table_official_P2.csv,1520,0befd7af68fb7ea8dedb88af2fea295f3273865988b9924aabc2ce14c2f6a733,2026-10-20 00:23:51,df19a2e,"data: Phase 1 complete (both official tables with 20 rows, 92 solutions verified), journal updated"

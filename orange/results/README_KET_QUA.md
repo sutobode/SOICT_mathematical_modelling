@@ -68,4 +68,8 @@ Tạo lại: `python -I orange/scripts/make_manifest.py` (cũng tự chạy mỗ
 6. CPU time là thời gian chạy thực (wall-clock) của `optimize!` với HiGHS một luồng.
 7. Gap `lb_1wp` chỉ là cận dưới của bài toán hạn chế một waypoint, không phải của bài toán gốc.
 
+8. **Điều kiện đo thời gian:** các lần chạy 1–3 của mỗi dòng và các lần bổ sung 4–10 được chạy ở những thời điểm có tải máy khác nhau. Các lần bổ sung (seed 4–10) chạy song song với nhiều tiến trình khác nên `solve_time` có thể dài hơn (ví dụ setA-05 ở t=0: 172 s khi ít tải, khoảng 330 s khi tải nặng). Giá trị MLU không bị ảnh hưởng, nhưng **thời gian và trạng thái "Optimal / Not Optimal" có thể khác** (setA-02 ở t=0,1: Optimal ở khoảng 2000 s khi ít tải, chạm 3600 s khi tải nặng); cột Status của bảng chính thức ghi dạng `Optimal k/n` khi các lần chạy không đồng nhất.
+9. **Sự cố máy ngủ 18:40–19:10 ngày 19/10** (Windows Modern Standby, nhật ký `Kernel-Power`): các lần chạy đang dở lúc đó có thời gian thực bị kéo dài; chỉ ảnh hưởng một vài lần chạy của các chuỗi sinh cột/LNS, không ảnh hưởng giá trị MLU.
+10. **Giới hạn thời gian của HiGHS:** với mô hình theo cung rất lớn (setA-04 ở t=0,1: 1,47 triệu biến) presolve của HiGHS không tôn trọng giới hạn thời gian (đã đo: không trả về sau hơn 20 phút khi đặt 120 s). Presolve được tắt cho các mô hình trên 1,2 triệu biến; `optimize!` khi đó trả về trễ vài chục giây so với giới hạn (ví dụ 3614 s so với 3600 s).
+
 Chi tiết đầy đủ: `orange/README.md` (mục 5e đối chiếu yêu cầu của thầy), `project/BAI_TOAN_FINAL.md`.

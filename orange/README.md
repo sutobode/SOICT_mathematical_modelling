@@ -106,13 +106,13 @@ Mô hình đúng theo đề: biến nhị phân $x^{dt}_{ij}$, ràng buộc bả
 
 ## 5b. Mô hình waypoint (thuật toán mở rộng, `src/wpmodel.jl`)
 
-Mô hình theo cung ở mục 5 có $\lvert Dvert\,n(n-1)$ biến nhị phân mỗi thời kỳ nên chỉ chạy được cho setA-01 đến 05, và cận dưới LP rất yếu. Mô hình waypoint thay thế biến cung bằng **biến chọn phương án**: với mỗi demand $d$ và thời kỳ $t$, chọn đúng một phương án trong $W_d$ = {không waypoint} $\cup$ {một waypoint $w\in C_d$} $\cup$ {cặp $(w_1,w_2)$ lấy từ $K_2$ ứng viên đầu}.
+Mô hình theo cung ở mục 5 có $\lvert D\rvert\,n(n-1)$ biến nhị phân mỗi thời kỳ nên chỉ chạy được cho setA-01 đến 05, và cận dưới LP rất yếu. Mô hình waypoint thay thế biến cung bằng **biến chọn phương án**: với mỗi demand $d$ và thời kỳ $t$, chọn đúng một phương án trong $W_d$ = {không waypoint} $\cup$ {một waypoint $w\in C_d$} $\cup$ {cặp $(w_1,w_2)$ lấy từ $K_2$ ứng viên đầu}.
 
-- **Tải:** phương án $c$ đóng góp $r(	ext{đoạn},a,t)\,\delta(d,t)$ trên từng đoạn của đường $s	o w	o	au$; ràng buộc $	ext{tải}(a)\le c(a)\,z$ như cũ.
-- **Ngân sách:** $\sum_d\sum_{	ext{đoạn}}\lvert g_t-g_{t-1}vert\leeta(t)$ với $g$ là chỉ báo (0/1) đoạn đó nằm trong đường được chọn; đây chính là định nghĩa `dist` của đề.
-- **Ứng viên $C_d$:** $K$ nút có độ vòng $D[s,w]+D[w,	au]-D[s,	au]$ nhỏ nhất và có đường ở mọi thời kỳ. Với $K=n-2$ (mọi nút) và $K_2=0$ mô hình là **chính xác** cho bài toán gốc khi $	ext{maxSeg}=2$ (đã kiểm chứng bằng vét cạn trên toy với ngân sách 0, 3, 20 và $P=1,2$); với $K_2=n-2$ là chính xác khi $	ext{maxSeg}=3$. Với $	ext{maxSeg}$ lớn hơn (SetA có $	ext{maxSeg}=6$) nghiệm là **cận trên** của bài toán gốc.
+- **Tải:** phương án $c$ đóng góp $r(\text{đoạn},a,t)\,\delta(d,t)$ trên từng đoạn của đường $s\to w\to\tau$; ràng buộc $\text{tải}(a)\le c(a)\,z$ như cũ.
+- **Ngân sách:** $\sum_d\sum_{\text{đoạn}}\lvert g_t-g_{t-1}\rvert\le\beta(t)$ với $g$ là chỉ báo (0/1) đoạn đó nằm trong đường được chọn; đây chính là định nghĩa `dist` của đề.
+- **Ứng viên $C_d$:** $K$ nút có độ vòng $D[s,w]+D[w,\tau]-D[s,\tau]$ nhỏ nhất và có đường ở mọi thời kỳ. Với $K=n-2$ (mọi nút) và $K_2=0$ mô hình là **chính xác** cho bài toán gốc khi $\text{maxSeg}=2$ (đã kiểm chứng bằng vét cạn trên toy với ngân sách 0, 3, 20 và $P=1,2$); với $K_2=n-2$ là chính xác khi $\text{maxSeg}=3$. Với $\text{maxSeg}$ lớn hơn (SetA có $\text{maxSeg}=6$) nghiệm là **cận trên** của bài toán gốc.
 - **Khởi tạo:** nghiệm heuristic được thêm vào tập phương án nếu hợp lệ ở mọi thời kỳ.
-- **Kích thước:** $\lvert Dvert\cdot P\cdot\lvert W_dvert$ biến (ví dụ setA-06: 49 500 biến thay vì 4,95 triệu). `run_wp_instance` chọn $K$ lớn nhất sao cho số biến không vượt `max_binaries` (mặc định $1{,}5\cdot10^6$).
+- **Kích thước:** $\lvert D\rvert\cdot P\cdot\lvert W_d\rvert$ biến (ví dụ setA-06: 49 500 biến thay vì 4,95 triệu). `run_wp_instance` chọn $K$ lớn nhất sao cho số biến không vượt `max_binaries` (mặc định $1{,}5\cdot10^6$).
 - **Chất lượng đo được** ($t=0$, $K=n-2$, một waypoint, HiGHS 1 luồng): giải tối ưu trong vài giây cho setA-01 đến 09; ví dụ setA-06: MLU 0,0986 (heuristic: 0,2676); setA-05 với $t=0,1$: 0,205 (heuristic bị kẹt ở 1,0).
 
 ## 6. Giới hạn đã biết

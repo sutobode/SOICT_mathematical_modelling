@@ -27,6 +27,12 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, tlimit
     nD = length(inst.dem_s)
     eps = eps === nothing ? 1e-7 / nD : eps
     C = cands === nothing ? candidates(inst, rs, K) : cands
+    if start_paths !== nothing                          # waypoint của nghiệm khởi tạo luôn là ứng viên
+        for d in 1:nD, p in 1:P
+            seq = start_paths[(d, p)]
+            length(seq) == 3 && !(seq[2] in C[d]) && push!(C[d], seq[2])
+        end
+    end
     model = Model(optimizer)
     silent && set_silent(model)
     isfinite(tlimit) && set_time_limit_sec(model, tlimit)

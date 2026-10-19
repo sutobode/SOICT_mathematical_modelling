@@ -367,3 +367,15 @@ end
     optimize!(full_model)
     @test objective_value(full_model) <= restricted + 1e-9                   # nhiều ứng viên hơn không tệ hơn
 end
+
+@testset "start waypoint is always a candidate" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, p) for p in 1:2]
+    wp = Dict((1, 1) => [1, 5, 6], (2, 1) => [3, 6], (1, 2) => [1, 5, 6], (2, 2) => [3, 6])
+    model, y, C = build_wp_model(inst, rs, 2, OPT; K=0, start_paths=wp)      # K=0: chỉ "không waypoint"
+    @test 5 in C[1] && C[2] == [0]
+    c = findfirst(==(5), C[1])
+    @test start_value(y[1][1][c]) == 1.0 && start_value(y[1][2][c]) == 1.0
+    optimize!(model)
+    @test objective_value(model) <= max_utilization(inst, rs, wp, 2) + 1e-6
+end

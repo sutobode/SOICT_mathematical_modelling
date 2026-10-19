@@ -14,10 +14,10 @@
 
 | Vai trò | Việc 1 | Việc 2 | Việc 3 | Tổng thời gian |
 |---|---|---|---|---|
-| **M2** | **Pilot**: setA-05, $t=0,1$, seed **1** (~65 phút) | setA-04, $t=0,1$, seed **5 đến 7** (~3,2 giờ) | setA-05, $t=0,1$, seed **2 đến 5** (~4,4 giờ; chỉ nếu pilot thành công) | ~8,5 giờ |
-| **M3** | setA-04, $t=0,1$, seed **8 đến 10** (~3,2 giờ) | setA-05, $t=0,1$, seed **6 đến 10** (~5,4 giờ; chỉ nếu pilot của M2 thành công) | — | ~8,5 giờ |
+| **M2** | setA-04, $t=0,1$, seed **5 đến 7** (~3,2 giờ) | setA-05, $t=0,1$, seed **6 đến 8** (~3,3 giờ; chỉ nếu pilot của M1 thành công) | — | ~6,5 giờ |
+| **M3** | setA-04, $t=0,1$, seed **8 đến 10** (~3,2 giờ) | setA-05, $t=0,1$, seed **9 đến 10** (~2,2 giờ; chỉ nếu pilot của M1 thành công) | — | ~5,4 giờ |
 
-(**M1** là người điều phối, chạy phần khác trên máy riêng; bạn không cần làm gì cho M1.) Không ai khác chạy các khoảng seed của bạn; **đừng đổi khoảng seed, tên file hay thứ tự**.
+(**M1** là người điều phối: chạy setA-04 $t=0,1$ seed 1–4 và **setA-05 $t=0,1$ seed 1–5** (làm pilot) trên máy riêng trong đêm 19→20/10, cùng các dòng khác; bạn không cần làm gì cho M1.) Không ai khác chạy các khoảng seed của bạn; **đừng đổi khoảng seed, tên file hay thứ tự**.
 
 **Quy ước tên:** lệnh có tham số `P=2` nghĩa là "thời kỳ 0 và 1 có ngân sách" (giới hạn 3600 s mỗi lần); `pc` nghĩa là dùng công thức tính hệ số tách của `calculating_r.pdf` (thầy yêu cầu).
 
@@ -130,32 +130,28 @@ Cú pháp: `run_experiments.jl <P> <giới_hạn_giây> <instance_đầu> <insta
 
 | # | Lệnh | Log | Kiểm tra khi xong |
 |---|---|---|---|
-| 1 (pilot) | `julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 1 1 -r1-1` | `log-pc-P2-05-r1-1.txt` | `python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r1-1.csv 1 1` |
-| 2 | `julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 4 pc 5 7 -r5-7` | `log-pc-P2-04-r5-7.txt` | `python orange/scripts/check_range.py orange/results/setA-04-P2-pc-r5-7.csv 5 7` |
-| 3 | `julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 2 5 -r2-5` | `log-pc-P2-05-r2-5.txt` | `python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r2-5.csv 2 5` |
+| 1 | `julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 4 pc 5 7 -r5-7` | `log-pc-P2-04-r5-7.txt` | `python orange/scripts/check_range.py orange/results/setA-04-P2-pc-r5-7.csv 5 7` |
+| 2 | `julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 6 8 -r6-8` | `log-pc-P2-05-r6-8.txt` | `python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r6-8.csv 6 8` |
 
-**Ngay sau khi pilot (lệnh 1) xong, bắt buộc** làm ba việc:
-1. chạy lệnh kiểm tra ở bảng; nếu in `COMPLETE` thì pilot **thành công**;
-2. chạy `python orange/scripts/publish_member_results.py m2` để đẩy kết quả pilot lên nhánh `results/m2` (**M3 đọc kết quả này để quyết định có chạy setA-05 hay không**; xem mục 11);
-3. nếu pilot thành công thì tiếp tục lệnh 2 rồi lệnh 3; nếu **không** (status `SKIPPED_LOW_MEMORY`, `ERROR`, hoặc máy hết bộ nhớ) thì **bỏ lệnh 3** và chỉ làm lệnh 2.
-
-Nếu pilot báo `SKIPPED_LOW_MEMORY` nhưng Task Manager/`free -g` cho thấy RAM trống thật ≥ 14 GB, chạy lại **đúng lệnh 1** thêm tham số cuối `14` (ngân sách bộ nhớ GB): `... pc 1 1 -r1-1 14`; **chỉ một lần**.
+**Trước lệnh 2 (setA-05)**, kiểm tra pilot của M1 (M1 đẩy kết quả lên nhánh `feature/tasr`; không cần hỏi ai):
+```bash
+git fetch origin feature/tasr
+git ls-tree --name-only origin/feature/tasr orange/results/ | grep "setA-05-P2-pc"        # tìm file kết quả setA-05 t=0,1 của M1 (thường setA-05-P2-pc-r1-5.csv)
+git show origin/feature/tasr:orange/results/setA-05-P2-pc-r1-5.csv | python orange/scripts/check_range.py - 1 1 --subset
+```
+- In `COMPLETE` (mã thoát 0): pilot thành công → chạy lệnh 2 (cần RAM trống ≥ 16 GB và máy ≥ 24 GB RAM; xem bước 3).
+- Không thấy file hoặc `fatal: path ... does not exist`: M1 **chưa** đẩy pilot → chờ rồi thử lại sau 30 phút (nếu sau 3 giờ vẫn không có, bỏ qua lệnh 2 và nhắn nhóm).
+- `PROBLEM`: pilot **thất bại** → **bỏ lệnh 2** (setA-05 giữ nghiệm waypoint), ghi chú trong báo cáo của bạn.
+- Nếu máy báo `SKIPPED_LOW_MEMORY` dù RAM trống thật ≥ 14 GB, chạy lại **đúng lệnh 2** thêm tham số cuối `14` (ngân sách bộ nhớ GB), **một lần**.
 
 ### Nếu bạn là M3
 
 | # | Lệnh | Log | Kiểm tra khi xong |
 |---|---|---|---|
 | 1 | `julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 4 pc 8 10 -r8-10` | `log-pc-P2-04-r8-10.txt` | `python orange/scripts/check_range.py orange/results/setA-04-P2-pc-r8-10.csv 8 10` |
-| 2 | `julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 6 10 -r6-10` | `log-pc-P2-05-r6-10.txt` | `python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r6-10.csv 6 10` |
+| 2 | `julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 9 10 -r9-10` | `log-pc-P2-05-r9-10.txt` | `python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r9-10.csv 9 10` |
 
-**Trước lệnh 2 (setA-05), kiểm tra pilot của M2 bằng lệnh sau** (không cần hỏi ai):
-```bash
-git fetch origin results/m2
-git show origin/results/m2:orange/results/setA-05-P2-pc-r1-1.csv | python orange/scripts/check_range.py - 1 1
-```
-- In `COMPLETE` (mã thoát 0): pilot thành công → chạy lệnh 2 (nếu RAM trống ≥ 16 GB, xem bước 3).
-- Báo lỗi `couldn't find remote ref` hoặc `fatal: path ... does not exist`: M2 **chưa** xong hoặc chưa đẩy pilot → chờ rồi thử lại sau 30 phút (lệnh 1 mất khoảng 3 giờ nên thường M2 đã xong pilot).
-- In `PROBLEM` hoặc `INCOMPLETE` với status lỗi: pilot **thất bại** → **bỏ lệnh 2** (setA-05 giữ nghiệm waypoint), ghi chú trong báo cáo của bạn.
+**Trước lệnh 2 (setA-05)**, kiểm tra pilot của M1 bằng đúng ba lệnh ở mục "Nếu bạn là M2" (nhánh `feature/tasr`, kết quả setA-05 $t=0,1$ của M1). Quy tắc quyết định giống M2.
 
 ## 11. Bước 9 — Theo dõi khi đang chạy
 
@@ -168,7 +164,7 @@ git show origin/results/m2:orange/results/setA-05-P2-pc-r1-1.csv | python orange
 
 ## 12. Bước 10 — Đẩy kết quả lên nhánh riêng của bạn
 
-Sau **mỗi khoảng xong** (và ngay sau pilot với M2), chạy:
+Sau **mỗi khoảng xong**, chạy:
 ```bash
 python orange/scripts/publish_member_results.py <ten> --dry-run     # xem trước sẽ thêm những file nào
 python orange/scripts/publish_member_results.py <ten>                 # tạo nhánh results/<ten>, commit, đẩy lên origin
@@ -205,8 +201,8 @@ Nếu bạn là coding agent và người dùng nói họ là M2 hoặc M3:
 
 | Vai trò | Hoàn thành khi |
 |---|---|
-| **M2** | `check_range.py` báo `COMPLETE` cho `setA-05-P2-pc-r1-1.csv` (1 dòng), `setA-04-P2-pc-r5-7.csv` (3 dòng) và `setA-05-P2-pc-r2-5.csv` (4 dòng; chỉ nếu pilot ổn); có `environment-m2.txt`; đã chạy `publish_member_results.py m2` thành công (hoặc đã gửi zip) |
-| **M3** | `check_range.py` báo `COMPLETE` cho `setA-04-P2-pc-r8-10.csv` (3 dòng) và `setA-05-P2-pc-r6-10.csv` (5 dòng; chỉ nếu pilot của M2 ổn); có `environment-m3.txt`; đã chạy `publish_member_results.py m3` thành công (hoặc đã gửi zip) |
+| **M2** | `check_range.py` báo `COMPLETE` cho `setA-04-P2-pc-r5-7.csv` (3 dòng) và `setA-05-P2-pc-r6-8.csv` (3 dòng; chỉ nếu pilot của M1 ổn); có `environment-m2.txt`; đã chạy `publish_member_results.py m2` thành công (hoặc đã gửi zip) |
+| **M3** | `check_range.py` báo `COMPLETE` cho `setA-04-P2-pc-r8-10.csv` (3 dòng) và `setA-05-P2-pc-r9-10.csv` (2 dòng; chỉ nếu pilot của M1 ổn); có `environment-m3.txt`; đã chạy `publish_member_results.py m3` thành công (hoặc đã gửi zip) |
 
 Cuối cùng nhắn nhóm: "M2/M3 xong, đã đẩy lên `results/m2` (hoặc `results/m3`)". M1 sẽ gộp, kiểm chứng và cập nhật bảng kết quả.
 

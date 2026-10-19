@@ -23,18 +23,14 @@ STEP 5 - Smoke test (about 1 minute). With JULIA_NUM_THREADS=1 run in the foregr
 
 STEP 6 - The assigned runs, strictly in this order, one at a time (details below). After each command finishes (the CSV exists and the process has exited) run the check command shown and record its output. Poll the running job at most every 20-30 minutes (process alive? CSV rows? free RAM?), without busy-waiting.
 
-  TASK A (pilot, about 65 minutes): setA-05, periods 0 and 1, seed 1 only.
-     Command: julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 1 1 -r1-1   (stdout/stderr -> orange/results/log-pc-P2-05-r1-1.txt)
-     Check:   python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r1-1.csv 1 1
-     IMMEDIATELY after the pilot finishes (whatever its result) run `python orange/scripts/publish_member_results.py m2` so that member M3's agent can read the pilot result from branch results/m2.
-     If check_range prints COMPLETE (exit code 0): the pilot succeeded, continue. If the status is SKIPPED_LOW_MEMORY or ERROR, or the machine ran out of memory: STOP setA-05 (skip Task C), tell me clearly, and continue with Task B only. Tell me the pilot result as soon as you have it so that I can forward it to the coordinator.
-     If the status is SKIPPED_LOW_MEMORY, do NOT retry on your own: ask me; I will check Task Manager and, if at least 14 GB of RAM is really free, tell you to add the last argument 14 (memory budget in GB) and re-run the same command (same suffix).
-  TASK B (about 3.2 hours): setA-04, periods 0 and 1, seeds 5 to 7.
+  TASK A (about 3.2 hours): setA-04, periods 0 and 1, seeds 5 to 7.
      Command: julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 4 pc 5 7 -r5-7   (log -> orange/results/log-pc-P2-04-r5-7.txt)
      Check:   python orange/scripts/check_range.py orange/results/setA-04-P2-pc-r5-7.csv 5 7
-  TASK C (about 4.4 hours, ONLY if the pilot succeeded): setA-05, periods 0 and 1, seeds 2 to 5.
-     Command: julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 2 5 -r2-5   (log -> orange/results/log-pc-P2-05-r2-5.txt)
-     Check:   python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r2-5.csv 2 5
+  TASK B (about 3.3 hours, ONLY if the pilot of member M1 succeeded): setA-05, periods 0 and 1, seeds 6 to 8.
+     BEFORE Task B check M1's pilot yourself: run `git fetch origin feature/tasr`, then `git ls-tree --name-only origin/feature/tasr orange/results/ | grep setA-05-P2-pc` to find M1's setA-05 t=0,1 result file (normally setA-05-P2-pc-r1-5.csv), then `git show origin/feature/tasr:orange/results/setA-05-P2-pc-r1-5.csv | python orange/scripts/check_range.py - 1 1 --subset`. Exit code 0 / COMPLETE: pilot succeeded. File missing: M1 has not pushed it yet; wait 30 minutes and retry (if still missing after 3 hours, skip Task B and tell me). PROBLEM: pilot failed, skip Task B and say so in the report. Start Task B only if free RAM is at least 16 GB and this machine has at least 24 GB total RAM (python orange/scripts/preflight.py).
+     Command: julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 6 8 -r6-8   (log -> orange/results/log-pc-P2-05-r6-8.txt)
+     Check:   python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r6-8.csv 6 8
+     If the status is SKIPPED_LOW_MEMORY but I confirm that at least 14 GB of RAM is really free, re-run the same command once with the extra last argument 14.
 
 STEP 7 - Publish. After EACH finished range (and when you finish, when I ask, or if you must stop early) run `python orange/scripts/publish_member_results.py m2 --dry-run`, show me the list, then `python orange/scripts/publish_member_results.py m2`; it creates the branch results/m2 and pushes ONLY result files (never main or feature/tasr, never --force). If the push is refused (no write access), run `python orange/scripts/pack_member_results.py m2` instead and tell me the path of the zip in member_results/ so that I can send it to the coordinator.
 
@@ -48,7 +44,7 @@ Be honest: report failures and partial results exactly as they are.
 ```
 
 ## Tiêu chí hoàn thành
-- `setA-05-P2-pc-r1-1.csv` (1 dòng, đã báo kết quả pilot), `setA-04-P2-pc-r5-7.csv` (3 dòng), `setA-05-P2-pc-r2-5.csv` (4 dòng, nếu pilot ổn); `check_range.py` báo COMPLETE cho mỗi khoảng; có `environment-m2.txt`; đã có file zip trong `member_results/` và đã gửi cho M1.
+- `setA-04-P2-pc-r5-7.csv` (3 dòng), `setA-05-P2-pc-r6-8.csv` (3 dòng, nếu pilot của M1 ổn); `check_range.py` báo COMPLETE cho mỗi khoảng; có `environment-m2.txt`; đã có file zip trong `member_results/` và đã gửi cho M1.
 
 ## Nếu agent hỏi hoặc dừng
 - **Thiếu RAM:** đóng trình duyệt và ứng dụng nặng, mở Task Manager xem RAM trống, rồi bảo agent chạy lại `preflight.py`.

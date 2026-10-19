@@ -1,6 +1,8 @@
 """Kiểm tra kết quả của MỘT khoảng chạy (dành cho thành viên và coding agent). Chỉ dùng thư viện chuẩn.
 
-Chạy:  python orange/scripts/check_range.py <file.csv|-> <seed_đầu> <seed_cuối>   ("-" đọc CSV từ đầu vào chuẩn)
+Chạy:  python orange/scripts/check_range.py <file.csv|-> <seed_đầu> <seed_cuối> [--subset]
+--subset: bỏ qua các lần chạy ngoài khoảng (chỉ kiểm tra các seed trong khoảng; dùng khi file chứa nhiều seed hơn)
+Ví dụ     ("-" đọc CSV từ đầu vào chuẩn)
 Ví dụ: python orange/scripts/check_range.py orange/results/setA-04-P2-pc-r5-7.csv 5 7
 In từng lần chạy (run, status, mlu, solve_time, check) và kết luận:
   COMPLETE    : có đủ các lần seed_đầu..seed_cuối, mọi dòng check=ok       (mã thoát 0)
@@ -13,10 +15,12 @@ import sys
 
 
 def main():
-    if len(sys.argv) != 4:
+    subset = "--subset" in sys.argv
+    argv = [x for x in sys.argv if x != "--subset"]
+    if len(argv) != 4:
         print(__doc__)
         sys.exit(1)
-    path, a, b = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+    path, a, b = argv[1], int(argv[2]), int(argv[3])
     if path == "-":                        # ví dụ: git show origin/results/m2:orange/results/setA-05-P2-pc-r1-1.csv | python ... check_range.py - 1 1
         rows = list(csv.DictReader(sys.stdin))
     elif not os.path.exists(path):
@@ -37,7 +41,7 @@ def main():
             problems.append(f"run {run}: check = {r.get('check')}")
     missing = [i for i in range(a, b + 1) if i not in seen]
     extra = [i for i in seen if i is not None and not (a <= i <= b)]
-    if extra:
+    if extra and not subset:
         problems.append(f"co lan chay ngoai khoang duoc giao: {extra}")
     if problems:
         print("PROBLEM:", "; ".join(problems))

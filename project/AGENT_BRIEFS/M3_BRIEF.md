@@ -26,10 +26,10 @@ STEP 6 - The assigned runs, strictly in this order, one at a time (details below
   TASK A (about 3.2 hours): setA-04, periods 0 and 1, seeds 8 to 10.
      Command: julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 4 pc 8 10 -r8-10   (log -> orange/results/log-pc-P2-04-r8-10.txt)
      Check:   python orange/scripts/check_range.py orange/results/setA-04-P2-pc-r8-10.csv 8 10
-  TASK B (about 5.4 hours, ONLY after the human confirms that the setA-05 pilot done by member M2 succeeded): setA-05, periods 0 and 1, seeds 6 to 10.
-     BEFORE starting Task B, check the pilot of member M2 yourself: run `git fetch origin results/m2` and then `git show origin/results/m2:orange/results/setA-05-P2-pc-r1-1.csv | python orange/scripts/check_range.py - 1 1`. Exit code 0 / COMPLETE means the pilot succeeded. If git says the branch or the file does not exist, M2 has not finished or published the pilot yet: wait 30 minutes and check again (ask the human only if it is still missing after 2 hours). PROBLEM, or INCOMPLETE caused by a non-Optimal/Not Optimal status, means the pilot failed. Start Task B only if the pilot succeeded AND free RAM is at least 16 GB (python orange/scripts/preflight.py) AND this machine has at least 24 GB of total RAM; otherwise skip Task B and say so in the report.
-     Command: julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 6 10 -r6-10   (log -> orange/results/log-pc-P2-05-r6-10.txt)
-     Check:   python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r6-10.csv 6 10
+  TASK B (about 2.2 hours, ONLY if the pilot of member M1 succeeded): setA-05, periods 0 and 1, seeds 9 to 10.
+     BEFORE Task B check M1's pilot yourself exactly as described for M2 (git fetch origin feature/tasr; git ls-tree ...; git show ... | python orange/scripts/check_range.py - 1 1 --subset). COMPLETE: pilot succeeded. File missing: wait 30 minutes and retry (skip after 3 hours and tell me). PROBLEM: pilot failed, skip Task B. Start Task B only if free RAM is at least 16 GB and this machine has at least 24 GB total RAM (python orange/scripts/preflight.py); otherwise skip and say so in the report.
+     Command: julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 9 10 -r9-10   (log -> orange/results/log-pc-P2-05-r9-10.txt)
+     Check:   python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r9-10.csv 9 10
 
 STEP 7 - Publish. After EACH finished range (and when you finish, when I ask, or if you must stop early) run `python orange/scripts/publish_member_results.py m3 --dry-run`, show me the list, then `python orange/scripts/publish_member_results.py m3`; it creates the branch results/m3 and pushes ONLY result files (never main or feature/tasr, never --force). If the push is refused (no write access), run `python orange/scripts/pack_member_results.py m3` instead and tell me the path of the zip in member_results/ so that I can send it to the coordinator.
 
@@ -43,7 +43,7 @@ Be honest: report failures and partial results exactly as they are.
 ```
 
 ## Tiêu chí hoàn thành
-- `setA-04-P2-pc-r8-10.csv` (3 dòng), `setA-05-P2-pc-r6-10.csv` (5 dòng, nếu pilot của M2 ổn); `check_range.py` báo COMPLETE cho mỗi khoảng; có `environment-m3.txt`; đã có file zip trong `member_results/` và đã gửi cho M1.
+- `setA-04-P2-pc-r8-10.csv` (3 dòng), `setA-05-P2-pc-r9-10.csv` (2 dòng, nếu pilot của M1 ổn); `check_range.py` báo COMPLETE cho mỗi khoảng; có `environment-m3.txt`; đã có file zip trong `member_results/` và đã gửi cho M1.
 
 ## Nếu agent hỏi hoặc dừng
 - **Thiếu RAM:** đóng trình duyệt và ứng dụng nặng, mở Task Manager xem RAM trống, rồi bảo agent chạy lại `preflight.py`.

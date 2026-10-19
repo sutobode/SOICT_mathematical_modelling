@@ -1,5 +1,7 @@
 # Kế hoạch và phân công chạy thực nghiệm song song cho 3 máy
 
+> **CẬP NHẬT 00:40 Thứ Ba 20/10:** M2 và M3 chưa chạy, nên máy M1 chạy **setA-05 $t=0,1$ seed 1–5** (làm pilot) trong đêm, sau khi setA-04 $t=0,1$ xong lần 4. Phân công mới cho setA-05: **M1 seed 1–5, M2 seed 6–8, M3 seed 9–10**; setA-04 $t=0,1$: M1 seed 1–4, M2 seed 5–7, M3 seed 8–10. Bảng và lệnh chính xác nằm trong `START_HERE.md` (nguồn đúng nhất); các bảng bên dưới có thể lệch.
+
 > Lập lúc 00:10 Thứ Ba 20/10/2026. **Mốc cứng: xong hết trước T4 (Thứ Tư 21/10).** Phạm vi: **chỉ code và chạy thực nghiệm** (chưa viết báo cáo).
 > Máy của người điều phối (**M1**) **tiếp tục chạy Phase 1 như hiện tại**, không đổi. Hai thành viên còn lại (**M2, M3**) nhận các khoảng chạy **rời nhau** bên dưới.
 

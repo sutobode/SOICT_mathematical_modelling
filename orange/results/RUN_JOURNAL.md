@@ -45,6 +45,7 @@ Ghi lại theo thứ tự thời gian **mọi lần khởi động, dừng, sự
 | 00:07 | setA-04 $t=0,1$ (bảng chính thức): lần 2 và 3 xong (Not Optimal, MLU 0,58857, 3603 s và 3611 s). |
 | 00:15 | **Dòng cuối của Phase 1 xong:** setA-19 $t=0,1$ (đường nhanh: sinh cột thời kỳ đầu + LNS): MLU 0,10258. Hai bảng chính thức đủ 20 dòng. |
 | 00:18–00:22 | Chốt Phase 1: tạo lại `best_known.csv` và hai bảng chính thức, kiểm tra độc lập 92 file nghiệm (0 vi phạm, MLU khớp tuyệt đối), manifest (350 file kết quả, 60 file đầu vào), zip sao lưu. Đẩy nhánh `feature/tasr` lên GitHub (commit `e9cacd5`). |
+| 00:30–00:45 (20/10) | M2 và M3 **chưa bắt đầu**. Máy M1 gánh cả đêm: bộ lập lịch `orange/scripts/overnight_m1.py` (nhật ký `overnight_m1.log`) chờ setA-04 $t=0,1$ xong lần 1..4 (~01:05), dừng tiến trình đó, rồi chạy setA-05 $t=0,1$ mô hình theo đề seed 1–5 (làm pilot, ngân sách bộ nhớ 12 GB). Lý do: setA-04 $t=0,1$ cho kết quả gần như giống hệt giữa các lần (Not Optimal, MLU 0,5886), còn setA-05 chưa có lần nào theo đề. Phân công mới cho M2/M3: setA-05 seed 6–8 (M2), 9–10 (M3) sau khi kiểm tra pilot của M1; setA-04 $t=0,1$: M2 seed 5–7, M3 seed 8–10. Báo cáo tiến độ cho người dùng mỗi 45 phút. |
 
 ## C. Quyết định đã tự chốt (thầy không trả lời câu hỏi)
 

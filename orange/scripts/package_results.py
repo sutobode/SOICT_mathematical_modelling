@@ -7,6 +7,7 @@ orange/README.md + project/BAI_TOAN_FINAL.md + project/KE_HOACH_THUC_HIEN.md đ�
 """
 import glob
 import os
+import subprocess
 import sys
 import zipfile
 from datetime import datetime
@@ -20,6 +21,8 @@ def main():
     dest = sys.argv[1] if len(sys.argv) > 1 else "C:/Users/X1/Project/SOICT_results_backup"
     keep = int(sys.argv[2]) if len(sys.argv) > 2 else 6
     os.makedirs(dest, exist_ok=True)
+    # làm mới hồ sơ truy vết (SHA-256, commit mã nguồn) trước khi đóng gói
+    subprocess.run([sys.executable, "-I", os.path.join(HERE, "make_manifest.py")], capture_output=True)
     name = os.path.join(dest, f"ket_qua_{datetime.now():%Y%m%d_%H%M}.zip")
     n = 0
     with zipfile.ZipFile(name, "w", zipfile.ZIP_DEFLATED) as z:

@@ -48,6 +48,16 @@ Cột CSV waypoint: `instance, P, K, n, m, nD, binaries, status, mlu, mlu_base, 
 | `watchdog.log` | các lần bộ giám sát RAM dừng tiến trình (nếu có) |
 | `STATUS.md`, `log-*.txt` | trạng thái và log chạy |
 
+## 3b. Truy vết (để thầy kiểm tra lại)
+
+| File | Nội dung |
+|---|---|
+| `MANIFEST.md` | commit mã nguồn, môi trường, tham số solver, chính sách số lần chạy, **các lệnh đã chạy** và cách kiểm tra lại một kết quả |
+| `MANIFEST.csv` | mỗi file kết quả: kích thước, SHA-256, thời điểm ghi, commit mã nguồn gần nhất trước đó |
+| `MANIFEST_INPUTS.csv` | SHA-256 của dữ liệu đầu vào `project/setA/*.json` |
+
+Tạo lại: `python -I orange/scripts/make_manifest.py` (cũng tự chạy mỗi lần sao lưu zip).
+
 ## 4. Những điều cần ghi trung thực trong báo cáo
 
 1. Mô hình theo cung của đề chỉ chạy được cho instance 01–05 (06–20 cần từ 5 triệu đến gần 1 tỷ biến, vượt RAM).

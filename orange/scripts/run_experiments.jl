@@ -16,5 +16,6 @@ for i in first_i:last_i
     prefix = joinpath(@__DIR__, "..", "..", "project", "setA", name)
     println("== $name P=$P pc=$pc  ", time()); flush(stdout)
     run_instance(prefix, name, P, tlimit; outdir=outdir, r_mode=pc ? :pathcount : :ecmp, tag=(pc ? "-pc" : "") * suffix,
-                 runs=nruns, first_run=first_run, force_runs=first_run > 1)
+                 runs=nruns, first_run=first_run, force_runs=first_run > 1,
+                 solver_log_dir=joinpath(outdir, "solverlogs"))   # log nguyên văn của HiGHS cho từng lần chạy
 end

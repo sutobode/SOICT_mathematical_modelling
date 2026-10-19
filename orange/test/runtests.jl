@@ -695,3 +695,18 @@ end
     csv3 = run_instance(TOY, "toy", 2, 60; runs=4, fast_threshold=0.0, slow_runs=1, force_runs=true, outdir=out, tag="-force")
     @test length(readlines(csv3)) == 1 + 4
 end
+
+@testset "solver log is saved per run when requested" begin
+    out = mktempdir()
+    logdir = joinpath(out, "solverlogs")
+    csv = run_instance(TOY, "toy", 2, 60; runs=2, outdir=out, solver_log_dir=logdir)
+    files = sort(readdir(logdir))
+    @test files == ["toy-P2-run1.log", "toy-P2-run2.log"]
+    txt = read(joinpath(logdir, files[1]), String)
+    @test occursin("HiGHS", txt) || occursin("Presolv", txt) || occursin("Solving", txt)
+    @test filesize(joinpath(logdir, files[1])) > 200
+    # không yêu cầu: không tạo thư mục log
+    out2 = mktempdir()
+    run_instance(TOY, "toy", 2, 60; runs=1, outdir=out2)
+    @test !isdir(joinpath(out2, "solverlogs"))
+end

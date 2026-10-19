@@ -10,10 +10,17 @@ presolve_setting(nvars::Integer) = nvars > PRESOLVE_OFF_VARS ? "off" : "choose"
 "Ước lượng byte cho mô hình theo cung (đo: ~3,9 GiB cho 1 triệu biến x ở P=1; thêm ~25% cho biến y của ngân sách khi P > 1)."
 arc_bytes_estimate(nx::Integer, P::Integer) = 4500.0 * nx * (P > 1 ? 1.25 : 1.0)
 
-function solve_once(inst, rs, P, tlimit, seed, acyclic, start_paths)
+function solve_once(inst, rs, P, tlimit, seed, acyclic, start_paths; log_path=nothing)
     opt = optimizer_with_attributes(HiGHS.Optimizer, "random_seed" => seed, "threads" => 1,
                                     "mip_rel_gap" => 1e-6)
-    model, x, z = build_model(inst, rs, P, opt; tlimit=tlimit, acyclic=acyclic, start_paths=start_paths)
+    # log_path: ghi nguyên văn log của HiGHS (số nút, cận dưới, tiến trình) vào file, không in ra màn hình
+    model, x, z = build_model(inst, rs, P, opt; tlimit=tlimit, acyclic=acyclic, start_paths=start_paths,
+                              silent=log_path === nothing)
+    if log_path !== nothing
+        mkpath(dirname(log_path))
+        set_optimizer_attribute(model, "log_to_console", false)
+        set_optimizer_attribute(model, "log_file", log_path)
+    end
     set_optimizer_attribute(model, "presolve", presolve_setting(num_variables(model)))
     optimize!(model)
     return model, x, z
@@ -43,7 +50,8 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
                       runs::Int=10, slow_runs::Int=3, fast_threshold::Real=120.0, max_vars::Int=3_000_000,
                       outdir::AbstractString="results", r_mode::Symbol=:ecmp,
                       budget=nothing, tag::AbstractString="", mem_budget_bytes=nothing,
-                      first_run::Int=1, append::Bool=false, force_runs::Bool=false)
+                      first_run::Int=1, append::Bool=false, force_runs::Bool=false,
+                      solver_log_dir::AbstractString="")
     mkpath(outdir)
     csv = joinpath(outdir, "$(name)-P$(P)$(tag).csv")
     has_header = append && isfile(csv) && filesize(csv) > 0
@@ -79,12 +87,13 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
             res = (; status="ERROR", zv=NaN, mlu=NaN, obj=NaN, bnd=NaN, gap=NaN, t=NaN, nodes=NaN,
                    check="", paths=nothing)
             try
-                model, x, z = solve_once(inst, rs, P, tlimit, run_id, false, start_paths)
+                lp = isempty(solver_log_dir) ? nothing : joinpath(solver_log_dir, "$(name)-P$(P)$(tag)-run$(run_id).log")
+                model, x, z = solve_once(inst, rs, P, tlimit, run_id, false, start_paths; log_path=lp)
                 res = evaluate(inst, rs, P, model, x, z)
                 # ngân sách hữu hạn: "đường + chu trình" là nới lỏng; nếu vi phạm thì giải lại với MTZ
                 if res.check == "budget_violation" && P >= 2
                     t1 = res.t
-                    model, x, z = solve_once(inst, rs, P, tlimit, run_id, true, start_paths)
+                    model, x, z = solve_once(inst, rs, P, tlimit, run_id, true, start_paths; log_path=lp === nothing ? nothing : replace(lp, ".log" => "-acyclic.log"))
                     res = evaluate(inst, rs, P, model, x, z)
                     res = merge(res, (; t=res.t + t1, check=res.check == "ok" ? "ok(acyclic)" : res.check * "(acyclic)"))
                 end

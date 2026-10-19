@@ -81,6 +81,26 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
     for p in 2:P
         isfinite(inst.budget[p]) || continue
         total = AffExpr(0.0)
+        compact = all(length(wl) <= 1 for d in 1:nD for wl in W[d])
+        if compact
+            # chỉ có {không waypoint, 1 waypoint}: dist giữa hai phương án = 0 (giống), 3 (một bên không waypoint),
+            # 4 (hai waypoint khác nhau) => change_d = 4 - 4*Σ_c st_c - (y1_none + y2_none - 2*st_none),
+            # với st_c <= min(y1_c, y2_c). Công thức gọn, LP chặt hơn công thức theo đoạn.
+            for d in 1:nD
+                st = @variable(model, [1:length(W[d])], lower_bound = 0, upper_bound = 1)
+                for c in 1:length(W[d])
+                    @constraint(model, st[c] <= y[d][p-1][c])
+                    @constraint(model, st[c] <= y[d][p][c])
+                    add_to_expression!(total, -4.0, st[c])
+                end
+                add_to_expression!(total, 4.0)
+                add_to_expression!(total, -1.0, y[d][p-1][1])     # c = 1: không waypoint
+                add_to_expression!(total, -1.0, y[d][p][1])
+                add_to_expression!(total, 2.0, st[1])
+            end
+            @constraint(model, total <= inst.budget[p])
+            continue
+        end
         for d in 1:nD
             segs_of = Dict{Tuple{Int,Int},Vector{Int}}()
             for (c, wl) in enumerate(W[d])

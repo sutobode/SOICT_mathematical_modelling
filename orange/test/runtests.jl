@@ -439,3 +439,14 @@ end
         @test check_solution(inst, rs, paths, P, z2 + 1e-5).budget_ok
     end
 end
+
+@testset "single-waypoint budget uses the compact formulation" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, p) for p in 1:2]
+    model, y, W = build_wp_model(inst, rs, 2, OPT; K=100)
+    nW = sum(length.(W))
+    @test num_variables(model) == 2 * nW + 1 + nW        # y (2 kỳ) + z + st (1 biến mỗi phương án)
+    # công thức tổng quát (có cặp waypoint) vẫn đúng: số biến lớn hơn rõ rệt
+    model2, _, W2 = build_wp_model(inst, rs, 2, OPT; K=100, K2=100)
+    @test num_variables(model2) > 2 * sum(length.(W2)) + 1
+end

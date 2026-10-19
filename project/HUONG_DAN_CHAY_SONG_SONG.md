@@ -66,7 +66,7 @@ Cắm sạc, không gập nắp, và chạy ở một cửa sổ PowerShell riê
 powershell -NoProfile -ExecutionPolicy Bypass -File orange\scripts\keep_awake.ps1
 ```
 
-### 3.6 Kiểm tra trước khi chạy (30 giây)
+### 3.6 Kiểm tra trước khi chạy (khoảng 1 phút)
 ```bash
 julia --project=orange orange/scripts/run_experiments.jl 2 60 1 1 pc 1 1 -smoke
 ```

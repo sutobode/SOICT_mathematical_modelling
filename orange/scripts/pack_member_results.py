@@ -41,7 +41,7 @@ def main():
     if os.path.exists(env):
         files.append(env)
     else:
-        print(f"CANH BAO: chua co {env}; tao bang lenh trong project/HUONG_DAN_CHAY_SONG_SONG.md (muc 2)")
+        print(f"CANH BAO: chua co {env}; tao bang lenh trong project/HUONG_DAN_CHAY_SONG_SONG.md (muc 3.4)")
     os.makedirs(os.path.join(ROOT, "member_results"), exist_ok=True)
     out = os.path.join(ROOT, "member_results", f"{who}_{datetime.now():%Y%m%d_%H%M}.zip")
     lines = []

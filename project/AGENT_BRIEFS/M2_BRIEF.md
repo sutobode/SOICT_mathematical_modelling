@@ -7,7 +7,7 @@
 ```text
 You are a coding agent assisting team member M2 of a university project. Your ONLY job is to run long numerical experiments, verify them and package the results. You must NOT modify code.
 
-FIRST read, in this order: project/AGENT_BRIEFS/00_NGU_CANH_CHUNG.md (rules and context) and project/HUONG_DAN_CHAY_SONG_SONG.md (sections 1-9). Obey every rule in 00_NGU_CANH_CHUNG.md. In particular: never modify tracked files, never use git, run at most ONE heavy Julia process at a time, run long commands in the background with output redirected, never re-run a range whose CSV already exists, stop and ask the human when anything unexpected happens.
+FIRST read, in this order: START_HERE.md (the step-by-step guide; it is authoritative), project/AGENT_BRIEFS/00_NGU_CANH_CHUNG.md (rules and context) and project/HUONG_DAN_CHAY_SONG_SONG.md (sections 1-9). Obey every rule. In particular: never modify tracked files; use git ONLY for the commands allowed in START_HERE.md section 14 (clone, checkout feature/tasr, fetch, show) and for the single command `python orange/scripts/publish_member_results.py <name>`; run at most ONE heavy Julia process at a time; run long commands in the background with output redirected; never re-run a range whose CSV already exists; stop and ask the human when anything unexpected happens.
 
 YOUR ASSIGNMENT (member M2) is TASK A, TASK B, TASK C below, in this order. Nobody else runs these seed ranges, so do not change the ranges, seeds or suffixes.
 
@@ -26,6 +26,7 @@ STEP 6 - The assigned runs, strictly in this order, one at a time (details below
   TASK A (pilot, about 65 minutes): setA-05, periods 0 and 1, seed 1 only.
      Command: julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 1 1 -r1-1   (stdout/stderr -> orange/results/log-pc-P2-05-r1-1.txt)
      Check:   python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r1-1.csv 1 1
+     IMMEDIATELY after the pilot finishes (whatever its result) run `python orange/scripts/publish_member_results.py m2` so that member M3's agent can read the pilot result from branch results/m2.
      If check_range prints COMPLETE (exit code 0): the pilot succeeded, continue. If the status is SKIPPED_LOW_MEMORY or ERROR, or the machine ran out of memory: STOP setA-05 (skip Task C), tell me clearly, and continue with Task B only. Tell me the pilot result as soon as you have it so that I can forward it to the coordinator.
      If the status is SKIPPED_LOW_MEMORY, do NOT retry on your own: ask me; I will check Task Manager and, if at least 14 GB of RAM is really free, tell you to add the last argument 14 (memory budget in GB) and re-run the same command (same suffix).
   TASK B (about 3.2 hours): setA-04, periods 0 and 1, seeds 5 to 7.
@@ -35,13 +36,13 @@ STEP 6 - The assigned runs, strictly in this order, one at a time (details below
      Command: julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 2 5 -r2-5   (log -> orange/results/log-pc-P2-05-r2-5.txt)
      Check:   python orange/scripts/check_range.py orange/results/setA-05-P2-pc-r2-5.csv 2 5
 
-STEP 7 - Package. When you finish (or when I ask, or if you must stop early), run `python orange/scripts/pack_member_results.py m2` and tell me the path of the produced zip in member_results/.
+STEP 7 - Publish. After EACH finished range (and when you finish, when I ask, or if you must stop early) run `python orange/scripts/publish_member_results.py m2 --dry-run`, show me the list, then `python orange/scripts/publish_member_results.py m2`; it creates the branch results/m2 and pushes ONLY result files (never main or feature/tasr, never --force). If the push is refused (no write access), run `python orange/scripts/pack_member_results.py m2` instead and tell me the path of the zip in member_results/ so that I can send it to the coordinator.
 
 STEP 8 - Final report to me (to forward to the coordinator), in exactly this format, with no omissions:
   Member: M2
   Machine: CPU / RAM / OS (from environment-m2.txt)
   For each assigned range: command used, CSV path, output of check_range.py, start and end time, duration per run (solve_time column), any incident (machine sleep, low RAM, crash, restart, anything unusual)
-  Zip path
+  Publish result (branch results/m2) or zip path
   Anything I should double-check.
 Be honest: report failures and partial results exactly as they are.
 ```

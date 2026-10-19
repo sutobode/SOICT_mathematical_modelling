@@ -74,3 +74,93 @@ end
     # 0.1+0.2 = 0.30000000000000004 và 0.15+0.15 = 0.3 phải hòa: 4 cung, mỗi cung 0.5
     @test length(f) == 4 && all(≈(0.5), values(f))
 end
+
+@testset "changes (Bảng 1 của đề)" begin
+    @test changes([1, 9, 2], [1, 2]) == 3
+    @test changes([1, 5, 6, 2], [1, 5, 2]) == 3
+    @test changes([1, 5, 6, 2], [1, 6, 5, 2]) == 6
+    @test changes([1, 5, 2], [1, 6, 2]) == 4
+end
+
+@testset "toy loads from paths" begin
+    inst = read_instance(TOY)
+    rs = [build_r(inst, p) for p in 1:2]
+    @test base_mlu(inst, rs[1:1], 1) ≈ 0.4375
+    wp = Dict((1, 1) => [1, 5, 6], (2, 1) => [3, 6])     # waypoint v4 (chỉ số 5) cho d0
+    @test max_utilization(inst, rs, wp, 1) ≈ 0.375
+end
+
+# vét cạn: mỗi demand đi thẳng hoặc qua đúng 1 waypoint (tương ứng maxSeg = 2)
+function brute_best(inst, P)
+    n, nD = inst.n, length(inst.dem_s)
+    rs = [build_r(inst, p) for p in 1:P]
+    seq(d, w) = w == 0 ? [inst.dem_s[d], inst.dem_t[d]] : [inst.dem_s[d], w, inst.dem_t[d]]
+    opts = [[w for w in 0:n if w == 0 || (w != inst.dem_s[d] && w != inst.dem_t[d])] for d in 1:nD]
+    joint = collect(Iterators.product(opts...))
+    u = [[maximum(utilization(inst, rs, Dict((d, p) => seq(d, c[d]) for d in 1:nD), p)) for c in joint] for p in 1:P]
+    best = Inf
+    for (i0, c0) in enumerate(joint)
+        if P == 1
+            best = min(best, u[1][i0]); continue
+        end
+        for (i1, c1) in enumerate(joint)
+            ch = sum(changes(seq(d, c0[d]), seq(d, c1[d])) for d in 1:nD)
+            ch <= inst.budget[2] && (best = min(best, max(u[1][i0], u[2][i1])))
+        end
+    end
+    return best
+end
+
+@testset "model t=0 equals brute force (maxSeg=2)" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, 1)]
+    model, x, z = build_model(inst, rs, 1, OPT)
+    @test start_value(x[1, 1, 1, 6]) == 1.0                  # khởi tạo = đi thẳng
+    @test start_value(z) ≈ 0.4375
+    optimize!(model)
+    @test termination_status(model) == MOI.OPTIMAL
+    @test value(z) ≈ brute_best(inst, 1) atol = 1e-6
+    @test value(z) <= 0.375 + 1e-9
+end
+
+@testset "zero-volume demand is fixed to direct path" begin
+    dir = mktempdir()
+    for f in ("net", "scenario"); cp(TOY * "-$f.json", joinpath(dir, "z-$f.json")); end
+    write(joinpath(dir, "z-tm.json"), """{"num_time_slots":2,"demands":[{"v":[0.0,0.0],"s":0,"t":5},{"v":[100.0,50.0],"s":2,"t":5}]}""")
+    inst = read_instance(joinpath(dir, "z"); maxseg=2)
+    rs = [build_r(inst, p) for p in 1:2]
+    model, x, z = build_model(inst, rs, 2, OPT)
+    @test is_fixed(x[1, 1, 1, 6]) && fix_value(x[1, 1, 1, 6]) == 1.0
+    optimize!(model)
+    @test termination_status(model) == MOI.OPTIMAL
+    @test value(z) ≈ brute_best(inst, 2) atol = 1e-6
+end
+
+@testset "unreachable segments are forbidden" begin
+    dir = mktempdir()
+    write(joinpath(dir, "l-net.json"), """{"directed":true,"multigraph":false,
+      "nodes":[{"name":"a","id":0},{"name":"b","id":1},{"name":"c","id":2}],
+      "links":[{"id":0,"from":0,"to":1,"metric":1,"capacity":10},{"id":1,"from":1,"to":2,"metric":1,"capacity":10}]}""")
+    write(joinpath(dir, "l-tm.json"), """{"num_time_slots":1,"demands":[{"v":[5.0],"s":0,"t":2}]}""")
+    write(joinpath(dir, "l-scenario.json"), """{"max_segments":3,"budget":[],"interventions":[]}""")
+    inst = read_instance(joinpath(dir, "l"))
+    model, x, z = build_model(inst, [build_r(inst, 1)], 1, OPT)
+    @test is_fixed(x[1, 1, 3, 1]) && fix_value(x[1, 1, 3, 1]) == 0.0
+    optimize!(model)
+    @test value(z) ≈ 0.5
+    @test extract_paths(inst, x, 1)[(1, 1)] in ([1, 3], [1, 2, 3])
+end
+
+@testset "extract_paths ignores cycles" begin
+    inst = read_instance(TOY)
+    rs = [build_r(inst, 1)]
+    model, x, z = build_model(inst, rs, 1, OPT)
+    # d1: đường 1->2->6, cộng chu trình rời 3<->4 và chu trình 2<->4 chạm vào đường
+    fake = Dict(x[1, 1, 1, 2] => 1.0, x[1, 1, 2, 6] => 1.0,
+                x[1, 1, 3, 4] => 1.0, x[1, 1, 4, 3] => 1.0,
+                x[1, 1, 2, 4] => 1.0, x[1, 1, 4, 2] => 1.0,
+                x[2, 1, 3, 6] => 1.0)
+    paths = extract_paths(inst, x, 1; val=v -> get(fake, v, 0.0))
+    @test paths[(1, 1)] == [1, 2, 6]
+    @test paths[(2, 1)] == [3, 6]
+end

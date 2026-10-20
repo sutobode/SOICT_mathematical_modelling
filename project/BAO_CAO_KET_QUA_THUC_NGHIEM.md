@@ -308,7 +308,7 @@ Quy ước: **MLU** càng nhỏ càng tốt. Hàng `arc-pc` là mô hình theo c
 
 ## 8. Hạn chế (nói thẳng)
 
-1. **Chưa đủ 10 lần ở Bảng 2 cho setA-04 (4 lần) và setA-05 (5 lần).** Dự kiến M2 chạy setA-04 seed 5–7 và setA-05 seed 6–8; M3 chạy setA-04 seed 8–10 và setA-05 seed 9–10. **Cả hai chưa chạy.**
+1. **Chưa đủ 10 lần ở Bảng 2 cho setA-04 (4 lần) và setA-05 (5 lần).** Phân công gốc giao M2 và M3, nhưng cả hai chưa chạy, nên từ 20/10 ~08:40 M1 tự chạy nốt (setA-04 lần 5–10, rồi setA-05 seed 6–10; dự kiến xong khoảng 20:00). M2 và M3 không cần làm thêm.
 2. **Các hàng `*` (06–20) chỉ 1 lần chạy.** Đề yêu cầu trung bình 10 lần. Bài toán thu hẹp chủ yếu tất định, nên lần chạy lặp chỉ khác thời gian; chưa chạy lặp vì ưu tiên các hàng của mô hình thầy.
 3. **Các hàng `*` không phải mô hình của thầy.** "Optimal\*" chỉ có nghĩa tối ưu trong bài toán thu hẹp (≤ 1 waypoint). Trên các instance kiểm tra được, chênh với mô hình đầy đủ ≤ 0,011 %, nhưng chưa chứng minh cho mọi instance.
 4. **Hàng `arc-pc` của setA-04, 05 ở $t=0,1$ cho kết quả kém** do giới hạn của bộ giải; con số tốt hơn nằm ở cột cuối. Báo cáo cuối cần trình bày cả hai và giải thích.

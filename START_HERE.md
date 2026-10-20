@@ -1,5 +1,7 @@
 # START HERE — Hướng dẫn từng bước cho thành viên M2 và M3
 
+> **CẬP NHẬT 20/10 ~09:00 — ĐỌC TRƯỚC:** M1 đã chạy xong setA-04 $t=0,1$ lần 1–4 và setA-05 $t=0,1$ seed 1–5, và **hiện đang tự chạy nốt toàn bộ phần còn lại** (setA-04 $t=0,1$ lần 5–10, rồi setA-05 $t=0,1$ seed 6–10; dự kiến xong khoảng 20:00 20/10). **M2 và M3 KHÔNG cần chạy các phần này nữa** (nếu chạy sẽ trùng việc). Nếu M2/M3 đã chạy xong một khoảng từ trước, hãy đẩy kết quả bằng `publish_member_results.py` như hướng dẫn bên dưới; nếu chưa chạy thì không làm gì. Các bảng phân công bên dưới là phân công **gốc**, chỉ để tham khảo.
+
 > Bạn chỉ cần **link git này**. Mọi thứ cần làm đã nằm trong repo. Tài liệu viết sao cho **bạn (hoặc coding agent của bạn) làm theo đúng từng bước là chạy được**, không cần hỏi ai. Thời gian tổng: khoảng **9 giờ** (chủ yếu là máy tự chạy), công sức của bạn khoảng **30 phút** lúc đầu và vài lần kiểm tra.
 >
 > Nếu bạn dùng **coding agent** (Claude Code, Cursor, Codex, Copilot Agent, ...): mở thư mục repo bằng agent rồi gõ đúng một câu:

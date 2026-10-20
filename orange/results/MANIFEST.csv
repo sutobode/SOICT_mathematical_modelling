@@ -1,8 +1,9 @@
 file,bytes,sha256,modified,code_commit,code_commit_subject
 README_KET_QUA.md,7092,0c82ea292e9f42f4c5eec80193c9381b35b667b60d6217d699f496ddb51e310f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
-RUN_JOURNAL.md,13707,a6fdbe986b47adede779b353bb59fdb16a77e201e67fcef48246ef50f5619e1e,2026-10-20 15:10:20,9d32098,docs: correct which seeds save per-run solutions; setA-04 seed 8 done
+RUN_JOURNAL.md,14901,13f790ccd0299ae7fa0f91e4238d7f86bb03c9fd17ea861213cfdaa0e506bc71,2026-10-20 23:40:25,af07293,ops: follow-up makeup for setA-05 seed 10 (killed by watchdog on low RAM); journal
 best_known.csv,4286,f8379e782463cc1101a293bcc18144468e2d7504a04487c1b3414dea9ea8a497,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 environment.txt,1080,8a17d4a7179a3b592f0ef06c7316ddc9434ad214dc6eb5dda4c9879600dc3e51,2026-10-19 10:41:04,7c6f669,"feat: experiment runner (csv, srpaths, loads, error-tolerant)"
+fill_followup2_m1.log,55,3390bc07bd10d5ea22d18c7274deb181f66b76162c78ef7e1ce751228f35b5ed,2026-10-20 21:54:26,cbdef8d,"data: setA-05 t=0,1 seeds 6-9 (seed 7 Optimal 0.20499 in 233 s); follow-up script for makeup runs"
 fill_followup_m1.log,179,6d366d437966c06ffb20142541c684ae888369784e3452cf4def6d913174e6ab,2026-10-20 21:37:09,cbdef8d,"data: setA-05 t=0,1 seeds 6-9 (seed 7 Optimal 0.20499 in 233 s); follow-up script for makeup runs"
 fill_missing_m1.log,1521,62dc239a13dfef32481e0b5b71fd5f520c57ec4178484e1cc8ccbebb0f2dad5b,2026-10-20 21:37:02,cbdef8d,"data: setA-05 t=0,1 seeds 6-9 (seed 7 Optimal 0.20499 in 233 s); follow-up script for makeup runs"
 hang_guard.log,320,e8fdfd32c54fc41f5de331e9b0c8380925489daab0c533477ee7e369be66501e,2026-10-20 11:53:56,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
@@ -10,6 +11,7 @@ keep_awake.log,42,2bbaa836cbc2c79e8464080e4f268fa957bf3c43339aec2518061e8e1e0404
 log-P1.txt,676,6afc2c4b28dddbf673b7a9b6557b1f8d1227e296d22ba207ec34c1a1cfaedea6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 log-P2.txt,68,bbfa57ddcc4bb56165efccc9aa5912af25a88a886b27fc9776bece48f60e9acf,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 log-fill-followup-console.txt,179,6d366d437966c06ffb20142541c684ae888369784e3452cf4def6d913174e6ab,2026-10-20 21:37:09,cbdef8d,"data: setA-05 t=0,1 seeds 6-9 (seed 7 Optimal 0.20499 in 233 s); follow-up script for makeup runs"
+log-fill-followup2-console.txt,55,3390bc07bd10d5ea22d18c7274deb181f66b76162c78ef7e1ce751228f35b5ed,2026-10-20 21:54:26,cbdef8d,"data: setA-05 t=0,1 seeds 6-9 (seed 7 Optimal 0.20499 in 233 s); follow-up script for makeup runs"
 log-fill-missing-m1-console.txt,1521,62dc239a13dfef32481e0b5b71fd5f520c57ec4178484e1cc8ccbebb0f2dad5b,2026-10-20 21:37:02,cbdef8d,"data: setA-05 t=0,1 seeds 6-9 (seed 7 Optimal 0.20499 in 233 s); follow-up script for makeup runs"
 log-hang-guard-console.txt,226,66b81ebb7f75d5881eee6c9dff0b18c217e168613b0e109a7527325a68acc398,2026-10-20 11:53:56,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
 log-overnight-m1-console.txt,588,87c8336e225bb5de82c9dd891fb61c9210eeccba47ee53ef91f0fe377cddd5cb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
@@ -386,7 +388,7 @@ setA-20-wp-P2-cg.csv,377,f56bfc67724388b69f328efa0a8684f94abfce2f203c7c9b4fa2120
 solverlogs/setA-04-P2-pc-r10-10-run10.log,2812,83fb59ccc75028972c7d63754eaf9510e457660ff87c43d91b200cd9f06f7f95,2026-10-20 17:04:02,d326ec8,"data: setA-04 t=0,1 seed 9 done"
 solverlogs/setA-04-P2-pc-r5-5-run5.log,2812,081a1570b2b0649646b2041c6fc5902fdc09e4ecde51699088c360aff4218ccc,2026-10-20 09:42:55,e8ce439,docs: members work from main; merge_member_branch uses merge-base with origin/main; tested end-to-end
 solverlogs/setA-04-P2-pc-r6-6-run6.log,2450,15f0673b70a298a5cac01b57b6a74429e4d17e5915696ed742ad68a29806ce6a,2026-10-20 09:48:52,8313f2c,"docs: fix Windows log redirect (cmd /c), drop git pull from member rules, agent section points to prompt file"
-solverlogs/setA-04-P2-pc-r6-6b-run6.log,2204,546e3527f2f0d63aa7643da7d9d6cb28193fe3c2997837c0c1ebb3610fdc9d6c,2026-10-20 21:42:43,cbdef8d,"data: setA-05 t=0,1 seeds 6-9 (seed 7 Optimal 0.20499 in 233 s); follow-up script for makeup runs"
+solverlogs/setA-04-P2-pc-r6-6b-run6.log,2450,6e6e78947e1d80951a05c24bfa8eeea38a05a78722f3b803544be2f25a35ed03,2026-10-20 21:48:48,cbdef8d,"data: setA-05 t=0,1 seeds 6-9 (seed 7 Optimal 0.20499 in 233 s); follow-up script for makeup runs"
 solverlogs/setA-04-P2-pc-r7-7-run7.log,2812,424b88a7f0298ce1fe01c27c8b6b12ca36b38c1fdaa5c8adec9fea3e6c8bcf67,2026-10-20 12:55:15,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
 solverlogs/setA-04-P2-pc-r8-8-run8.log,3075,eec06877b692aa6dae30393a6739fb69a26ba46253fd126879c4e5b9548aedbb,2026-10-20 15:00:44,f7ddb2f,docs: audit cross-check; report no longer claims lex_refine is used; solver-time naming
 solverlogs/setA-04-P2-pc-r9-9-run9.log,2811,c59f4c7fc32f0e8f8d848765e4d8e387e7f4c229ff6e59ad6939c4e06c316d8e,2026-10-20 16:02:05,9d32098,docs: correct which seeds save per-run solutions; setA-04 seed 8 done

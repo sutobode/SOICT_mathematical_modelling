@@ -5,6 +5,7 @@ mà log solver không in thêm dòng nào). Một lần chạy treo sẽ chặn 
 của seed đó bị bỏ), chuỗi `fill_missing_m1.sh` tự chuyển sang seed kế tiếp; seed bị bỏ có thể chạy bù bằng khoảng con sau.
 
 Chạy:  python orange/scripts/hang_guard.py [giây_tối_đa=7800]
+Chỉ giám sát tiến trình julia khởi động SAU khi guard chạy (tiến trình có sẵn như julia của IDE không bao giờ bị dừng).
 Nhật ký: orange/results/hang_guard.log. Chỉ dừng tiến trình julia có dòng lệnh chứa `run_experiments.jl`
 (không bao giờ đụng tiến trình julia của IDE).
 """
@@ -18,6 +19,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 LOG = os.path.join(HERE, "..", "results", "hang_guard.log")
 MAX_SEC = float(sys.argv[1]) if len(sys.argv) > 1 else 7800.0
 EXCLUDE = {int(a) for a in sys.argv[2:]}
+T0 = time.time()   # chỉ giám sát tiến trình julia KHỞI ĐỘNG SAU thời điểm này (tiến trình có sẵn, ví dụ julia của IDE, không bị đụng tới)
 
 PS = (
     "Get-Process julia -ErrorAction SilentlyContinue | ForEach-Object { "
@@ -47,7 +49,8 @@ def main():
                 pid, age = int(pid), float(age)
             except ValueError:
                 continue
-            if pid not in EXCLUDE and age > MAX_SEC:
+            predates_guard = age > time.time() - T0 + 5      # tiến trình có trước khi guard chạy
+            if pid not in EXCLUDE and not predates_guard and age > MAX_SEC:
                 subprocess.run(["powershell", "-NoProfile", "-Command", f"Stop-Process -Id {pid} -Force"], capture_output=True)
                 log(f"DA DUNG PID {pid} (chay {age:.0f} s > {MAX_SEC:.0f} s); seed do khong co dong CSV; chuoi chuyen sang seed ke tiep")
         time.sleep(60)

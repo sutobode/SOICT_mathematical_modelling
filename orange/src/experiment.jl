@@ -125,7 +125,8 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
                     srpaths_file = artifact_stem * "-srpaths.json"
                     loads_file = artifact_stem * "-loads.csv"
                     write_srpaths(inst, res.paths, P, joinpath(outdir, srpaths_file))
-                    write_loads(inst, rs, res.paths, P, joinpath(outdir, loads_file))
+                    write_loads(inst, rs, res.paths, P, joinpath(outdir, loads_file);
+                                run_id=run_id, instance=name, routing_mode=string(r_mode))
                 end
             catch e
                 res = merge(res, (; status="ERROR", check=clean(sprint(showerror, e))))
@@ -247,7 +248,8 @@ function run_wp_instance(prefix::AbstractString, name::AbstractString, P::Int, t
                 srpaths_file = artifact_stem * "-srpaths.json"
                 loads_file = artifact_stem * "-loads.csv"
                 write_srpaths(inst, paths, P, joinpath(outdir, srpaths_file))
-                write_loads(inst, rs, paths, P, joinpath(outdir, loads_file))
+                write_loads(inst, rs, paths, P, joinpath(outdir, loads_file);
+                            run_id=run_id, instance=name, routing_mode=string(r_mode))
             else
                 srpaths_file = loads_file = ""
             end

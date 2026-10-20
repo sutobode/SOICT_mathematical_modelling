@@ -52,7 +52,7 @@ function verify_official_artifact(row, resdir)
     loads = joinpath(resdir, get(row, "loads_file", ""))
     isfile(sr) && isfile(loads) || return "missing_artifact"
     script = joinpath(@__DIR__, "verify_srpaths.py")
-    cmd = `python -I $script --single $(row["instance"]) $(row["P"]) $sr pathcount $(row["mlu"])`
+    cmd = `python -I $script --single $(row["instance"]) $(row["P"]) $sr pathcount $(row["mlu"]) $loads $(row["run"])`
     try
         run(pipeline(cmd; stdout=devnull, stderr=devnull))
         return "verified"

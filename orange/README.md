@@ -53,12 +53,13 @@ cd report && pdflatex report.tex && pdflatex report.tex
 |---|---|
 | `setA-XX-P{1,2}.csv` | một dòng mỗi lần chạy, các cột bên dưới |
 | `setA-XX-P{1,2}-srpaths.json` | nghiệm lần chạy đầu, đúng định dạng `srpaths` của đề (`d`, `t` từ 0; `w` là id nút) |
-| `setA-XX-P{1,2}-loads.csv` | tải đã sắp giảm dần, trước (`base`) và sau (`opt`) khi tối ưu, dùng vẽ biểu đồ |
+| `setA-XX-P{1,2}-loads.csv` | vector tải sắp giảm dần (`base`/`opt`) và tải từng cung vật lý/kỳ, kèm run provenance để kiểm chứng độc lập |
 | `setA-XX-wp-P{1,2}[-cg].csv` (+ `-srpaths.json`, `-loads.csv`) | kết quả mô hình waypoint (`-cg`: ứng viên do sinh cột chọn), cột: `instance, P, K, n, m, nD, binaries, status, mlu, mlu_base, improvement, bound, gap, solve_time, nodes, check, obj, heur_mlu, heur_time, cg_lp, cg_iters, cg_time` |
 | `log-P{1,2}.txt`, `log-wp-P{1,2}.txt` | log chạy |
 | `environment.txt` | phiên bản Julia, gói, CPU, RAM |
 
 Các cột của CSV: `instance, P, run, n, m, nD, status, z, mlu, mlu_base, improvement, bound, gap, solve_time, nodes, check, obj, start_time, start_mlu`.
+Trình kiểm tra artifact đối chiếu tải theo cung/kỳ, vector đã sắp xếp và MLU với sai số tương đối `1e-6` (cộng sai số tuyệt đối `1e-12`).
 
 - `status`: `Optimal`, `Not Optimal`, `Infeasible` (không nên xảy ra), `SKIPPED_TOO_LARGE` hoặc `ERROR`.
 - `mlu_base`: MLU khi mọi demand đi thẳng theo đường ngắn nhất. `improvement = 1 − mlu/mlu_base`.

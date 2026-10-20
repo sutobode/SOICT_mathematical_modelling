@@ -1,4 +1,5 @@
 using Test, Orange
+include(joinpath(@__DIR__, "..", "scripts", "official_common.jl"))
 
 function official_fixture_row(run; mode="pathcount", model="full_arc", mlu=1.0,
                               gap="0.0", artifact_run=run, status="Optimal")
@@ -44,6 +45,51 @@ end
     @test summary.best_row["run"] == "4"
     @test summary.best_row["srpaths_file"] == "run4-srpaths.json"
     @test summary.best_row["loads_file"] == "run4-loads.csv"
+end
+
+@testset "official load artifact is independently verified" begin
+    out = mktempdir()
+    name = "setA-01"
+    inst = read_instance(joinpath(SETA, name))
+    rs = [build_r(inst, 1; mode=:pathcount)]
+    paths = direct_paths(inst, 1)
+    mlu = max_utilization(inst, rs, paths, 1)
+    srfile = joinpath(out, "run4-srpaths.json")
+    loadsfile = joinpath(out, "run4-loads.csv")
+    write_srpaths(inst, paths, 1, srfile)
+    write_loads(inst, rs, paths, 1, loadsfile;
+                run_id=4, instance=name, routing_mode="pathcount")
+    row = official_fixture_row(4; mlu=mlu)
+    row["instance"] = name
+    @test verify_official_artifact(row, out) == "verified"
+
+    lines = readlines(loadsfile)
+    arc_row = findfirst(line -> startswith(line, "arc,"), lines)
+    fields = split(lines[arc_row], ",")
+    fields[6] = string(parse(Float64, fields[6]) + 0.25)
+    lines[arc_row] = join(fields, ",")
+    write(loadsfile, join(lines, "\n") * "\n")
+    @test verify_official_artifact(row, out) == "verification_failed"
+
+    run_rows = [official_fixture_row(r; mlu=(r == 4 ? mlu : mlu + 0.1)) for r in 1:10]
+    for run_row in run_rows
+        run_row["instance"] = name
+        run_row["P"] = "1"
+    end
+    columns = sort(unique(vcat([collect(keys(run_row)) for run_row in run_rows]...)))
+    official_csv = joinpath(out, "setA-01-P1-official.csv")
+    open(official_csv, "w") do io
+        println(io, join(columns, ","))
+        for run_row in run_rows
+            println(io, join([run_row[column] for column in columns], ","))
+        end
+    end
+    record = best_known_records(out)[(name, 1)]
+    @test record["verification_status"] == "verification_failed"
+    @test record["status"] == "UNVERIFIED"
+    @test isempty(record["srpaths_file"]) && isempty(record["loads_file"])
+    @test !isfile(joinpath(out, "official-artifacts",
+                           "setA-01-P1-pathcount-best-run4-loads.csv"))
 end
 
 @testset "restricted optimum is not original-problem optimal" begin

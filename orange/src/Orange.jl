@@ -12,7 +12,7 @@ include("heuristic.jl")
 export Instance, read_instance,
        Routing, routing, ecmp_split, pathcount_split, build_r,
        changes, utilization, direct_paths, max_utilization, base_mlu,
-       check_solution, write_srpaths, write_loads, read_srpaths,
+       check_solution, check_lexicographic_solution, write_srpaths, write_loads, read_srpaths,
        OFFICIAL_RUN_IDS, pure_mlu_bound, pure_mlu_gap, summarize_official_rows,
        build_model, extract_paths, total_load_second_stage!, exact_lexicographic_loads!,
        candidates, build_wp_model, extract_wp_paths, colgen, filter_cands, load_freezing_refine, lex_leq, lns,

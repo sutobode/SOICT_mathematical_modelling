@@ -14,6 +14,7 @@ import csv
 import glob
 import heapq
 import json
+import math
 import os
 import re
 import sys
@@ -130,8 +131,11 @@ def verify(name, P, srfile, tol, mode="ecmp"):
     problems = []
     mlu = 0.0
     seqs = {}
+    period_loads = {}
+    base_loads = {}
     for t in range(P):
         load = {a: 0.0 for a in periods[t].arcs}
+        base_load = {a: 0.0 for a in periods[t].arcs}
         for d, dd in enumerate(dem):
             w = wp.get((d, t), [])
             if any(x not in nodes for x in w):
@@ -146,6 +150,10 @@ def verify(name, P, srfile, tol, mode="ecmp"):
                     problems.append(f"demand {d} t={t}: segment ({u},{v}) unreachable")
                 for a, fr in sp.items():
                     load[a] += fr * dd["v"][t]
+            for a, fr in periods[t].split(dd["s"], dd["t"]).items():
+                base_load[a] += fr * dd["v"][t]
+        period_loads[t] = load
+        base_loads[t] = base_load
         mlu = max(mlu, max(load[a] / caps[a] for a in load))
     changes = {}
     for t in range(1, P):
@@ -157,7 +165,75 @@ def verify(name, P, srfile, tol, mode="ecmp"):
         changes[t] = ch
         if t in budget and ch > budget[t]:
             problems.append(f"budget violated at t={t}: {ch} > {budget[t]}")
-    return mlu, changes, problems
+    return mlu, changes, problems, period_loads, base_loads
+
+
+def verify_load_artifact(loadfile, expected_run, name, P, period_loads, base_loads, caps, mlu, tol=1e-6):
+    """Use relative tolerance 1e-6 (plus 1e-12 absolute) for all load comparisons."""
+    with open(loadfile, newline="") as f:
+        reader = csv.DictReader(f)
+        if reader.fieldnames != ["kind", "rank", "period", "link_id", "base", "opt",
+                                 "run", "instance", "P", "routing_mode"]:
+            raise ValueError("load CSV is missing required columns")
+        rows = list(reader)
+    if not rows:
+        raise ValueError("load CSV is empty")
+    for row in rows:
+        if (row["run"] != str(expected_run) or row["instance"] != name or
+                row["P"] != str(P) or row["routing_mode"] != "pathcount"):
+            raise ValueError("load CSV provenance does not match the selected run")
+
+    expected_arc = {}
+    for period, loads in period_loads.items():
+        for link_id, value in loads.items():
+            expected_arc[(period, link_id)] = value / caps[link_id]
+    actual_arc = {}
+    actual_sorted = {}
+    actual_base = {}
+    for row in rows:
+        try:
+            opt, base = float(row["opt"]), float(row["base"])
+            if not (math.isfinite(opt) and math.isfinite(base)):
+                raise ValueError("non-finite load value")
+            if row["kind"] == "arc":
+                key = (int(row["period"]), int(row["link_id"]))
+                if key in actual_arc:
+                    raise ValueError("duplicate physical arc/period row")
+                actual_arc[key] = opt
+            elif row["kind"] == "sorted":
+                rank = int(row["rank"])
+                if rank in actual_sorted:
+                    raise ValueError("duplicate sorted-load rank")
+                actual_sorted[rank] = opt
+                actual_base[rank] = base
+            else:
+                raise ValueError("unknown load CSV row kind")
+        except (TypeError, ValueError) as exc:
+            raise ValueError("malformed load CSV row") from exc
+    if set(actual_arc) != set(expected_arc):
+        raise ValueError("load CSV physical arc/period rows do not match the instance")
+    for key, value in expected_arc.items():
+        if not isclose(actual_arc[key], value, tol):
+            raise ValueError(f"load CSV utilization mismatch at period/link {key}")
+    expected_sorted = sorted(expected_arc.values(), reverse=True)
+    if set(actual_sorted) != set(range(1, len(expected_sorted) + 1)):
+        raise ValueError("load CSV sorted vector has missing or unexpected ranks")
+    if any(not isclose(actual_sorted[k + 1], value, tol)
+           for k, value in enumerate(expected_sorted)):
+        raise ValueError("load CSV sorted load vector is inconsistent")
+    expected_base = sorted(
+        [value / caps[link_id]
+         for loads in base_loads.values()
+         for link_id, value in loads.items()],
+        reverse=True,
+    )
+    if set(actual_base) != set(range(1, len(expected_base) + 1)):
+        raise ValueError("load CSV baseline vector has missing or unexpected ranks")
+    if any(not isclose(actual_base[k + 1], value, tol)
+           for k, value in enumerate(expected_base)):
+        raise ValueError("load CSV baseline vector is inconsistent")
+    if not isclose(expected_sorted[0], mlu, tol):
+        raise ValueError("reported MLU differs from recomputed maximum utilization")
 
 
 def csv_mlu(srfile):
@@ -184,18 +260,25 @@ def csv_mlu(srfile):
 
 def main():
     if len(sys.argv) >= 2 and sys.argv[1] == "--single":
-        if len(sys.argv) != 7:
-            print("usage: verify_srpaths.py --single <instance> <P> <srpaths> <ecmp|pathcount> <expected_mlu>")
+        if len(sys.argv) != 9:
+            print("usage: verify_srpaths.py --single <instance> <P> <srpaths> <ecmp|pathcount> <expected_mlu> <loads_csv> <run>")
             sys.exit(1)
         name, P, srfile, mode_arg, expected = sys.argv[2], int(sys.argv[3]), sys.argv[4], sys.argv[5], float(sys.argv[6])
+        loadfile, expected_run = sys.argv[7], sys.argv[8]
         mode = "pc" if mode_arg == "pathcount" else "ecmp"
-        mlu, _, problems = verify(name, P, srfile, 1e-9, mode)
-        mlu2, _, problems2 = verify(name, P, srfile, 1e-6, mode)
+        mlu, _, problems, period_loads, base_loads = verify(name, P, srfile, 1e-9, mode)
+        mlu2, _, problems2, _, _ = verify(name, P, srfile, 1e-6, mode)
         problems.extend(problems2)
-        if abs(mlu - expected) > 1e-6:
+        if not isclose(mlu, expected, 1e-6):
             problems.append(f"MLU differs from expected by {abs(mlu - expected):.2e}")
         if abs(mlu - mlu2) > 1e-6:
             problems.append("routing is tolerance-sensitive")
+        try:
+            net, _, _ = load_instance(name)
+            caps = {link["id"]: float(link["capacity"]) for link in net["links"]}
+            verify_load_artifact(loadfile, expected_run, name, P, period_loads, base_loads, caps, mlu)
+        except (OSError, ValueError, KeyError, csv.Error) as exc:
+            problems.append(f"load artifact verification failed: {exc}")
         print(json.dumps({"mlu": mlu, "expected": expected, "problems": problems}))
         sys.exit(0 if not problems else 2)
     pat = sys.argv[1] if len(sys.argv) > 1 else ""
@@ -209,8 +292,8 @@ def main():
         m = re.search(r"(setA-\d+)(?:-wp)?-P(\d)", os.path.basename(f))
         name, P = m.group(1), int(m.group(2))
         mode = "pc" if "-pc-" in os.path.basename(f) else "ecmp"
-        mlu, ch, pr = verify(name, P, f, 1e-9, mode)
-        mlu2, _, _ = verify(name, P, f, 1e-6, mode)
+        mlu, ch, pr, _, _ = verify(name, P, f, 1e-9, mode)
+        mlu2, _, _, _, _ = verify(name, P, f, 1e-6, mode)
         ref = csv_mlu(f)
         diff = abs(mlu - ref) if ref is not None else float("nan")
         sens = abs(mlu - mlu2) > 1e-6

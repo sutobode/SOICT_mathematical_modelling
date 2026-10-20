@@ -183,8 +183,9 @@ end
     g = tempname() * ".csv"
     write_loads(inst, rs, paths, 2, g)
     lines = readlines(g)
-    @test lines[1] == "rank,base,opt"
-    @test parse(Float64, split(lines[2], ",")[2]) ≈ base_mlu(inst, rs, 2)
+    @test lines[1] == "kind,rank,period,link_id,base,opt,run,instance,P,routing_mode"
+    first_sorted = first(filter(line -> startswith(line, "sorted,"), lines[2:end]))
+    @test parse(Float64, split(first_sorted, ",")[5]) ≈ base_mlu(inst, rs, 2)
     @test_throws ErrorException check_solution(inst, rs, paths, 2, value(z) - 0.1)
 end
 

@@ -1,362 +1,367 @@
 file,bytes,sha256,modified,code_commit,code_commit_subject
-README_KET_QUA.md,7092,0c82ea292e9f42f4c5eec80193c9381b35b667b60d6217d699f496ddb51e310f,2026-10-19 23:17:58,1d19ca6,feat: official tables report Optimal k/n when runs disagree
-RUN_JOURNAL.md,11361,9527852a06489962706a323baadf2878f37109aab0ec7087da1cfb39cb6122f2,2026-10-20 00:33:00,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
-best_known.csv,4245,93c7ef664541a24cf693a08c7e29ff271bcfcc35ebd4ba274baf2d76e11bd508,2026-10-20 08:23:52,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
+README_KET_QUA.md,7092,0c82ea292e9f42f4c5eec80193c9381b35b667b60d6217d699f496ddb51e310f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+RUN_JOURNAL.md,11949,74c15433a970d95a626c37dfdf30f7db553b15678a42fa6becb6cd2adeb71e9e,2026-10-20 08:41:48,ef83d93,feat: fill_missing_m1.sh runs missing Table 2 runs on M1; journal
+best_known.csv,4286,f8379e782463cc1101a293bcc18144468e2d7504a04487c1b3414dea9ea8a497,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 environment.txt,1080,8a17d4a7179a3b592f0ef06c7316ddc9434ad214dc6eb5dda4c9879600dc3e51,2026-10-19 10:41:04,7c6f669,"feat: experiment runner (csv, srpaths, loads, error-tolerant)"
-keep_awake.log,42,2bbaa836cbc2c79e8464080e4f268fa957bf3c43339aec2518061e8e1e040488,2026-10-19 19:13:37,db6ae21,feat: keep-awake script for long runs
-log-P1.txt,656,2bdaf3fdb7c187134d0dc9761cd09f8c1479989b496b51247dcdc664359a08b7,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
-log-P2.txt,66,4edc62a65fef2502f0fe27e3966c00652e623d5fc6f3b241004ccb53c35e7f97,2026-10-19 13:12:36,916b227,feat: best-known aggregation script
-log-overnight-m1-console.txt,588,87c8336e225bb5de82c9dd891fb61c9210eeccba47ee53ef91f0fe377cddd5cb,2026-10-20 08:20:03,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
-log-pc-P1-04-r4-10.txt,41,619790c25f04c18f0ce64df1d00ba9ebaac3a225382feafe51e42a74b83b99f5,2026-10-19 21:44:21,b0c3e95,feat: extra runs (seeds 4..10) for the official tables
-log-pc-P1-05-r4-10.txt,41,52c600b5e078e44471f8cf322f67708166672b509a7f24aaf49e12d068ee9a69,2026-10-19 21:45:20,b0c3e95,feat: extra runs (seeds 4..10) for the official tables
-log-pc-P1.txt,164,e4bc5971881389f16ef3a8b7420a9be6213d71a136fc0f009ca272ed00210a1b,2026-10-19 14:05:55,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-log-pc-P1b.txt,696,f723588447dad09c9407a67926c783b43d42455d00619fdfb09ccc16a4fecb64,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-log-pc-P2-02-r4-10.txt,41,71bc2a8c853e9ab9043683a20c69edc5fa11338223eccd6ab6900c67eabdcf9a,2026-10-19 21:44:21,b0c3e95,feat: extra runs (seeds 4..10) for the official tables
-log-pc-P2-03-r4-10.txt,41,612fd6c7a1151432e388d0c7785bf9419c38218fb020ed3e25999c378ee285a5,2026-10-19 22:49:07,1d19ca6,feat: official tables report Optimal k/n when runs disagree
-log-pc-P2-04-r2-10.txt,41,6edd68acc16c9183fd5764e6d4b0b4320ccd8a6bca79db9ec2496d3a04d68bcb,2026-10-19 21:55:18,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-log-pc-P2-04-r7-10.txt,40,0728e21ee2f5a7a0de1a50bb3bfc82974b0cbcc8c92323ec584321c7bc0e3ce8,2026-10-19 22:55:23,1d19ca6,feat: official tables report Optimal k/n when runs disagree
-log-pc-P2-05-r1-5.txt,41,933f84ce4d98d9a1d03449bf3a18c5a1aaa9448fefa1f3b30030e807b9ad699c,2026-10-20 01:06:03,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
-log-pc-P2.txt,164,02c049d1c073966f570e6ad632f6024a7a26b6e18668c99f615d149abb41b375,2026-10-19 17:15:27,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-log-pc-P2b.txt,41,9cb6d6b394149e45ab05413a4dd3da7eb9541627b0616524f5c8c3cb100090b3,2026-10-19 20:39:05,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
-log-verify-all.txt,11364,b7bad135294e3461d0990abfc3ef2999fdaf889a148c68a7ebc25f18ea35187a,2026-10-20 00:22:12,e9cacd5,"docs: START_HERE step-by-step guide for members, AGENTS.md router, git-based agent briefs; merge_member_branch"
-log-wp-P1.txt,442,d5732faa8ea3742d6c34001df94e7d5a81a8d49a789d363229d80ec37e3a03d7,2026-10-19 11:55:19,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-log-wp-P2.txt,204,b1956ecee33853037a2c13cc9071b73316e0d66aa127a93158224433bab0f472,2026-10-19 11:45:40,beee52c,perf: compact budget formulation for single-waypoint choices
-log-wp-cg-P1.txt,840,e94b17c9195c4f49c16481b555695a054dab53751cfc42ad1ecf1e1437526e6c,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
-log-wp-cg-P2-17-18-20.txt,153,48422909f548cf0eff8b3fd9a9a52d05dc937cfc49954e32b354123bd96ab233,2026-10-19 21:39:01,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-log-wp-cg-P2-19.txt,51,004b6bdddd5bad5b895ba9d417f34e0697f3fd5bbb019cccd132a35f1808362e,2026-10-19 21:28:05,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
-log-wp-cg-P2.txt,867,b0d80f1f4e5673977935221229a260ea2442c4f2f2d3502626db8a25c0b0d914,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
-log-wp-cg-lns-P1.txt,153,e21d54a9b930213b7cfd29d151517be1c07250a2b1e76af40871a5d66f1d309f,2026-10-19 14:35:10,dda59ed,docs: how to follow the running experiments
-log-wp-cg-lns-P2-13.txt,51,33dd43483c217fc5dda169c12b34caf56ff72808933912a3f1485b491738f19b,2026-10-19 19:11:22,6f47b83,"data: results snapshot, results guide and packaging script"
-log-wp-cg-lns-P2.txt,51,f58fcc8a3f65b5be51e1fa3fef5982b28388c1e3b3000c911678ca77b9f7bced,2026-10-19 17:02:55,f17e509,feat: configurable LNS time in run_wp script
-log-wp-cg-pc-18-20.txt,200,aba47705171eb8e9295ad046e2775032b4c3d79243cd85ad131c48d7e80fcaab,2026-10-19 14:07:34,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
-log-wp-cg-pc-P1.txt,500,cf59e966a02975e6b83c79295e5ae7a4e9341726108fa2862c46a6d2c8a7b038,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-log-wp-fast-P2.txt,101,08e65cd925bdb82de88ed030665f797ce416bb838ae96b5e20966c4653ec6da5,2026-10-19 22:09:13,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-overnight_m1.log,588,87c8336e225bb5de82c9dd891fb61c9210eeccba47ee53ef91f0fe377cddd5cb,2026-10-20 08:20:03,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
-r_difference.csv,976,9ae4e91cf226c0459f2cb1312891927d488dc576fd2f8dc84c4d7f0ca29d8332,2026-10-19 14:06:14,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
+fill_missing_m1.log,70,be5b2c506ff58791c2e87ff525383ebf688886d2054620580ee05fcc85b2df9d,2026-10-20 08:41:39,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+keep_awake.log,42,2bbaa836cbc2c79e8464080e4f268fa957bf3c43339aec2518061e8e1e040488,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-P1.txt,676,6afc2c4b28dddbf673b7a9b6557b1f8d1227e296d22ba207ec34c1a1cfaedea6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-P2.txt,68,bbfa57ddcc4bb56165efccc9aa5912af25a88a886b27fc9776bece48f60e9acf,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-fill-missing-m1-console.txt,70,be5b2c506ff58791c2e87ff525383ebf688886d2054620580ee05fcc85b2df9d,2026-10-20 08:41:39,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-overnight-m1-console.txt,588,87c8336e225bb5de82c9dd891fb61c9210eeccba47ee53ef91f0fe377cddd5cb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P1-04-r4-10.txt,42,29216e647883aa4f8d60b64348d19b513cb584126b2a26ed481a0f73b6fd014e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P1-05-r4-10.txt,42,786a4c768566f5b0b4ead398eb3fc54e08f44f39e122a1d57609dbe91e4a6024,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P1.txt,168,ab63c3572498deacde505bf157cadde8e1e546e89221a37ed72dbfee18ff808a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P1b.txt,713,2467d0efe094d35498ddf780a3bdf40eb9141398bc2d71b0cb5d9a73f177131e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P2-02-r4-10.txt,42,36957b1e2dccc10b80e584183517c9afde265ee1ef1239117237fb106b1b73ec,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P2-03-r4-10.txt,42,ad16000aeebcdeb4b4a97805edd9f99a3e7f9614dc8ac8361b09e69cc89deae4,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P2-04-r2-10.txt,42,5e62ddc62de3b03934a70197708cb723911dec1fa5185004c9367814ae8b37ca,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P2-04-r5-5.txt,41,62e7168aaa70d035f866968db9ac718e58f2b640de4c9932f818502a4eb0efdf,2026-10-20 08:41:53,ef83d93,feat: fill_missing_m1.sh runs missing Table 2 runs on M1; journal
+log-pc-P2-04-r7-10.txt,41,1edb010d01d29f13fcddd3a0a0ebef9e30a8d4a6f606e1f38564a09f8df56140,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P2-05-r1-5.txt,42,c24ca7e6453d7a99685a16227828d92782bf0fd38bbd61f7e2fc6fabb7341014,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P2.txt,168,23216be3a766268a4e44294cadb1e8a1b9bce7ff00cd9b849707524c7f7ec8e6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P2b.txt,42,744ed6fd6977d942e3692e6ecab3788eafd225a56b41a2731a6b3c4eb0601ed3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-verify-all.txt,11364,b7bad135294e3461d0990abfc3ef2999fdaf889a148c68a7ebc25f18ea35187a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-P1.txt,455,8f0f3e6ff668d852156ab3964b9def16688a4d8237f1c6317fbfddbdeb8081f9,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-P2.txt,210,0ae93d44c833937afa30dff4878994f764b5da929e66a7dfd8d582749b1d0c13,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-cg-P1.txt,860,e48427718d9385ef715be5b77672e7148ea74dabb9a0bceff834a8453c6ac636,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-cg-P2-17-18-20.txt,156,282f02c7143296f9a84279818013f2141040b51b334cdaf2d4b86a29ae37e709,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-cg-P2-19.txt,52,1b148a1ce7b46dc0fbb69a04209184e290aa2cdc133f3b9b5e909ca9c20e7db0,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-cg-P2.txt,884,06fc97e87d81cc9fccf40c3648863910b652e485180f89fcc2c45d53eb15c83c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-cg-lns-P1.txt,156,0aba32d85172ea1705154e79b2139ae310ce096f8ab244397eeaf04ed5983c27,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-cg-lns-P2-13.txt,52,6e8fe7a45a53ebbc106c9e1401bf902e2289baf79af0975650ccbc918d74d0bf,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-cg-lns-P2.txt,52,648b26ade35639cdfb620672c23e3422be317bff444677b22fcfb65752a76cb4,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-cg-pc-18-20.txt,204,0e5660497b9fcf56fe210b0e64ac0c301635b64e71e11392bfdc6f90068dffa4,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-cg-pc-P1.txt,510,f6798e0e28d30f9606faf0a540b76b30c32a608cc413df42d68c631fb8ac4c81,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-wp-fast-P2.txt,103,ca83f4452df79cdffff2ebfc47be5ba23f388a40b91a9659c4f17c91b5c794cc,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+overnight_m1.log,588,87c8336e225bb5de82c9dd891fb61c9210eeccba47ee53ef91f0fe377cddd5cb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+r_difference.csv,1017,d41e45f9a8a8cc588b952cd51d12690f8cc2058b612027c5f3b73bd0d5f1ba99,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 setA-01-P1-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 11:12:39,9560fe1,feat: run 3 times (instead of once) on slow instances
-setA-01-P1-pc-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 14:03:08,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-01-P1-pc-srpaths.json,250,671d5aa356bfa05ff497a699e9fe4cc5bccb93c16135c38461c7a9f82de98202,2026-10-19 14:03:06,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-01-P1-pc.csv,2255,c49bbe50378b9d011205af47f2226996ac3f2d75cf7f7e73039f054c285fb1c6,2026-10-19 14:03:28,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
+setA-01-P1-pc-loads.csv,2457,bb834238b3ac09b35c83b02b3d68d8c4749a0a11c04072eb99c7b81a6107b24b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-P1-pc-srpaths.json,267,291ea4812c08eaf814ee9703358c410b19c72cbd55e7eec9fd9de121725065e3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-P1-pc.csv,2266,f869d6c41c44d167d216f96857d90286e11e3b81d537e67ecd1ad650f222d590,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 setA-01-P1-srpaths.json,250,671d5aa356bfa05ff497a699e9fe4cc5bccb93c16135c38461c7a9f82de98202,2026-10-19 11:12:38,9560fe1,feat: run 3 times (instead of once) on slow instances
 setA-01-P1.csv,2259,a38b6827ab583fa74bcd20d958fb1a45ede6a0c684698fef648e59d83149d8d0,2026-10-19 11:12:49,9560fe1,feat: run 3 times (instead of once) on slow instances
-setA-01-P2-loads.csv,4719,064398dd96a573bd6c9e5ba9491dede4206fcf29cc5e03b0f657ca2796bddf90,2026-10-19 13:05:19,916b227,feat: best-known aggregation script
-setA-01-P2-pc-loads.csv,4719,064398dd96a573bd6c9e5ba9491dede4206fcf29cc5e03b0f657ca2796bddf90,2026-10-19 14:18:40,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-setA-01-P2-pc-srpaths.json,250,671d5aa356bfa05ff497a699e9fe4cc5bccb93c16135c38461c7a9f82de98202,2026-10-19 14:18:38,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-setA-01-P2-pc.csv,2240,3a6f49013b07d8ac910e94c08a9750efa6ded6ffa1f2bd0b1264051cbbe76e45,2026-10-19 14:25:19,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-setA-01-P2-srpaths.json,250,671d5aa356bfa05ff497a699e9fe4cc5bccb93c16135c38461c7a9f82de98202,2026-10-19 13:05:17,916b227,feat: best-known aggregation script
-setA-01-P2.csv,2251,3814fb9910541ee9a542a702fd47d553ccbcd1eebdd3eab6a7df6482ae549f94,2026-10-19 13:12:36,916b227,feat: best-known aggregation script
-setA-01-wp-P1-cg-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
-setA-01-wp-P1-cg-pc-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 14:03:09,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-01-wp-P1-cg-pc-srpaths.json,250,671d5aa356bfa05ff497a699e9fe4cc5bccb93c16135c38461c7a9f82de98202,2026-10-19 14:03:09,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-01-wp-P1-cg-pc.csv,353,4943b70fb1404aeb5eaff0f34f6cafa98b53daf34132575fee7e746a0fc8d8e8,2026-10-19 14:03:09,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-01-wp-P1-cg-srpaths.json,250,671d5aa356bfa05ff497a699e9fe4cc5bccb93c16135c38461c7a9f82de98202,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
-setA-01-wp-P1-cg.csv,354,a0d72d066ec7fff9f8f3129ae0199b65e7c29b5bd8c38301baf2090fbc7c57e3,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
-setA-01-wp-P1-loads.csv,2376,91575c983bef195923c4246ac7e3fb8896947e24a0e4aa8d46ef6d48519731df,2026-10-19 11:23:39,a12f6f0,feat: waypoint-selection runner and script
-setA-01-wp-P1-srpaths.json,250,671d5aa356bfa05ff497a699e9fe4cc5bccb93c16135c38461c7a9f82de98202,2026-10-19 11:23:39,a12f6f0,feat: waypoint-selection runner and script
-setA-01-wp-P1.csv,302,2b42fe4239ed8937063758f896559d475b4c2be6f94c3e3c7b7c595d56e3a508,2026-10-19 11:23:39,a12f6f0,feat: waypoint-selection runner and script
-setA-01-wp-P2-cg-loads.csv,4719,064398dd96a573bd6c9e5ba9491dede4206fcf29cc5e03b0f657ca2796bddf90,2026-10-19 14:46:50,b2e405c,feat: brief status mode
-setA-01-wp-P2-cg-srpaths.json,250,671d5aa356bfa05ff497a699e9fe4cc5bccb93c16135c38461c7a9f82de98202,2026-10-19 14:46:49,b2e405c,feat: brief status mode
-setA-01-wp-P2-cg.csv,366,b4285f7de8150651c53c0078141cac07f1d11ee586f9dd9b3f62d075d2cfea78,2026-10-19 14:46:50,b2e405c,feat: brief status mode
-setA-01-wp-P2-loads.csv,4719,064398dd96a573bd6c9e5ba9491dede4206fcf29cc5e03b0f657ca2796bddf90,2026-10-19 11:43:50,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-01-wp-P2-srpaths.json,250,671d5aa356bfa05ff497a699e9fe4cc5bccb93c16135c38461c7a9f82de98202,2026-10-19 11:43:50,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-01-wp-P2.csv,302,81e382f633fee443ba14f8e1a5830123f9833876bb439772370097ac7dc63e7e,2026-10-19 11:43:50,beee52c,perf: compact budget formulation for single-waypoint choices
+setA-01-P2-loads.csv,4879,844414dd0a33e4e824e2d4d337ecbffc83f3fefed2549cc455b1c52e46b8b97b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-P2-pc-loads.csv,4879,844414dd0a33e4e824e2d4d337ecbffc83f3fefed2549cc455b1c52e46b8b97b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-P2-pc-srpaths.json,267,291ea4812c08eaf814ee9703358c410b19c72cbd55e7eec9fd9de121725065e3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-P2-pc.csv,2251,93bc6a7b72af38d309c46d88fbd86cccae8eda95cffdeab3674e5c58fffb411f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-P2-srpaths.json,267,291ea4812c08eaf814ee9703358c410b19c72cbd55e7eec9fd9de121725065e3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-P2.csv,2262,cb0f0ac17266ddb99f406b490b89288d0a6c559447bece6f57221904d66991e3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P1-cg-loads.csv,2457,bb834238b3ac09b35c83b02b3d68d8c4749a0a11c04072eb99c7b81a6107b24b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P1-cg-pc-loads.csv,2457,bb834238b3ac09b35c83b02b3d68d8c4749a0a11c04072eb99c7b81a6107b24b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P1-cg-pc-srpaths.json,267,291ea4812c08eaf814ee9703358c410b19c72cbd55e7eec9fd9de121725065e3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P1-cg-pc.csv,355,da770381479347489b56d3c880456f5b978623097ea09d27d0fe26de2b5be6d6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P1-cg-srpaths.json,267,291ea4812c08eaf814ee9703358c410b19c72cbd55e7eec9fd9de121725065e3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P1-cg.csv,356,18c9a3167aded261e917ee96045a96eb911a9559ba1bafa2d5f1be89fdca8fab,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P1-loads.csv,2457,bb834238b3ac09b35c83b02b3d68d8c4749a0a11c04072eb99c7b81a6107b24b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P1-srpaths.json,267,291ea4812c08eaf814ee9703358c410b19c72cbd55e7eec9fd9de121725065e3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P1.csv,304,1167fed0967c2e67478e297a0f09ad6e0f5da98e9f91df254a795394ed3279fa,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P2-cg-loads.csv,4879,844414dd0a33e4e824e2d4d337ecbffc83f3fefed2549cc455b1c52e46b8b97b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P2-cg-srpaths.json,267,291ea4812c08eaf814ee9703358c410b19c72cbd55e7eec9fd9de121725065e3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P2-cg.csv,368,353682a519333aefc08e53bb933302ac35a92b8ebe5e2daa6d3fbeb51291336d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P2-loads.csv,4879,844414dd0a33e4e824e2d4d337ecbffc83f3fefed2549cc455b1c52e46b8b97b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P2-srpaths.json,267,291ea4812c08eaf814ee9703358c410b19c72cbd55e7eec9fd9de121725065e3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-01-wp-P2.csv,304,ffff62cfa3fa98766c02af2f5b56e5994a523280ce852358ae05a25b77dea51e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 setA-02-P1-loads.csv,3962,17941fc4c60f450768ca2740cb69d2bf9eca1367807e65127d8b0dc39d59d964,2026-10-19 11:12:52,9560fe1,feat: run 3 times (instead of once) on slow instances
-setA-02-P1-pc-loads.csv,3962,17941fc4c60f450768ca2740cb69d2bf9eca1367807e65127d8b0dc39d59d964,2026-10-19 14:03:34,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-02-P1-pc-srpaths.json,706,e5bcbfb432521fcb451e3f52e3767fb2362385174ea81ac07d9080cbaea7bad8,2026-10-19 14:03:34,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-02-P1-pc.csv,2150,d1170beb86c8f128dc375e477eb23ebadd2856417d573969a6b92eec22baa3d2,2026-10-19 14:04:26,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
+setA-02-P1-pc-loads.csv,4113,4ebe4003b0d2a14fb839d4f05b59756a628a155611d005eb5651e761637d0787,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-P1-pc-srpaths.json,751,b0c4746ba11ddb7561f8ef2fba65144c78eb16eed5dbeeeab6c914b54ee91a94,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-P1-pc.csv,2161,118b8205580b2979a55b5d553ba8f2468b656176a6ce00e2253ce747105494f8,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 setA-02-P1-srpaths.json,706,e5bcbfb432521fcb451e3f52e3767fb2362385174ea81ac07d9080cbaea7bad8,2026-10-19 11:12:52,9560fe1,feat: run 3 times (instead of once) on slow instances
 setA-02-P1.csv,2149,7a8edbe7d8f6b6c8d5037b546a2bdc3fbe431fb47e0060e0c7b1f08bb1bd37df,2026-10-19 11:13:20,8e92740,docs: orange README and decision log (teacher unavailable)
-setA-02-P2-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
-setA-02-P2-pc-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 14:58:24,b2e405c,feat: brief status mode
-setA-02-P2-pc-r4-10.csv,1487,bd2f59d414946f2037248e0076cd07e4d3d37ebf14189d71729b83e6cd6a427e,2026-10-20 03:33:23,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
-setA-02-P2-pc-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 14:58:24,b2e405c,feat: brief status mode
-setA-02-P2-pc.csv,708,c51188fb5c04e40fd3308134fadd10e2ff948fc5fa100c320e1bba41e66e2e54,2026-10-19 16:36:58,b2e405c,feat: brief status mode
-setA-02-P2-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
-setA-02-P2.csv,312,9a3e554c159a037c33cd27bf1e98f027460ba6fd7f3d7a03015667e48a6da719,2026-10-19 13:44:25,916b227,feat: best-known aggregation script
-setA-02-wp-P1-cg-loads.csv,3962,17941fc4c60f450768ca2740cb69d2bf9eca1367807e65127d8b0dc39d59d964,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
-setA-02-wp-P1-cg-pc-loads.csv,3962,17941fc4c60f450768ca2740cb69d2bf9eca1367807e65127d8b0dc39d59d964,2026-10-19 14:03:10,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-02-wp-P1-cg-pc-srpaths.json,706,e5bcbfb432521fcb451e3f52e3767fb2362385174ea81ac07d9080cbaea7bad8,2026-10-19 14:03:10,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-02-wp-P1-cg-pc.csv,341,904f9b974ea09d8ce07bda51218bf8311e920edd7ee1892a5c3cf487e381bed8,2026-10-19 14:03:10,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-02-wp-P1-cg-srpaths.json,706,e5bcbfb432521fcb451e3f52e3767fb2362385174ea81ac07d9080cbaea7bad8,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
-setA-02-wp-P1-cg.csv,341,c4c5f41abfbccca89bc5e50fd16e517903011cb1dc3a75b4df9ca70929614b36,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
-setA-02-wp-P1-loads.csv,3962,17941fc4c60f450768ca2740cb69d2bf9eca1367807e65127d8b0dc39d59d964,2026-10-19 11:23:39,a12f6f0,feat: waypoint-selection runner and script
-setA-02-wp-P1-srpaths.json,706,e5bcbfb432521fcb451e3f52e3767fb2362385174ea81ac07d9080cbaea7bad8,2026-10-19 11:23:39,a12f6f0,feat: waypoint-selection runner and script
-setA-02-wp-P1.csv,288,489fe26461f9431a85d48238deedba31e3a152c6aa0aa7ee1bfc8aff0847efc6,2026-10-19 11:23:39,a12f6f0,feat: waypoint-selection runner and script
-setA-02-wp-P2-cg-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 14:46:51,b2e405c,feat: brief status mode
-setA-02-wp-P2-cg-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 14:46:51,b2e405c,feat: brief status mode
-setA-02-wp-P2-cg.csv,367,73cfba1dfc31376be0cbbc5bfc345e84c1ffd3e1ce60138a37d0368708fe404c,2026-10-19 14:46:51,b2e405c,feat: brief status mode
-setA-02-wp-P2-loads.csv,7908,5642496ace55d0703f2d55bc8f3fabdc937182b7894f179cd9f41f51d228e1f5,2026-10-19 11:43:50,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-02-wp-P2-srpaths.json,253,efeba4d953590d2bc2e99b65912e08fbb4ed8ef3ee18958c5237551497615362,2026-10-19 11:43:50,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-02-wp-P2.csv,302,830c63942c064826e410a4d53efbe3c45188b1070206aa4ad6435cd2f0d4cbc8,2026-10-19 11:43:50,beee52c,perf: compact budget formulation for single-waypoint choices
+setA-02-P2-loads.csv,8208,0f2c46fda55de2c7ad3418a6b93ef626a7d9a2aaeb09c5ae7409a92df790de9a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-P2-pc-loads.csv,8208,0f2c46fda55de2c7ad3418a6b93ef626a7d9a2aaeb09c5ae7409a92df790de9a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-P2-pc-r4-10.csv,1495,5a7201db0cc44882100d22a349bfbf4ed03abaeadbba01593884026cf896f4bf,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-P2-pc-srpaths.json,270,e83e771326d8e58c29b1a0483bba236681753e7138e3899a18b9c3e7491c8e93,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-P2-pc.csv,712,ed7a27d04003bc7134f9f4609f3279a6c1e73d70deebb9d2b89c8bdebe5d14b3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-P2-srpaths.json,270,e83e771326d8e58c29b1a0483bba236681753e7138e3899a18b9c3e7491c8e93,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-P2.csv,314,9ce2913041d8383631e76172d5b3c948248600c99b525503c3ab22bed733ff39,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P1-cg-loads.csv,4113,4ebe4003b0d2a14fb839d4f05b59756a628a155611d005eb5651e761637d0787,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P1-cg-pc-loads.csv,4113,4ebe4003b0d2a14fb839d4f05b59756a628a155611d005eb5651e761637d0787,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P1-cg-pc-srpaths.json,751,b0c4746ba11ddb7561f8ef2fba65144c78eb16eed5dbeeeab6c914b54ee91a94,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P1-cg-pc.csv,343,5c8f87bc9a95e84b980e25a5c5f09ddc32c25c26d9e01e4a017e3bedf71b6f7d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P1-cg-srpaths.json,751,b0c4746ba11ddb7561f8ef2fba65144c78eb16eed5dbeeeab6c914b54ee91a94,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P1-cg.csv,343,3ee167e0eacc3aa422b2c71bd830177090b9ff421c86531fed8b5521dfd91e78,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P1-loads.csv,4113,4ebe4003b0d2a14fb839d4f05b59756a628a155611d005eb5651e761637d0787,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P1-srpaths.json,751,b0c4746ba11ddb7561f8ef2fba65144c78eb16eed5dbeeeab6c914b54ee91a94,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P1.csv,290,d36f1bf56d5cee6cc0c41a12e28c200fe7b91a7c89a9b841389102d310e5e76d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P2-cg-loads.csv,8208,0f2c46fda55de2c7ad3418a6b93ef626a7d9a2aaeb09c5ae7409a92df790de9a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P2-cg-srpaths.json,270,e83e771326d8e58c29b1a0483bba236681753e7138e3899a18b9c3e7491c8e93,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P2-cg.csv,369,66e7c1efd248c07bfae95f787bf22dd05d122bc2ebcc24593e02e7ebb198175e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P2-loads.csv,8208,0f2c46fda55de2c7ad3418a6b93ef626a7d9a2aaeb09c5ae7409a92df790de9a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P2-srpaths.json,270,e83e771326d8e58c29b1a0483bba236681753e7138e3899a18b9c3e7491c8e93,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-02-wp-P2.csv,304,2a1dc06dc0c36b9c2cf409e676f5207e7804741d7f19b7d9a452712225f2c34c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 setA-03-P1-loads.csv,4558,2ca712a6a6143a73f630236ea227f979cdfd909454702e2d9110de0a641c583f,2026-10-19 11:13:26,8e92740,docs: orange README and decision log (teacher unavailable)
-setA-03-P1-pc-loads.csv,4558,2ca712a6a6143a73f630236ea227f979cdfd909454702e2d9110de0a641c583f,2026-10-19 14:04:37,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-03-P1-pc-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 14:04:37,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-03-P1-pc.csv,2141,304f49f852bd7a47e836e07dba8aae9eb6e0e23c52d3c275171047412906957b,2026-10-19 14:05:55,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
+setA-03-P1-pc-loads.csv,4809,c05b92df4e51e0bee620ca0411597fde05abcb68932bebe368f43f175c6ff22d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-P1-pc-srpaths.json,387,e7f009498a060d50d8f4216b8f5fd97807f3e443491bec16e6f9c828be887b00,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-P1-pc.csv,2152,b57b24671e98bc7e5ab61f5626e5433b8df25dd21af9277cec1876202e0b5c28,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 setA-03-P1-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 11:13:26,8e92740,docs: orange README and decision log (teacher unavailable)
 setA-03-P1.csv,2137,acc49053217dda16b646079a9d9a94b630dfed605c75d0813d7cb03171addf79,2026-10-19 11:14:16,8e157ea,docs: fix corrupted varepsilon in decision log
-setA-03-P2-pc-loads.csv,9076,f58298c041f001162ba8ab8f60cf15b554bbcbd924d3b68941506c4ae709c690,2026-10-19 16:41:53,b2e405c,feat: brief status mode
-setA-03-P2-pc-r4-10.csv,1507,2fedd8c96ac3af1e25c8d5869f07e8c974131e06658ce64109db5829299830ed,2026-10-20 01:22:07,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
-setA-03-P2-pc-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 16:41:53,b2e405c,feat: brief status mode
-setA-03-P2-pc.csv,722,af3d3c46ede80b22d305397746a670243e7006b4798847672577751b267545e8,2026-10-19 17:15:27,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-setA-03-wp-P1-cg-loads.csv,4558,2ca712a6a6143a73f630236ea227f979cdfd909454702e2d9110de0a641c583f,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
-setA-03-wp-P1-cg-pc-loads.csv,4558,2ca712a6a6143a73f630236ea227f979cdfd909454702e2d9110de0a641c583f,2026-10-19 14:03:10,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-03-wp-P1-cg-pc-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 14:03:10,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-03-wp-P1-cg-pc.csv,360,b25d1edbbdee79e5c95a38f4241fdaaea54b3580c127ab25eec61036d120b402,2026-10-19 14:03:10,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-03-wp-P1-cg-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
-setA-03-wp-P1-cg.csv,359,5538ffae5a9a071163e6726ef1b1b28e7e5258679f4a8dc18303b3a251f8a3f7,2026-10-19 12:15:23,b5b6b97,feat: column enrichment after convergence
-setA-03-wp-P1-loads.csv,4558,2ca712a6a6143a73f630236ea227f979cdfd909454702e2d9110de0a641c583f,2026-10-19 11:23:39,a12f6f0,feat: waypoint-selection runner and script
-setA-03-wp-P1-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 11:23:39,a12f6f0,feat: waypoint-selection runner and script
-setA-03-wp-P1.csv,306,6cfccecd9dc4a1f9654dcf8d90186f93bbe8ebaf800012dcb4b8631a4ee2affe,2026-10-19 11:23:39,a12f6f0,feat: waypoint-selection runner and script
-setA-03-wp-P2-cg-loads.csv,9076,f58298c041f001162ba8ab8f60cf15b554bbcbd924d3b68941506c4ae709c690,2026-10-19 14:46:51,b2e405c,feat: brief status mode
-setA-03-wp-P2-cg-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 14:46:51,b2e405c,feat: brief status mode
-setA-03-wp-P2-cg.csv,370,ba107aeaddce3e45a158f4deb6a7d3856fcb38238ebc86423a1d0e9ad794d31f,2026-10-19 14:46:51,b2e405c,feat: brief status mode
-setA-03-wp-P2-loads.csv,9076,f58298c041f001162ba8ab8f60cf15b554bbcbd924d3b68941506c4ae709c690,2026-10-19 11:43:51,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-03-wp-P2-srpaths.json,363,a10caee64bc6002ecc657a8a8e24fc8bc0bc29cdfd8ecee77ed631c6fcdde8b3,2026-10-19 11:43:51,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-03-wp-P2.csv,307,0c6831bb7cc7dfc95eae0f6e64f9162a015bfcf14625a0fb17121a54b07894d0,2026-10-19 11:43:51,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-04-P1-loads.csv,8205,1aba738b690702bf7e1813958eb22b05e08e10496f06959156567e8c646eaff2,2026-10-19 11:44:42,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-04-P1-pc-loads.csv,8205,1aba738b690702bf7e1813958eb22b05e08e10496f06959156567e8c646eaff2,2026-10-19 14:49:04,b2e405c,feat: brief status mode
-setA-04-P1-pc-r4-10.csv,1670,99caa07426ee0c6017336a5a0fec2c344f394d4c90ce7725bc4e8298ba150726,2026-10-20 01:25:02,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
-setA-04-P1-pc-srpaths.json,503,e2e30047bab9af58016abf076e2fc06121dfa9519d7c79b35746cbce6a8bf702,2026-10-19 14:49:02,b2e405c,feat: brief status mode
-setA-04-P1-pc.csv,780,3d7125207912e505c8077688a18a8e0be921858bb5556de1ae7f56ccdee6c7ce,2026-10-19 15:50:33,b2e405c,feat: brief status mode
-setA-04-P1-srpaths.json,503,e2e30047bab9af58016abf076e2fc06121dfa9519d7c79b35746cbce6a8bf702,2026-10-19 11:44:42,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-04-P1.csv,780,22e7dec096aa7f65c3086aebdec43d9278315b7a631ff7141c80ed50f3c9e73f,2026-10-19 12:47:06,916b227,feat: best-known aggregation script
-setA-04-P2-pc-loads.csv,16586,bf6e78e92da13bc2e6e84a685fbe169ceb06e90ffe764465b3d3f0eb17b45e64,2026-10-19 21:42:37,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-04-P2-pc-r2-10.csv,705,8c6b6c4c8d77859d580021e25094afc0cf64d926280b84dc29c356d03146ea85,2026-10-20 01:05:18,4f0ef4b,"docs: new setA-05 assignment (M1 seeds 1-5, M2 6-8, M3 9-10), gate through feature/tasr, check_range --subset, journal"
-setA-04-P2-pc-r7-10.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-19 22:55:40,1d19ca6,feat: official tables report Optimal k/n when runs disagree
-setA-04-P2-pc-srpaths.json,1056,986ad4042aa1587318a7ac160c3f5d4b38d01902db9e412fb1449fa3af5b0845,2026-10-19 21:42:35,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-04-P2-pc.csv,301,1f0873bc76f4103249c3f70a92f0b6beef3021ae8646187fb231a5c0c40e8196,2026-10-19 21:42:37,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-04-wp-P1-cg-loads.csv,8306,b60d3f0ad2415732d1797bf33d3b89362594d941545d233cb0e061911c62d91a,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
-setA-04-wp-P1-cg-pc-loads.csv,8306,b60d3f0ad2415732d1797bf33d3b89362594d941545d233cb0e061911c62d91a,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-04-wp-P1-cg-pc-srpaths.json,17407,43abce766b682601dfe3d08e4938f9d1831ad40b11a8cdc7d3348dd091999af0,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-04-wp-P1-cg-pc.csv,382,39714cf83ef54dabb1969b8f8c326b705dac5c41beb4c2a693de492908e4d62f,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-04-wp-P1-cg-srpaths.json,17407,43abce766b682601dfe3d08e4938f9d1831ad40b11a8cdc7d3348dd091999af0,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
-setA-04-wp-P1-cg.csv,382,cf5c5e82966cbfbd2b72c7e7d8b21045769914e97752239bebe6704fd68b3653,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
-setA-04-wp-P1-loads.csv,8225,7ec4d2354623ab7bffef7aad387179b74dc74c21afd3fda4a9dc8c91aade4168,2026-10-19 11:23:41,a12f6f0,feat: waypoint-selection runner and script
-setA-04-wp-P1-srpaths.json,17072,4ebfb4148dab4b009b6ba5f56bfefaae893d3d022901313b317a9f998128b6a1,2026-10-19 11:23:41,a12f6f0,feat: waypoint-selection runner and script
-setA-04-wp-P1.csv,311,fee132e00bf895a41c7ca9455bd5e5f192cc6b2e7cfd1276daa32d9921abf5c0,2026-10-19 11:23:41,a12f6f0,feat: waypoint-selection runner and script
-setA-04-wp-P2-cg-loads.csv,17268,0d156fd3e9a54f847756b96b6021b1aeec1175f698b33f89372b4e5af6db8ab3,2026-10-19 14:47:10,b2e405c,feat: brief status mode
-setA-04-wp-P2-cg-srpaths.json,39651,17169b583fdafae2a43ab5527f5de9ee3563031d4695226f97d5105f7425b946,2026-10-19 14:47:10,b2e405c,feat: brief status mode
-setA-04-wp-P2-cg.csv,368,8ecfbcd622b093e2860f05a1dd37ede864040b1408989effd34fa41b87999a3a,2026-10-19 14:47:10,b2e405c,feat: brief status mode
-setA-04-wp-P2-loads.csv,16996,67f354628d2875af7ab900ac1c8ae6313d92a49513777f2fcbabef7b2a36747b,2026-10-19 11:44:52,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-04-wp-P2-srpaths.json,37041,00134659b2a2b0ad8ffd4c84836319a7472245e76b306beee9f6f366d20ddaa2,2026-10-19 11:44:52,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-04-wp-P2.csv,305,f4a67ec95c951992e2f4e89797f0c186a59afa60eb6bc8a94870fcbd829a05f8,2026-10-19 11:44:52,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-05-P1-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 12:52:51,916b227,feat: best-known aggregation script
-setA-05-P1-pc-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 15:54:54,b2e405c,feat: brief status mode
-setA-05-P1-pc-r4-10.csv,1689,11732021d5fa6edeb2f95a20e643f32c55b7928d353f9f0edf596dc853e98bc4,2026-10-19 22:49:04,1d19ca6,feat: official tables report Optimal k/n when runs disagree
-setA-05-P1-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 15:54:54,b2e405c,feat: brief status mode
-setA-05-P1-pc.csv,788,3fd8425208c294df092c9269b18f57c0803bb2ee510c111040c8cdb152e7bb1f,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-05-P1-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 12:52:51,916b227,feat: best-known aggregation script
-setA-05-P1.csv,788,9644351a70ced602dba322ee6220a85ed9644e1b401f16c4299ed669f11a6c85,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-05-P2-pc-r1-5-loads.csv,23986,ce8897e19a1787531254b75553ede25341ef551e9dcd3cf716ecacb733621a16,2026-10-20 02:12:33,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
-setA-05-P2-pc-r1-5-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-20 02:12:31,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
-setA-05-P2-pc-r1-5.csv,994,83b1a6886de22f5b1e74896ae21e5f0987e4cd69a673c5af11df728bad391cbb,2026-10-20 08:20:01,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
-setA-05-wp-P1-cg-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
-setA-05-wp-P1-cg-pc-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-05-wp-P1-cg-pc-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-05-wp-P1-cg-pc.csv,367,ca5399fa51959ee1335cf4b93ac3493f7561fcb046845b908e547b374479843c,2026-10-19 14:03:11,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-05-wp-P1-cg-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
-setA-05-wp-P1-cg.csv,366,dcc0825a083e5fd889bf76d9e2c2c1b9c4e0f2c0554cc838e4ed3be28318af21,2026-10-19 12:15:25,b5b6b97,feat: column enrichment after convergence
-setA-05-wp-P1-loads.csv,12056,86540020cc6d05aa4fe22c61d96660de74732f2b30772cad87f2bece86aa064d,2026-10-19 11:23:42,a12f6f0,feat: waypoint-selection runner and script
-setA-05-wp-P1-srpaths.json,822,88dfe0423bbc83e692ef613e0be91f006b817f513ddeb453dde1a0ab5cda904c,2026-10-19 11:23:42,a12f6f0,feat: waypoint-selection runner and script
-setA-05-wp-P1.csv,311,123a8af97a3cf8b135d9e33219a0912d1af82c0fe6b70af23f6df7f32dfe3e0c,2026-10-19 11:23:42,a12f6f0,feat: waypoint-selection runner and script
-setA-05-wp-P2-cg-loads.csv,24120,c1dfdf234d52179ae979581a5340991a3692334d9a87d7ebad342fa0f34f0056,2026-10-19 14:47:12,b2e405c,feat: brief status mode
-setA-05-wp-P2-cg-srpaths.json,11869,1c152c5561e42e21cfec4e4e20da160346b1a93d9a8e8d470730a8802e74e054,2026-10-19 14:47:12,b2e405c,feat: brief status mode
-setA-05-wp-P2-cg.csv,371,4401c06b68edf1edd82873a43870bdbca651fa2c21bc18977cdb694d314105d0,2026-10-19 14:47:12,b2e405c,feat: brief status mode
-setA-05-wp-P2-loads.csv,25919,1254a776edb30298bb93f0f8c18feb908664357177ce6e03311e1374ebb9b219,2026-10-19 11:45:40,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-05-wp-P2-srpaths.json,22567,ea46a263391ccce3aba4e0aa9a7b7a3889f85747747f307803ee08f9905e0d2b,2026-10-19 11:45:40,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-05-wp-P2.csv,309,880ff1e5d7048914ac4d7c92123f571de5101f021495f6e7f0a9fd03a7a7ab57,2026-10-19 11:45:40,beee52c,perf: compact budget formulation for single-waypoint choices
-setA-06-P1-pc.csv,214,5111c2dd588d02d20e9f1c2a10a58451f7efbb305adbbd5914e9aac4feb0b662,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-06-P1.csv,214,5111c2dd588d02d20e9f1c2a10a58451f7efbb305adbbd5914e9aac4feb0b662,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-06-wp-P1-cg-loads.csv,15221,08368c72a0c89932e1a17400d034e13ee7f32041c30898d02e41f839ad123e8b,2026-10-19 12:15:34,b5b6b97,feat: column enrichment after convergence
-setA-06-wp-P1-cg-pc-loads.csv,15221,08368c72a0c89932e1a17400d034e13ee7f32041c30898d02e41f839ad123e8b,2026-10-19 14:03:18,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-06-wp-P1-cg-pc-srpaths.json,52983,23256389e6fa8ff97f8a0cacd39d46e2e88b7762b44b1d938e348670c2edfd30,2026-10-19 14:03:18,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-06-wp-P1-cg-pc.csv,345,983eb7db1beca8b908a9042fcef0f2743e8ceaaea3c03b17b3bbb6694aeb9e32,2026-10-19 14:03:18,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-06-wp-P1-cg-srpaths.json,52983,23256389e6fa8ff97f8a0cacd39d46e2e88b7762b44b1d938e348670c2edfd30,2026-10-19 12:15:34,b5b6b97,feat: column enrichment after convergence
-setA-06-wp-P1-cg.csv,347,60f2421a581b16d401ae758df1d3ce14ed9e84852faf7bade1c0cda1a03da8cb,2026-10-19 12:15:34,b5b6b97,feat: column enrichment after convergence
-setA-06-wp-P1-loads.csv,14889,f38d32cf805e552371c8bbdb73fe647df454902acfb98e9640f38641eb261dcd,2026-10-19 11:23:56,a12f6f0,feat: waypoint-selection runner and script
-setA-06-wp-P1-srpaths.json,49152,c9bf7368e723fd6daf909dd83cfb5ce72a2d503a31475b3e819cdc92a0895120,2026-10-19 11:23:56,a12f6f0,feat: waypoint-selection runner and script
-setA-06-wp-P1.csv,299,6b152d60bd2b836e962b2e9c80e251cfb964e9bb1ceb319b8fc15c5e86a5abeb,2026-10-19 11:23:56,a12f6f0,feat: waypoint-selection runner and script
-setA-06-wp-P2-cg-loads.csv,29804,68cbac42f1a724f5b3f8e716716fa43e4e75e3f3f3e9d01e3e726ebec3113b46,2026-10-19 15:24:59,b2e405c,feat: brief status mode
-setA-06-wp-P2-cg-srpaths.json,47879,9948e4da84ea07bad89ab093a42b64c886e9cd308a56b9df1942c0b684d49480,2026-10-19 15:24:59,b2e405c,feat: brief status mode
-setA-06-wp-P2-cg.csv,368,14c65ec02570edfda343aaf91531b3134260089f7bf43d4f9c91deb7c8431c74,2026-10-19 15:24:59,b2e405c,feat: brief status mode
-setA-07-P1-pc.csv,214,a30ae0e4cf5e4ac21628a38bafbd5c3846fe14c46df4fe42789b612c2cdf8416,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-07-P1.csv,214,a30ae0e4cf5e4ac21628a38bafbd5c3846fe14c46df4fe42789b612c2cdf8416,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-07-wp-P1-cg-loads.csv,17634,8b024e43855b461cd96a2d7a14bfea3455f35f43286bf3ec7ad5956f35bf3471,2026-10-19 12:15:36,b5b6b97,feat: column enrichment after convergence
-setA-07-wp-P1-cg-pc-loads.csv,17634,8b024e43855b461cd96a2d7a14bfea3455f35f43286bf3ec7ad5956f35bf3471,2026-10-19 14:03:20,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-07-wp-P1-cg-pc-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 14:03:20,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-07-wp-P1-cg-pc.csv,340,c947932f4a76b922c05e46036a4dddd13542c2ace0f10848bc996be9d0474f10,2026-10-19 14:03:20,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-07-wp-P1-cg-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 12:15:36,b5b6b97,feat: column enrichment after convergence
-setA-07-wp-P1-cg.csv,340,36a478469e6129a169b503f8ff3c3844fd916278bc50ce9b0539d37fa69b823d,2026-10-19 12:15:36,b5b6b97,feat: column enrichment after convergence
-setA-07-wp-P1-loads.csv,17634,8b024e43855b461cd96a2d7a14bfea3455f35f43286bf3ec7ad5956f35bf3471,2026-10-19 11:24:05,a12f6f0,feat: waypoint-selection runner and script
-setA-07-wp-P1-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 11:24:05,a12f6f0,feat: waypoint-selection runner and script
-setA-07-wp-P1.csv,287,da7326e12ec68544c71689c9c04877420b7b76e8cccb70d2040fedee11e6ebf1,2026-10-19 11:24:05,a12f6f0,feat: waypoint-selection runner and script
-setA-07-wp-P2-cg-loads.csv,35310,29197b2a88e4c393ae8ca41aa2fbdf995a84af572d33f47c57ec89cde0137ce8,2026-10-19 15:25:08,b2e405c,feat: brief status mode
-setA-07-wp-P2-cg-srpaths.json,254,9cb5e42dee3d55357d111365458f853210b5b85699f5de0ce1776893160d562b,2026-10-19 15:25:08,b2e405c,feat: brief status mode
-setA-07-wp-P2-cg.csv,353,1ffc4fc1f1e2bf6fd7bbdca6ebc767ba3dbf118dfc61e76a962ebceea1bf34c2,2026-10-19 15:25:08,b2e405c,feat: brief status mode
-setA-08-P1-pc.csv,214,114bee1147775d3863eed023cc1ddeeaa9d20515ba7f880348470afabbc42d49,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-08-P1.csv,214,114bee1147775d3863eed023cc1ddeeaa9d20515ba7f880348470afabbc42d49,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-08-wp-P1-cg-loads.csv,19763,b6a5b3824ccb8048ba7660d15d02b0211d1179ed02eea59bb6e113827429f5bc,2026-10-19 12:15:38,b5b6b97,feat: column enrichment after convergence
-setA-08-wp-P1-cg-pc-loads.csv,19763,b6a5b3824ccb8048ba7660d15d02b0211d1179ed02eea59bb6e113827429f5bc,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-08-wp-P1-cg-pc-srpaths.json,1172,949e3283e5eaa1ab02ba8d22fb4d47d2262c8f228a65533873e20ca6637d9e10,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-08-wp-P1-cg-pc.csv,345,99b91577105079ee17a1dcaa3c0447fdc02ded04c3703f4b068576cb1472d936,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-08-wp-P1-cg-srpaths.json,1172,949e3283e5eaa1ab02ba8d22fb4d47d2262c8f228a65533873e20ca6637d9e10,2026-10-19 12:15:38,b5b6b97,feat: column enrichment after convergence
-setA-08-wp-P1-cg.csv,345,afffa3f38c3a19bfbca629fcbd9c209042349783c00856c7f6479615c68c6843,2026-10-19 12:15:38,b5b6b97,feat: column enrichment after convergence
-setA-08-wp-P1-loads.csv,19763,b6a5b3824ccb8048ba7660d15d02b0211d1179ed02eea59bb6e113827429f5bc,2026-10-19 11:24:09,a12f6f0,feat: waypoint-selection runner and script
-setA-08-wp-P1-srpaths.json,1172,949e3283e5eaa1ab02ba8d22fb4d47d2262c8f228a65533873e20ca6637d9e10,2026-10-19 11:24:09,a12f6f0,feat: waypoint-selection runner and script
-setA-08-wp-P1.csv,294,a2c309b5ad690391915c4c69322128a582510f3ca94a318e0f867fec240e8658,2026-10-19 11:24:09,a12f6f0,feat: waypoint-selection runner and script
-setA-08-wp-P2-cg-loads.csv,39924,4140024be7e97da8cedc32b7b7b234261ce5c52ba5fd45f1aba397f3aac56f1e,2026-10-19 15:25:20,b2e405c,feat: brief status mode
-setA-08-wp-P2-cg-srpaths.json,3021,c533afb25ae47efd8363f8644e7b956ec93a8811bc0fb9f0b3b65c3601836617,2026-10-19 15:25:20,b2e405c,feat: brief status mode
-setA-08-wp-P2-cg.csv,355,519168d657c23aec924f4db7972d2b7d1d6507c51e4da8f0bd7270495d36e9ac,2026-10-19 15:25:20,b2e405c,feat: brief status mode
-setA-09-P1-pc.csv,214,39fa1b80d1f9490b1b620e0481aae9dc442e9d84d5ecab67cb590852d696581b,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-09-P1.csv,214,39fa1b80d1f9490b1b620e0481aae9dc442e9d84d5ecab67cb590852d696581b,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-09-wp-P1-cg-loads.csv,21381,41d15db342ce7d915843b3543ad6994fb9ed320af4e86a4b1d330647679fadba,2026-10-19 12:15:39,b5b6b97,feat: column enrichment after convergence
-setA-09-wp-P1-cg-pc-loads.csv,21381,41d15db342ce7d915843b3543ad6994fb9ed320af4e86a4b1d330647679fadba,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-09-wp-P1-cg-pc-srpaths.json,20934,2f6c32e70df9b02f3fc168c3bfaafe4f353cc294043e7fd0122a4ed78f838daf,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-09-wp-P1-cg-pc.csv,362,a66fe3e2051dddfe9fbb69ad26019bafcd76369d58bfcf728a7fd1949a7e83a2,2026-10-19 14:03:21,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-09-wp-P1-cg-srpaths.json,20934,2f6c32e70df9b02f3fc168c3bfaafe4f353cc294043e7fd0122a4ed78f838daf,2026-10-19 12:15:39,b5b6b97,feat: column enrichment after convergence
-setA-09-wp-P1-cg.csv,362,61eaddcdf271273e92e73bd585cc635ec9ec4a2f17018263507a7380c8b30b65,2026-10-19 12:15:39,b5b6b97,feat: column enrichment after convergence
-setA-09-wp-P1-loads.csv,21200,3e401b7b5df497aa069e2f81b930147180de3dc746b0f9625862dbc671448b9d,2026-10-19 11:24:13,a12f6f0,feat: waypoint-selection runner and script
-setA-09-wp-P1-srpaths.json,20990,dcab591be2178bd5ccaab1305a1710b90664ee7184f8003aafbd962d798c37ab,2026-10-19 11:24:13,a12f6f0,feat: waypoint-selection runner and script
-setA-09-wp-P1.csv,310,11d6a81647410c98c77a48c86ec5dda5e1c7d277e5f9888ce0733cf34c8576cf,2026-10-19 11:24:13,a12f6f0,feat: waypoint-selection runner and script
-setA-09-wp-P2-cg-loads.csv,42710,dbd4a7a1d3b8a36e0978facdf1e614918091355ec70fb4b27161e1735538592d,2026-10-19 15:25:22,b2e405c,feat: brief status mode
-setA-09-wp-P2-cg-srpaths.json,139,9c70006ce10a6cff635877b1ce64622a8f1ae8cdc6d3d950db0ebf8e739b2b51,2026-10-19 15:25:22,b2e405c,feat: brief status mode
-setA-09-wp-P2-cg.csv,334,b124d6cffc5b9bbdf2415ed325f7ecd2f2d362c338941069ba997985902791df,2026-10-19 15:25:22,b2e405c,feat: brief status mode
-setA-10-P1-pc.csv,216,202c2eeac2dc0174915313b32120bd29045f5d75048d643046cb3c442dcd5430,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-10-P1.csv,216,202c2eeac2dc0174915313b32120bd29045f5d75048d643046cb3c442dcd5430,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-10-wp-P1-cg-lns-loads.csv,27923,61b2b5dabaa4f47018036516329f521b98bc9df6c04d34c661066e5a41f40363,2026-10-19 14:22:00,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-setA-10-wp-P1-cg-lns-srpaths.json,107887,b2d693e293ce0016cf8f6fdf4042beb9563cc54af5fb5a0cf2e8425217a78a29,2026-10-19 14:21:58,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-setA-10-wp-P1-cg-lns.csv,387,b999c63d91a66a56e6f88cefd11c96f4cdcf081c0301b7c4a7d769b05d49fa0d,2026-10-19 14:22:00,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-setA-10-wp-P1-cg-loads.csv,28192,9808a7fcf0b8d93b369514bbdcf913cee2c2e114daac6b018be105d1cd55db2e,2026-10-19 12:46:03,916b227,feat: best-known aggregation script
-setA-10-wp-P1-cg-srpaths.json,106995,a9b3db8d6c0032990bec393fa6223eb2e2ad17c62261f13c5a5e03cc693dc473,2026-10-19 12:46:03,916b227,feat: best-known aggregation script
-setA-10-wp-P1-cg.csv,353,26137a3912e7d75015f28c14126827d09e61e5054e4e58f805c0340b2de86aa3,2026-10-19 12:46:03,916b227,feat: best-known aggregation script
-setA-10-wp-P1-loads.csv,27249,b144080fba6f4cb1b5a4ce6c19319aacb7d9eb3d9be33958720c0acbf776f4ac,2026-10-19 11:54:25,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-setA-10-wp-P1-srpaths.json,98346,3c7c0900ec5b246a5db50e1e391c6989c13b19b066444f14597d27defeff1d63,2026-10-19 11:54:25,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-setA-10-wp-P1.csv,315,ba8b08e44a537e37c707a9be06e22b95224456bffcbfc8536d0866d339f4a366,2026-10-19 11:54:25,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-setA-10-wp-P2-cg-lns-loads.csv,56231,c9a9bcdbce0df0609bc8267b43fc0f1e733d209f330aea976ea80efcab25469c,2026-10-19 17:40:18,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-setA-10-wp-P2-cg-lns-srpaths.json,126693,f91d41100b19c73b13d7fb87a3076ebe80f341da2beb629777bc9d36a6388389,2026-10-19 17:40:17,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-setA-10-wp-P2-cg-lns.csv,373,6c9059dbffff2a098e2c19a9668a2c9909f39df465930edcdc3180614c74f551,2026-10-19 17:40:18,9927045,feat: official tables (steps 6 and 9) in the format requested by the readme
-setA-10-wp-P2-cg-loads.csv,54172,130150d27d31aa8592f4a25262c01332cea4c23644a2b9e17f9a60d7b1f71615,2026-10-19 16:43:35,b2e405c,feat: brief status mode
-setA-10-wp-P2-cg-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 16:43:35,b2e405c,feat: brief status mode
-setA-10-wp-P2-cg.csv,344,f205dc496aef6e0f8803f44fa4f96b2b307841cfc9b51d88582f426baf171657,2026-10-19 16:43:35,b2e405c,feat: brief status mode
-setA-11-P1-pc.csv,216,199266c560d743c125f82956ea4dc543c538409512a676ee39402c16073562cc,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-11-P1.csv,216,199266c560d743c125f82956ea4dc543c538409512a676ee39402c16073562cc,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-11-wp-P1-cg-loads.csv,32333,46f8a725a39a901bf6380773f206b5f2b1c91d25145f22fff1300c6d1a5f7a49,2026-10-19 12:46:05,916b227,feat: best-known aggregation script
-setA-11-wp-P1-cg-srpaths.json,42495,b85bc0ded377f2de2e06397643ec8b5ff1faa1aa143350a4c2872e77e40a978d,2026-10-19 12:46:05,916b227,feat: best-known aggregation script
-setA-11-wp-P1-cg.csv,366,3b2da6df22f0399cd356915bd5679bc6e3f3f5db3b8fa1b396af7d20088de8ea,2026-10-19 12:46:05,916b227,feat: best-known aggregation script
-setA-11-wp-P1-loads.csv,32199,5244d60b866bb4b855df74b79d1d79a314276606f2407d58ab6993d48ae0962c,2026-10-19 11:55:05,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-setA-11-wp-P1-srpaths.json,41299,7eb48dd64fcc74067343d503f8612a82f6c04834da517d65e608456ff9df10d6,2026-10-19 11:55:05,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-setA-11-wp-P1.csv,295,219a15acd7ff59307c7f8b70372804d6b4f38cddfc28c35117cabe8728d4aaf5,2026-10-19 11:55:05,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-setA-11-wp-P2-cg-loads.csv,65482,700f4d65a741250f64cbab80cd0d2cb04c7e61471784f35b3010de5e0dc7d27c,2026-10-19 16:43:41,b2e405c,feat: brief status mode
-setA-11-wp-P2-cg-srpaths.json,140,6c188e964353cdb6850351a25f39363128b61b404ff36006d23627a8d46cd799,2026-10-19 16:43:41,b2e405c,feat: brief status mode
-setA-11-wp-P2-cg.csv,358,a51842c2f0b91f86e7e745b95a2956851eb3ffe841d6b9a93ca183f909192af4,2026-10-19 16:43:41,b2e405c,feat: brief status mode
-setA-12-P1-pc.csv,215,cd93e40cfbb95c99b1767bb97ee64331cd2025680fafd34ca41e1faf1b6b42be,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-12-P1.csv,215,cd93e40cfbb95c99b1767bb97ee64331cd2025680fafd34ca41e1faf1b6b42be,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-12-wp-P1-cg-loads.csv,32103,2499fe43b7bc4683aa1cd781953932ae2d8b1027d898899d0b243d167627df2a,2026-10-19 12:46:07,916b227,feat: best-known aggregation script
-setA-12-wp-P1-cg-srpaths.json,257,9c7025746ba2929c9dbb70f08a2ea3966368976fe2c857eaaf357bb7f23e5c15,2026-10-19 12:46:07,916b227,feat: best-known aggregation script
-setA-12-wp-P1-cg.csv,361,7a38df8268682431ec40a913778e489db0659fba39ddabb9e224c3c97bace5fa,2026-10-19 12:46:07,916b227,feat: best-known aggregation script
-setA-12-wp-P1-loads.csv,32103,2499fe43b7bc4683aa1cd781953932ae2d8b1027d898899d0b243d167627df2a,2026-10-19 11:55:19,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-setA-12-wp-P1-srpaths.json,257,9c7025746ba2929c9dbb70f08a2ea3966368976fe2c857eaaf357bb7f23e5c15,2026-10-19 11:55:19,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-setA-12-wp-P1.csv,327,3154d396f48d65dad1095c1a60df5c0eb1feaed664dea1ae5c814b3ca771dc1d,2026-10-19 11:55:19,64f89ec,"data: partial results snapshot (arc MILP t=0 instances 01-03, waypoint model t=0 and t=0,1; runs still in progress)"
-setA-12-wp-P2-cg-loads.csv,64926,b289aaeea16ed79a70129b4399c46d53c7c302268cf4eb7bd5ddf638bbf4784c,2026-10-19 16:43:46,b2e405c,feat: brief status mode
-setA-12-wp-P2-cg-srpaths.json,257,1bf110869b04a920d16c8911471dd04f62b7b237159cb63fba709757cfb5d137,2026-10-19 16:43:46,b2e405c,feat: brief status mode
-setA-12-wp-P2-cg.csv,371,7386419a11a4dc91cedb0e9d40994d7b75b059c8c0a7fe9ea70950ce9a4017c9,2026-10-19 16:43:46,b2e405c,feat: brief status mode
-setA-13-P1-pc.csv,217,084a351bdbb24b8cde5bf5d50ad052e9e6620ac29290a4b183bbfbcfdc351c06,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-13-P1.csv,217,084a351bdbb24b8cde5bf5d50ad052e9e6620ac29290a4b183bbfbcfdc351c06,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-13-wp-P1-cg-lns-loads.csv,34439,60ac67001a04292538ac12efb93777a86880e70baff2b76502f0dc211f58e6e1,2026-10-19 14:35:08,dda59ed,docs: how to follow the running experiments
-setA-13-wp-P1-cg-lns-srpaths.json,221058,f52c987805f65bcec3d4e999c64fbfbdbdfdc1d2f1a22cb5060013c3e0449150,2026-10-19 14:35:04,dda59ed,docs: how to follow the running experiments
-setA-13-wp-P1-cg-lns.csv,435,84bbe27882f2cc54286df5df13b22fe62a2ce905162b2c7d4d71cf5e66dedc6b,2026-10-19 14:35:08,dda59ed,docs: how to follow the running experiments
-setA-13-wp-P1-cg-loads.csv,34339,f37aa2fc7e612dfdbde789003fc50269a1fbe53d3a5eafb57de527db0036d31c,2026-10-19 13:18:54,916b227,feat: best-known aggregation script
-setA-13-wp-P1-cg-srpaths.json,219645,322f673c91e086e9e6b61e54ec40b544c757d4e493a3e1d8e2aeaf99b876463f,2026-10-19 13:18:54,916b227,feat: best-known aggregation script
-setA-13-wp-P1-cg.csv,376,919ace4cb0c1ad97a5e448b683887d3ccbd3714343f4f20a2eabdc275e01a399,2026-10-19 13:18:54,916b227,feat: best-known aggregation script
-setA-13-wp-P2-cg-lns-loads.csv,69063,9a6ebe2d869d6d1821839455a1353dbc91f991d63b290d5660e554651a5c012b,2026-10-19 20:28:28,76edee0,"feat: traceability manifest (SHA-256, code commit, commands) and results snapshot"
-setA-13-wp-P2-cg-lns-srpaths.json,278787,1592cd861a1a4be2fc33efed0e47363987402229baf9436db72fed8a5db28e32,2026-10-19 20:28:26,76edee0,"feat: traceability manifest (SHA-256, code commit, commands) and results snapshot"
-setA-13-wp-P2-cg-lns.csv,381,27375748d88d94a20b8c74a724a81a92a84a75929ec4290a3b66eef63d8ccb2b,2026-10-19 20:28:28,76edee0,"feat: traceability manifest (SHA-256, code commit, commands) and results snapshot"
-setA-13-wp-P2-cg-loads.csv,68183,6310205be86d4c721472eff4117dfa715268f1f456817ac506b924d844af1eed,2026-10-19 18:27:04,6f47b83,"data: results snapshot, results guide and packaging script"
-setA-13-wp-P2-cg-srpaths.json,721,d6a6eb16aab97bbb09de5e5e932b5e772a55d77e39c029c0ed2b0473eb5105ca,2026-10-19 18:27:04,6f47b83,"data: results snapshot, results guide and packaging script"
-setA-13-wp-P2-cg.csv,370,e4743c2c3e01ebab5cd365ba349e992fc89bc391b8b26066ff6696789ea87db1,2026-10-19 18:27:04,6f47b83,"data: results snapshot, results guide and packaging script"
-setA-14-P1-pc.csv,216,82127412acab76d07754018bf3ad279c86d1c224659b312d81050da8c5a7e65b,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-14-P1.csv,216,82127412acab76d07754018bf3ad279c86d1c224659b312d81050da8c5a7e65b,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-14-wp-P1-cg-lns-loads.csv,39267,f144af012e3093cc822bc6f0c7ebd683d9b2e93e202ec09bb3d135c0f9369cc3,2026-10-19 14:40:45,dda59ed,docs: how to follow the running experiments
-setA-14-wp-P1-cg-lns-srpaths.json,602,5a68667d0d83f3ddf22b6a5660a9511fb8f1cd8be68a183a30b9665a0c34060c,2026-10-19 14:40:42,dda59ed,docs: how to follow the running experiments
-setA-14-wp-P1-cg-lns.csv,396,e73ee3e1d41368a56273eccd923189b7bae312138e61103c18f8bcbb33aad58d,2026-10-19 14:40:45,dda59ed,docs: how to follow the running experiments
-setA-14-wp-P1-cg-loads.csv,39267,f144af012e3093cc822bc6f0c7ebd683d9b2e93e202ec09bb3d135c0f9369cc3,2026-10-19 13:18:59,916b227,feat: best-known aggregation script
-setA-14-wp-P1-cg-srpaths.json,602,5a68667d0d83f3ddf22b6a5660a9511fb8f1cd8be68a183a30b9665a0c34060c,2026-10-19 13:18:59,916b227,feat: best-known aggregation script
-setA-14-wp-P1-cg.csv,346,321437b0d70e43fbf35c7d1f363930027eb59d895d494a059cc60d5d9ceec61c,2026-10-19 13:18:59,916b227,feat: best-known aggregation script
-setA-14-wp-P2-cg-loads.csv,79616,4bc1366bac6942d20875e1b96a165fc824060c7470c9e67d90310c8fb9175b54,2026-10-19 18:28:34,6f47b83,"data: results snapshot, results guide and packaging script"
-setA-14-wp-P2-cg-srpaths.json,53019,6502cb6f180a1268d0c358b2225a33f778e0f4c6088ebf51020af029a27bee04,2026-10-19 18:28:34,6f47b83,"data: results snapshot, results guide and packaging script"
-setA-14-wp-P2-cg.csv,356,6cc0bbcfa9275a7b90a060164e3402f1b87f1e1af092cc817ba405efa9afd0fb,2026-10-19 18:28:34,6f47b83,"data: results snapshot, results guide and packaging script"
-setA-15-P1-pc.csv,216,389c102b0306802f998e61f6ab2fd2caffe0459fa53d79b8109bffb93e86734a,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-15-P1.csv,216,389c102b0306802f998e61f6ab2fd2caffe0459fa53d79b8109bffb93e86734a,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-15-wp-P1-cg-loads.csv,41351,46c35dd8ded02e7d5ccfbf65c791e071a670bfb43b9753b6b5900113ecacadee,2026-10-19 13:19:02,916b227,feat: best-known aggregation script
-setA-15-wp-P1-cg-srpaths.json,255,e4c125f93c52763bed3c647e47d67b7874289d7272db49049e600740248dad9e,2026-10-19 13:19:02,916b227,feat: best-known aggregation script
-setA-15-wp-P1-cg.csv,316,354d51848d6b510b77e3625ed85193a1d100bd05b297a23f9deec314ce23d1c9,2026-10-19 13:19:02,916b227,feat: best-known aggregation script
-setA-15-wp-P2-cg-loads.csv,84069,acd20b616b4ad41a587214ac398e779958a515ea7e0fbb11ac81fd452f0a89d8,2026-10-19 18:28:39,6f47b83,"data: results snapshot, results guide and packaging script"
-setA-15-wp-P2-cg-srpaths.json,140,d5b408f2de2fe151d6cda816a9c7ab5d597aca7c5b0ff4b307b9fc68c7211889,2026-10-19 18:28:39,6f47b83,"data: results snapshot, results guide and packaging script"
-setA-15-wp-P2-cg.csv,357,3d1a7bbdca35f1b66a68ba10487ee642899249da16bf280b6b911b189523ab75,2026-10-19 18:28:39,6f47b83,"data: results snapshot, results guide and packaging script"
-setA-16-P1-pc.csv,218,dd902a37580c00a135ab1cf7fd96fdb2dfdd2d64fbfda2662587504be1d214f1,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-16-P1.csv,218,dd902a37580c00a135ab1cf7fd96fdb2dfdd2d64fbfda2662587504be1d214f1,2026-10-19 13:04:12,916b227,feat: best-known aggregation script
-setA-16-wp-P1-cg-loads.csv,51747,a264e0cb629c88ed343001269815e85778a43829101e0d7783ce07ad34629dab,2026-10-19 13:25:55,916b227,feat: best-known aggregation script
-setA-16-wp-P1-cg-srpaths.json,539612,9cca2e1ffadb58c49383443397ad3e36e169664dd87bb1f4081e0ead26301fda,2026-10-19 13:25:55,916b227,feat: best-known aggregation script
-setA-16-wp-P1-cg.csv,379,dd45d38dfff9e517776202638e134a9e1b9cdae7d20bc433aa8e38957374f4f6,2026-10-19 13:25:55,916b227,feat: best-known aggregation script
-setA-16-wp-P2-cg-lns-fast-loads.csv,101676,c59ba6938e46ff61a4879ec14925e272d27afdbcf530107b8eb658282cfd8556,2026-10-19 22:09:07,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-setA-16-wp-P2-cg-lns-fast-srpaths.json,207628,777400f117cce5445645ff7bcc58e8fbf6eeb1e8c00a73887703b73383b9aab7,2026-10-19 22:09:01,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-setA-16-wp-P2-cg-lns-fast.csv,360,4397e99d04f2a9755004e68b2b5d60d8a3ebc65c424cd0d2bec197f2f552817c,2026-10-19 22:09:07,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-setA-16-wp-P2-cg-loads.csv,100960,99ea2f4ae0264ae41b5c844ba492d8feba4a280965163aca3902b1c19fe619f9,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
-setA-16-wp-P2-cg-srpaths.json,604,87f98af735d62cdea9cb8dba2d661e782bee9dce01f722f3e1d0c1ceb49d08ad,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
-setA-16-wp-P2-cg.csv,386,8f866668d9386f65cf8eea1b7085f1626d8a32a131a0c917dd829732814587ec,2026-10-19 21:27:51,77b6346,fix: presolve off for very large arc models (HiGHS ignored the time limit); memory guard for the arc runner
-setA-17-P1-pc.csv,218,8693aeed809339915c552d0bdfb479ebb85270d5a06f3393d4ed7e74e0120b32,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-17-P1.csv,218,8693aeed809339915c552d0bdfb479ebb85270d5a06f3393d4ed7e74e0120b32,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
-setA-17-wp-P1-cg-loads.csv,51707,b656936d6fc22214b9fd299c52e3b2cf47ca8dba7bdba8acc3d99dc25a87861c,2026-10-19 13:26:04,916b227,feat: best-known aggregation script
-setA-17-wp-P1-cg-srpaths.json,141,21f042fe54a4533450d82226c09d0070feb0205931e3595618e17bcf23f04ec8,2026-10-19 13:26:04,916b227,feat: best-known aggregation script
-setA-17-wp-P1-cg.csv,362,e898bfb4810918cfa62bc5046e5164e88bf0b551b3c60a89977216127c62a153,2026-10-19 13:26:04,916b227,feat: best-known aggregation script
-setA-17-wp-P2-cg-loads.csv,104496,10e3378e6f6786d0b89fe2e99759d14d7bd7c1ff5f239d93e9c20fc69f01032d,2026-10-19 21:38:03,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-17-wp-P2-cg-srpaths.json,957,f383d84457facd2daa0639920815803bda3b15cd81e9d8fb02cbf80940db2855,2026-10-19 21:38:02,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-17-wp-P2-cg.csv,375,df66eb8560e5779913eb415b08797fdbea704bbadb5cc89837c22538d7f0b8e1,2026-10-19 21:38:03,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-18-P1-pc.csv,218,28acd2081dfc1b69e7f76b7924cf93477c7cb82f7338f18e73064c9f2ad4c3c7,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-18-P1.csv,218,28acd2081dfc1b69e7f76b7924cf93477c7cb82f7338f18e73064c9f2ad4c3c7,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
-setA-18-wp-P1-cg-loads.csv,55959,246102e767d37d5e0b7a9ea50e654ed56b2dedb3afdf9b3961c46064083356a5,2026-10-19 13:26:12,916b227,feat: best-known aggregation script
-setA-18-wp-P1-cg-pc-loads.csv,55959,246102e767d37d5e0b7a9ea50e654ed56b2dedb3afdf9b3961c46064083356a5,2026-10-19 14:05:47,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-18-wp-P1-cg-pc-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 14:05:47,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-18-wp-P1-cg-pc.csv,347,4a7faa6b251891c3a2ece49523ca95192f9ec54373158c886a3ff0dffd5a28f2,2026-10-19 14:05:47,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-18-wp-P1-cg-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 13:26:12,916b227,feat: best-known aggregation script
-setA-18-wp-P1-cg.csv,347,5d6e9e6c94f9c4b2726854a21213373293e45cc28c17fe9fc58952000ba5b6ad,2026-10-19 13:26:12,916b227,feat: best-known aggregation script
-setA-18-wp-P2-cg-loads.csv,113110,6787785b7a6c6bbc8c4556cf3adb4f6621548a122ee13c90123b81ff2f7db43c,2026-10-19 21:38:59,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-18-wp-P2-cg-pc-loads.csv,113110,6787785b7a6c6bbc8c4556cf3adb4f6621548a122ee13c90123b81ff2f7db43c,2026-10-19 14:07:31,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
-setA-18-wp-P2-cg-pc-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 14:07:31,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
-setA-18-wp-P2-cg-pc.csv,333,74bd191f3bf0f898225f80b01d4835d85c745711f7a4538ed925fed58fb7165d,2026-10-19 14:07:31,f48088e,docs: compliance table; r-difference analysis; verifier supports path-count r
-setA-18-wp-P2-cg-srpaths.json,26,74927434df07990a400b6a556cdfdd02d54d580201d0975a7323bdca2b90d255,2026-10-19 21:38:57,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-18-wp-P2-cg.csv,359,ac6a970c3799c439d452f25f6c05eb5da549c89e62f1889d05e09e8b2dde7b0e,2026-10-19 21:38:59,53ca7d4,"feat: fast pipeline (no MILP, CG on first period, LNS) for large t=0,1 instances"
-setA-19-P1-pc.csv,218,e1b0a30fd160db818ab8f6385ecaff34d10242824386c7eeaff39b83ff1bc870,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-19-P1.csv,218,e1b0a30fd160db818ab8f6385ecaff34d10242824386c7eeaff39b83ff1bc870,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
-setA-19-wp-P1-cg-loads.csv,69928,0c5ab80e191c9f912b875030b8dce466551e2669a5038967b6182275d4c7259f,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
-setA-19-wp-P1-cg-srpaths.json,680837,d29af24efaa4ec43418112a6801b1762b7b04ff3da0cfd08ae9d13852b1b82b8,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
-setA-19-wp-P1-cg.csv,374,f72d0c14108fb74e2c03e53b92067ec7b3ff1b258401330bfd9e5898c004cf39,2026-10-19 14:46:00,73eef0d,feat: best-known table reads all waypoint result variants
-setA-19-wp-P2-cg-lns-fast-loads.csv,139594,dab0f5217ab8f0e3c21d4aa6ffa902ba006045d82012f112fa7d5d7507151fae,2026-10-20 00:04:48,2210f2f,docs: minor fixes in the parallel run guide
-setA-19-wp-P2-cg-lns-fast-srpaths.json,1088676,86d0e0eb31dd5256cbe559b3def503f677209603b9ca5a94a55b2627d4c70280,2026-10-20 00:04:45,2210f2f,docs: minor fixes in the parallel run guide
-setA-19-wp-P2-cg-lns-fast.csv,378,932ce3db15ddeff619b2550290e85ba615453f0586b90cdad8d3278bd2b9de71,2026-10-20 00:04:48,2210f2f,docs: minor fixes in the parallel run guide
-setA-20-P1-pc.csv,218,462a9222b41c105c8ee00b6bfd26f62967aa191160da2588c23305f9018b0c3b,2026-10-19 16:03:56,b2e405c,feat: brief status mode
-setA-20-P1.csv,218,462a9222b41c105c8ee00b6bfd26f62967aa191160da2588c23305f9018b0c3b,2026-10-19 13:04:13,916b227,feat: best-known aggregation script
-setA-20-wp-P1-cg-loads.csv,80360,52d1d2941860b4bb63fdc05a8fd600c902fe9928a7fe5d2e89733b2f55126b4e,2026-10-19 14:46:25,73eef0d,feat: best-known table reads all waypoint result variants
-setA-20-wp-P1-cg-pc-loads.csv,80360,52d1d2941860b4bb63fdc05a8fd600c902fe9928a7fe5d2e89733b2f55126b4e,2026-10-19 14:06:29,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-20-wp-P1-cg-pc-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 14:06:29,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-20-wp-P1-cg-pc.csv,363,0a5d46cb22cdc9e905113458c602f8cf9b223113fb0a07bd8a441ed556f0661d,2026-10-19 14:06:29,39d9606,"feat: r-mode option (calculating_r.pdf path-count) in experiment scripts, regression tests"
-setA-20-wp-P1-cg-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 14:46:25,73eef0d,feat: best-known table reads all waypoint result variants
-setA-20-wp-P1-cg.csv,363,c1daaef8b99e792cde25229ef5a106a6748d71b95c01ba39de5cb882f19bb861,2026-10-19 14:46:25,73eef0d,feat: best-known table reads all waypoint result variants
-setA-20-wp-P2-cg-loads.csv,161733,056fedaf16e5d466bca03d7c76adbe8d3b2e0dcccdb9954bb7d8225e8078f139,2026-10-19 21:55:09,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-setA-20-wp-P2-cg-pc-loads.csv,161733,056fedaf16e5d466bca03d7c76adbe8d3b2e0dcccdb9954bb7d8225e8078f139,2026-10-19 14:17:38,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-setA-20-wp-P2-cg-pc-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 14:17:37,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-setA-20-wp-P2-cg-pc.csv,350,90273b9feb93fab968d590b689c53b0f907e2e83b12d5aa2265a750b9d92ce0e,2026-10-19 14:17:38,31fd7e8,feat: LNS polishing option in the waypoint runner and script
-setA-20-wp-P2-cg-srpaths.json,142,845337fdcd1d635e673fa08c9b231978e885423972f8bf449840acfe8fb5768c,2026-10-19 21:55:08,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-setA-20-wp-P2-cg.csv,375,4945c9f0973c2256aa82801a215ead1fc9aa65e0543b57a4dba81178da80692a,2026-10-19 21:55:09,45571c4,"fix: watchdog stops the process with the least CPU time, protecting long runs"
-solverlogs/setA-05-P2-pc-r1-5-run1.log,2814,511e64a38cf665168e0e596253076609d99e9c5cdc1e413e1e8d7226a39ede80,2026-10-20 02:12:20,4273cd4,"data: overnight progress 01:30 (setA-03/04 extras, setA-05 pilot in progress)"
-solverlogs/setA-05-P2-pc-r1-5-run2.log,2814,229675a2da9d5c8367fbd8d020cbd8ac87ac63038d1c9442129cb21fda0969c6,2026-10-20 03:17:59,029a2cb,"data: overnight progress 03:00 (setA-02 t=0,1 extra runs)"
-solverlogs/setA-05-P2-pc-r1-5-run3.log,2814,54c19de3fff779354afd189e2d10877d3e21b438dbdf8850b7d78824c7cc655c,2026-10-20 04:23:23,8ed0a43,"data: 03:45 setA-02 t=0,1 reached 10 runs; tables regenerated"
-solverlogs/setA-05-P2-pc-r1-5-run4.log,2814,c5c9f24e44d51c10b5fdb11b607a8bab6efda1df299b91f05dc09740bf2a2c8c,2026-10-20 05:28:49,d39bfd7,"data: 04:30 setA-05 t=0,1 seed 3"
-solverlogs/setA-05-P2-pc-r1-5-run5.log,2814,a03299557b19f3eed8c27cf5c77202fc73ea6dd5bfb56c7e7233d15ab94f6eea,2026-10-20 07:33:31,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
-table_official_P1.csv,1456,13b095d79c8c22fc1b51889171628b6e75e54ff3c48a6765bee4c631c0d20cdd,2026-10-20 08:23:54,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
-table_official_P1.md,2600,4e1200e9dc928a4b263e087cf956bbba634f324826554cd9472a4a5db37d2224,2026-10-20 08:23:54,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
-table_official_P2.csv,1533,46d0646f5c24991bb4dd21a85439d89bfbfeba73bacbff5d2596226805d0e314,2026-10-20 08:23:54,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
-table_official_P2.md,2691,e08a5d6acf3443220650c4fe3af638a3f71208cf899bb680d33a61bc5374d9c0,2026-10-20 08:23:54,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
-verification.csv,8912,887f56baf9b786572c693c868aebcc6920c878a138606bd4c3eb147e9cc6a8d6,2026-10-20 08:25:36,2c51e75,"data: 06:00 setA-05 t=0,1 seed 4"
-watch_exclude.txt,6,ba29f616b53540227e14465245b3553e9267cca7bdeef42abad1f86c3ab805d0,2026-10-19 12:07:25,5e64eae,feat: cg option in run_wp script
-watchdog.log,541,aee591789d2de4a656d80a1091e4eca6dd937a5fe03fcadf6032b8defee41baf,2026-10-19 23:10:53,1d19ca6,feat: official tables report Optimal k/n when runs disagree
+setA-03-P2-pc-loads.csv,9576,084be42e1c6185cc931004a516bae2b16ea6db5d7cb9ec3c9daf256a8d3f7124,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-P2-pc-r4-10.csv,1515,a53b3566fabbdaee9fa22fe1722f5d6ea623c0dfc081305f3099df19df20ec65,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-P2-pc-srpaths.json,387,e7f009498a060d50d8f4216b8f5fd97807f3e443491bec16e6f9c828be887b00,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-P2-pc.csv,726,f2b80be03c8c92fcc9630eadeb306569dfcc3c9afb7ed2ca07a08ea915ba63ae,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P1-cg-loads.csv,4809,c05b92df4e51e0bee620ca0411597fde05abcb68932bebe368f43f175c6ff22d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P1-cg-pc-loads.csv,4809,c05b92df4e51e0bee620ca0411597fde05abcb68932bebe368f43f175c6ff22d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P1-cg-pc-srpaths.json,387,e7f009498a060d50d8f4216b8f5fd97807f3e443491bec16e6f9c828be887b00,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P1-cg-pc.csv,362,f7007324bc55c5d9524f8187649d0f7ca3787aaf4a7ecaeeb532ad1b6a669c8a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P1-cg-srpaths.json,387,e7f009498a060d50d8f4216b8f5fd97807f3e443491bec16e6f9c828be887b00,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P1-cg.csv,361,fae3f1c33f13fa9266493f4f2642b39668f1749ff925824524f96aac5fb68279,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P1-loads.csv,4809,c05b92df4e51e0bee620ca0411597fde05abcb68932bebe368f43f175c6ff22d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P1-srpaths.json,387,e7f009498a060d50d8f4216b8f5fd97807f3e443491bec16e6f9c828be887b00,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P1.csv,308,74edcef0c5e47f7c0fd71d2310e09ba33e7eb7bc28147ec7541168c4e1c06521,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P2-cg-loads.csv,9576,084be42e1c6185cc931004a516bae2b16ea6db5d7cb9ec3c9daf256a8d3f7124,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P2-cg-srpaths.json,387,e7f009498a060d50d8f4216b8f5fd97807f3e443491bec16e6f9c828be887b00,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P2-cg.csv,372,3d40656d30b5cee85bb8a993f4c15f5e873c738ace2abd2028418dfe3b1cc40b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P2-loads.csv,9576,084be42e1c6185cc931004a516bae2b16ea6db5d7cb9ec3c9daf256a8d3f7124,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P2-srpaths.json,387,e7f009498a060d50d8f4216b8f5fd97807f3e443491bec16e6f9c828be887b00,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-03-wp-P2.csv,309,043271b189ea8d7b4dcfaa834a32934919e2b2f38bba0b59747a4c45b7c77a63,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P1-loads.csv,8456,70bf3db32fed8e4462fd0a90f3a6da202406d45a2b5065652bbc62a92e9fd6fa,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P1-pc-loads.csv,8456,70bf3db32fed8e4462fd0a90f3a6da202406d45a2b5065652bbc62a92e9fd6fa,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P1-pc-r4-10.csv,1678,ca29afd65c082e10cdb337fcfa961833cd33c22b63bac1adfcb7f59bf6b17828,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P1-pc-srpaths.json,535,31d71cd52b3ca88868fa86b54ae5e31f4a484904692cf16427b4af029e8c8f44,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P1-pc.csv,784,5b85658b6593e44b2ca81bc219fb489a8392cec64fe07170d0e41dfc7c64d676,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P1-srpaths.json,535,31d71cd52b3ca88868fa86b54ae5e31f4a484904692cf16427b4af029e8c8f44,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P1.csv,784,82704326dbb49cf00840c87bbc122c702bfa7356b49fe441bc3acd288c184876,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P2-pc-loads.csv,17086,d072d458a7dfaff64c58c97dc9f3f376e22e7908a1299b3262ab1115736877a1,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P2-pc-r2-10.csv,709,a3701ea064bfe01e90221e9391677f29ed6c2e8d504f645a84b262a48145f439,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P2-pc-r5-5.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-20 08:41:56,ef83d93,feat: fill_missing_m1.sh runs missing Table 2 runs on M1; journal
+setA-04-P2-pc-r7-10.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P2-pc-srpaths.json,1122,4d05235a38a66be2086b10e80dd952253853973cc315bfbbb547e24d34085f61,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P2-pc.csv,303,d40997d5d660fae229442cafa1619e940e76089c5fda8e42620ebd537aadce55,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P1-cg-loads.csv,8557,4ebfbf2ba098f4a2e444a20e064c23b7372299441a592758f38ff96b014a7193,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P1-cg-pc-loads.csv,8557,4ebfbf2ba098f4a2e444a20e064c23b7372299441a592758f38ff96b014a7193,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P1-cg-pc-srpaths.json,18474,ae19bed65f65becd881ec1c6729234650f75a709f4460a19e96742533f68c51e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P1-cg-pc.csv,384,9675b65f931bb75269b8894317edcbc823608465bb9f4f2201216c893ecb709b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P1-cg-srpaths.json,18474,ae19bed65f65becd881ec1c6729234650f75a709f4460a19e96742533f68c51e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P1-cg.csv,384,eadbf7f9bb4d39120013b2e82e45105a9f24ba9d7d9a1a430e76cc45f3028a64,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P1-loads.csv,8476,19fde4048e1f37048abc35e1fd0c2aa372ff343ff458ccbaa70bc9391925135f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P1-srpaths.json,18118,0e2c4aeb3483a230210bd0bab9887bfcfb7e8b4bf7b9d1563a41272bac001089,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P1.csv,313,e74821724867f9e0aded452ed8c5e3939eb185ab855b53447ee134a378134fa5,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P2-cg-loads.csv,17768,2fe621c8c237c86e7b65a9214a134d0021b1fed14404b18546f475c74e54a327,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P2-cg-srpaths.json,42090,86b220fb2fbf959aaf542186b36c5f28c53365b6b43e7c43c78892bb1ab2ea56,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P2-cg.csv,370,5cd564ab0eb0c9669e932c47a7bbf4c1abdbb50280490424698419778b19665b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P2-loads.csv,17496,da39bf75b72696fa77664eec5824b75f9b34a7bdadb208a8e7768f1015a6bb03,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P2-srpaths.json,39312,8f5a0c36bda432c4abceaf4664f569b8a4b84b1063a3f0734e444386f8c73adc,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-wp-P2.csv,307,283bdcdd07d7250dc79eff9e6d55448aa3e9b2597205128678fa738c6a88d18c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P1-loads.csv,12453,6fc46a11e646a90fb84af014311a75aa6511be344137a930ed9ee00d2f2a4f37,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P1-pc-loads.csv,12453,6fc46a11e646a90fb84af014311a75aa6511be344137a930ed9ee00d2f2a4f37,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P1-pc-r4-10.csv,1697,71d3d3b2b8ade3b2467123adba0c3663b5377c85bb54adb32572fc679c68d6e5,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P1-pc-srpaths.json,874,b921872c562e74e34bf130714e585a272f0fbdaeebbd11146a5a46a6a7acb314,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P1-pc.csv,792,cea250c2acead62b4425199e3162fa96c562427d55b881341bb34568fb41a047,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P1-srpaths.json,874,b921872c562e74e34bf130714e585a272f0fbdaeebbd11146a5a46a6a7acb314,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P1.csv,792,a203353c9f3bdde6f272e1611144a69627ba569dc411a8e20f6bdc1ce19c72a9,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P2-pc-r1-5-loads.csv,24778,1e21a7eb27b6668b781cb0d019bfd865d6d2aea6597ec907768bbaece0176cbd,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P2-pc-r1-5-srpaths.json,29,c46b68101559d71f22b74b2170a83af6255eb4e2466024d7c6b9b8b985a7e0ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-P2-pc-r1-5.csv,1000,93007e90642743f3c44bc419633066be33f624bc279c4d2321da53106737eb89,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P1-cg-loads.csv,12453,6fc46a11e646a90fb84af014311a75aa6511be344137a930ed9ee00d2f2a4f37,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P1-cg-pc-loads.csv,12453,6fc46a11e646a90fb84af014311a75aa6511be344137a930ed9ee00d2f2a4f37,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P1-cg-pc-srpaths.json,874,b921872c562e74e34bf130714e585a272f0fbdaeebbd11146a5a46a6a7acb314,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P1-cg-pc.csv,369,73d5c1705ed16fd8282b41e19e6cd46dd9eaff25ede7cbeabbd6ac96319d7e3b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P1-cg-srpaths.json,874,b921872c562e74e34bf130714e585a272f0fbdaeebbd11146a5a46a6a7acb314,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P1-cg.csv,368,9df6beb45be51aa5396ca137796b6f2541de7cdeb36b8e7f76daf0f75fdb19ee,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P1-loads.csv,12453,6fc46a11e646a90fb84af014311a75aa6511be344137a930ed9ee00d2f2a4f37,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P1-srpaths.json,874,b921872c562e74e34bf130714e585a272f0fbdaeebbd11146a5a46a6a7acb314,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P1.csv,313,ddba96dd0a0aceaea0846a6de6323a3379c6e7af27704f0a2ab9448d91e08790,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P2-cg-loads.csv,24912,9d053ae1632f529b164f455b435327da9919b1657d789fdfa4aedacdb4554282,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P2-cg-srpaths.json,12600,3134a28f386cefed1ee359d862cd14a4c08830a112e8dfa8d2b48570574f3e8b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P2-cg.csv,373,4d5c8c45c8518e363c38c5a74b84de2fe78d6b486f563575ef55dc2fcbdfa4f5,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P2-loads.csv,26711,48000e9cbe6d2ec6177ab031bcddc1b8946be0ce79dcd29ee90e608db231e8ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P2-srpaths.json,23956,2eb22f423faca868a9e56acd638eb498b5d9b52861e485b2ef54f81e7c63d552,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-05-wp-P2.csv,311,fb0b78b8e3882ada2855394d9cda0bd17c1b6593c7048b2cac2434251ea3151b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-P1-pc.csv,216,56d42d429ccb0a1adb7da37c59bce2d39a5277dfb0c949387ccc40713eb59a37,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-P1.csv,216,56d42d429ccb0a1adb7da37c59bce2d39a5277dfb0c949387ccc40713eb59a37,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P1-cg-loads.csv,15722,0cce776babe664491fdab0dd72d75064f70046cd4cad506e37f709374843c305,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P1-cg-pc-loads.csv,15722,0cce776babe664491fdab0dd72d75064f70046cd4cad506e37f709374843c305,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P1-cg-pc-srpaths.json,56220,19d2f0636a5072b7fae59f9c36c5143cc1cbc4cabb0bf85ab12745ea4c67661c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P1-cg-pc.csv,347,14bf528f4c68f84d911cba0433b14be3bde873930e3238601b064966fd5dbeb8,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P1-cg-srpaths.json,56220,19d2f0636a5072b7fae59f9c36c5143cc1cbc4cabb0bf85ab12745ea4c67661c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P1-cg.csv,349,94b0d8ed354908ce459b984a52df0fb2e8e095f750b2796256ede7fa4f632143,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P1-loads.csv,15390,eb810af54e25667ed3619d3b0bd69bf38a151e6be46f2f94effb1f3d4a9b0ed5,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P1-srpaths.json,52151,f161ba6bb4868dfc2d3fbd0f3151ca8bc4786cc9c5b94296e0ac84826123b1c1,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P1.csv,301,1b85abd4e017375c379d7a3cdcb0997d9ba372c0382dba8c240d0d58efde263c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P2-cg-loads.csv,30804,d0dbe8e9660fa4d40e8eaad6417632b8063a1c418daf4491549d49a3d08cd36b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P2-cg-srpaths.json,50808,83e2236784d1fcb87398d0ff5fae67e0163cf32d2734e8a04e86e9af896c801d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-06-wp-P2-cg.csv,370,0ef12434f3ce0a97649cee0443d4bc722e9017bcc075e10b5e261e77a68358b7,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-P1-pc.csv,216,173b13974c7dd5e2946c79788fd0d701c9b1137181bdc23a09a4f679f39a0b9a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-P1.csv,216,173b13974c7dd5e2946c79788fd0d701c9b1137181bdc23a09a4f679f39a0b9a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P1-cg-loads.csv,18135,9d5c07544ae4e43bba1d00ac1b82eeee3d0668b27cf7517f7b0b5ba1377130a3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P1-cg-pc-loads.csv,18135,9d5c07544ae4e43bba1d00ac1b82eeee3d0668b27cf7517f7b0b5ba1377130a3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P1-cg-pc-srpaths.json,29,c46b68101559d71f22b74b2170a83af6255eb4e2466024d7c6b9b8b985a7e0ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P1-cg-pc.csv,342,7749f4eaa3853a28d43346f65b93f821ed88e9e9744b3a20a5979d24d3b75d49,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P1-cg-srpaths.json,29,c46b68101559d71f22b74b2170a83af6255eb4e2466024d7c6b9b8b985a7e0ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P1-cg.csv,342,a2f9432706601f1b0406773234dafb61c179b5b072fa3509542d9d2e7aa11039,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P1-loads.csv,18135,9d5c07544ae4e43bba1d00ac1b82eeee3d0668b27cf7517f7b0b5ba1377130a3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P1-srpaths.json,29,c46b68101559d71f22b74b2170a83af6255eb4e2466024d7c6b9b8b985a7e0ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P1.csv,289,eb49b9f799d5b3bacc31190ec6158e65b931a066c52e65b0a6d9a6eb45875eab,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P2-cg-loads.csv,36310,876d0390425fec2bf41d702a56d1b81463de35572ba1c7e46b8fad2b48c757e4,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P2-cg-srpaths.json,271,0a5d076c0eaa6fcd3d8afda69e5defc8e7e14cc0b915cb8601ba3b57c31b6c22,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-07-wp-P2-cg.csv,355,d1ee7200feecbd7508bfce6d5f4cb0189cc3b21d8bb3e9b69e2bbb0867d905de,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-P1-pc.csv,216,e40dddcd18f861d41206652b9153e165c1262f5c914cf39a7b991697c89b7dca,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-P1.csv,216,e40dddcd18f861d41206652b9153e165c1262f5c914cf39a7b991697c89b7dca,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P1-cg-loads.csv,20418,c4720127d936b20f0eb893739174b91e69a7930feee7d5aa55cec655fba55284,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P1-cg-pc-loads.csv,20418,c4720127d936b20f0eb893739174b91e69a7930feee7d5aa55cec655fba55284,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P1-cg-pc-srpaths.json,1245,9e30f7049cfb36f2eef52c92bf76c36ad3e9b20fd0d58504d47f642b8fcade49,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P1-cg-pc.csv,347,7600625525e33ad9e5d1180105453fdd96679938943e0c1ec7ea5640d2ecebf3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P1-cg-srpaths.json,1245,9e30f7049cfb36f2eef52c92bf76c36ad3e9b20fd0d58504d47f642b8fcade49,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P1-cg.csv,347,ce9317c0827b5ee9f59c2d237973c22ed61b828c7f9df9a9cc88c8d79bd7fc60,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P1-loads.csv,20418,c4720127d936b20f0eb893739174b91e69a7930feee7d5aa55cec655fba55284,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P1-srpaths.json,1245,9e30f7049cfb36f2eef52c92bf76c36ad3e9b20fd0d58504d47f642b8fcade49,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P1.csv,296,597873c6ce583a5de50df2994ed9174e857f7e04a927b15435702c40f9f9db8b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P2-cg-loads.csv,41232,dec37532a314d15192d742fe74069b0c25e503a5f5226406438639b1a9c68c4e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P2-cg-srpaths.json,3206,1d24f8a0376d3a5c5b09f43bc69e2adfd38f53ecd6aad06468271e416c7ae3f5,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-08-wp-P2-cg.csv,357,cdef7eb25898adc927cceda556c914048efb71c214d642db9d0637e7fdfdca7b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-P1-pc.csv,216,846468a1fbee203567a80584c3be009d5073dba4e9c0e661b616654b711a70b8,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-P1.csv,216,846468a1fbee203567a80584c3be009d5073dba4e9c0e661b616654b711a70b8,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P1-cg-loads.csv,22132,58601857127805a4dea48c84938cec819891fe42e411188683a28a2d24104bd3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P1-cg-pc-loads.csv,22132,58601857127805a4dea48c84938cec819891fe42e411188683a28a2d24104bd3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P1-cg-pc-srpaths.json,22211,9ecdfa7d166d27f9dd36d022e9e23c8f48d62e700c0828e07b5183c7092316fb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P1-cg-pc.csv,364,e8cafa3fe69a2cb84c93c6dbbfc5ec5a8bc66a57c88e00c39db330718b498bf9,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P1-cg-srpaths.json,22211,9ecdfa7d166d27f9dd36d022e9e23c8f48d62e700c0828e07b5183c7092316fb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P1-cg.csv,364,0e29d2ebd0e69127e451908a4a204ddbcdf250756215bd8e58a27e8eafb21b1a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P1-loads.csv,21951,de641ad8d21a042c1a86ea5fe07efa06e3229316917a40f7096b6bd972b8ac1b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P1-srpaths.json,22267,8a5cc745bf97366b109a6fa79fe8d4a6a304e6eace0b02935375117f9d2f514a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P1.csv,312,8439c9868988f21d85ddf1d039c130b9c5e39262c92a46b701b1e2aa8df1e97c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P2-cg-loads.csv,44210,b4b6634e5bd6aab68af18a7c356f4c14a9ebcec6a1ead8af14b379e4bdca402b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P2-cg-srpaths.json,149,88688c6e2068106b01c56ca9efd1dff9ad2e18b3433677f3887596162e9d7d02,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-09-wp-P2-cg.csv,336,a8bd4a7c0e83bc762c6140d0f662ece3f23780dd6c3a148027a202eb8d8a91b6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-P1-pc.csv,218,f969a3b09fce07b00006eb163474597301cad627cfaf9cbe139780eed6e720c0,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-P1.csv,218,f969a3b09fce07b00006eb163474597301cad627cfaf9cbe139780eed6e720c0,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P1-cg-lns-loads.csv,28890,f2a7fb97fe8b52d8a235a594503554fde674ed1f5bc6cded8e405c7fc9ab5d87,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P1-cg-lns-srpaths.json,114456,9378b0b77568c0ae34f2f94cd73a036813ee48479db3f4f027edf0768c4d688d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P1-cg-lns.csv,389,e5562d4c84b05a43e937e298235c5a99a2f726015f8259cdc0f817ff58002f6b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P1-cg-loads.csv,29159,149f0d14baeb761c725fa3100b174832804704b4891888bc74598616e185a2c0,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P1-cg-srpaths.json,113508,2c6b40127499c174833fa3f5f55a23af861f1bc39d64b3e2c079df142ea6cdd8,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P1-cg.csv,355,6c1396ae2ec8513e8843baa43241a090d0b015774ff89ce6a371a4698e1c21b2,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P1-loads.csv,28216,39c9f5877932e04100d991bc66032d5f1488e63a61d3f5665e3985d3b6baa5cb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P1-srpaths.json,104306,7e07e72b6b92e73bd135d7c8c632ee6991f8876dba2e7fc93a935f09eb764b32,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P1.csv,317,c5e6021e0aa465228d3a8bfed48129f900279814b0cb6add542d2335963dde0f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P2-cg-lns-loads.csv,58163,46d5de85fa9fd41f057a0f03689ac33099fe96b721b972dac37f6c07d562b1ee,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P2-cg-lns-srpaths.json,134424,0a3712388246559a417c2586b30d52aec544e3a4466802cf8a04a988d6bd9424,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P2-cg-lns.csv,375,5a33e468ec37c2d5df66df04417b49cfb87ccb55bd09324de17d1c0ff8ca2bc5,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P2-cg-loads.csv,56104,51ac33c79864f1fe8d316bf8c42e87182d4e6916d4734849212eb5c8b8fae6f2,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P2-cg-srpaths.json,29,c46b68101559d71f22b74b2170a83af6255eb4e2466024d7c6b9b8b985a7e0ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-10-wp-P2-cg.csv,346,6fcc848a5d8c23336e82f6092be427614066dbb5da068039a2c10a6f5bb56790,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-P1-pc.csv,218,14c9e6d6dc1881a50a5f336296c49b177756af10c93a98ca49c8f4e02210f62e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-P1.csv,218,14c9e6d6dc1881a50a5f336296c49b177756af10c93a98ca49c8f4e02210f62e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-wp-P1-cg-loads.csv,33334,d15bea2c6510da296c1ca6a02d6fdd966ba7f1a9da90139d3fb3c0f34b8ffd5d,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-wp-P1-cg-srpaths.json,45074,758fae692e83f220b8646958a1d0763b03181925b83d8d3a2e209dd621d34afb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-wp-P1-cg.csv,368,ed0aa2b423446d1c7477a0b3ce95521251d877b836fce7001488dc0ba50bba02,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-wp-P1-loads.csv,33200,f61215ba236b4bb97b1e73ad91ac0de7a65cb6458afd4a8414d2e43320e18b0c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-wp-P1-srpaths.json,43801,55b12b074451e45fd7a6b3fa4f9fc2e63b0cc6c431decf008b07e6b504e92508,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-wp-P1.csv,297,1a9f4dabe5a9a78d5200627d5489db1a801092c132d896e7a152f23e48cf4e28,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-wp-P2-cg-loads.csv,67482,4d0beb52bd93eac9ed79b47ca8a838a436d42a03ef031d8ef6a3b632c22dc3b6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-wp-P2-cg-srpaths.json,150,485e96065e861ea849882191fc3f136a644561a379a44b74f2b2d6aa3b9a58ad,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-11-wp-P2-cg.csv,360,2f750957c88424cf870a011f49a15355ecac1d5b3d3e90053de8b689541984ef,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-P1-pc.csv,217,d7aa03c74077f6337bc92baed6a318cb65668add0aff1ed078a5e04f3a2300bb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-P1.csv,217,d7aa03c74077f6337bc92baed6a318cb65668add0aff1ed078a5e04f3a2300bb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-wp-P1-cg-loads.csv,33002,842d049fde3ce8f8a31dd3ae553f39b8702370b7a364fe3655ac6a5a77fb58e7,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-wp-P1-cg-srpaths.json,274,29683d2658996d33c727fc9d2c6947851256a8e731323224e230af959290c7cb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-wp-P1-cg.csv,363,00ae500417a774b4dbb0e4adb2daec99d694ba4ffec1ab661a97880fac873a6b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-wp-P1-loads.csv,33002,842d049fde3ce8f8a31dd3ae553f39b8702370b7a364fe3655ac6a5a77fb58e7,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-wp-P1-srpaths.json,274,29683d2658996d33c727fc9d2c6947851256a8e731323224e230af959290c7cb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-wp-P1.csv,329,c38b9256da7fdce632b8e13ebffae421b5e8f98722e72b209e17224bafde6a7a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-wp-P2-cg-loads.csv,66722,15e591c57353da92e94f06cac67a3eb04155786fb82ea5d684b23df95bce1c7f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-wp-P2-cg-srpaths.json,274,e6bb1b609340936f31a0f48866449c4a482a5bee631c794d19d38e89ad4dedd1,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-12-wp-P2-cg.csv,373,b56b737a446451dd1ae5513baf3b5a10e02f21530e547161e023b406d7b428b4,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-P1-pc.csv,219,0166022dd3ff3fe4a5cb1c5213cce0b2a6c54c935b94416c98c821c108af1fd2,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-P1.csv,219,0166022dd3ff3fe4a5cb1c5213cce0b2a6c54c935b94416c98c821c108af1fd2,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P1-cg-lns-loads.csv,35440,289e4ab2d00ce749ce32f0df245f769daba89ef45d1f5a5083675cafb6191f82,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P1-cg-lns-srpaths.json,234438,099257a7b2a81fae934fe90fde3034e0fad768116cf692b10860677e8e04c77f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P1-cg-lns.csv,437,a5ab9a823a120ebd1aac307e20eaff5e3b91b5d44cdedf3c21aa54648b7a8dfb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P1-cg-loads.csv,35340,7fd3ebacd9ac8662a1f192db64783688befa159f04e03479e1fb7a0ce52590bc,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P1-cg-srpaths.json,232934,b93f27843890dfa48abb0ac1d72bd5720dda4a4540de3d8fefe82eb595adc8d3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P1-cg.csv,378,e66a51d1afb825effe5e8d8cec7998b4d1f061b9f6c2e6841c61872a8fe3e16f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P2-cg-lns-loads.csv,71063,d91be4a7c25c6e726075f937aa19de743ede22e626bc9d59dd8f6ac9d55aa50a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P2-cg-lns-srpaths.json,295730,048aa6d04231d12c2688e4d3a971a5d92b27bf7ca96d90b70599ddca3c39e41e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P2-cg-lns.csv,383,43d5e7180e6dafbe9c755dace1e9d255872ab1b04298d5809547065b316cbe32,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P2-cg-loads.csv,70183,5b935fd1b9996e5a5789b49d8e12940a317bdebd7442513ae348df51d55a6e2b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P2-cg-srpaths.json,766,a24e906ca69323a08a76a6156f550c9c9f8e744082a1be60794faa2324bb40ac,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-13-wp-P2-cg.csv,372,71a503ca8803442f9d7e678bc044acde8d6674f2af04d6284dca7d63c3fba715,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-P1-pc.csv,218,8e54e62ff661df169e52acb7e7b0f8c749c6d3dfb36133452fc3c10c64da11b5,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-P1.csv,218,8e54e62ff661df169e52acb7e7b0f8c749c6d3dfb36133452fc3c10c64da11b5,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-wp-P1-cg-lns-loads.csv,40376,df388d6cad70630db8286956fa04a2d362ab542118a0b76eb4da9270f6ca6e59,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-wp-P1-cg-lns-srpaths.json,640,5babec00c21217f115585756fbd3c3e26ece64d166bed4f102244993a7fe5b35,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-wp-P1-cg-lns.csv,398,4c210c2af589ab41a18ec61f469ccce99600e7437a1bab4cf8eeb3b1e32ab8c8,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-wp-P1-cg-loads.csv,40376,df388d6cad70630db8286956fa04a2d362ab542118a0b76eb4da9270f6ca6e59,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-wp-P1-cg-srpaths.json,640,5babec00c21217f115585756fbd3c3e26ece64d166bed4f102244993a7fe5b35,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-wp-P1-cg.csv,348,763fb7679b2a716313dd7d6e19c42574c088df8932a372650cfd740b95853fde,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-wp-P2-cg-loads.csv,81832,45b900fb3a77d649a8a0e315a95b08697bc5bf8aac7b516a450067f8167da7dd,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-wp-P2-cg-srpaths.json,56228,6e34e31227ecec3be897dfd8932fdac1f4ebf8489fd1ed7ba3dbf4a1b8bb6405,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-14-wp-P2-cg.csv,358,9a1025b52ac8a189df2578e21125d6301a90a461d4757be06f687a54732d34f3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-15-P1-pc.csv,218,feae570742a1a9628c7a23e7fa645358f081626d39cda3889e6f7002553888d2,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-15-P1.csv,218,feae570742a1a9628c7a23e7fa645358f081626d39cda3889e6f7002553888d2,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-15-wp-P1-cg-loads.csv,42602,0e2c92fc7817863e3278845c8eac5dc2757576f733d23566f3660f7caef4523e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-15-wp-P1-cg-srpaths.json,272,44eee250b1e47ceda85b989f890fd2cdf85ec63faa83c6645fb882433b68b839,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-15-wp-P1-cg.csv,318,c10fa61e141631146d7273a98a3cd05bd75064108c30162526f9014415ed40a9,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-15-wp-P2-cg-loads.csv,86569,bb950fd84d034bd47c57503e448d750ddcd0c0575e48b90da446c7854fad14d6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-15-wp-P2-cg-srpaths.json,150,c58322f32e93d379f3b800d37b99fa656f8d2c045deb1617ffa2d90250c9e96c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-15-wp-P2-cg.csv,359,d4400f2d236e21fcf884d0ddaa72936364cd3fc948d493c4ca248dfbecab18e5,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-P1-pc.csv,220,075da76a3793155a295952111d6fc2a6e5ef375d2b8579edfeb16099fb93842b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-P1.csv,220,075da76a3793155a295952111d6fc2a6e5ef375d2b8579edfeb16099fb93842b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-wp-P1-cg-loads.csv,53200,ac0cea0e11a9239a60e4d1439eb90c79f9e81cddc643785fcdb2a2a1d90a50d7,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-wp-P1-cg-srpaths.json,572235,0e9bbae2135fc05598570df5b6222261914dcff1e1647b09a501d7557c961604,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-wp-P1-cg.csv,381,9b5dfde5d7c128d5434c6de2c1084b4677d42c57bdaf7e818e2b95f1102abba4,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-wp-P2-cg-lns-fast-loads.csv,104580,26c640740116b66ff5ca337434c23c13bec296795fb3ed242534bf242fb4fac7,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-wp-P2-cg-lns-fast-srpaths.json,220210,0a1cdb6ca0c88a4768af52dfa15ecb46dc0990a655bdc0f2f07b951fbf13d32e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-wp-P2-cg-lns-fast.csv,362,54c9b846e99d90cb5f0ef98c7f543ef328bd8a27d27938bc60a639b6a28ddbe2,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-wp-P2-cg-loads.csv,103864,b9c551fa9f57c8a60d0c8240ab06da6d62cd0b95d1e91ad0699822217050e1cc,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-wp-P2-cg-srpaths.json,642,610a11acdbab0df3eaae14cd544d1877e7c9f9d84bf7f421d4a50756a402eba3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-16-wp-P2-cg.csv,388,ff13a6185654ad0248ad130d55920225586a7088b8485e55baa4a1075aba830b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-17-P1-pc.csv,220,d5dee38491e3e6e63e584e6634d146baf8b0cb7a31e4f07127526b0f458fd328,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-17-P1.csv,220,d5dee38491e3e6e63e584e6634d146baf8b0cb7a31e4f07127526b0f458fd328,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-17-wp-P1-cg-loads.csv,52978,4e18ed26374a886d598271c1793631888811fd83c01cd49b4e0fb9d753a40e92,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-17-wp-P1-cg-srpaths.json,151,29e1523244c28b203dd746fd2c6b82ea670beb6a138e5600c9cc12cfd37a076b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-17-wp-P1-cg.csv,364,ad362862e8f4d14b0ce5ac3c60e460f5dfb866b417c26da068d241ec42d84b5f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-17-wp-P2-cg-loads.csv,107036,bb1dc9d4c9829c416dfd7f38434a4518f09caa41c774c1a0f74f04460b5bf315,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-17-wp-P2-cg-srpaths.json,1016,5a7f5b1e9830c2dff32841b22228d72aef25a0d8ad8e0062f0e41630356d17aa,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-17-wp-P2-cg.csv,377,5490bc13130200af5d546ba384b271672041fc12c403a61c8e656f058a3a695c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-P1-pc.csv,220,dda913b73946f6e3315a234a1fea510cd2c1b8f273e3c26336a2aaca3dfd17f9,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-P1.csv,220,dda913b73946f6e3315a234a1fea510cd2c1b8f273e3c26336a2aaca3dfd17f9,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P1-cg-loads.csv,57460,e92603efab7e56a972f93f217a79c066f785b23422ec1e4822ae9790c3edd9f9,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P1-cg-pc-loads.csv,57460,e92603efab7e56a972f93f217a79c066f785b23422ec1e4822ae9790c3edd9f9,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P1-cg-pc-srpaths.json,29,c46b68101559d71f22b74b2170a83af6255eb4e2466024d7c6b9b8b985a7e0ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P1-cg-pc.csv,349,5e2f52e9a6b4f77fde81980bbd8d03a82baa0cdbcc5f7d97f5ffdd504585a8df,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P1-cg-srpaths.json,29,c46b68101559d71f22b74b2170a83af6255eb4e2466024d7c6b9b8b985a7e0ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P1-cg.csv,349,0b19859b688cd4ab2e4168f07962c07bf03fe82c4952d3d815a270b7865b68aa,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P2-cg-loads.csv,116110,16893459378f6f792894e042a41354722699da639da13256ab9a210fc3df7a05,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P2-cg-pc-loads.csv,116110,16893459378f6f792894e042a41354722699da639da13256ab9a210fc3df7a05,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P2-cg-pc-srpaths.json,29,c46b68101559d71f22b74b2170a83af6255eb4e2466024d7c6b9b8b985a7e0ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P2-cg-pc.csv,335,b5c2ae828aef3fe1040a6d988c7fdaf075517ce31aa81d26e05254946058b8a7,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P2-cg-srpaths.json,29,c46b68101559d71f22b74b2170a83af6255eb4e2466024d7c6b9b8b985a7e0ba,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-18-wp-P2-cg.csv,361,850a27f106c18423884f9b86b375036391e02976e4a7b46c1444edbfdac887dd,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-19-P1-pc.csv,220,d65a49a3d9b0c4b0d5e7761a756b047e865d10ddee49b9c115f8261713e06097,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-19-P1.csv,220,d65a49a3d9b0c4b0d5e7761a756b047e865d10ddee49b9c115f8261713e06097,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-19-wp-P1-cg-loads.csv,71927,e829a31e4fa558296685017eddb7577f59e6c152c35a7ea60f7d439fccce12dd,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-19-wp-P1-cg-srpaths.json,721888,c8b611fc3578632903b736b40e1104d17daf642fb4f74d3e9d65310bff56cfc7,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-19-wp-P1-cg.csv,376,80aaff1218deb6856bfcaca51eb31fb5d31f2de9f8dceb1685e5ec0690498020,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-19-wp-P2-cg-lns-fast-loads.csv,143590,5fdc36a7628a893f3b0caefcd7e3c92873ab4836812aff6d3ca253237bec04df,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-19-wp-P2-cg-lns-fast-srpaths.json,1154612,5d7fa7b30e61c04e1e35e9b19cf3888c645dea0102c6b44280bb6465e3f70f62,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-19-wp-P2-cg-lns-fast.csv,380,bfbe57e5031e1b665c89fefd46b002e690791dc8748faaeb8097f2cae430778f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-P1-pc.csv,220,ad8c1e751970f07929dfa946cde1386d1b093fd502049b4686abd8a62e4c9160,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-P1.csv,220,ad8c1e751970f07929dfa946cde1386d1b093fd502049b4686abd8a62e4c9160,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P1-cg-loads.csv,82361,0f77abd1faae853cf4141235eb209363e749591fd01b4d52b012b7c0a73e029b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P1-cg-pc-loads.csv,82361,0f77abd1faae853cf4141235eb209363e749591fd01b4d52b012b7c0a73e029b,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P1-cg-pc-srpaths.json,152,8db5a374cdbfb5cd7910873bfb582dc1890e004461c29be543e8cf5570443fac,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P1-cg-pc.csv,365,66ac1e690145a52e1f22aabc16c6eb27fff1a871070dbbcd3d8c13688eca2123,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P1-cg-srpaths.json,152,8db5a374cdbfb5cd7910873bfb582dc1890e004461c29be543e8cf5570443fac,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P1-cg.csv,365,f121e5f4b841a872cbf0e48893b30a5b63b08e6dabc188b31015217e1e0ba61f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P2-cg-loads.csv,165733,ce3151ac466c5c67f9fc2839f5ac661b4665f972fbfd95acf8f0e4011edff7ae,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P2-cg-pc-loads.csv,165733,ce3151ac466c5c67f9fc2839f5ac661b4665f972fbfd95acf8f0e4011edff7ae,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P2-cg-pc-srpaths.json,152,8db5a374cdbfb5cd7910873bfb582dc1890e004461c29be543e8cf5570443fac,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P2-cg-pc.csv,352,4aab5f82ca88bedb5e11287c265d753ab29642d9e248958a5360695458407d1a,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P2-cg-srpaths.json,152,8db5a374cdbfb5cd7910873bfb582dc1890e004461c29be543e8cf5570443fac,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-20-wp-P2-cg.csv,377,f56bfc67724388b69f328efa0a8684f94abfce2f203c7c9b4fa21201cbcd8eee,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+solverlogs/setA-04-P2-pc-r5-5-run5.log,1958,f0bdf34f1323abfd23fb5b2ac65823e41501d9f1317d5563a3a29bcaa6e394e6,2026-10-20 08:43:10,ef83d93,feat: fill_missing_m1.sh runs missing Table 2 runs on M1; journal
+solverlogs/setA-05-P2-pc-r1-5-run1.log,2814,511e64a38cf665168e0e596253076609d99e9c5cdc1e413e1e8d7226a39ede80,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+solverlogs/setA-05-P2-pc-r1-5-run2.log,2814,229675a2da9d5c8367fbd8d020cbd8ac87ac63038d1c9442129cb21fda0969c6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+solverlogs/setA-05-P2-pc-r1-5-run3.log,2814,54c19de3fff779354afd189e2d10877d3e21b438dbdf8850b7d78824c7cc655c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+solverlogs/setA-05-P2-pc-r1-5-run4.log,2814,c5c9f24e44d51c10b5fdb11b607a8bab6efda1df299b91f05dc09740bf2a2c8c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+solverlogs/setA-05-P2-pc-r1-5-run5.log,2814,a03299557b19f3eed8c27cf5c77202fc73ea6dd5bfb56c7e7233d15ab94f6eea,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+table_official_P1.csv,1477,6c0d41ddbd8b0cad591d6b9a75eeba09c55e1f1d9c744a7a2c42c3b26cfeff35,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+table_official_P1.md,2626,4381fc99388224a66feac837a9a570b26e920d314be4eba933ea202e26ea2cdb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+table_official_P2.csv,1554,d8d0ddc5e2b9143940dcb69fbe6011edafb8f0ccd07f4535f044c02ebceab085,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+table_official_P2.md,2717,49ddee099059a4fe6c9cac115043c3e3e50b5fb33044da8cabd4b1e5162b1265,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+verification.csv,8912,887f56baf9b786572c693c868aebcc6920c878a138606bd4c3eb147e9cc6a8d6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+watch_exclude.txt,6,ba29f616b53540227e14465245b3553e9267cca7bdeef42abad1f86c3ab805d0,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+watchdog.log,544,f046f50bbf04f350f45ebe3e9d172a9790df063d24992d9ea92b4220034fc344,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"

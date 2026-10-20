@@ -1,6 +1,6 @@
 # Phân công nhóm (3 thành viên) — làm song song, không chờ nhau
 
-> **CẬP NHẬT 20/10 ~09:00 — ĐỌC TRƯỚC:** M1 đã chạy xong setA-04 $t=0,1$ lần 1–4 và setA-05 $t=0,1$ seed 1–5, và **hiện đang tự chạy nốt toàn bộ phần còn lại** (setA-04 $t=0,1$ lần 5–10, rồi setA-05 $t=0,1$ seed 6–10; dự kiến xong khoảng 20:00 20/10). **M2 và M3 KHÔNG cần chạy các phần này nữa** (nếu chạy sẽ trùng việc). Nếu M2/M3 đã chạy xong một khoảng từ trước, hãy đẩy kết quả bằng `publish_member_results.py` như hướng dẫn bên dưới; nếu chưa chạy thì không làm gì. Các phân công bên dưới là phân công **gốc**, chỉ để tham khảo.
+> **CẬP NHẬT 20/10 ~10:00 — PHÂN CÔNG HIỆN HÀNH (thay thế phân công cũ ở dưới):** M1 chạy **toàn bộ** các lần còn thiếu của setA-04 và setA-05 ($t=0,1$); M2 và M3 chạy **thử nghiệm cải tiến tối ưu** trên các instance riêng (xem `START_HERE.md` mục 1 và 10, và `project/DE_XUAT_CAI_TIEN_TOI_UU.md`). Các bảng phân công bên dưới là bản gốc, **chỉ để tham khảo, không làm theo**.
 
 > Lập lúc 23:50 Thứ Hai 19/10. Mốc cứng: **xong hết trước Thứ Tư 21/10 (T4)**; hạn nộp thầy: Chủ nhật 25/10.
 > Nguyên tắc: mỗi người **sở hữu file riêng**, nên không xung đột khi dùng git; số liệu cập nhật **tự động** khi máy chạy xong, không ai phải chờ ai.

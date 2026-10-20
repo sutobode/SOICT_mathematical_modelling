@@ -61,7 +61,7 @@ Nguyên tắc: **không ai sửa cùng một file** (tránh xung đột git); m�
 |---|---|---|---|---|---|
 | **WP1** (A1) | setA-04 $t=0,1$ lần 5–10; setA-05 $t=0,1$ seed 6–10 | **M1 (đang chạy)** | Máy M1 | — | ~11 giờ |
 | **WP2a** | Thêm tham số số lần/seed cho `run_wp.jl` (và `lns`), ghi file có hậu tố riêng như `run_experiments.jl` | **M1** | Biết code | — | ~30 phút |
-| **WP2b** (A2) | Chạy 10 lần các hàng setA-06…20, $t=0$ **và** $t=0,1$ | **M2 (setA-06…13) và M3 (setA-14…20)** *(đề xuất)* | RAM ≥ 16 GB; sau WP2a; mỗi người một nửa, **mỗi hàng đủ 10 lần trên cùng một máy** | WP2a | vài giờ mỗi người; hàng nặng (16, 19, 20) cần kiểm tra RAM trước |
+| **WP2b** (A2) | Chạy 10 lần các hàng setA-06…20, $t=0$ **và** $t=0,1$ | **chưa giao** (đề xuất M2/M3 **sau** khi xong gói O2/O3 ở `DE_XUAT_CAI_TIEN_TOI_UU.md`) | sau WP2a; mỗi hàng đủ 10 lần trên cùng một máy; ghi file có hậu tố `-rA-B` (không trùng tên với file của O2/O3) | WP2a | vài giờ mỗi người |
 | **WP3** (A3) | Viết **Giới thiệu + Mô hình toán** (Data, biến, mục tiêu, ràng buộc, hai định nghĩa $r$, giải thích Step 2 khác Pluto) | **M2** | Biết LaTeX | Nguồn: `BAI_TOAN_FINAL.md` | ~4–5 giờ |
 | **WP4** (A3, A4) | Viết **Thực nghiệm** (mô tả instance, môi trường, bảng, nhận xét kết quả, hạn chế) + kiểm tra **≤ 10 trang** | **M3** | Biết LaTeX | Nguồn: `BAO_CAO_KET_QUA_THUC_NGHIEM.md`; bảng cuối sau WP1, WP2b | ~4–5 giờ (chốt số sau khi bảng xong) |
 | **WP5** (B2) | Tái lập: clone repo, chạy `runtests.jl`, chạy setA-01…03 $t=0$ và so với bảng | **M3 hoặc M2** (ai có máy rảnh) | Máy ≥ 16 GB | — | ~1 giờ |
@@ -94,7 +94,9 @@ M2 và M3 **không phải chờ M1**: WP3, WP4 (khung), WP5, WP6 bắt đầu đ
 
 ---
 
-## 5. Đề xuất giao việc (cần người dùng chốt)
+## 5. Phân công hiện hành và đề xuất còn lại
+
+**Đã giao (hiệu lực ngay, ghi trong `START_HERE.md`):** M2 và M3 chạy các thử nghiệm cải tiến tối ưu O2/O3 (`project/DE_XUAT_CAI_TIEN_TOI_UU.md`); M1 chạy nốt WP1. **Các gói còn lại dưới đây là đề xuất, chưa giao.** Khi giao, phải chọn instance/tập file khác với O2/O3 để không trùng:
 
 - M2: **WP3** (Giới thiệu + Mô hình), **WP6** (kiểm tra $r$), rồi **WP2b** nửa đầu (setA-06…13) sau khi M1 sửa `run_wp.jl`.
 - M3: **WP4** (Thực nghiệm + ≤ 10 trang), **WP5** (tái lập), rồi **WP2b** nửa sau (setA-14…20).

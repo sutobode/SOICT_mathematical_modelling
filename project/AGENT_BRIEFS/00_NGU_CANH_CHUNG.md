@@ -13,10 +13,10 @@
 
 **Project.** SOICT mathematical-modelling course project (team of 3, "Orange T-ASR", ROADEF/EURO 2026 challenge). The repo contains a Julia package `orange/` (JuMP + HiGHS) that solves *T-Adaptive Segment Routing*: route each demand through at most a few waypoints so that the maximum link utilisation (MLU) is minimised, over time periods t=0 (nominal) and t=1 (one link down, with a budget on routing changes). Instances: `project/setA/setA-01..20-{net,tm,scenario}.json`. The official result tables ask, for each instance, the average over **10 runs** (seeds 1..10) of CPU time, gap and B&B nodes, with a time limit of 1800 s (t=0 only) or 3600 s (t=0,1).
 
-**What the team still needs.** The remaining *runs* of the arc-based MILP (the teacher's model) for slow rows. Each run is independent (seed = run number), so runs are split across three machines in **disjoint seed ranges**. Each range writes its own CSV (`orange/results/setA-XX-P{P}-pc-r<a>-<b>.csv`); the coordinator merges all files and checks for overlaps. See `project/HUONG_DAN_CHAY_SONG_SONG.md` (sections 1–9) for the assignment.
+**What the team still needs.** (a) The coordinator (M1) is running ALL remaining runs of the arc-based MILP for setA-04 and setA-05 (periods 0 and 1) on his own machine. (b) Members M2 and M3 run **optimisation experiments** with the waypoint model + LNS (`run_wp.jl`) on disjoint instance lists, once each; see `project/DE_XUAT_CAI_TIEN_TOI_UU.md` for the rationale. Results go to `orange/results/setA-XX-wp-P<P>-cg-pc-lns*.csv` (+ `-loads.csv`, `-srpaths.json`), which never overwrite existing files.
 
 **Key files.**
-- `orange/scripts/run_experiments.jl` — runner. Usage: `julia --project=orange orange/scripts/run_experiments.jl <P> <time_limit_s> <first_instance> <last_instance> pc <first_seed> <last_seed> <suffix> [mem_budget_GB]` (`P=2` means periods 0 and 1; `pc` = split coefficients from the teacher's PDF; the suffix names the output file, e.g. `-r5-7`).
+- `orange/scripts/run_wp.jl` — runner for the optimisation experiments: `julia --project=orange orange/scripts/run_wp.jl <P> <time_limit_s> <first_instance> <last_instance> 1500000 cg pc lns 900`. (Older: `orange/scripts/run_experiments.jl` — arc-based runner used by M1.) Usage: `julia --project=orange orange/scripts/run_experiments.jl <P> <time_limit_s> <first_instance> <last_instance> pc <first_seed> <last_seed> <suffix> [mem_budget_GB]` (`P=2` means periods 0 and 1; `pc` = split coefficients from the teacher's PDF; the suffix names the output file, e.g. `-r5-7`).
 - `orange/scripts/preflight.py` — checks Julia/RAM/data. `orange/scripts/check_range.py` — validates one range CSV. `orange/scripts/pack_member_results.py` — packs your results for the coordinator.
 - Outputs: `orange/results/*.csv`, `orange/results/solverlogs/*.log` (verbatim HiGHS logs per run), `orange/results/log-*.txt` (console logs).
 
@@ -24,9 +24,9 @@
 
 1. **Never modify, delete or rename any tracked file** (everything under `orange/src`, `orange/scripts`, `orange/test`, `orange/Project.toml`, `orange/Manifest.toml`, `project/`, `report/`). Only create new files under `orange/results/` and `member_results/`.
 2. **Git is restricted.** Allowed only: `git clone`, `git checkout feature/tasr`, `git fetch`, `git show`, `git log`, `git status`, and the single command `python orange/scripts/publish_member_results.py <name>` (it creates branch `results/<name>` and pushes only result files). **Never** run `git commit`, `git add`, `git push` yourself, `git reset`, any `--force`, never push to `main` or `feature/tasr`, never change git config. If the push is refused, return the results as a zip (`python orange/scripts/pack_member_results.py <name>`).
-3. **At most ONE heavy Julia process at a time.** Peak RAM: setA-04 (t=0,1) ≈ 8 GB, setA-05 (t=0,1) ≈ 11–14 GB. Starting a second one exhausts RAM (this already killed runs on the coordinator's machine).
-4. **Never re-run a range whose CSV already exists**: the command overwrites it. To resume an interrupted range, run only the missing seeds with a **new suffix** (e.g. if `-r5-7` finished seed 5, run seeds `6 7` with suffix `-r6-7`).
-5. **Long jobs run in the background** with stdout/stderr redirected to a log file (one run ≈ 1 hour; a range = hours). Use your tool's background mode (Claude Code: `run_in_background`; Linux/macOS: `nohup ... &`; Windows PowerShell: `Start-Process`). **Never** run them in the foreground with a timeout. Poll at most every 20–30 minutes; do not busy-wait.
+3. **At most ONE heavy Julia process at a time.** Starting a second one can exhaust RAM (this already killed runs on the coordinator's machine). Stop and report if free RAM falls below about 3 GB.
+4. **Never re-run a command that already finished**: it overwrites its result file. After an interruption re-run only the tasks that have no result file yet (and the one that was in progress).
+5. **Long jobs run in the background** with stdout/stderr redirected to a log file (one command ≈ up to 1.5 hours). Use your tool's background mode (Claude Code: `run_in_background`; Linux/macOS: `nohup ... &`; Windows PowerShell: `Start-Process`). **Never** run them in the foreground with a timeout. Poll at most every 20–30 minutes; do not busy-wait.
 6. Set `JULIA_NUM_THREADS=1` and `OPENBLAS_NUM_THREADS=1` before every Julia command.
 7. Do not run other heavy programs, do not change power or system settings (other than launching `orange/scripts/keep_awake.ps1` on Windows to prevent sleep).
 8. If anything unexpected happens (low RAM, Julia crash, `check` ≠ `ok`, a status other than `Optimal`/`Not Optimal`, overlapping seeds, the machine slept) **stop and report to the human**; do not improvise or retry blindly.
@@ -37,13 +37,13 @@
 - **Windows (PowerShell), background launch template:**
   ```powershell
   $env:JULIA_NUM_THREADS="1"; $env:OPENBLAS_NUM_THREADS="1"
-  Start-Process -NoNewWindow -FilePath julia -ArgumentList '--project=orange','orange/scripts/run_experiments.jl','2','3600','4','4','pc','5','7','-r5-7' `
-    -RedirectStandardOutput orange/results/log-pc-P2-04-r5-7.txt -RedirectStandardError orange/results/log-pc-P2-04-r5-7.err
+  Start-Process -NoNewWindow -FilePath julia -ArgumentList '--project=orange','orange/scripts/run_wp.jl','2','3600','9','9','1500000','cg','pc','lns','900' `
+    -RedirectStandardOutput orange/results/log-opt-P2-09.txt -RedirectStandardError orange/results/log-opt-P2-09.err
   ```
 - **Linux/macOS:**
   ```bash
   export JULIA_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
-  nohup julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 4 pc 5 7 -r5-7 > orange/results/log-pc-P2-04-r5-7.txt 2>&1 &
+  nohup julia --project=orange orange/scripts/run_wp.jl 2 3600 9 9 1500000 cg pc lns 900 > orange/results/log-opt-P2-09.txt 2>&1 &
   ```
 - Check that the process is alive: Windows `Get-Process julia | Select Id,CPU,WorkingSet64`; Linux/macOS `ps aux | grep julia`.
-- The CSV for a range appears (with its first row) only after the **first run of that range finishes** (≈ 1 hour for setA-04 t=0,1); an empty or missing CSV during the first hour is normal.
+- The result file of a command appears only when that command finishes (minutes up to ~1.5 hours); read `orange/results/log-opt-*.txt` for progress.

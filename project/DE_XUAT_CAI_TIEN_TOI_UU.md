@@ -84,7 +84,7 @@ Mỗi hàng chạy **một lần** (bài toán gần như tất định; mục t
 
 ### 3.2. Lệnh chạy
 
-Chuẩn bị máy: làm đúng các mục 2–9 của `START_HERE.md` (điều kiện máy, lấy mã nguồn, cài Julia, test, ghi môi trường, giữ máy thức), **trừ mục 10** — phần việc của bạn nằm ở file này.
+**Nguồn chính để làm theo là `START_HERE.md`** (đã cập nhật cho khớp file này: mục 1 chia việc, mục 10 các lệnh). Các lệnh dưới đây trùng với `START_HERE.md` mục 10; nếu có chỗ khác nhau, `START_HERE.md` là bản đúng.
 
 Cú pháp: `julia --project=orange orange/scripts/run_wp.jl <P> <giới_hạn_giây> <instance> <instance> 1500000 cg pc lns 900`
 
@@ -133,7 +133,7 @@ Các file `log-opt-*.txt` và `setA-*-wp-*-cg-pc-lns*` cùng `environment-<tên>
 
 ### 3.5. Prompt cho coding agent
 
-> Tôi là M2 (hoặc M3). Hãy đọc `START_HERE.md` mục 2–9 và thiết lập máy theo đó. Sau đó đọc `project/DE_XUAT_CAI_TIEN_TOI_UU.md` và làm **đúng mục 3** (phần của tôi). Không sửa file đã theo dõi, chạy tuần tự từng lệnh, không chạy lại lệnh đã xong, dừng và báo nếu RAM trống < 3 GB hoặc lệnh lỗi. Xong thì chạy `publish_member_results.py` như mục 3.4.
+> Tôi là M2 (hoặc M3). Hãy đọc `START_HERE.md` và làm đúng phần việc của vai trò của tôi (mục 1 và 10); `project/DE_XUAT_CAI_TIEN_TOI_UU.md` giải thích lý do. Không sửa file đã theo dõi, chạy tuần tự từng lệnh, không chạy lại lệnh đã xong, dừng và báo nếu RAM trống < 3 GB hoặc lệnh lỗi. Xong thì chạy `publish_member_results.py` như mục 3.4.
 
 ---
 

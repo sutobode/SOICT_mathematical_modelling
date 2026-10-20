@@ -2,15 +2,22 @@ using Test, Orange
 include(joinpath(@__DIR__, "..", "scripts", "official_common.jl"))
 
 function official_fixture_row(run; mode="pathcount", model="full_arc", mlu=1.0,
-                              gap="0.0", artifact_run=run, status="Optimal")
-    Dict("run" => string(run), "routing_mode" => mode, "model_type" => model,
-         "objective_mode" => "pure_mlu", "experiment" => "official", "time_limit" => "1800.0",
-         "P" => "1", "status" => status, "check" => "ok",
+                               gap="0.0", artifact_run=run, status="Optimal")
+    schema = model == "full_arc" ? OFFICIAL_FULL_SCHEMA : OFFICIAL_WP_SCHEMA
+    row = Dict(column => "" for column in schema)
+    merge!(row, Dict("instance" => "setA-01", "run" => string(run), "routing_mode" => mode,
+         "model_type" => model, "objective_mode" => "pure_mlu", "experiment" => "official",
+         "schema_version" => OFFICIAL_SCHEMA_VERSION,
+         "time_limit" => "1800.0", "P" => "1", "status" => status, "check" => "ok",
          "mlu" => string(mlu), "solve_time" => string(10.0 + run), "nodes" => string(run),
-         "pure_mlu_bound" => model == "full_arc" ? string(mlu) : "NaN",
-         "pure_mlu_gap" => gap,
+         "pure_mlu_bound" => model == "full_arc" ? string(mlu) : "NaN", "pure_mlu_gap" => gap,
          "srpaths_file" => "run$(artifact_run)-srpaths.json",
-         "loads_file" => "run$(artifact_run)-loads.csv")
+         "loads_file" => "run$(artifact_run)-loads.csv"))
+    if model == "restricted_waypoint"
+        row["K"] = "18"
+        row["candidate_fingerprint"] = "fixed-candidates"
+    end
+    return row
 end
 
 @testset "official aggregation isolates routing mode and requires ten runs" begin
@@ -47,6 +54,15 @@ end
     @test summary.best_row["loads_file"] == "run4-loads.csv"
 end
 
+@testset "restricted aggregation requires the candidate fingerprint" begin
+    rows = [official_fixture_row(r; model="restricted_waypoint") for r in 1:10]
+    @test summarize_official_rows(rows).complete
+    rows[10]["candidate_fingerprint"] = "different-candidates"
+    summary = summarize_official_rows(rows)
+    @test !summary.complete
+    @test occursin("fingerprint", summary.reason)
+end
+
 @testset "official load artifact is independently verified" begin
     out = mktempdir()
     name = "setA-01"
@@ -76,7 +92,7 @@ end
         run_row["instance"] = name
         run_row["P"] = "1"
     end
-    columns = sort(unique(vcat([collect(keys(run_row)) for run_row in run_rows]...)))
+    columns = OFFICIAL_FULL_SCHEMA
     official_csv = joinpath(out, "setA-01-P1-official.csv")
     open(official_csv, "w") do io
         println(io, join(columns, ","))
@@ -84,12 +100,92 @@ end
             println(io, join([run_row[column] for column in columns], ","))
         end
     end
-    record = best_known_records(out)[(name, 1)]
-    @test record["verification_status"] == "verification_failed"
-    @test record["status"] == "UNVERIFIED"
-    @test isempty(record["srpaths_file"]) && isempty(record["loads_file"])
+    @test !haskey(best_known_records(out), (name, 1))
     @test !isfile(joinpath(out, "official-artifacts",
                            "setA-01-P1-pathcount-best-run4-loads.csv"))
+end
+
+
+function write_verified_full_run(out, run; name="setA-01")
+    inst = read_instance(joinpath(SETA, name))
+    rs = [build_r(inst, 1; mode=:pathcount)]
+    paths = direct_paths(inst, 1)
+    mlu = max_utilization(inst, rs, paths, 1)
+    row = official_fixture_row(run; mlu=mlu)
+    row["instance"] = name
+    row["srpaths_file"] = "$name-resume-run$run-srpaths.json"
+    row["loads_file"] = "$name-resume-run$run-loads.csv"
+    write_srpaths(inst, paths, 1, joinpath(out, row["srpaths_file"]))
+    write_loads(inst, rs, paths, 1, joinpath(out, row["loads_file"]);
+                run_id=run, instance=name, routing_mode="pathcount")
+    return row
+end
+
+function write_current_rows(file, rows, schema=OFFICIAL_FULL_SCHEMA)
+    open(file, "w") do io
+        println(io, join(schema, ","))
+        for row in rows
+            println(io, join([get(row, column, "") for column in schema], ","))
+        end
+    end
+end
+
+@testset "official resume validates content and preserves completed runs" begin
+    out = mktempdir()
+    file = joinpath(out, "setA-01-P1-official-pc-r1.csv")
+    write_current_rows(file, [write_verified_full_run(out, 1)])
+    before = read(file)
+    calls = Ref(0)
+    action = run_official_with_resume(out, "setA-01", 1, "full_arc", 1, 1800.0) do
+        calls[] += 1
+    end
+    @test action == :skipped && calls[] == 0
+    @test read(file) == before
+
+    malformed = mktempdir()
+    malformed_file = joinpath(malformed, "setA-01-P1-official-pc-r1.csv")
+    write(malformed_file, join(OFFICIAL_FULL_SCHEMA, ",") * "\npartial,row\n")
+    reruns = Ref(0)
+    action2 = run_official_with_resume(malformed, "setA-01", 1, "full_arc", 1, 1800.0) do
+        reruns[] += 1
+        write_current_rows(malformed_file, [write_verified_full_run(malformed, 1)])
+    end
+    @test action2 == :ran && reruns[] == 1
+    @test official_run_complete(malformed, "setA-01", 1, "full_arc", 1, 1800.0)
+
+    missing = mktempdir()
+    missing_file = joinpath(missing, "setA-01-P1-official-pc-r1.csv")
+    missing_row = write_verified_full_run(missing, 1)
+    rm(joinpath(missing, missing_row["loads_file"]))
+    write_current_rows(missing_file, [missing_row])
+    action3 = run_official_with_resume(missing, "setA-01", 1, "full_arc", 1, 1800.0) do
+        write_current_rows(missing_file, [write_verified_full_run(missing, 1)])
+    end
+    @test action3 == :ran
+end
+
+@testset "resumed official sample has exactly runs 1:10" begin
+    out = mktempdir()
+    rows = [write_verified_full_run(out, run) for run in 1:10]
+    write_current_rows(joinpath(out, "setA-01-P1-official-pc-resumed.csv"), rows)
+    selected = official_rows(out)
+    @test sort(parse.(Int, getindex.(selected, "run"))) == collect(1:10)
+    @test summarize_official_rows(selected).complete
+end
+
+@testset "legacy and malformed rows cannot enter official aggregation" begin
+    out = mktempdir()
+    legacy = joinpath(out, "setA-01-P1-pc.csv")
+    legacy_content = "instance,P,run,status,mlu\nsetA-01,1,1,Optimal,0.5\n"
+    write(legacy, legacy_content)
+    malformed = joinpath(out, "setA-01-P1-official-pc-r2.csv")
+    write(malformed, join(OFFICIAL_FULL_SCHEMA, ",") * "\npartial,row\n")
+    old_complete = joinpath(out, "setA-01-P1-old-complete.csv")
+    old_schema = OFFICIAL_FULL_SCHEMA[1:end-1]
+    old_row = official_fixture_row(1)
+    write_current_rows(old_complete, [old_row], old_schema)
+    @test isempty(official_rows(out))
+    @test read(legacy, String) == legacy_content
 end
 
 @testset "restricted optimum is not original-problem optimal" begin

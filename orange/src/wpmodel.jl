@@ -29,14 +29,11 @@ end
 
 wp_seq(inst, d, wl) = vcat(inst.dem_s[d], wl, inst.dem_t[d])
 
-function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::Int=0, tlimit=Inf, silent=true,
-                        eps=nothing, start_paths=nothing, cands=nothing, ucap=nothing, freeze=Int[])
-    nD = length(inst.dem_s)
-    eps = eps === nothing ? 1e-7 / nD : eps
+function waypoint_options(inst::Instance, rs, K::Int; K2::Int=0, cands=nothing,
+                          start_paths=nothing, extend_start_candidates::Bool=true)
+    nD, P = length(inst.dem_s), length(rs)
     C = cands === nothing ? candidates(inst, rs, K) : cands
     valid(sq) = all(p -> all(haskey(rs[p], sg) for sg in zip(sq, sq[2:end])), 1:P)
-
-    # W[d][c]: danh sách waypoint của phương án c (c = 1: không waypoint)
     W = Vector{Vector{Vector{Int}}}(undef, nD)
     for d in 1:nD
         ws = [w for w in C[d] if w != 0]
@@ -47,12 +44,35 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
         end
         W[d] = lst
     end
-    if start_paths !== nothing            # phương án của nghiệm khởi tạo luôn có mặt (nếu hợp lệ ở mọi thời kỳ)
+    if extend_start_candidates && start_paths !== nothing
         for d in 1:nD, p in 1:P
             wl = start_paths[(d, p)][2:end-1]
             length(wl) <= 2 && !(wl in W[d]) && valid(wp_seq(inst, d, wl)) && push!(W[d], wl)
         end
     end
+    return W
+end
+
+"Persistent cross-process fingerprint of the exact ordered waypoint option set."
+function candidate_fingerprint(W)
+    io = IOBuffer()
+    for (d, options) in enumerate(W)
+        print(io, d, ':')
+        for option in options
+            print(io, '[', join(option, ','), "];" )
+        end
+        print(io, '|')
+    end
+    return bytes2hex(sha256(take!(io)))
+end
+
+function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::Int=0, tlimit=Inf, silent=true,
+                         eps=nothing, start_paths=nothing, cands=nothing, ucap=nothing, freeze=Int[],
+                         extend_start_candidates::Bool=true)
+    nD = length(inst.dem_s)
+    eps = eps === nothing ? 1e-7 / nD : eps
+    W = waypoint_options(inst, rs, K; K2=K2, cands=cands, start_paths=start_paths,
+                         extend_start_candidates=extend_start_candidates)
 
     model = Model(optimizer)
     silent && set_silent(model)

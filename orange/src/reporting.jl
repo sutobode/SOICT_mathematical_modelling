@@ -1,4 +1,8 @@
 const OFFICIAL_RUN_IDS = collect(1:10)
+const OFFICIAL_SCHEMA_VERSION = "2"
+
+const OFFICIAL_FULL_SCHEMA = split("instance,P,run,n,m,nD,status,z,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,start_time,start_mlu,routing_mode,model_type,objective_mode,original_problem_optimal,pure_mlu_bound,pure_mlu_gap,srpaths_file,loads_file,verification_status,experiment,time_limit,schema_version", ",")
+const OFFICIAL_WP_SCHEMA = split("instance,P,K,n,m,nD,binaries,status,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,heur_mlu,heur_time,cg_lp,cg_iters,cg_time,lns_mlu,lns_time,run,routing_mode,model_type,objective_mode,original_problem_optimal,pure_mlu_bound,pure_mlu_gap,srpaths_file,loads_file,verification_status,experiment,time_limit,candidate_fingerprint,schema_version", ",")
 
 _rowfloat(row, key) = something(tryparse(Float64, get(row, key, "")), NaN)
 _rowint(row, key) = tryparse(Int, get(row, key, ""))
@@ -49,6 +53,11 @@ function summarize_official_rows(rows; expected_runs=OFFICIAL_RUN_IDS)
         length(ks) == 1 || return (complete=false, reason="mixed waypoint candidate limits", run_count=10,
                                    successful_runs=length(successful), optimal_runs=0, best_row=nothing,
                                    avg_time=NaN, avg_gap=NaN, avg_nodes=NaN, lower_bound=NaN)
+        fingerprints = unique(get(r, "candidate_fingerprint", "") for r in ordered)
+        (length(fingerprints) == 1 && !isempty(first(fingerprints))) ||
+            return (complete=false, reason="mixed or missing waypoint candidate fingerprints", run_count=10,
+                    successful_runs=length(successful), optimal_runs=0, best_row=nothing,
+                    avg_time=NaN, avg_gap=NaN, avg_nodes=NaN, lower_bound=NaN)
     end
     length(successful) == length(expected_runs) ||
         return (complete=false, reason="fewer than 10 valid runs", run_count=length(ordered),

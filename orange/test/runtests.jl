@@ -712,5 +712,84 @@ end
     @test !isdir(joinpath(out2, "solverlogs"))
 end
 
+@testset "official retry shares time and accumulates nodes" begin
+    inst = read_instance(TOY)
+    rs = [build_r(inst, p; mode=:pathcount) for p in 1:2]
+    start = direct_paths(inst, 2)
+    start_mlu = max_utilization(inst, rs, start, 2)
+    attempts = Tuple{Float64,Bool}[]
+    solve_attempt(inst, rs, P, limit, seed, acyclic, start_paths; kwargs...) =
+        (push!(attempts, (Float64(limit), acyclic)); (length(attempts), nothing, nothing))
+    function result(check, t, nodes; paths=nothing)
+        (; status="Not Optimal", zv=1.0, mlu=1.0, obj=1.0, bnd=0.3, gap=0.7,
+           pure_bound=0.3, pure_gap=0.7, t=Float64(t), nodes=Float64(nodes), check, paths)
+    end
+    evaluate_attempt(inst, rs, P, model, x, z; objective_mode) =
+        model == 1 ? result("budget_violation", 30, 5) : result("ok", 20, 7; paths=start)
+    res = Orange._solve_with_acyclic_retry(inst, rs, 2, 100.0, 1, start, start_mlu;
+                                            objective_mode=:pure_mlu,
+                                            solve_attempt=solve_attempt, evaluate_attempt=evaluate_attempt)
+    @test attempts == [(100.0, false), (70.0, true)]
+    @test res.t == 50.0 && res.nodes == 12.0 && res.check == "ok(acyclic)"
+
+    empty!(attempts)
+    evaluate_missing(inst, rs, P, model, x, z; objective_mode) =
+        model == 1 ? result("budget_violation", 30, NaN) : result("ok", 20, 7; paths=start)
+    res_missing = Orange._solve_with_acyclic_retry(inst, rs, 2, 100.0, 1, start, start_mlu;
+                                                    objective_mode=:pure_mlu,
+                                                    solve_attempt=solve_attempt, evaluate_attempt=evaluate_missing)
+    @test isnan(res_missing.nodes)
+
+    empty!(attempts)
+    evaluate_expired(inst, rs, P, model, x, z; objective_mode) = result("budget_violation", 100, 5)
+    expired = Orange._solve_with_acyclic_retry(inst, rs, 2, 100.0, 1, start, start_mlu;
+                                                objective_mode=:pure_mlu,
+                                                solve_attempt=solve_attempt, evaluate_attempt=evaluate_expired)
+    @test attempts == [(100.0, false)]
+    @test expired.status == "Not Optimal" && expired.check == "ok(fallback)" && expired.t == 100.0
+
+    inst0 = read_instance(TOY; budget=0)
+    rs0 = [build_r(inst0, p; mode=:pathcount) for p in 1:2]
+    invalid_start = direct_paths(inst0, 2)
+    invalid_start[(1, 2)] = [inst0.dem_s[1], 2, inst0.dem_t[1]]
+    invalid_mlu = max_utilization(inst0, rs0, invalid_start, 2)
+    empty!(attempts)
+    invalid = Orange._solve_with_acyclic_retry(inst0, rs0, 2, 100.0, 1, invalid_start, invalid_mlu;
+                                                objective_mode=:pure_mlu,
+                                                solve_attempt=solve_attempt, evaluate_attempt=evaluate_expired)
+    @test invalid.check == "budget_violation(fallback)"
+end
+
+@testset "official guard configuration and RAM guard" begin
+    @test DEFAULT_MAX_VARS == 3_000_000
+    @test configured_max_vars(Dict{String,String}()) == 3_000_000
+    @test configured_max_vars(Dict("ORANGE_MAX_VARS" => "16000000")) == 16_000_000
+    @test_throws ErrorException configured_max_vars(Dict("ORANGE_MAX_VARS" => "bad"))
+    @test_throws ErrorException configured_max_vars(Dict("ORANGE_MAX_VARS" => "0"))
+    out = mktempdir()
+    csv = run_instance(TOY, "toy", 1, 1; runs=1, outdir=out, max_vars=typemax(Int),
+                       mem_budget_bytes=1.0)
+    row = Dict(zip(split(readlines(csv)[1], ","), split(readlines(csv)[2], ",")))
+    @test row["status"] == "SKIPPED_LOW_MEMORY"
+end
+
+@testset "official restricted candidates are run-independent" begin
+    out = mktempdir()
+    rows = Dict{String,String}[]
+    for run_id in 1:2
+        csv = run_wp_instance(TOY, "toy", 1, 60; outdir=out, r_mode=:pathcount,
+                              tag="-official-r$run_id", run_id=run_id, official=true,
+                              objective_mode=:pure_mlu)
+        lines = readlines(csv)
+        push!(rows, Dict(zip(split(lines[1], ","), split(lines[2], ","))))
+    end
+    @test rows[1]["candidate_fingerprint"] == rows[2]["candidate_fingerprint"]
+    @test !isempty(rows[1]["candidate_fingerprint"])
+    @test rows[1]["run"] == "1" && rows[2]["run"] == "2"
+    cfg = official_wp_configuration(TOY, 1)
+    @test cfg.K == parse(Int, rows[1]["K"])
+    @test cfg.candidate_fingerprint == rows[1]["candidate_fingerprint"]
+end
+
 include("lexicographic.jl")
 include("official_reporting.jl")

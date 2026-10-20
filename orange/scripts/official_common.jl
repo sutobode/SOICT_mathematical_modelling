@@ -15,24 +15,74 @@ function readcsv_strict(file)
     return rows
 end
 
-function official_rows(resdir)
+function read_current_official_file(file)
+    isfile(file) || return nothing
+    lines = readlines(file)
+    isempty(lines) && return nothing
+    head = split(lines[1], ","; keepempty=true)
+    model_type = head == OFFICIAL_FULL_SCHEMA ? "full_arc" :
+                 head == OFFICIAL_WP_SCHEMA ? "restricted_waypoint" : nothing
+    model_type === nothing && return nothing
+    rows = Dict{String,String}[]
+    for line in lines[2:end]
+        isempty(line) && continue
+        values = split(line, ","; keepempty=true)
+        length(values) == length(head) || return nothing
+        push!(rows, Dict(zip(head, values)))
+    end
+    return model_type, rows
+end
+
+function _raw_official_rows(resdir)
     rows = Dict{String,String}[]
     for file in sort(readdir(resdir; join=true))
         base = basename(file)
         endswith(base, ".csv") || continue
         occursin(r"^setA-[0-9]{2}-(?:wp-)?P[12].*\.csv$", base) || continue
         occursin("-loads.csv", base) && continue
-        for row in readcsv_strict(file)
-            get(row, "routing_mode", "") == "pathcount" || continue
-            get(row, "objective_mode", "") == "pure_mlu" || continue
-            get(row, "experiment", "") == "official" || continue
-            P = something(tryparse(Int, get(row, "P", "")), 0)
-            expected_limit = P == 1 ? 1800.0 : P == 2 ? 3600.0 : NaN
-            time_limit = something(tryparse(Float64, get(row, "time_limit", "")), NaN)
-            time_limit == expected_limit || continue
+        parsed = read_current_official_file(file)
+        parsed === nothing && continue
+        model_type, file_rows = parsed
+        for row in file_rows
+            get(row, "schema_version", "") == OFFICIAL_SCHEMA_VERSION || continue
+            get(row, "model_type", "") == model_type || continue
             row["source_csv"] = base
             push!(rows, row)
         end
+    end
+    return rows
+end
+
+function _safe_artifact_name(name)
+    !isempty(name) && !isabspath(name) && basename(name) == name && !occursin("..", name)
+end
+
+function _successful_official_row(row)
+    get(row, "status", "") in ("Optimal", "Not Optimal") || return false
+    startswith(get(row, "check", ""), "ok") || return false
+    mlu = tryparse(Float64, get(row, "mlu", ""))
+    mlu !== nothing && isfinite(mlu) && mlu >= 0 || return false
+    _safe_artifact_name(get(row, "srpaths_file", "")) || return false
+    _safe_artifact_name(get(row, "loads_file", "")) || return false
+    get(row, "model_type", "") == "restricted_waypoint" &&
+        isempty(get(row, "candidate_fingerprint", "")) && return false
+    return true
+end
+
+function official_rows(resdir)
+    rows = Dict{String,String}[]
+    for row in _raw_official_rows(resdir)
+        get(row, "routing_mode", "") == "pathcount" || continue
+        get(row, "objective_mode", "") == "pure_mlu" || continue
+        get(row, "experiment", "") == "official" || continue
+        P = something(tryparse(Int, get(row, "P", "")), 0)
+        expected_limit = P == 1 ? 1800.0 : P == 2 ? 3600.0 : NaN
+        time_limit = something(tryparse(Float64, get(row, "time_limit", "")), NaN)
+        time_limit == expected_limit || continue
+        _successful_official_row(row) || continue
+        verify_official_artifact(row, resdir) == "verified" || continue
+        row["verification_status"] = "verified"
+        push!(rows, row)
     end
     return rows
 end
@@ -48,8 +98,10 @@ function grouped_official_rows(resdir)
 end
 
 function verify_official_artifact(row, resdir)
-    sr = joinpath(resdir, get(row, "srpaths_file", ""))
-    loads = joinpath(resdir, get(row, "loads_file", ""))
+    sr_name, loads_name = get(row, "srpaths_file", ""), get(row, "loads_file", "")
+    _safe_artifact_name(sr_name) && _safe_artifact_name(loads_name) || return "invalid_artifact_path"
+    sr = joinpath(resdir, sr_name)
+    loads = joinpath(resdir, loads_name)
     isfile(sr) && isfile(loads) || return "missing_artifact"
     script = joinpath(@__DIR__, "verify_srpaths.py")
     cmd = `python -I $script --single $(row["instance"]) $(row["P"]) $sr pathcount $(row["mlu"]) $loads $(row["run"])`
@@ -59,6 +111,42 @@ function verify_official_artifact(row, resdir)
     catch
         return "verification_failed"
     end
+end
+
+function official_run_complete(resdir, name, P, model_type, run_id, time_limit;
+                               K=nothing, candidate_fingerprint="")
+    matches = Dict{String,String}[]
+    for row in _raw_official_rows(resdir)
+        get(row, "instance", "") == name || continue
+        something(tryparse(Int, get(row, "P", "")), 0) == P || continue
+        something(tryparse(Int, get(row, "run", "")), 0) == run_id || continue
+        get(row, "model_type", "") == model_type || continue
+        get(row, "routing_mode", "") == "pathcount" || continue
+        get(row, "objective_mode", "") == "pure_mlu" || continue
+        get(row, "experiment", "") == "official" || continue
+        something(tryparse(Float64, get(row, "time_limit", "")), NaN) == time_limit || continue
+        if model_type == "restricted_waypoint"
+            something(tryparse(Int, get(row, "K", "")), -1) == K || continue
+            get(row, "candidate_fingerprint", "") == candidate_fingerprint || continue
+        end
+        _successful_official_row(row) || continue
+        verify_official_artifact(row, resdir) == "verified" || continue
+        push!(matches, row)
+    end
+    length(matches) <= 1 || error("duplicate verified official run $name P=$P run=$run_id")
+    return length(matches) == 1
+end
+
+function run_official_with_resume(runfun, resdir, name, P, model_type, run_id, time_limit;
+                                  force=false, K=nothing, candidate_fingerprint="")
+    if !force && official_run_complete(resdir, name, P, model_type, run_id, time_limit;
+                                       K=K, candidate_fingerprint=candidate_fingerprint)
+        return :skipped
+    end
+    runfun()
+    complete = official_run_complete(resdir, name, P, model_type, run_id, time_limit;
+                                     K=K, candidate_fingerprint=candidate_fingerprint)
+    return complete ? :ran : :incomplete
 end
 
 fmt_official(x; digits=5) = !isfinite(x) ? "N/A" : string(round(x; digits=digits))

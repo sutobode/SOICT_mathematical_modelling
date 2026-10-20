@@ -1,5 +1,7 @@
 # Phân công nhóm (3 thành viên) — làm song song, không chờ nhau
 
+> **CẬP NHẬT 20/10 ~10:00 — PHÂN CÔNG HIỆN HÀNH (thay thế phân công cũ ở dưới):** M1 chạy **toàn bộ** các lần còn thiếu của setA-04 và setA-05 ($t=0,1$); M2 và M3 chạy **thử nghiệm cải tiến tối ưu** trên các instance riêng (xem `START_HERE.md` mục 1 và 10, và `project/DE_XUAT_CAI_TIEN_TOI_UU.md`). Các bảng phân công bên dưới là bản gốc, **chỉ để tham khảo, không làm theo**.
+
 > Lập lúc 23:50 Thứ Hai 19/10. Mốc cứng: **xong hết trước Thứ Tư 21/10 (T4)**; hạn nộp thầy: Chủ nhật 25/10.
 > Nguyên tắc: mỗi người **sở hữu file riêng**, nên không xung đột khi dùng git; số liệu cập nhật **tự động** khi máy chạy xong, không ai phải chờ ai.
 

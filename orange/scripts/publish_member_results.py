@@ -24,6 +24,9 @@ ALLOWED = [
     "orange/results/setA-*-r[0-9]*-[0-9]*.csv",
     "orange/results/setA-*-r[0-9]*-[0-9]*-*.csv",
     "orange/results/setA-*-r[0-9]*-[0-9]*-srpaths.json",
+    "orange/results/setA-*-wp-P[12]-cg-pc-lns.csv",
+    "orange/results/setA-*-wp-P[12]-cg-pc-lns-loads.csv",
+    "orange/results/setA-*-wp-P[12]-cg-pc-lns-srpaths.json",
     "orange/results/solverlogs/*.log",
     "orange/results/log-*.txt",
 ]

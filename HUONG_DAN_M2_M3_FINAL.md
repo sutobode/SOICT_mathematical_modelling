@@ -6,6 +6,19 @@
 
 ---
 
+## Tóm tắt một trang (checklist)
+
+M2 và M3 làm **song song, độc lập**, trên **máy của chính mình**: không ai chờ ai, không ai chờ M1, không ghi chung file nào.
+
+- [ ] **Bước 0 (mục 3):** clone, cài Julia 1.13.1, chạy test, ghi `environment-<ten>.txt`, bật giữ máy thức, thử nhanh (≈ 30 phút).
+- [ ] **Bước 1 (mục 4):** chạy các lệnh của bạn **tuần tự, một lần mỗi lệnh** (M2: 6 lệnh; M3: 4 lệnh).
+- [ ] **Sau mỗi lệnh xong (mục 5):** kiểm tra `check=ok`, rồi `publish_member_results.py <ten>`.
+- [ ] **Xong hết (mục 7):** nhắn nhóm báo cáo cuối theo mẫu.
+- [ ] **Xong sớm (mục 10):** phần thêm tuỳ chọn, hoặc báo nhóm rồi nghỉ.
+- Mốc: **M1 gộp kết quả khoảng 20:00 tối nay (20/10) và lần cuối khoảng 12:00 sáng T4 (21/10)**; cứ có kết quả là đẩy ngay, đừng đợi xong hết (mục 9).
+
+---
+
 ## 1. Việc của bạn trong 30 giây
 
 Dự án: giải bài toán **T-Adaptive Segment Routing** (Orange, ROADEF 2026) bằng Julia (JuMP + HiGHS). Kết quả chính đã có. Bạn chạy **một số thử nghiệm cải tiến** để thử hạ giá trị MLU (tải lớn nhất trên các cung) của vài instance, rồi đẩy kết quả lên nhánh riêng của bạn.
@@ -19,7 +32,7 @@ Dự án: giải bài toán **T-Adaptive Segment Routing** (Orange, ROADEF 2026)
 | **M2** | setA-**06, 09, 11, 12** | setA-**10, 13** | ~4–6 giờ |
 | **M3** | setA-**18, 14, 15** | setA-**14** | ~3–5 giờ |
 
-Hai danh sách **không giao nhau**. Không đổi instance, không đổi thứ tự. (Lý do chọn: `project/DE_XUAT_CAI_TIEN_TOI_UU.md`; bạn không cần đọc để làm.)
+Hai danh sách **không giao nhau**. Không đổi instance, không đổi thứ tự. Mục đích và cách làm song song: mục 9–11. (Lý do chọn instance: `project/DE_XUAT_CAI_TIEN_TOI_UU.md`; bạn không cần đọc để làm.)
 
 ---
 
@@ -221,3 +234,56 @@ Quy tắc dành cho agent:
 5. Khi xong, viết báo cáo cuối theo mẫu mục 7.
 
 Chi tiết dài hơn (nếu cần tra cứu): `START_HERE.md`, `project/AGENT_BRIEFS/`.
+
+---
+
+## 9. Làm song song: ai làm gì, khi nào
+
+**Nguyên tắc để không vướng nhau:**
+
+| Điều | M1 | M2 | M3 |
+|---|---|---|---|
+| Máy | máy của M1 | máy của M2 | máy của M3 |
+| Việc | chạy nốt setA-04 và setA-05 ở $t=0,1$ (≈ 11 giờ, xong ~20:00) | 6 lệnh ở mục 4 | 4 lệnh ở mục 4 (+ phần thêm, mục 10) |
+| File ghi ra | `orange/results/...-rK-K.csv` | `setA-{06,09,11,12}-wp-P2-...`, `setA-{10,13}-wp-P1-...` | `setA-{18,14,15}-wp-P2-...`, `setA-14-wp-P1-...` |
+| Nhánh git đẩy | `feature/tasr` | `results/m2` | `results/m3` |
+
+- **Không có phụ thuộc giữa các bên.** M2 và M3 **không** cần đợi M1, cũng không đợi nhau; M1 cũng không đợi họ.
+- **Không trùng file:** mỗi người ghi file của riêng mình (tên theo instance, khác nhau), đẩy lên nhánh riêng nên không bao giờ xung đột git.
+- **Bạn chỉ cần liên lạc khi:** (1) xong một lệnh (một dòng: "đã đẩy lệnh X"), (2) có sự cố (mục 6), (3) xong hết hoặc phải dừng sớm.
+
+**Mốc thời gian gợi ý (hôm nay Thứ Ba 20/10):**
+
+| Mốc | Việc |
+|---|---|
+| Ngay bây giờ → ~1 giờ | Chuẩn bị máy (mục 3) |
+| Sau đó → tối | Chạy các lệnh mục 4, đẩy kết quả sau **mỗi** lệnh xong |
+| ~20:00 20/10 | M1 gộp lần 1 (có kết quả nào thì gộp vào đó) |
+| Đêm 20 → sáng 21/10 | Máy vẫn có thể chạy tiếp các lệnh còn lại |
+| ~12:00 sáng T4 (21/10) | M1 gộp lần cuối, tạo lại bảng, chốt `main`. **Kết quả đẩy sau mốc này có thể không kịp** |
+
+Nếu máy của bạn không chạy suốt đêm: ưu tiên các lệnh **đứng đầu bảng** (đã xếp theo mức ưu tiên); phần chưa xong không sao, báo nhóm là được.
+
+---
+
+## 10. Nếu bạn xong sớm
+
+1. Kiểm tra mục 7 (đủ file, `check=ok`, đã đẩy), gửi báo cáo cuối.
+2. **Phần thêm tuỳ chọn** (chỉ M3, chỉ khi RAM trống ≥ 12 GB và bạn đã xong hết danh sách chính; **chưa đo RAM đỉnh**, dừng nếu RAM trống < 3 GB):
+   ```bash
+   julia --project=orange orange/scripts/run_wp.jl 1 1800 19 19 1500000 cg pc lns 900     # log: log-opt-P1-19.txt
+   ```
+   Nguồn gốc: setA-19 ở Bảng 1 còn gap 2,7 % và chưa được LNS. Kiểm tra và đẩy kết quả như mục 4 và 5. Nếu M3 không làm, M1 sẽ làm sau khi chạy xong phần của mình.
+3. **Không tự chọn thêm instance khác**: các instance còn lại hoặc đã tối ưu (setA-07, 08, 17, 20 ở $t=0,1$ và hầu hết instance ở $t=0$) hoặc nặng RAM (setA-16, 19 ở $t=0,1$) và do M1 phụ trách. Có thắc mắc thì hỏi nhóm.
+4. Nếu M2 xong sớm: báo nhóm là đã xong; M2 **không** có phần thêm.
+
+---
+
+## 11. Kết quả của bạn được dùng ra sao (để hiểu việc của mình)
+
+- Mô hình theo cung của thầy chỉ nạp được 5 instance đầu; các instance lớn dùng **mô hình waypoint** (mỗi nhu cầu đi tối đa qua 1 waypoint). Các dòng đó ghi `*` trong bảng.
+- Lệnh của bạn chạy mô hình waypoint **kèm LNS** (tinh chỉnh nghiệm) trên các dòng chưa được LNS, để **thử hạ MLU**.
+- M1 gộp kết quả: `merge_member_branch.py` → `best_known.jl` chọn MLU **nhỏ nhất** trong mọi file của từng instance → `official_tables.jl` tạo lại hai bảng → `verify_srpaths.py` kiểm chứng độc lập từng lời giải → tạo manifest SHA-256.
+- Vì thế: **MLU kém hơn không làm hỏng gì** (bảng luôn lấy giá trị tốt nhất); file của bạn là **bằng chứng đã thử**, giữ nguyên.
+- Kết quả của bạn **không** đổi hàng dùng mô hình của thầy (`arc-pc`); nó chỉ cải thiện các dòng `*` và cột "Tốt nhất biết được".
+- Số liệu trong bảng đều được kiểm chứng độc lập; bạn **đừng** sửa bảng hay `best_known.csv`.

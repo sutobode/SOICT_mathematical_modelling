@@ -58,6 +58,11 @@ Các tài liệu cũ (`HUONG_DAN_CHAY_SONG_SONG.md`, `PHAN_CONG_NHOM.md`) vẫn 
 
 Giới hạn của bài thử: chạy trên instance nhỏ (setA-01) với giới hạn thời gian ngắn và remote tạm cục bộ; **chưa đo** RAM đỉnh và thời gian của các instance thật (setA-06…18) và chưa đẩy lên GitHub thật.
 
+### 2.6. Luồng làm việc từ `main` (cập nhật 20/10 ~11:00)
+
+M2 và M3 **clone `main` và ở lại `main`** (không checkout nhánh khác); `publish_member_results.py` tạo `results/<ten>` từ `main` và chỉ đẩy lên đó. `merge_member_branch.py` đã được sửa để lấy điểm xuất phát là `merge-base` với `origin/main` (trước đó dùng `HEAD` của M1, nên thấy lẫn thay đổi giữa `main` và `feature/tasr`).
+Đã thử: clone `main` → tạo 3 file kết quả → publish (nhánh `results/m2`, repo của thành viên ở `results/m2`) → M1 (nhánh `feature/tasr`) chạy `merge_member_branch.py m2` → nhận **đúng 3 file**, **0 cảnh báo trùng**. `main` được M1 squash merge từ `feature/tasr` mỗi khi chốt, nên luôn có đủ tài liệu và script mới nhất khi thành viên clone.
+
 ---
 
 ## 3. Cách `best_known.jl` và `official_tables.jl` dùng kết quả của M2/M3

@@ -39,8 +39,14 @@ def main():
         print(f"Khong lay duoc {remote}/{branch}: {err.strip()}")
         sys.exit(1)
     ref = f"{remote}/{branch}"
-    rc, base, _ = git("merge-base", "HEAD", ref)
-    base = base.strip()
+    # Điểm xuất phát của thành viên: họ clone từ `main` rồi tạo nhánh results/<ten>, nên lấy merge-base với origin/main
+    # (nếu main không có thì dùng HEAD). Như vậy chỉ thấy file họ THÊM, không lẫn thay đổi của main hay feature/tasr.
+    base = ""
+    for other in (f"{remote}/main", "HEAD"):
+        rc, out, _ = git("merge-base", other, ref)
+        if rc == 0 and out.strip():
+            base = out.strip()
+            break
     rc, out, err = git("diff", "--name-only", "--diff-filter=A", base, ref)
     files = [f for f in out.splitlines() if f.startswith("orange/results/")]
     new, same, conflict = [], [], []

@@ -3,6 +3,7 @@
 > **Đây là bản đúng nhất.** Nếu `START_HERE.md` hoặc tài liệu khác trong `project/` có chỗ khác với file này, **làm theo file này**.
 > Dành cho: thành viên M2, M3 (hoặc coding agent của họ). Bạn không cần hỏi ai: làm theo từng bước.
 > Cập nhật: Thứ Ba 20/10/2026. Hạn của nhóm: xong trước **Thứ Tư 21/10**.
+> **Prompt sẵn để dán vào coding agent: `PROMPT_M2_M3.md`** (một khối cho M2, một khối cho M3).
 
 ---
 

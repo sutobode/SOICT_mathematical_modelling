@@ -1,13 +1,15 @@
 file,bytes,sha256,modified,code_commit,code_commit_subject
 README_KET_QUA.md,7092,0c82ea292e9f42f4c5eec80193c9381b35b667b60d6217d699f496ddb51e310f,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
-RUN_JOURNAL.md,11949,74c15433a970d95a626c37dfdf30f7db553b15678a42fa6becb6cd2adeb71e9e,2026-10-20 08:41:48,ef83d93,feat: fill_missing_m1.sh runs missing Table 2 runs on M1; journal
+RUN_JOURNAL.md,12868,0aa4b46d23e6fa2dc027033996db89305be9adb9900f888e95eb23eccc87df34,2026-10-20 11:32:09,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
 best_known.csv,4286,f8379e782463cc1101a293bcc18144468e2d7504a04487c1b3414dea9ea8a497,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 environment.txt,1080,8a17d4a7179a3b592f0ef06c7316ddc9434ad214dc6eb5dda4c9879600dc3e51,2026-10-19 10:41:04,7c6f669,"feat: experiment runner (csv, srpaths, loads, error-tolerant)"
-fill_missing_m1.log,199,24a9d06aa78b0d954eb6f98988aeba9d6d5323479ada08008a7a843a123eb60e,2026-10-20 09:43:01,e8ce439,docs: members work from main; merge_member_branch uses merge-base with origin/main; tested end-to-end
+fill_missing_m1.log,459,3f077925a34a6c9cb54e1c9bdbe4166f15ba3f98ba7521ced8f831dc15c1cc60,2026-10-20 12:55:20,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
+hang_guard.log,320,e8fdfd32c54fc41f5de331e9b0c8380925489daab0c533477ee7e369be66501e,2026-10-20 11:53:56,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
 keep_awake.log,42,2bbaa836cbc2c79e8464080e4f268fa957bf3c43339aec2518061e8e1e040488,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 log-P1.txt,676,6afc2c4b28dddbf673b7a9b6557b1f8d1227e296d22ba207ec34c1a1cfaedea6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 log-P2.txt,68,bbfa57ddcc4bb56165efccc9aa5912af25a88a886b27fc9776bece48f60e9acf,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
-log-fill-missing-m1-console.txt,199,24a9d06aa78b0d954eb6f98988aeba9d6d5323479ada08008a7a843a123eb60e,2026-10-20 09:43:01,e8ce439,docs: members work from main; merge_member_branch uses merge-base with origin/main; tested end-to-end
+log-fill-missing-m1-console.txt,459,3f077925a34a6c9cb54e1c9bdbe4166f15ba3f98ba7521ced8f831dc15c1cc60,2026-10-20 12:55:20,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
+log-hang-guard-console.txt,226,66b81ebb7f75d5881eee6c9dff0b18c217e168613b0e109a7527325a68acc398,2026-10-20 11:53:56,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
 log-overnight-m1-console.txt,588,87c8336e225bb5de82c9dd891fb61c9210eeccba47ee53ef91f0fe377cddd5cb,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 log-pc-P1-04-r4-10.txt,42,29216e647883aa4f8d60b64348d19b513cb584126b2a26ed481a0f73b6fd014e,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 log-pc-P1-05-r4-10.txt,42,786a4c768566f5b0b4ead398eb3fc54e08f44f39e122a1d57609dbe91e4a6024,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
@@ -19,6 +21,8 @@ log-pc-P2-04-r2-10.txt,42,5e62ddc62de3b03934a70197708cb723911dec1fa5185004c93678
 log-pc-P2-04-r5-5.txt,41,62e7168aaa70d035f866968db9ac718e58f2b640de4c9932f818502a4eb0efdf,2026-10-20 08:41:53,ef83d93,feat: fill_missing_m1.sh runs missing Table 2 runs on M1; journal
 log-pc-P2-04-r6-6.txt,41,6f7be9039dc7485dbc5b8049b4914b79e05221a439c8e779c31503ab83f6a71b,2026-10-20 09:43:03,e8ce439,docs: members work from main; merge_member_branch uses merge-base with origin/main; tested end-to-end
 log-pc-P2-04-r7-10.txt,41,1edb010d01d29f13fcddd3a0a0ebef9e30a8d4a6f606e1f38564a09f8df56140,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+log-pc-P2-04-r7-7.txt,40,40dcd12e87d771fd30fa1b28a49c3bb3fecac36db602385e62f56d91a07bb854,2026-10-20 11:54:15,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
+log-pc-P2-04-r8-8.txt,41,54c7d3692bc705f447436a4210082a0c036331d8da9a180e6a74b76c53b9f53a,2026-10-20 12:55:35,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
 log-pc-P2-05-r1-5.txt,42,c24ca7e6453d7a99685a16227828d92782bf0fd38bbd61f7e2fc6fabb7341014,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 log-pc-P2.txt,168,23216be3a766268a4e44294cadb1e8a1b9bce7ff00cd9b849707524c7f7ec8e6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 log-pc-P2b.txt,42,744ed6fd6977d942e3692e6ecab3788eafd225a56b41a2731a6b3c4eb0601ed3,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
@@ -129,6 +133,8 @@ setA-04-P2-pc-r2-10.csv,709,a3701ea064bfe01e90221e9391677f29ed6c2e8d504f645a84b2
 setA-04-P2-pc-r5-5.csv,300,3f7970e8749f3fc4c4834dba0337b2a8fef0d379ec844efcf8e0411548386bd1,2026-10-20 09:42:59,e8ce439,docs: members work from main; merge_member_branch uses merge-base with origin/main; tested end-to-end
 setA-04-P2-pc-r6-6.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-20 09:43:08,e8ce439,docs: members work from main; merge_member_branch uses merge-base with origin/main; tested end-to-end
 setA-04-P2-pc-r7-10.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
+setA-04-P2-pc-r7-7.csv,301,f8b02b2244560bda32bb906db3b0af6188bb19ad9acd06d567d6533964f9231b,2026-10-20 12:55:18,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
+setA-04-P2-pc-r8-8.csv,0,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855,2026-10-20 12:55:38,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
 setA-04-P2-pc-srpaths.json,1122,4d05235a38a66be2086b10e80dd952253853973cc315bfbbb547e24d34085f61,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 setA-04-P2-pc.csv,303,d40997d5d660fae229442cafa1619e940e76089c5fda8e42620ebd537aadce55,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 setA-04-wp-P1-cg-loads.csv,8557,4ebfbf2ba098f4a2e444a20e064c23b7372299441a592758f38ff96b014a7193,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
@@ -356,6 +362,8 @@ setA-20-wp-P2-cg-srpaths.json,152,8db5a374cdbfb5cd7910873bfb582dc1890e004461c29b
 setA-20-wp-P2-cg.csv,377,f56bfc67724388b69f328efa0a8684f94abfce2f203c7c9b4fa21201cbcd8eee,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 solverlogs/setA-04-P2-pc-r5-5-run5.log,2812,081a1570b2b0649646b2041c6fc5902fdc09e4ecde51699088c360aff4218ccc,2026-10-20 09:42:55,e8ce439,docs: members work from main; merge_member_branch uses merge-base with origin/main; tested end-to-end
 solverlogs/setA-04-P2-pc-r6-6-run6.log,2450,15f0673b70a298a5cac01b57b6a74429e4d17e5915696ed742ad68a29806ce6a,2026-10-20 09:48:52,8313f2c,"docs: fix Windows log redirect (cmd /c), drop git pull from member rules, agent section points to prompt file"
+solverlogs/setA-04-P2-pc-r7-7-run7.log,2812,424b88a7f0298ce1fe01c27c8b6b12ca36b38c1fdaa5c8adec9fea3e6c8bcf67,2026-10-20 12:55:15,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
+solverlogs/setA-04-P2-pc-r8-8-run8.log,2204,889a0bbb36891ac44a97dccb414a4bd255a0ae05f74da60ba93778a51d814d33,2026-10-20 12:57:50,2d3dd3a,ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun
 solverlogs/setA-05-P2-pc-r1-5-run1.log,2814,511e64a38cf665168e0e596253076609d99e9c5cdc1e413e1e8d7226a39ede80,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 solverlogs/setA-05-P2-pc-r1-5-run2.log,2814,229675a2da9d5c8367fbd8d020cbd8ac87ac63038d1c9442129cb21fda0969c6,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"
 solverlogs/setA-05-P2-pc-r1-5-run3.log,2814,54c19de3fff779354afd189e2d10877d3e21b438dbdf8850b7d78824c7cc655c,2026-10-20 08:39:53,deb4f3f,"docs: full results report (problem, methods, setup, results, limitations)"

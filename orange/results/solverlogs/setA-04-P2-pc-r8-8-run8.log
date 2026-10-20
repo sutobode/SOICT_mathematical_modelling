@@ -36,3 +36,27 @@ Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap 
          0       0         0   0.00%   0               0.5885748276     100.00%        0      0      0         0    18.8s
          0       0         0   0.00%   0.5811441424    0.5885748276       1.26%        0      0      1     11772    53.4s
          0       0         0   0.00%   0.5811441451    0.5885748276       1.26%       34      1      1     21683    75.7s
+         0       0         0   0.00%   0.5811441451    0.5885748276       1.26%      102      1      1     75890  7450.0s
+
+Solving report
+  Status            Time limit reached
+  Primal bound      0.588574827616
+  Dual bound        0.581144145093
+  Gap               1.26% (tolerance: 0.0001%)
+  P-D integral      106.210256912
+  Solution status   feasible
+                    0.588574827616 (objective)
+                    0 (bound viol.)
+                    0 (int. viol.)
+                    0 (row viol.)
+  Timing            7450.05
+                    1.40 (Presolve)
+                    7448.58 (Solve)
+                    0.00 (Postsolve)
+  Max sub-MIP depth 0
+  Nodes             0
+  Repair LPs        0
+  LP iterations     75890
+                    0 (strong br.)
+                    64118 (separation)
+                    0 (heuristics)

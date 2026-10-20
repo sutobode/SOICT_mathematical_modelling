@@ -7,7 +7,7 @@ using Statistics
 #   "arc-pc"    : mô hình theo cung của đề (maxSeg = 6) với r theo calculating_r.pdf  -> setA-XX-P{P}-pc.csv
 #   "waypoint*" : khi mô hình theo cung không dựng được (SKIPPED_TOO_LARGE): nghiệm tốt nhất của mô hình waypoint
 #                 (bài toán hạn chế: một waypoint mỗi demand), lấy từ best_known.csv; status và gap tính theo cận dưới
-#                 của bài toán một waypoint (dấu *).
+#                 của bài toán một waypoint; nhãn "(1-wp)" cho biết đây KHÔNG phải tối ưu của bài toán gốc (maxSeg = 6).
 # Chạy: julia orange/scripts/official_tables.jl [pc|ecmp]   (mặc định: pc cho mô hình theo cung)
 resdir = joinpath(@__DIR__, "..", "results")
 arc_tag = length(ARGS) >= 1 && ARGS[1] == "ecmp" ? "" : "-pc"
@@ -83,11 +83,20 @@ for P in (1, 2)
         src = b["source"]
         srows = filter(r -> startswith(get(r, "check", ""), "ok"), readcsv(wp_file(name, P, src)))
         gap1 = parse(Float64, b["gap_1wp"])
-        status = isnan(gap1) ? "Not Optimal*" : (gap1 < 1e-5 ? "Optimal*" : "Not Optimal*")
+        if P == 2
+            # MLU của t=0,1 >= MLU tối ưu của t=0 (cùng bài toán một waypoint): cận dưới lb_1wp của P=1 cũng là cận dưới của P=2
+            b1 = get(best, (name, 1), nothing)
+            lb1 = b1 === nothing ? NaN : (v = tryparse(Float64, get(b1, "lb_1wp", "")); v === nothing ? NaN : v)
+            if !isnan(lb1)
+                g2 = max(0.0, 1.0 - lb1 / parse(Float64, b["best_mlu"]))
+                gap1 = isnan(gap1) ? g2 : min(gap1, g2)
+            end
+        end
+        status = isnan(gap1) ? "Not Optimal (1-wp)" : (gap1 < 1e-5 ? "Optimal (1-wp)" : "Not Optimal (1-wp)")
         info = isempty(srows) ? Dict{String,String}() : srows[1]
         push!(rows_out, [name, get(info, "n", "--"), get(info, "m", "--"), get(info, "nD", "--"),
                          fmt(parse(Float64, b["best_mlu"])), fmt(avg([num(r, "solve_time") for r in srows]); d=1), status,
-                         status == "Optimal*" ? "--" : fmte(gap1), fmt(avg([num(r, "nodes") for r in srows]); d=0),
+                         status == "Optimal (1-wp)" ? "--" : fmte(gap1), fmt(avg([num(r, "nodes") for r in srows]); d=0),
                          string(length(srows)), src, bestany(name, P)])
     end
     head = ["Instance", "Vertices", "Links", "Demands", "Best objective (MLU)", "CPU time (s)", "Status", "Gap", "B&B nodes", "Runs", "Model", "Best known (any method)"]
@@ -98,8 +107,10 @@ for P in (1, 2)
         for r in rows_out
             println(io, "| ", join(r, " | "), " |")
         end
-        println(io, "\nModel `arc-pc`: arc-based MILP of the statement, split coefficients r from calculating_r.pdf. Rows marked * come from the waypoint model " *
-                    "(restricted problem: at most one waypoint per demand) because the arc-based model does not fit in memory; their status and gap refer to that restricted problem. " *
+        println(io, "\nModel `arc-pc`: arc-based MILP of the statement, split coefficients r from calculating_r.pdf. Rows whose status ends with (1-wp) come from the waypoint model " *
+                    "(restricted problem: at most one waypoint per demand, hence at most two segments, while maxSeg = 6) because the arc-based model does not fit in memory; " *
+                    "their status and gap refer to that restricted problem only and are NOT optimality statements for the original problem; the value is a valid upper bound on the original optimum. " *
+                    "Gap of a (1-wp) row = 1 - LB/UB with LB from the full waypoint model or the column-generation LP at t=0 (for Table 2 the t=0 bound is also a valid bound for t=0,1). " *
                     "Time, gap and nodes are averages over the runs listed in column Runs. Last column: best MLU found by any method (waypoint model, column generation, LNS), for comparison with the arc-model row.")
     end
     # LaTeX cho báo cáo (\input{table_official_P1}); đặt trong report/ để người viết báo cáo dùng trực tiếp

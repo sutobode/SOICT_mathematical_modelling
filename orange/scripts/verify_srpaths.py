@@ -163,6 +163,18 @@ def verify(name, P, srfile, tol, mode="ecmp"):
 def csv_mlu(srfile):
     """MLU của lần chạy đầu trong CSV tương ứng với file srpaths."""
     base = os.path.basename(srfile)
+    runm = re.search(r"-run(\d+)-srpaths\.json$", srfile)
+    if runm:   # nghiệm của lần chạy thứ k (k != 1): so với đúng dòng run == k trong CSV tương ứng
+        csvfile = srfile[:runm.start()] + ".csv"
+        if not os.path.exists(csvfile):
+            return None
+        for r in csv.DictReader(open(csvfile)):
+            if r.get("run") == runm.group(1):
+                try:
+                    return float(r["mlu"])
+                except (KeyError, ValueError):
+                    return None
+        return None
     csvfile = srfile.replace("-srpaths.json", ".csv")
     if base.startswith("heuristic-"):
         name = re.match(r"heuristic-(setA-\d+)-P(\d)", base)

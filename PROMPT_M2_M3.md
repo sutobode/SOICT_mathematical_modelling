@@ -17,8 +17,7 @@ You are a coding agent assisting team member M2 of a university project (T-Adapt
 STEP 0 - Get the repository. If the current directory is not already the repository, run:
   git clone https://github.com/sutobode/SOICT_mathematical_modelling.git soict
   cd soict
-  git checkout feature/tasr
-Then run `git log -1 --oneline` and remember the output. Never work on the `main` branch. If `git clone` is denied, tell me and ask me for the zip file `member_kit_*.zip`.
+Stay on the default branch `main` (it is the primary branch and has everything you need; do NOT check out any other branch yet). Run `git branch --show-current` (must print main) and `git log -1 --oneline` and remember the output. Never commit or push to `main`. If `git clone` is denied, tell me and ask me for the zip file `member_kit_*.zip`.
 
 STEP 1 - Read. Read HUONG_DAN_M2_M3_FINAL.md in the repository root completely. It is authoritative; follow it literally, step by step. If anything in this prompt differs from it, the file wins. I am M2.
 
@@ -37,7 +36,7 @@ Expected: exactly one row whose last column (check) starts with "ok". A result w
 
 STEP 4 - Publish after EACH finished command (and when you must stop early): `python orange/scripts/publish_member_results.py m2 --dry-run`, show me the list, then `python orange/scripts/publish_member_results.py m2`. It creates and pushes the branch results/m2 only. After the first publish this repository stays on branch results/m2: that is normal. If the push is rejected, run `python orange/scripts/pack_member_results.py m2` and tell me to send the produced zip in member_results/ to the coordinator.
 
-HARD RULES: never modify, delete or rename any tracked file; the only git commands allowed are clone, checkout feature/tasr, fetch, show, log, status and publish_member_results.py; never push to main or feature/tasr; never use --force; never re-run a command that already finished (it overwrites its result); only ONE Julia process at a time; do not change system settings except launching keep_awake.ps1; do not run other heavy programs.
+HARD RULES: never modify, delete or rename any tracked file; the only git commands allowed are clone, fetch, pull (only to get a newer `main`), show, log, status and publish_member_results.py; never push to main or to any branch other than results/<name>; never use --force; never re-run a command that already finished (it overwrites its result); only ONE Julia process at a time; do not change system settings except launching keep_awake.ps1; do not run other heavy programs.
 STOP and ask me if: free RAM drops below about 3 GB, Julia crashes or is out of memory, a check value is not "ok", a status looks unusual, the machine slept, a file listed by the publish dry-run looks wrong, or anything happens that this prompt or HUONG_DAN_M2_M3_FINAL.md does not cover. After a sleep/crash, re-run ONLY the commands that have no result file yet (plus the one that was interrupted) after telling me.
 If I run out of time, publish what is finished and report which commands are done and which are not.
 
@@ -61,8 +60,7 @@ You are a coding agent assisting team member M3 of a university project (T-Adapt
 STEP 0 - Get the repository. If the current directory is not already the repository, run:
   git clone https://github.com/sutobode/SOICT_mathematical_modelling.git soict
   cd soict
-  git checkout feature/tasr
-Then run `git log -1 --oneline` and remember the output. Never work on the `main` branch. If `git clone` is denied, tell me and ask me for the zip file `member_kit_*.zip`.
+Stay on the default branch `main` (it is the primary branch and has everything you need; do NOT check out any other branch yet). Run `git branch --show-current` (must print main) and `git log -1 --oneline` and remember the output. Never commit or push to `main`. If `git clone` is denied, tell me and ask me for the zip file `member_kit_*.zip`.
 
 STEP 1 - Read. Read HUONG_DAN_M2_M3_FINAL.md in the repository root completely. It is authoritative; follow it literally, step by step. If anything in this prompt differs from it, the file wins. I am M3.
 
@@ -81,7 +79,7 @@ Expected: exactly one row whose last column (check) starts with "ok". A result w
 
 STEP 4 - Publish after EACH finished command (and when you must stop early): `python orange/scripts/publish_member_results.py m3 --dry-run`, show me the list, then `python orange/scripts/publish_member_results.py m3`. It creates and pushes the branch results/m3 only. After the first publish this repository stays on branch results/m3: that is normal. If the push is rejected, run `python orange/scripts/pack_member_results.py m3` and tell me to send the produced zip in member_results/ to the coordinator.
 
-HARD RULES: never modify, delete or rename any tracked file; the only git commands allowed are clone, checkout feature/tasr, fetch, show, log, status and publish_member_results.py; never push to main or feature/tasr; never use --force; never re-run a command that already finished (it overwrites its result); only ONE Julia process at a time; do not change system settings except launching keep_awake.ps1; do not run other heavy programs.
+HARD RULES: never modify, delete or rename any tracked file; the only git commands allowed are clone, fetch, pull (only to get a newer `main`), show, log, status and publish_member_results.py; never push to main or to any branch other than results/<name>; never use --force; never re-run a command that already finished (it overwrites its result); only ONE Julia process at a time; do not change system settings except launching keep_awake.ps1; do not run other heavy programs.
 STOP and ask me if: free RAM drops below about 3 GB, Julia crashes or is out of memory, a check value is not "ok", a status looks unusual, the machine slept, a file listed by the publish dry-run looks wrong, or anything happens that this prompt or HUONG_DAN_M2_M3_FINAL.md does not cover. After a sleep/crash, re-run ONLY the commands that have no result file yet (plus the one that was interrupted) after telling me.
 If I run out of time, publish what is finished and report which commands are done and which are not.
 

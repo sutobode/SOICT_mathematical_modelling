@@ -6,7 +6,7 @@ Ví dụ: python orange/scripts/publish_member_results.py m2
 An toàn:
   - Từ chối chạy nếu có file mã nguồn/tài liệu đã bị SỬA (chỉ cho phép file mới trong orange/results/).
   - Chỉ `git add` đúng các file kết quả của thành viên: setA-*-r<a>-<b>*.csv/json, solverlogs/*.log, log-*.txt mới,
-    environment-<ten>.txt. Không bao giờ đụng tới nhánh main hay feature/tasr; không `--force`.
+    environment-<ten>.txt. Không bao giờ đụng tới nhánh main hay feature/tasr (chỉ tạo nhánh results/<ten> từ nhánh hiện tại, thường là main); không `--force`.
   - Mỗi thành viên có nhánh riêng nên không bao giờ xung đột với nhau.
   - `--dry-run`: chỉ in những gì sẽ làm.
 Nếu `git push` bị từ chối (chưa có quyền ghi): kết quả vẫn nằm trong commit cục bộ trên nhánh results/<ten>;

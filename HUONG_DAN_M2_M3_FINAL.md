@@ -54,7 +54,9 @@ Mọi lệnh chạy từ thư mục gốc của repo (`soict`).
 ```bash
 git clone https://github.com/sutobode/SOICT_mathematical_modelling.git soict
 cd soict
-git checkout feature/tasr          # KHÔNG làm việc trên nhánh main
+# Bạn dùng nhánh main (mặc định) để lấy mã. KHÔNG commit hay push lên main;
+# kết quả của bạn sẽ đi lên một nhánh riêng results/<ten> (mục 5).
+git branch --show-current          # phải in: main
 git log -1 --oneline               # ghi lại commit này (đưa vào báo cáo cuối của bạn)
 ```
 Nếu `git clone` báo không có quyền, nhờ chủ repo (`sutobode`) hỗ trợ, hoặc xin file zip `member_kit_*.zip` (giải nén ra thư mục `soict`).
@@ -185,12 +187,12 @@ Sau **mỗi lệnh xong** (hoặc khi bạn phải dừng sớm), chạy (`<ten>
 python orange/scripts/publish_member_results.py <ten> --dry-run     # xem trước sẽ thêm những file nào
 python orange/scripts/publish_member_results.py <ten>                 # tạo nhánh results/<ten>, commit, đẩy lên origin
 ```
-- Script **chỉ** thêm file kết quả mới của bạn (`setA-*-wp-*-cg-pc-lns*`, `log-*.txt`, `environment-<ten>.txt`), **không** đụng `main` hay `feature/tasr`, không dùng `--force`. Mỗi người một nhánh nên không bao giờ xung đột.
+- Script **chỉ** thêm file kết quả mới của bạn (`setA-*-wp-*-cg-pc-lns*`, `log-*.txt`, `environment-<ten>.txt`), **không** đụng `main` hay nhánh nào khác ngoài `results/<ten>`, không dùng `--force`. Mỗi người một nhánh nên không bao giờ xung đột.
 - Thành công: in `Da dua ket qua len origin/results/<ten>`. Nhắn nhóm: "đã đẩy lệnh ...".
 - `PUSH BI TU CHOI` (chưa có quyền ghi): kết quả vẫn nằm trong commit cục bộ; chạy `python orange/scripts/pack_member_results.py <ten>` để tạo `member_results/<ten>_<ngày_giờ>.zip` và **gửi file zip cho M1** (chat/Drive).
 - Script **từ chối chạy** nếu bạn lỡ sửa file mã nguồn: hoàn tác thay đổi đó (`git checkout -- <file>`, chỉ với file bạn lỡ sửa) rồi chạy lại.
-- Đây là thao tác git **duy nhất** bạn được làm (ngoài `clone`, `checkout feature/tasr`, `fetch`, `show`, `log`, `status`).
-- **Sau lần đẩy đầu tiên, repo của bạn đang ở nhánh `results/<ten>`** (không phải `feature/tasr`). Đây là bình thường: các lệnh Julia vẫn chạy, và các lần đẩy sau **thêm** file mới vào cùng nhánh đó. Đã thử: đẩy lần 2, lần 3 đều chạy đúng; nếu bạn sửa nhầm file mã nguồn thì script từ chối và nêu tên file.
+- Đây là thao tác git **duy nhất** bạn được làm (ngoài `clone`, `fetch`, `pull` để lấy bản mới của `main`, `show`, `log`, `status`).
+- **Sau lần đẩy đầu tiên, repo của bạn đang ở nhánh `results/<ten>`** (không phải `main`). Đây là bình thường: các lệnh Julia vẫn chạy, và các lần đẩy sau **thêm** file mới vào cùng nhánh đó. Đã thử: đẩy lần 2, lần 3 đều chạy đúng; nếu bạn sửa nhầm file mã nguồn thì script từ chối và nêu tên file.
 
 ---
 
@@ -236,7 +238,7 @@ Mở thư mục repo bằng agent rồi gõ đúng một câu:
 
 Quy tắc dành cho agent:
 1. Làm **đúng file này, từng bước, theo thứ tự**; nếu chưa biết vai trò, hỏi "Bạn là M2 hay M3?".
-2. **Cấm:** sửa/xoá/đổi tên file được theo dõi trong git; dùng git ngoài các lệnh ở mục 5; đẩy lên `main` hoặc `feature/tasr`; dùng `--force`; chạy hai tiến trình Julia nặng cùng lúc; chạy lại lệnh đã xong; đổi cài đặt hệ thống (ngoài việc khởi chạy `keep_awake.ps1` trên Windows).
+2. **Cấm:** sửa/xoá/đổi tên file được theo dõi trong git; dùng git ngoài các lệnh ở mục 5; đẩy lên `main` (hoặc bất kỳ nhánh nào ngoài `results/<ten>`); dùng `--force`; chạy hai tiến trình Julia nặng cùng lúc; chạy lại lệnh đã xong; đổi cài đặt hệ thống (ngoài việc khởi chạy `keep_awake.ps1` trên Windows).
 3. Lệnh dài **phải chạy nền** với output ghi ra file; kiểm tra mỗi 20–30 phút; không busy-wait.
 4. **Dừng và hỏi người dùng** khi: RAM trống < ~3 GB, Julia lỗi, `check` khác `ok`, status lạ, máy ngủ, hoặc điều gì không có trong file này.
 5. Khi xong, viết báo cáo cuối theo mẫu mục 7.
@@ -254,7 +256,7 @@ Chi tiết dài hơn (nếu cần tra cứu): `START_HERE.md`, `project/AGENT_BR
 | Máy | máy của M1 | máy của M2 | máy của M3 |
 | Việc | chạy nốt setA-04 và setA-05 ở $t=0,1$ (≈ 11 giờ, xong ~20:00) | 6 lệnh ở mục 4 | 4 lệnh ở mục 4 (+ phần thêm, mục 10) |
 | File ghi ra | `orange/results/...-rK-K.csv` | `setA-{06,09,11,12}-wp-P2-...`, `setA-{10,13}-wp-P1-...` | `setA-{18,14,15}-wp-P2-...`, `setA-14-wp-P1-...` |
-| Nhánh git đẩy | `feature/tasr` | `results/m2` | `results/m3` |
+| Nhánh git đẩy | `feature/tasr` (nhánh làm việc của M1; `main` là bản chính) | `results/m2` | `results/m3` |
 
 - **Không có phụ thuộc giữa các bên.** M2 và M3 **không** cần đợi M1, cũng không đợi nhau; M1 cũng không đợi họ.
 - **Không trùng file:** mỗi người ghi file của riêng mình (tên theo instance, khác nhau), đẩy lên nhánh riêng nên không bao giờ xung đột git.

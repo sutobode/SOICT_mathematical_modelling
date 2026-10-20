@@ -161,6 +161,8 @@ Tìm kiếm cục bộ cho cả 20 instance. Hạn chế: bị kẹt khi nhiều
 
 ## 5. Kết quả
 
+> **Cập nhật nhãn (20/10 ~16:00):** trong bảng chính thức (`table_official_P*.md/.csv/.tex`) các hàng `*` mang nhãn **`(1-wp)`** (ví dụ `Optimal (1-wp)`): kết quả của bài toán một waypoint, **không** phải tối ưu của bài toán gốc ($	ext{maxSeg}=6$); giá trị vẫn là cận trên hợp lệ. Ở Bảng 2 gap của các hàng đó được tính bằng cận dưới từ $t=0$, và setA-07, 08, 17, 20 là `Optimal (1-wp)`. Các bảng trình bày bên dưới là bản trước khi đổi nhãn; số MLU không đổi.
+
 Quy ước: **MLU** càng nhỏ càng tốt. Hàng `arc-pc` là mô hình theo cung của thầy. Hàng `*` là mô hình waypoint (bài toán thu hẹp ≤ 1 waypoint), vì mô hình theo cung không nạp được; trạng thái và gap của hàng `*` chỉ nói về bài toán thu hẹp đó.
 
 ### 5.1. Bảng 1 — chỉ $t=0$, giới hạn 1800 s

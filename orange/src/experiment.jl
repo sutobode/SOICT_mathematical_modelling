@@ -100,6 +100,9 @@ function run_instance(prefix::AbstractString, name::AbstractString, P::Int, tlim
                 if res.paths !== nothing && run_id == 1
                     write_srpaths(inst, res.paths, P, joinpath(outdir, "$(name)-P$(P)$(tag)-srpaths.json"))
                     write_loads(inst, rs, res.paths, P, joinpath(outdir, "$(name)-P$(P)$(tag)-loads.csv"))
+                elseif res.paths !== nothing
+                    # các lần chạy khác lần 1 cũng lưu nghiệm (để giá trị tốt nhất trong bảng luôn kiểm chứng được)
+                    write_srpaths(inst, res.paths, P, joinpath(outdir, "$(name)-P$(P)$(tag)-run$(run_id)-srpaths.json"))
                 end
             catch e
                 res = merge(res, (; status="ERROR", check=clean(sprint(showerror, e))))

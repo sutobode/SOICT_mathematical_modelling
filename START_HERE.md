@@ -1,5 +1,7 @@
 # START HERE — Hướng dẫn từng bước cho thành viên M2 và M3
 
+> **BẢN CHÍNH THỨC NGẮN GỌN: `HUONG_DAN_M2_M3_FINAL.md`. Nếu có chỗ khác với file này, làm theo `HUONG_DAN_M2_M3_FINAL.md`.** File này chỉ là bản chi tiết để tra cứu.
+
 > **CẬP NHẬT 20/10 ~10:00 — PHÂN CÔNG HIỆN HÀNH (đọc trước, thay thế mọi phân công cũ):**
 > - **M1** chạy **toàn bộ** các lần còn thiếu của Bảng 2: setA-04 $t=0,1$ lần 5–10 và setA-05 $t=0,1$ seed 6–10 (dự kiến xong ~20:00 20/10). **M2 và M3 KHÔNG chạy các lần này.**
 > - **M2 và M3** chạy **các thử nghiệm cải tiến tối ưu** (mô hình waypoint + LNS) trên các instance **khác nhau** được ghi ở mục 1 và mục 10 bên dưới. Danh sách này không giao với phần của M1 và không giao nhau giữa M2 và M3.

@@ -152,6 +152,8 @@ Cú pháp: `run_wp.jl <P> <giới_hạn_giây> <instance> <instance> 1500000 cg 
 | 3 | `julia --project=orange orange/scripts/run_wp.jl 2 3600 15 15 1500000 cg pc lns 900` | `log-opt-P2-15.txt` |
 | 4 | `julia --project=orange orange/scripts/run_wp.jl 1 1800 14 14 1500000 cg pc lns 900` | `log-opt-P1-14.txt` |
 
+**Phần thêm tuỳ chọn cho M3** (chỉ sau khi xong hết bảng, nếu RAM trống ≥ 12 GB): `julia --project=orange orange/scripts/run_wp.jl 1 1800 19 19 1500000 cg pc lns 900` (log `log-opt-P1-19.txt`); chi tiết ở `HUONG_DAN_M2_M3_FINAL.md` mục 10.
+
 **Chạy theo đúng thứ tự trong bảng, từng lệnh một.** Mỗi lệnh sinh các file `orange/results/setA-XX-wp-P<P>-cg-pc-lns.csv` (cùng `-loads.csv`, `-srpaths.json`); tên không trùng file nào đã có trong repo.
 
 **Kiểm tra khi một lệnh xong** (thay đường dẫn cho đúng lệnh vừa chạy):

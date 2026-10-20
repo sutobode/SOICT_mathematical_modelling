@@ -3,6 +3,7 @@
 > **Đây là bản đúng nhất.** Nếu `START_HERE.md` hoặc tài liệu khác trong `project/` có chỗ khác với file này, **làm theo file này**.
 > Dành cho: thành viên M2, M3 (hoặc coding agent của họ). Bạn không cần hỏi ai: làm theo từng bước.
 > Cập nhật: Thứ Ba 20/10/2026. Hạn của nhóm: xong trước **Thứ Tư 21/10**.
+> **Prompt sẵn để dán vào coding agent: `PROMPT_M2_M3.md`** (một khối cho M2, một khối cho M3).
 
 ---
 
@@ -57,6 +58,12 @@ git checkout feature/tasr          # KHÔNG làm việc trên nhánh main
 git log -1 --oneline               # ghi lại commit này (đưa vào báo cáo cuối của bạn)
 ```
 Nếu `git clone` báo không có quyền, nhờ chủ repo (`sutobode`) hỗ trợ, hoặc xin file zip `member_kit_*.zip` (giải nén ra thư mục `soict`).
+
+Nếu máy của bạn **chưa cấu hình tên git** (lệnh `git config user.name` không in gì), đặt tên của **chính bạn** (không dùng tên người khác) để bước đẩy kết quả (mục 5) commit được:
+```bash
+git config user.name "Tên của bạn"
+git config user.email "email-của-bạn@example.com"
+```
 
 **Bước 2 — Cài phần mềm**
 - Julia **1.13.1** (đúng phiên bản):
@@ -183,6 +190,7 @@ python orange/scripts/publish_member_results.py <ten>                 # tạo nh
 - `PUSH BI TU CHOI` (chưa có quyền ghi): kết quả vẫn nằm trong commit cục bộ; chạy `python orange/scripts/pack_member_results.py <ten>` để tạo `member_results/<ten>_<ngày_giờ>.zip` và **gửi file zip cho M1** (chat/Drive).
 - Script **từ chối chạy** nếu bạn lỡ sửa file mã nguồn: hoàn tác thay đổi đó (`git checkout -- <file>`, chỉ với file bạn lỡ sửa) rồi chạy lại.
 - Đây là thao tác git **duy nhất** bạn được làm (ngoài `clone`, `checkout feature/tasr`, `fetch`, `show`, `log`, `status`).
+- **Sau lần đẩy đầu tiên, repo của bạn đang ở nhánh `results/<ten>`** (không phải `feature/tasr`). Đây là bình thường: các lệnh Julia vẫn chạy, và các lần đẩy sau **thêm** file mới vào cùng nhánh đó. Đã thử: đẩy lần 2, lần 3 đều chạy đúng; nếu bạn sửa nhầm file mã nguồn thì script từ chối và nêu tên file.
 
 ---
 

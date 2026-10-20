@@ -35,6 +35,7 @@ STEP 6 - The assigned runs, strictly in this order, one at a time (details below
   TASK 4: setA-14, P=1.
      Command: julia --project=orange orange/scripts/run_wp.jl 1 1800 14 14 1500000 cg pc lns 900   (log -> orange/results/log-opt-P1-14.txt)
      Check:   python -c "import csv,sys; [print(r['instance'],r['P'],r['status'],r['mlu'],r['check']) for r in csv.DictReader(open(sys.argv[1]))]" orange/results/setA-14-wp-P1-cg-pc-lns.csv   (expect one row whose check starts with ok)
+  OPTIONAL TASK (only after all numbered tasks are done and only if free RAM is at least 12 GB): setA-19, P=1. Command: julia --project=orange orange/scripts/run_wp.jl 1 1800 19 19 1500000 cg pc lns 900   (log -> orange/results/log-opt-P1-19.txt). See HUONG_DAN_M2_M3_FINAL.md section 10.
   If free RAM drops below about 3 GB or a command fails, STOP and report to me; do not retry blindly. A result whose MLU is not lower than the value in orange/results/best_known.csv is still kept (evidence); never edit best_known.csv or the tables.
 
 STEP 7 - Publish. After EACH finished range (and when you finish, when I ask, or if you must stop early) run `python orange/scripts/publish_member_results.py m3 --dry-run`, show me the list, then `python orange/scripts/publish_member_results.py m3`; it creates the branch results/m3 and pushes ONLY result files (never main or feature/tasr, never --force). If the push is refused (no write access), run `python orange/scripts/pack_member_results.py m3` instead and tell me the path of the zip in member_results/ so that I can send it to the coordinator.

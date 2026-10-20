@@ -1,0 +1,1 @@
+[2026-10-20 08:41:39] BAT DAU setA-04 t=0,1 seed 5 (free RAM 15.5 GB)

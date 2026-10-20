@@ -82,3 +82,5 @@ Ghi lại theo thứ tự thời gian **mọi lần khởi động, dừng, sự
 - Phase 1b: bổ sung lần chạy để đủ 10 lần cho setA-04 ở cả hai bảng, setA-02 và setA-03 ở $t=0,1$; thử setA-05 ở $t=0,1$ nếu đủ RAM.
 - Phase 1c: chạy lại các dòng nhanh một mình để có thời gian đo sạch.
 - Các lần chạy 1–3 của mỗi dòng và solver log đầy đủ chỉ có từ 22:00 trở đi; ghi chú trong manifest.
+
+- **20/10 08:41** — M2/M3 chưa đẩy kết quả (không có `origin/results/m2`, `origin/results/m3`). M1 tự chạy nốt phần còn thiếu của Bảng 2 bằng `orange/scripts/fill_missing_m1.sh` (tuần tự, mỗi lần một tiến trình, file riêng `-rK-K`): setA-04 $t=0,1$ lần 5–10, rồi setA-05 $t=0,1$ seed 6–10. Nhật ký: `orange/results/fill_missing_m1.log`. Nếu M2/M3 sau đó đẩy cùng các lần này thì bộ gộp bảng giữ bản đầu và cảnh báo trùng. `main` đã nhận bản squash `e245ed3` (chưa gồm các lần chạy này).

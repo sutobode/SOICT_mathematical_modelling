@@ -90,8 +90,8 @@ Một reviewer độc lập đã xem toàn nhánh; M1 sửa các lỗi mức Imp
 
 ### 2.7. Quản lý git
 
-- `feature/tasr` là nhánh làm việc của M1; `main` là bản chính, được **squash merge** từ `feature/tasr` mỗi lần chốt, nên `main` **không có dòng Co-Authored-By của Claude**.
-- Nhánh `feature/tasr` còn 17 commit cũ có dòng đồng tác giả; đã quyết không viết lại lịch sử, vì `main` đã sạch.
+- `feature/tasr` là nhánh làm việc của M1; `main` là bản chính, được **squash merge** từ `feature/tasr` mỗi lần chốt. 11 commit squash của 20/10 **không** có dòng đồng tác giả Claude, nhưng **17 commit cũ của 19/10 đã nằm sẵn trong lịch sử `main` vẫn có** (`dbaf8c7`…`be28c4e`); gỡ chúng cần viết lại lịch sử và push ép nên **chưa làm, chờ người dùng xác nhận**.
+- (Xem dòng trên.) Quyết định về việc viết lại lịch sử `main` thuộc về người dùng.
 - M2 và M3 đẩy lên `results/m2`, `results/m3`; M1 gộp bằng `merge_member_branch.py`.
 
 ---

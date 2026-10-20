@@ -63,6 +63,23 @@ Giới hạn của bài thử: chạy trên instance nhỏ (setA-01) với giớ
 M2 và M3 **clone `main` và ở lại `main`** (không checkout nhánh khác); `publish_member_results.py` tạo `results/<ten>` từ `main` và chỉ đẩy lên đó. `merge_member_branch.py` đã được sửa để lấy điểm xuất phát là `merge-base` với `origin/main` (trước đó dùng `HEAD` của M1, nên thấy lẫn thay đổi giữa `main` và `feature/tasr`).
 Đã thử: clone `main` → tạo 3 file kết quả → publish (nhánh `results/m2`, repo của thành viên ở `results/m2`) → M1 (nhánh `feature/tasr`) chạy `merge_member_branch.py m2` → nhận **đúng 3 file**, **0 cảnh báo trùng**. `main` được M1 squash merge từ `feature/tasr` mỗi khi chốt, nên luôn có đủ tài liệu và script mới nhất khi thành viên clone.
 
+### 2.7. Xác nhận cuối (21/10 ~00:00, sau mọi thay đổi trong ngày)
+
+Chạy lại toàn bộ kiểm tra bằng mã (kể cả các lần chạy bù của M1 `-r6-6b`, `-r10-10b`, `-r4-4v`, và phần thêm tuỳ chọn setA-19 của M3):
+
+| Kiểm tra | Kết quả |
+|---|---|
+| Giao tên file giữa M1, M2, M3 | **rỗng** ở cả ba cặp |
+| File sẽ bị ghi đè (đã có trong repo) | M2: không; M3: không; M1: chỉ `log-pc-P2-04-r6-6b.txt` (log của lần chạy bù bị dừng khi tắt máy, M1 tự ghi đè khi chạy lại) |
+| Giao (P, instance) giữa M2 và M3; giữa M1 với M2/M3 | **rỗng** |
+| Lệnh `run_wp.jl` trong `HUONG_DAN_M2_M3_FINAL.md`, `PROMPT_M2_M3.md`, `START_HERE.md`, hai file giao việc cho agent, `DE_XUAT_CAI_TIEN_TOI_UU.md` | mọi lệnh đều thuộc kế hoạch (11 lệnh trong ba file đầy đủ), **không có lệnh ngoài kế hoạch** |
+| `main` so với `feature/tasr` | giống hệt |
+| Nhánh từ xa | `main`, `feature/tasr`, `hung` (của Hùng, chưa merge; xem `NHAN_XET_NHANH_HUNG.md`); chưa có `results/m2`, `results/m3` |
+
+**Kết luận:** không có chồng chéo hay xung đột giữa M1, M2, M3.
+
+**Đính chính (phát hiện khi kiểm tra này):** trước đây các tài liệu và tin nhắn nói `main` không có dòng đồng tác giả Claude. Điều đó chỉ đúng với 11 commit squash của ngày 20/10 (không dòng nào có đồng tác giả). **Lịch sử cũ của `main` vẫn còn 17 commit (19/10, 10:33 đến 11:14, từ `dbaf8c7` đến `be28c4e`) mang dòng `Co-Authored-By` của Claude**, vì các commit đó đã nằm trong `main` trước các lần squash. Gỡ chúng cần viết lại lịch sử `main` và push ép (`--force`), việc không thể hoàn tác trên GitHub nếu không có bản sao lưu; **chưa làm**, chờ người dùng xác nhận (xem `CHAY_TIEP_SAU_KHI_BAT_MAY.md` mục 6).
+
 ---
 
 ## 3. Cách `best_known.jl` và `official_tables.jl` dùng kết quả của M2/M3

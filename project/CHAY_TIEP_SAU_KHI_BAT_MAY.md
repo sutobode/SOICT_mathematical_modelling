@@ -47,3 +47,10 @@ Mốc gộp cuối của nhóm: ~12:00 Thứ Tư 21/10. Nếu chỉ chạy đư�
 - Đừng chạy hai tiến trình setA-04/05 $t=0,1$ cùng lúc.
 - Nhánh `hung` của Hùng **chưa merge**; xem `project/NHAN_XET_NHANH_HUNG.md`.
 - M2 và M3 chưa đẩy kết quả lên `results/m2`, `results/m3` (lúc dừng).
+
+## 6. Việc cần người dùng quyết định (không tự làm)
+
+1. **Dọn 17 commit cũ trên `main` có dòng `Co-Authored-By` của Claude** (19/10 10:33–11:14, `dbaf8c7`…`be28c4e`). Cách làm an toàn: tạo nhánh sao lưu `backup/main-before-clean`, viết lại lịch sử bỏ dòng đồng tác giả, push ép `main`. **Cần người dùng đồng ý ngay trước khi push ép** (làm đổi lịch sử của `main` trên GitHub; M2/M3 và Hùng phải clone lại).
+2. **Có merge nhánh `hung` hay không:** xem `project/NHAN_XET_NHANH_HUNG.md` (còn 4 việc bắt buộc Hùng phải sửa).
+3. **Các việc chưa làm của mục tiêu:** tối ưu từ điển thật (chưa chạy nổi), chạy lặp 10 lần các hàng thu hẹp, kết quả của M2/M3.
+

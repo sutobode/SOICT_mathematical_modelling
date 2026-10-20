@@ -78,7 +78,7 @@ Chênh lệch **không** có nghĩa là còn cải thiện được: sau khi m�
 |---|---|---|
 | **M2** | setA-06, setA-09, setA-11, setA-12 | setA-10, setA-13 |
 | **M3** | setA-14, setA-15, setA-18 | setA-14 |
-| **M1** (máy riêng, sau khi chạy nốt Bảng 2) | setA-16, setA-19 (nặng RAM) | setA-19 |
+| **M1** (máy riêng, sau khi chạy nốt Bảng 2) | setA-16, setA-19 (nặng RAM) | setA-19 (**chỉ nếu M3 chưa làm phần thêm tuỳ chọn** ở `HUONG_DAN_M2_M3_FINAL.md` mục 10) |
 
 Mỗi hàng chạy **một lần** (bài toán gần như tất định; mục tiêu là hạ MLU, không phải lấy trung bình).
 

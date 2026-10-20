@@ -247,14 +247,14 @@ end
     @test all(d -> paths0[(d, 1)] == paths0[(d, 2)], 1:2)
 end
 
-@testset "lex second stage keeps MLU" begin
+@testset "total-load tie-breaker keeps MLU" begin
     inst = read_instance(TOY; maxseg=2)
     rs = [build_r(inst, 1)]
     model, x, z, load = build_model(inst, rs, 1, OPT)
     optimize!(model)
     zstar = value(z)
     total1 = sum(value(load[1][a]) / inst.cap[a] for a in 1:inst.m)
-    lex_second_stage!(model, z, load, inst, zstar)
+    total_load_second_stage!(model, z, load, inst, zstar)
     optimize!(model)
     @test termination_status(model) == MOI.OPTIMAL
     @test value(z) <= zstar + 1e-6
@@ -518,7 +518,7 @@ end
 
 sorted_loads(inst, rs, paths, P) = sort(vcat([utilization(inst, rs, paths, p)[[a for a in 1:inst.m if !(a in inst.down[p])]] for p in 1:P]...); rev=true)
 
-@testset "lexicographic refinement never worsens the sorted load vector" begin
+@testset "load-freezing heuristic never worsens the sorted load vector" begin
     for (b, P) in ((20, 1), (20, 2), (3, 2))
         inst = read_instance(TOY; maxseg=2, budget=b)
         rs = [build_r(inst, p) for p in 1:P]
@@ -526,7 +526,7 @@ sorted_loads(inst, rs, paths, P) = sort(vcat([utilization(inst, rs, paths, p)[[a
         optimize!(model)
         base_paths = extract_wp_paths(inst, y, W, P)
         zstar = maximum(sorted_loads(inst, rs, base_paths, P))
-        paths, levels = lex_refine(inst, rs, P, OPT; K=inst.n, levels=6, start_paths=base_paths)
+        paths, levels = load_freezing_refine(inst, rs, P, OPT; K=inst.n, levels=6, start_paths=base_paths)
         v0, v1 = sorted_loads(inst, rs, base_paths, P), sorted_loads(inst, rs, paths, P)
         @test v1[1] ≈ zstar atol = 1e-6                              # mức đầu giữ nguyên
         @test lexcmp_leq(v1, v0)
@@ -710,3 +710,6 @@ end
     run_instance(TOY, "toy", 2, 60; runs=1, outdir=out2)
     @test !isdir(joinpath(out2, "solverlogs"))
 end
+
+include("lexicographic.jl")
+include("official_reporting.jl")

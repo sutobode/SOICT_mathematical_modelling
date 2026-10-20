@@ -79,7 +79,7 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
         end
         for a in 1:inst.m
             a in inst.down[p] && continue
-            # ucap[p][a] hữu hạn: cung đã bị "đóng băng" ở mức tải tối đa đó (dùng cho lex_refine)
+            # ucap[p][a] hữu hạn: cung đã bị "đóng băng" ở mức tải tối đa đó
             level = (ucap === nothing || !isfinite(ucap[p][a])) ? z : ucap[p][a]
             loadcon[p][a] = @constraint(model, load[a] <= inst.cap[a] * level)
         end
@@ -226,11 +226,10 @@ function colgen(inst::Instance, rs, P::Int; K0::Int=3, add_per_demand::Int=3, ma
 end
 
 """
-Tinh chỉnh theo thứ tự từ điển trên vector tải (mục tiêu (5) của đề): giải min MLU, "đóng băng" các cung đang chạm
-mức tối đa (không cho vượt mức đó), rồi giải lại để tối thiểu MLU trên các cung còn lại; lặp tối đa `levels` mức.
-Trả về (paths, số mức đã giải). Luôn trả về nghiệm tốt hơn hoặc bằng `start_paths` theo thứ tự từ điển.
+Heuristic đóng băng các cung đang chạm mức tải hiện tại rồi giải lại trên các cung còn lại.
+Đây không phải tối ưu từ điển chính xác; dùng `exact_lexicographic_loads!` cho yêu cầu đó.
 """
-function lex_refine(inst::Instance, rs, P::Int, optimizer; K::Int=20, cands=nothing, levels::Int=5,
+function load_freezing_refine(inst::Instance, rs, P::Int, optimizer; K::Int=20, cands=nothing, levels::Int=5,
                     tlimit=Inf, start_paths=nothing)
     vec(paths) = sort(vcat([utilization(inst, rs, paths, p)[[a for a in 1:inst.m if !(a in inst.down[p])]] for p in 1:P]...); rev=true)
     ucap = [fill(Inf, inst.m) for _ in 1:P]

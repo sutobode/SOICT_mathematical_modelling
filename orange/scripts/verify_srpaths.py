@@ -183,6 +183,21 @@ def csv_mlu(srfile):
 
 
 def main():
+    if len(sys.argv) >= 2 and sys.argv[1] == "--single":
+        if len(sys.argv) != 7:
+            print("usage: verify_srpaths.py --single <instance> <P> <srpaths> <ecmp|pathcount> <expected_mlu>")
+            sys.exit(1)
+        name, P, srfile, mode_arg, expected = sys.argv[2], int(sys.argv[3]), sys.argv[4], sys.argv[5], float(sys.argv[6])
+        mode = "pc" if mode_arg == "pathcount" else "ecmp"
+        mlu, _, problems = verify(name, P, srfile, 1e-9, mode)
+        mlu2, _, problems2 = verify(name, P, srfile, 1e-6, mode)
+        problems.extend(problems2)
+        if abs(mlu - expected) > 1e-6:
+            problems.append(f"MLU differs from expected by {abs(mlu - expected):.2e}")
+        if abs(mlu - mlu2) > 1e-6:
+            problems.append("routing is tolerance-sensitive")
+        print(json.dumps({"mlu": mlu, "expected": expected, "problems": problems}))
+        sys.exit(0 if not problems else 2)
     pat = sys.argv[1] if len(sys.argv) > 1 else ""
     files = sorted(glob.glob(os.path.join(RES, "*srpaths.json")))
     files = [f for f in files if pat in os.path.basename(f)]

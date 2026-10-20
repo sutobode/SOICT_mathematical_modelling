@@ -142,10 +142,90 @@ function extract_paths(inst::Instance, x, P::Int; val=value)
     return paths
 end
 
-"Giai đoạn 2 của lex-min: giữ z <= z*, tối thiểu tổng tải (mức thứ hai của thứ tự từ điển)."
-function lex_second_stage!(model, z, load, inst::Instance, zstar::Real)
+"Optional total-load tie-breaker under an MLU tolerance; this is not lexicographic optimization."
+function total_load_second_stage!(model, z, load, inst::Instance, zstar::Real)
     @constraint(model, z <= zstar * (1 + 1e-6) + 1e-9)
     @objective(model, Min, sum(load[p][a] / inst.cap[a] for p in eachindex(load), a in 1:inst.m
                                if !(a in inst.down[p])))
     return model
+end
+
+function _variable_interval(v)
+    if is_fixed(v)
+        x = fix_value(v)
+        return x, x
+    end
+    lo = is_binary(v) ? 0.0 : (has_lower_bound(v) ? lower_bound(v) : -Inf)
+    hi = is_binary(v) ? 1.0 : (has_upper_bound(v) ? upper_bound(v) : Inf)
+    return lo, hi
+end
+
+"A finite, outward-rounded interval containing every value of an affine expression."
+function _affine_interval(expr)
+    lo = hi = Float64(constant(expr))
+    for (coef, var) in linear_terms(expr)
+        vlo, vhi = _variable_interval(var)
+        isfinite(vlo) && isfinite(vhi) || error("lexicographic loads require bounded variables")
+        p, q = Float64(coef) * vlo, Float64(coef) * vhi
+        tlo, thi = prevfloat(min(p, q)), nextfloat(max(p, q))
+        lo, hi = prevfloat(lo + tlo), nextfloat(hi + thi)
+    end
+    isfinite(lo) && isfinite(hi) || error("could not derive a finite load bound")
+    return lo, hi
+end
+
+"""
+    exact_lexicographic_loads!(model, load, inst)
+
+Exactly minimize, in lexicographic order, the decreasingly sorted vector of
+utilizations of all active physical links in `load`. The routine adds a binary
+assignment sorting formulation, then minimizes one rank at a time and fixes
+each proven optimum before solving the next rank. It replaces the model's
+current objective and requires an optimal solver status at every rank.
+
+The sorting big-M is not a user-chosen constant: it is obtained from finite
+variable bounds in the supplied affine load expressions using outward-rounded
+interval arithmetic. Returns the final values and the added JuMP references.
+"""
+function exact_lexicographic_loads!(model::Model, load, inst::Instance)
+    length(load) <= inst.P || error("load has more periods than the instance")
+    active = [(p, a) for p in eachindex(load), a in 1:inst.m if !(a in inst.down[p])]
+    all(length(load[p]) == inst.m for p in eachindex(load)) || error("load dimensions do not match the instance")
+    util = [load[p][a] / inst.cap[a] for (p, a) in active]
+
+    if isempty(util)
+        @objective(model, Min, 0)
+        optimize!(model)
+        termination_status(model) == MOI.OPTIMAL || error("lexicographic feasibility solve was not optimal: $(termination_status(model))")
+        return (values=Float64[], ranks=VariableRef[], assignment=nothing,
+                active_links=active, lower_bound=0.0, upper_bound=0.0)
+    end
+
+    bounds = _affine_interval.(util)
+    lo = 0.0
+    hi = max(0.0, maximum(last, bounds))
+    M = hi == lo ? 0.0 : nextfloat(hi)
+    nlinks = length(active)
+
+    ranks = @variable(model, [1:nlinks], lower_bound=lo, upper_bound=hi,
+                      base_name="lex_sorted_utilization")
+    assignment = @variable(model, [1:nlinks, 1:nlinks], Bin,
+                           base_name="lex_rank_assignment")
+    @constraint(model, [e=1:nlinks], sum(assignment[e, k] for k in 1:nlinks) == 1)
+    @constraint(model, [k=1:nlinks], sum(assignment[e, k] for e in 1:nlinks) == 1)
+    @constraint(model, [k=1:nlinks-1], ranks[k] >= ranks[k + 1])
+    for e in 1:nlinks, k in 1:nlinks
+        @constraint(model, ranks[k] - util[e] <= M * (1 - assignment[e, k]))
+        @constraint(model, util[e] - ranks[k] <= M * (1 - assignment[e, k]))
+    end
+
+    for k in 1:nlinks
+        @objective(model, Min, ranks[k])
+        optimize!(model)
+        status = termination_status(model)
+        status == MOI.OPTIMAL || error("lexicographic rank $k was not optimal: $status")
+        k < nlinks && fix(ranks[k], value(ranks[k]); force=true)
+    end
+    return (values=value.(ranks), ranks=ranks, assignment=assignment,
+            active_links=active, lower_bound=lo, upper_bound=hi)
 end

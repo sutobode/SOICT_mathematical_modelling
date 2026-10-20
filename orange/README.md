@@ -23,14 +23,15 @@ Bộ test mất khoảng 30 giây và gồm: đọc dữ liệu của cả 20 in
 
 ```bash
 # MILP: <P> <giới hạn giây> [instance đầu] [instance cuối]
-julia --project=orange orange/scripts/run_experiments.jl 1 1800      # chỉ t=0 (bước 6 của readme)
-julia --project=orange orange/scripts/run_experiments.jl 1 1800 1 20 pc   # như trên với r theo công thức của calculating_r.pdf (kết quả hậu tố -pc)
-julia --project=orange orange/scripts/run_experiments.jl 2 3600      # t=0 và t=1, có ngân sách (bước 9)
+julia --project=orange orange/scripts/run_experiments.jl 1 1800      # path-count, min MLU thuần, 10 lần
+julia --project=orange orange/scripts/run_experiments.jl 2 3600      # path-count, t=0 và t=1, 10 lần
 julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 5  # chỉ instance 04 và 05
 
 # Mô hình waypoint (chạy được cho nhiều instance hơn nhiều): <P> <giây> [đầu] [cuối] [max_binaries]
 julia --project=orange orange/scripts/run_wp.jl 1 1800
 julia --project=orange orange/scripts/run_wp.jl 2 3600
+julia --project=orange orange/scripts/run_official_wp.jl 1 1800     # mẫu chính thức 10 lần, nghiệm hạn chế
+julia --project=orange orange/scripts/run_official_wp.jl 2 3600
 
 # Heuristic cho cả 20 instance: <P> <giây> [đầu] [cuối]
 julia --project=orange orange/scripts/run_heuristic.jl 1 600
@@ -72,8 +73,8 @@ Các cột của CSV: `instance, P, run, n, m, nD, status, z, mlu, mlu_base, imp
 | `src/io.jl` | đọc 3 file JSON | `read_instance(prefix; maxseg, budget)` → `Instance` (thời kỳ $p = t+1$) |
 | `src/ecmp.jl` | hệ số tách $r$ | `routing`, `ecmp_split`, `pathcount_split`, `build_r(inst, p; mode=:ecmp)` |
 | `src/verify.jl` | kiểm tra độc lập | `utilization`, `max_utilization`, `base_mlu`, `changes`, `check_solution`, `write_srpaths`, `write_loads` |
-| `src/model.jl` | mô hình JuMP | `build_model`, `extract_paths`, `lex_second_stage!` |
-| `src/wpmodel.jl` | MILP chọn waypoint theo đường, sinh cột, tinh chỉnh từ điển | `candidates`, `build_wp_model(...; K, K2)`, `extract_wp_paths`, `colgen`, `lex_refine` |
+| `src/model.jl` | mô hình JuMP và tối ưu tải từ điển chính xác | `build_model`, `extract_paths`, `exact_lexicographic_loads!` |
+| `src/wpmodel.jl` | MILP chọn waypoint, sinh cột, heuristic đóng băng tải | `candidates`, `build_wp_model(...; K, K2)`, `extract_wp_paths`, `colgen`, `load_freezing_refine` |
 | `src/experiment.jl` | chạy và ghi CSV | `run_instance` (mô hình theo cung), `run_wp_instance` (mô hình waypoint) |
 | `src/heuristic.jl` | tìm kiếm cục bộ | `local_search` |
 
@@ -94,16 +95,16 @@ Mô hình đúng theo đề: biến nhị phân $x^{dt}_{ij}$, ràng buộc bả
 
 | Quyết định | Lý do |
 |---|---|
-| **$r$ theo ECMP từng chặng** (mặc định), có thêm `mode=:pathcount` | Đề định nghĩa ECMP và Bảng 2 của đề khớp ECMP ($r=0{,}5$); công thức đếm đường của `calculating_r.pdf` cho $2/3$ trên cùng cung. Cả hai đều được cài đặt và có test. |
+| **Kết quả chính thức dùng `mode=:pathcount`** | Công thức `calculating_r.pdf` là chuẩn duy nhất của bảng chính thức. `mode=:ecmp` vẫn giữ cho nghiên cứu/đối chiếu nhưng aggregator loại hoàn toàn khỏi kết quả chính thức. |
 | **Giải chung $t=0$ và $t=1$** ở bước 9 | readme bước 8: "extend the model to include the time period 1 with the addition of the Budget constraints". Dòng "only time period 0" ở bước 9 được coi là lỗi đánh máy. |
-| **Mục tiêu min MLU** $+\ \varepsilon\sum x$, $\varepsilon = 10^{-7}/\lvert D\rvert$ | readme chỉ yêu cầu báo một "Optimal or Best objective value". Lexicographic đầy đủ không báo được bằng một số; giai đoạn hai có sẵn (`lex_second_stage!`) nhưng không dùng trong bảng. |
+| **Mục tiêu chính thức min MLU thuần** | Các runner chính thức dùng `eps=0`; mục tiêu phụ có trọng số chỉ còn cho thí nghiệm không chính thức. Tối ưu từ điển chính xác dùng `exact_lexicographic_loads!`. |
 | **Đoạn không tới được trong $G_t$ bị cố định bằng 0** | nếu không, mô hình "dịch chuyển tức thời" miễn phí. |
 | **Chặn chu trình trong nghiệm** | ràng buộc (1) cho phép "đường + chu trình"; khi ngân sách hữu hạn, chu trình có thể lách ngân sách. Có ràng buộc bậc ≤ 1 ở mọi nút; nếu nghiệm vẫn vi phạm ngân sách thì runner giải lại với MTZ (`acyclic=true`). |
 | **So sánh khoảng cách có dung sai** $10^{-9}$ | instance 05, 08, 12, 14 có metric thực. |
 | **Bỏ qua cờ `multigraph` trong JSON** | 10/20 instance khai `true` nhưng không có cung song song; notebook Pluto v2 từ chối chúng nên không dùng. |
 | **MILP khởi tạo bằng nghiệm heuristic** (≤ 1 waypoint) | không có điểm khởi tạo tốt thì HiGHS rất chậm (ví dụ setA-02 với $t=0,1$ sau 120 s không cải thiện gì). Thời gian heuristic (tối đa 30 s) được ghi riêng. |
 | **HiGHS 1 luồng, `mip_rel_gap = 1e-6`** | để `solve_time` xấp xỉ CPU time và gap báo cáo có ý nghĩa. |
-| **Số lần chạy:** 10 nếu lần đầu giải trong 120 s, còn lại 3 lần | readme yêu cầu 10 lần, nhưng 10 lần × 1 giờ × nhiều instance vượt quỹ thời gian còn lại. Cột số lần chạy được ghi trong bảng. |
+| **Số lần chạy chính thức:** đúng các seed 1–10 | Aggregator đánh dấu `INCOMPLETE` nếu thiếu, trùng hoặc có ít hơn 10 nghiệm hợp lệ. Chính sách rút xuống 3 lần chỉ còn áp dụng cho thí nghiệm nghiên cứu không chính thức. |
 
 ## 5b. Mô hình waypoint (thuật toán mở rộng, `src/wpmodel.jl`)
 
@@ -116,7 +117,7 @@ Mô hình theo cung ở mục 5 có $\lvert D\rvert\,n(n-1)$ biến nhị phân 
 - **Kích thước:** $\lvert D\rvert\cdot P\cdot\lvert W_d\rvert$ biến (ví dụ setA-06: 49 500 biến thay vì 4,95 triệu). `run_wp_instance` chọn $K$ lớn nhất sao cho số biến không vượt `max_binaries` (mặc định $1{,}5\cdot10^6$).
 - **Chất lượng đo được** ($t=0$, $K=n-2$, một waypoint, HiGHS 1 luồng): giải tối ưu trong vài giây cho setA-01 đến 09; ví dụ setA-06: MLU 0,0986 (heuristic: 0,2676); setA-05 với $t=0,1$: 0,205 (heuristic bị kẹt ở 1,0).
 
-## 5c. Sinh cột (`colgen`) và tinh chỉnh từ điển (`lex_refine`)
+## 5c. Sinh cột, heuristic đóng băng tải, và tối ưu từ điển chính xác
 
 **Sinh cột cho mô hình waypoint.** Thay vì lấy $K$ ứng viên theo độ vòng, bắt đầu từ ít ứng viên ($K_0=3$) rồi lặp: giải LP của mô hình thu gọn, lấy đối ngẫu $\lambda_{a,t}\ge0$ của ràng buộc tải và $\mu_{d,t}$ của ràng buộc gán, định giá mọi waypoint $w$ của mỗi demand bằng chi phí rút gọn
 
@@ -127,7 +128,7 @@ và thêm các $w$ có $\mathrm{rc}<0$. Chi phí định giá mỗi vòng là $O
 - **làm giàu**: thêm `extra` (mặc định 10) cột có chi phí rút gọn thấp nhất cho mỗi demand, vì nghiệm nguyên cần những cột mà nghiệm LP không dùng (ví dụ setA-06: LP 0,0986 nhưng MILP chỉ trên cột LP được 0,1014).
 Mô hình cuối chỉ có vài trăm đến vài nghìn biến thay vì hàng chục nghìn. Chạy: `run_wp.jl <P> <giây> <đầu> <cuối> 1500000 cg` (kết quả có hậu tố `-cg`).
 
-**Tinh chỉnh từ điển** (`lex_refine`, mục tiêu (5) của đề): sau khi giải min MLU, "đóng băng" các cung đang chạm mức tối đa, giải lại để tối thiểu MLU trên các cung còn lại, lặp tối đa `levels` mức. Luôn trả về nghiệm không tệ hơn nghiệm đầu vào theo thứ tự từ điển (có test). Đây là heuristic cho thứ tự từ điển (đóng băng mọi cung chạm mức tối đa, không chỉ những cung buộc phải ở mức đó).
+`load_freezing_refine` là heuristic đóng băng tải cũ và không được gọi là tối ưu từ điển. Tối ưu từ điển chính xác dùng `exact_lexicographic_loads!`: sắp hạng mọi tải cung đang hoạt động bằng MILP, tối ưu từng hạng và cố định tối ưu đã chứng minh trước khi sang hạng tiếp theo. Entry point: `scripts/run_lex_pathcount.jl`.
 
 ## 5d. Vận hành an toàn (RAM và luồng)
 

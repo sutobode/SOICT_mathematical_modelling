@@ -6,3 +6,4 @@ chain 11856 stopped after setA-16 finished at 21:28
 RAM ok, starting setA-04 P2 runs 2-10 at 21:55
 RAM ok, starting setA-04 P2 runs 7-10 (second process) at 22:55
 [2026-10-19T23:10:53] free 1.03 GB < 1.5 GB: stopping julia PID 24188 (5.80 GB)
+[2026-10-20T21:36:59] free 0.87 GB < 1.5 GB: stopping julia PID 26580 (11.69 GB)

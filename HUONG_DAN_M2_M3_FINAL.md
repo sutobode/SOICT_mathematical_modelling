@@ -122,7 +122,7 @@ Mong đợi dòng cuối: `COMPLETE: du cac lan 1..1, tat ca check=ok`. Nếu kh
 1. **Chỉ một tiến trình Julia tại một thời điểm.** Chạy hai cùng lúc có thể làm hết RAM.
 2. **Chạy theo đúng thứ tự trong bảng, từng lệnh một**, mỗi lệnh **một lần**. Không chạy lại lệnh đã xong (nó ghi đè file kết quả).
 3. **Chạy ở chế độ nền** và ghi log ra file (mẫu bên dưới); không đóng cửa sổ terminal nếu bạn chạy ở tiền cảnh.
-4. Luôn đặt `JULIA_NUM_THREADS=1` và `OPENBLAS_NUM_THREADS=1` trước khi chạy (xem bước 7).
+4. Luôn đặt `JULIA_NUM_THREADS=1` và `OPENBLAS_NUM_THREADS=1` trước khi chạy (xem bước 7), **trong mỗi cửa sổ terminal bạn dùng để chạy**.
 5. Nếu RAM trống xuống dưới **~3 GB**, hoặc lệnh báo lỗi: **dừng và báo nhóm**. Đừng thử lại nhiều lần.
 
 ### Lệnh của M2
@@ -154,11 +154,12 @@ Mong đợi dòng cuối: `COMPLETE: du cac lan 1..1, tat ca check=ok`. Nếu kh
   nohup <lệnh> > orange/results/<log> 2>&1 &
   ```
   Ví dụ M2 lệnh 1: `nohup julia --project=orange orange/scripts/run_wp.jl 2 3600 6 6 1500000 cg pc lns 900 > orange/results/log-opt-P2-06.txt 2>&1 &`
-- **Windows (PowerShell):** cách đơn giản nhất là mở một cửa sổ PowerShell riêng và chạy lệnh ở tiền cảnh, **không đóng cửa sổ**, ghi log bằng:
+- **Windows:** mở **một cửa sổ PowerShell riêng**, đặt biến môi trường (bước 7), rồi chạy lệnh ở tiền cảnh bằng `cmd /c` (ghi cả output lẫn lỗi vào log, đã thử chạy đúng), **không đóng cửa sổ**:
   ```powershell
-  julia --project=orange orange/scripts/run_wp.jl 2 3600 6 6 1500000 cg pc lns 900 *> orange\results\log-opt-P2-06.txt
+  $env:JULIA_NUM_THREADS="1"; $env:OPENBLAS_NUM_THREADS="1"
+  cmd /c "julia --project=orange orange/scripts/run_wp.jl 2 3600 6 6 1500000 cg pc lns 900 > orange\results\log-opt-P2-06.txt 2>&1"
   ```
-  (hoặc dùng `Start-Process -NoNewWindow -FilePath julia -ArgumentList '--project=orange','orange/scripts/run_wp.jl','2','3600','6','6','1500000','cg','pc','lns','900' -RedirectStandardOutput orange/results/log-opt-P2-06.txt -RedirectStandardError orange/results/log-opt-P2-06.err`).
+  (Mỗi cửa sổ PowerShell mới phải đặt lại hai biến môi trường.) Không dùng `*>` của PowerShell: nó ghi lỗi dạng `NativeCommandError` vào log.
 
 ### Kiểm tra khi một lệnh xong
 
@@ -191,7 +192,7 @@ python orange/scripts/publish_member_results.py <ten>                 # tạo nh
 - Thành công: in `Da dua ket qua len origin/results/<ten>`. Nhắn nhóm: "đã đẩy lệnh ...".
 - `PUSH BI TU CHOI` (chưa có quyền ghi): kết quả vẫn nằm trong commit cục bộ; chạy `python orange/scripts/pack_member_results.py <ten>` để tạo `member_results/<ten>_<ngày_giờ>.zip` và **gửi file zip cho M1** (chat/Drive).
 - Script **từ chối chạy** nếu bạn lỡ sửa file mã nguồn: hoàn tác thay đổi đó (`git checkout -- <file>`, chỉ với file bạn lỡ sửa) rồi chạy lại.
-- Đây là thao tác git **duy nhất** bạn được làm (ngoài `clone`, `fetch`, `pull` để lấy bản mới của `main`, `show`, `log`, `status`).
+- Đây là thao tác git **duy nhất** bạn được làm (ngoài `clone`, `fetch`, `show`, `log`, `status`). Muốn đọc bản mới của hướng dẫn: `git fetch origin main` rồi `git show origin/main:HUONG_DAN_M2_M3_FINAL.md`. **Không** dùng `pull` hay `merge`.
 - **Sau lần đẩy đầu tiên, repo của bạn đang ở nhánh `results/<ten>`** (không phải `main`). Đây là bình thường: các lệnh Julia vẫn chạy, và các lần đẩy sau **thêm** file mới vào cùng nhánh đó. Đã thử: đẩy lần 2, lần 3 đều chạy đúng; nếu bạn sửa nhầm file mã nguồn thì script từ chối và nêu tên file.
 
 ---
@@ -232,7 +233,7 @@ Hãy trung thực: ghi cả thất bại và kết quả một phần; **không*
 
 ## 8. Nếu bạn dùng coding agent (Claude Code, Cursor, Codex, ...)
 
-Mở thư mục repo bằng agent rồi gõ đúng một câu:
+**Cách tốt nhất:** mở agent ở một thư mục trống và dán khối prompt của bạn trong `PROMPT_M2_M3.md` (agent tự clone repo và làm theo file này). Nếu bạn đã clone sẵn: mở thư mục repo bằng agent rồi gõ đúng một câu:
 
 > **"Tôi là M2. Hãy đọc HUONG_DAN_M2_M3_FINAL.md và làm đúng phần việc của M2."** (hoặc "Tôi là M3 ...")
 

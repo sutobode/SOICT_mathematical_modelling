@@ -124,7 +124,7 @@ Thay vì biến theo cặp nút, mỗi demand chọn **một đường trong t�
 
 ### 3.3. Sinh cột (column generation) và tinh chỉnh
 
-Khi tập ứng viên đầy đủ quá lớn, ta giải LP với một tập ứng viên nhỏ, lấy **dual của các ràng buộc tải**, tính **reduced cost** của các đường chưa có, rồi thêm các đường có reduced cost âm (tham số `extra`). Lặp đến khi không còn cột cải thiện. Hàm `lex_refine` sau đó tinh chỉnh tải lớn thứ hai trở đi (xấp xỉ mục tiêu từ điển).
+Khi tập ứng viên đầy đủ quá lớn, ta giải LP với một tập ứng viên nhỏ, lấy **dual của các ràng buộc tải**, tính **reduced cost** của các đường chưa có, rồi thêm các đường có reduced cost âm (tham số `extra`). Lặp đến khi không còn cột cải thiện. Hàm `lex_refine` (tinh chỉnh tải lớn thứ hai trở đi) **có trong mã nguồn nhưng không được bộ chạy thực nghiệm gọi**, nên mọi kết quả trong bảng chỉ tối thiểu MLU (mức đầu của thứ tự từ điển) cộng một phạt nhỏ.
 
 ### 3.4. LNS — tìm kiếm lân cận lớn (`src/lns.jl`)
 
@@ -149,7 +149,7 @@ Tìm kiếm cục bộ cho cả 20 instance. Hạn chế: bị kẹt khi nhiều
 | Cấu hình solver | `threads=1`, `mip_rel_gap=1e-6`, `random_seed` = chỉ số lần chạy; presolve tắt nếu > 1,2 triệu biến |
 | Giới hạn thời gian | Bảng 1 ($t=0$): 1800 s. Bảng 2 ($t=0,1$): 3600 s |
 | Số lần chạy | Mục tiêu 10. Quy tắc: lần 1 ≤ 120 s thì chạy đủ 10 lần, ngược lại tối thiểu 3 lần rồi bổ sung dần |
-| CPU time | Chỉ tính thời gian `optimize!` (đúng yêu cầu của thầy) |
+| CPU time | Thời gian `solve_time(model)` của HiGHS trong lời gọi `optimize!` (thời gian thực của bộ giải, không gồm dựng mô hình); gọi đúng tên là "thời gian giải" |
 | Trạng thái | Optimal / Not Optimal / Infeasible; gap $=1-\text{LB}/\text{UB}$ khi chưa tối ưu |
 | Số nút B&B | Số nút HiGHS báo cáo, trung bình trên các lần chạy |
 | Các cột trung bình | Thời gian, gap và nút B&B lấy trung bình trên số lần ghi ở cột "Số lần"; "MLU" là **giá trị tốt nhất trong các lần** |
@@ -313,7 +313,7 @@ Quy ước: **MLU** càng nhỏ càng tốt. Hàng `arc-pc` là mô hình theo c
 3. **Các hàng `*` không phải mô hình của thầy.** "Optimal\*" chỉ có nghĩa tối ưu trong bài toán thu hẹp (≤ 1 waypoint). Trên các instance kiểm tra được, chênh với mô hình đầy đủ ≤ 0,011 %, nhưng chưa chứng minh cho mọi instance.
 4. **Hàng `arc-pc` của setA-04, 05 ở $t=0,1$ cho kết quả kém** do giới hạn của bộ giải; con số tốt hơn nằm ở cột cuối. Báo cáo cuối cần trình bày cả hai và giải thích.
 5. **Thời gian CPU chịu ảnh hưởng của chạy song song.** Các hàng nhanh (setA-01, 02, 03, 05 ở $t=0$; 01, 03 ở $t=0,1$) cần chạy lại khi máy rảnh nếu muốn số liệu thời gian sạch.
-6. **Mục tiêu từ điển chỉ được xấp xỉ** bằng $z+\varepsilon\sum x$ (kèm `lex_refine` ở pipeline waypoint), chưa giải đúng từng tầng như đề.
+6. **Mục tiêu từ điển chưa được giải đúng:** mọi kết quả trong bảng tối thiểu $z+\varepsilon\sum x$ (MLU cộng phạt nhỏ), không phải cực tiểu từ điển của vector tải sắp giảm dần. `lex_refine` có trong mã nguồn nhưng **không** được dùng để tạo số liệu nào trong bảng.
 7. **Hàng setA-04 $t=0$:** 10 lần cho MLU khác nhau (0,50105–0,51828), bảng ghi giá trị tốt nhất.
 8. **Báo cáo LaTeX chưa hoàn thiện** (theo yêu cầu: do người khác làm).
 

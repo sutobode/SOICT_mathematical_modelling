@@ -1,3 +1,7 @@
 [2026-10-20 08:41:39] BAT DAU setA-04 t=0,1 seed 5 (free RAM 15.5 GB)
 [2026-10-20 09:43:00] KET THUC setA-04 seed 5 (ma thoat 0)
 [2026-10-20 09:43:01] BAT DAU setA-04 t=0,1 seed 6 (free RAM 17.3 GB)
+[2026-10-20 11:53:56] KET THUC setA-04 seed 6 (ma thoat 127)
+[2026-10-20 11:53:58] BAT DAU setA-04 t=0,1 seed 7 (free RAM 16.1 GB)
+[2026-10-20 12:55:18] KET THUC setA-04 seed 7 (ma thoat 0)
+[2026-10-20 12:55:20] BAT DAU setA-04 t=0,1 seed 8 (free RAM 18.1 GB)

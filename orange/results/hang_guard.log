@@ -1,0 +1,3 @@
+[2026-10-20 11:31:14] hang_guard bat dau: dung tien trinh run_experiments.jl chay qua 7800 s
+[2026-10-20 11:31:48] hang_guard bat dau: dung tien trinh julia chay qua 7800 s (loai tru PID [7720])
+[2026-10-20 11:53:56] DA DUNG PID 29148 (chay 7854 s > 7800 s); seed do khong co dong CSV; chuoi chuyen sang seed ke tiep

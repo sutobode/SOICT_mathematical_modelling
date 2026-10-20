@@ -182,7 +182,7 @@ python orange/scripts/publish_member_results.py <ten>                 # tạo nh
 
 - Thành công: in `Da dua ket qua len origin/results/<ten>`. Báo nhóm: "đã đẩy khoảng ...".
 - `PUSH BI TU CHOI`: bạn chưa có quyền ghi. Kết quả đã nằm trong commit cục bộ; chạy `python orange/scripts/pack_member_results.py <ten>` để tạo file `member_results/<ten>_<ngày_giờ>.zip` và **gửi file zip cho M1** (qua chat/Drive).
-- **Đây là thao tác git duy nhất bạn được làm** (ngoài `clone`, `fetch`, `pull`, `show`).
+- **Đây là thao tác git duy nhất bạn được làm** (ngoài `clone`, `fetch`, `show`).
 
 ## 13. Khi có sự cố
 
@@ -200,7 +200,7 @@ python orange/scripts/publish_member_results.py <ten>                 # tạo nh
 Nếu bạn là coding agent và người dùng nói họ là M2 hoặc M3:
 1. **Đọc và làm theo đúng file này, từng bước, theo thứ tự.** Nếu người dùng chưa nói vai trò, hỏi: "Bạn là M2 hay M3?".
 2. Chi tiết bổ sung và các quy tắc nghiêm ngặt dành cho agent: `project/AGENT_BRIEFS/00_NGU_CANH_CHUNG.md`, và khối PROMPT trong `project/AGENT_BRIEFS/M2_BRIEF.md` hoặc `M3_BRIEF.md`.
-3. **Cấm:** sửa/xóa/đổi tên file được theo dõi trong git; dùng git ngoài các lệnh `clone`, `fetch`, `pull`, `show` và lệnh `python orange/scripts/publish_member_results.py <ten>`; đẩy lên `main` hoặc `feature/tasr`; dùng `--force`; chạy hai tiến trình Julia nặng cùng lúc; chạy lại lệnh đã chạy xong; thay đổi cài đặt hệ thống (ngoài việc khởi chạy `keep_awake.ps1`).
+3. **Cấm:** sửa/xóa/đổi tên file được theo dõi trong git; dùng git ngoài các lệnh `clone`, `fetch`, `show` và lệnh `python orange/scripts/publish_member_results.py <ten>`; đẩy lên `main` hoặc `feature/tasr`; dùng `--force`; chạy hai tiến trình Julia nặng cùng lúc; chạy lại lệnh đã chạy xong; thay đổi cài đặt hệ thống (ngoài việc khởi chạy `keep_awake.ps1`).
 4. Lệnh dài (khoảng 1 giờ mỗi lần) **phải chạy nền** với output ghi ra file; kiểm tra mỗi 20–30 phút; không busy-wait.
 5. **Dừng và hỏi người dùng** khi: thiếu RAM, Julia lỗi, `check` khác `ok`, status lạ, trùng seed, máy ngủ, hoặc bất cứ điều gì không có trong tài liệu này. Báo cáo trung thực, kể cả thất bại hay kết quả một phần; **không bao giờ** sửa hay bịa số liệu.
 6. Khi xong, viết **báo cáo cuối** gồm: vai trò; máy (CPU/RAM/OS từ `environment-<ten>.txt`); với mỗi lệnh: lệnh đã chạy, đường dẫn CSV, trạng thái, MLU và `check`, giờ bắt đầu và kết thúc, thời gian (cột `solve_time`), sự cố (máy ngủ, thiếu RAM, chạy lại); kết quả `publish_member_results.py` (hoặc đường dẫn zip); và điều người dùng nên kiểm tra lại.

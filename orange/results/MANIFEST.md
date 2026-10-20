@@ -1,11 +1,11 @@
 # Hồ sơ truy vết kết quả thực nghiệm
 
-Tạo lúc: 2026-10-20 10:28:32
+Tạo lúc: 2026-10-20 11:28:45
 
 ## Phiên bản mã nguồn
 
 - Repository: `https://github.com/sutobode/SOICT_mathematical_modelling.git`
-- Nhánh: `feature/tasr`; commit hiện tại: `8313f2c` (docs: fix Windows log redirect (cmd /c), drop git pull from member rules, agent section points to prompt file)
+- Nhánh: `feature/tasr`; commit hiện tại: `f90f952` (docs: M1 work report (living document))
 - Commit chưa lưu (thay đổi chưa commit trong `orange/src`): 0 file
 - SHA-256 của `orange/Manifest.toml` (khóa phiên bản thư viện Julia): `268873ad2c6ebc345270b30f982354b34d73580d0ce29ed47724c5e22ff8b8b2`
 

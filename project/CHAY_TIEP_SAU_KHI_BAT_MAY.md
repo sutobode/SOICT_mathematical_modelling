@@ -54,3 +54,10 @@ Mốc gộp cuối của nhóm: ~12:00 Thứ Tư 21/10. Nếu chỉ chạy đư�
 2. **Có merge nhánh `hung` hay không:** xem `project/NHAN_XET_NHANH_HUNG.md` (còn 4 việc bắt buộc Hùng phải sửa).
 3. **Các việc chưa làm của mục tiêu:** tối ưu từ điển thật (chưa chạy nổi), chạy lặp 10 lần các hàng thu hẹp, kết quả của M2/M3.
 
+
+## 7. Tối ưu từ điển chính xác `lex_topk!` (mới, 21/10 ~00:40)
+
+- **Đã cài đặt** `lex_topk!` trong `orange/src/model.jl` (không dùng big-M, không thêm biến nhị phân; dùng tổng $k$ tải lớn nhất theo Ogryczak–Tamir) và script `orange/scripts/run_lex_topk.jl <instance> <P> <K> [giây_mỗi_mức]`.
+- **Đã kiểm chứng:** hai test mới trong `orange/test/runtests.jl` đạt (toàn bộ bộ test mã thoát 0): vector tải từ điển khớp **vét cạn** trên đồ thị toy cho cả $P=1$ và $P=2$ có ngân sách (đủ mọi hạng), và nghiệm xuất ra đúng bằng nghiệm tối ưu từ điển.
+- **Chưa chạy được trên instance thật:** lần chạy `setA-01 P=1 K=10` (300 s mỗi mức) chưa xong khi dừng máy, nên chưa có số liệu trong `orange/results/lex_topk.csv`. Cách thử lại: `julia --project=orange orange/scripts/run_lex_topk.jl setA-01 1 3 300` (K nhỏ trước), rồi tăng K. Kết quả mong đợi: `K_proven = K`, `verified = true`.
+- Chưa đưa vào bảng chính; chỉ là kết quả bổ sung cho mục tiêu (5) của đề.

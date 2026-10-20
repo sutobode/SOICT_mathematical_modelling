@@ -149,3 +149,38 @@ function lex_second_stage!(model, z, load, inst::Instance, zstar::Real)
                                if !(a in inst.down[p])))
     return model
 end
+
+"""
+    lex_topk!(model, load, inst, K; abs_tol=1e-9)
+
+Tối ưu từ điển CHÍNH XÁC cho `K` hạng đầu của vector tải (đã sắp giảm dần) trên mọi cung đang hoạt động của mọi thời kỳ,
+không dùng hằng big-M và không thêm biến nhị phân. Dùng tính chất (Ogryczak–Tamir): cực tiểu từ điển của vector tải sắp giảm
+θ tương đương cực tiểu từ điển của vector tổng tích luỹ S_k = θ_1 + ... + θ_k, và S_k (tổng k tải lớn nhất) biểu diễn tuyến tính
+bằng  S_k = k·t_k + Σ_e d_{k,e},  d_{k,e} ≥ u_e − t_k,  d_{k,e} ≥ 0.
+Với k = 1..K: tối thiểu S_k với ràng buộc S_j ≤ S_j* (j < k) rồi cố định S_k*. Trả về
+`(theta=[θ_1..θ_m], cumulative=[S_1*..S_m*], proven=m, requested=K)`, trong đó m ≤ K là số hạng đã chứng minh tối ưu
+(dừng sớm nếu một mức không đạt trạng thái OPTIMAL, ví dụ hết thời gian). Thay mục tiêu hiện có của `model`.
+"""
+function lex_topk!(model::Model, load, inst::Instance, K::Int; abs_tol::Float64=1e-9)
+    active = [(p, a) for p in eachindex(load), a in 1:inst.m if !(a in inst.down[p])]
+    util = [load[p][a] / inst.cap[a] for (p, a) in active]
+    L = length(util)
+    K = min(K, L)
+    cum = Float64[]
+    Sexpr = AffExpr[]
+    for k in 1:K
+        t = @variable(model, base_name="lex_t$k")
+        d = @variable(model, [1:L], lower_bound=0, base_name="lex_d$k")
+        @constraint(model, [e=1:L], d[e] >= util[e] - t)
+        S = k * t + sum(d)
+        push!(Sexpr, S)
+        @objective(model, Min, S)
+        optimize!(model)
+        termination_status(model) == MOI.OPTIMAL || (pop!(Sexpr); break)
+        sk = objective_value(model)
+        push!(cum, sk)
+        k < K && @constraint(model, S <= sk + abs_tol * max(1.0, abs(sk)))   # hạng cuối: giữ nguyên nghiệm đã giải
+    end
+    theta = [cum[k] - (k == 1 ? 0.0 : cum[k - 1]) for k in eachindex(cum)]
+    return (theta=theta, cumulative=cum, proven=length(cum), requested=K)
+end

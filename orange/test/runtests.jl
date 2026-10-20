@@ -710,3 +710,60 @@ end
     run_instance(TOY, "toy", 2, 60; runs=1, outdir=out2)
     @test !isdir(joinpath(out2, "solverlogs"))
 end
+
+# ---------- tối ưu từ điển chính xác cho K hạng đầu (lex_topk!) ----------
+# vét cạn: vector tải sắp giảm (mọi cung hoạt động, mọi thời kỳ) nhỏ nhất theo thứ tự từ điển
+function brute_lex(inst, P; mode=:pathcount)
+    n, nD = inst.n, length(inst.dem_s)
+    rs = [build_r(inst, p; mode=mode) for p in 1:P]
+    seq(d, w) = w == 0 ? [inst.dem_s[d], inst.dem_t[d]] : [inst.dem_s[d], w, inst.dem_t[d]]
+    opts = [[w for w in 0:n if w == 0 || (w != inst.dem_s[d] && w != inst.dem_t[d])] for d in 1:nD]
+    joint = collect(Iterators.product(opts...))
+    act(p) = [a for a in 1:inst.m if !(a in inst.down[p])]
+    utilvec(c, p) = utilization(inst, rs, Dict((d, p) => seq(d, c[d]) for d in 1:nD), p)[act(p)]
+    best = nothing
+    consider(v) = (vs = sort(v; rev=true); (best === nothing || lex_leq(vs, best)) && (best = vs))
+    if P == 1
+        for c in joint
+            consider(utilvec(c, 1))
+        end
+    else
+        for c0 in joint, c1 in joint
+            ch = sum(changes(seq(d, c0[d]), seq(d, c1[d])) for d in 1:nD)
+            ch <= inst.budget[2] || continue
+            consider(vcat(utilvec(c0, 1), utilvec(c1, 2)))
+        end
+    end
+    return best
+end
+
+@testset "lex_topk! equals brute-force lexicographic optimum (toy, maxSeg=2)" begin
+    for P in (1, 2)
+        inst = read_instance(TOY; maxseg=2)
+        rs = [build_r(inst, p; mode=:pathcount) for p in 1:P]
+        want = brute_lex(inst, P)
+        K = length(want)                                   # toàn bộ các hạng
+        model, x, z, load = build_model(inst, rs, P, OPT; eps=0.0, acyclic=true)
+        res = lex_topk!(model, load, inst, K)
+        @test res.proven == K
+        @test all(isapprox.(res.theta, want; atol=1e-6))
+        paths = extract_paths(inst, x, P)
+        got = sort(vcat([utilization(inst, rs, paths, p)[[a for a in 1:inst.m if !(a in inst.down[p])]] for p in 1:P]...); rev=true)
+        @test all(isapprox.(got, want; atol=1e-6))         # nghiệm xuất ra đúng là nghiệm tối ưu từ điển
+        @test res.theta[1] >= res.theta[end] - 1e-9        # vector sắp giảm
+    end
+end
+
+@testset "lex_topk! first levels are no worse lexicographically than min-MLU solution" begin
+    inst = read_instance(TOY; maxseg=2)
+    rs = [build_r(inst, 1; mode=:pathcount)]
+    m0, x0, z0, load0 = build_model(inst, rs, 1, OPT; eps=0.0, acyclic=true)
+    optimize!(m0)
+    p0 = extract_paths(inst, x0, 1)
+    v0 = sort(utilization(inst, rs, p0, 1)[[a for a in 1:inst.m if !(a in inst.down[1])]]; rev=true)
+    model, x, z, load = build_model(inst, rs, 1, OPT; eps=0.0, acyclic=true)
+    res = lex_topk!(model, load, inst, 4)
+    @test res.proven == 4
+    @test lex_leq(res.theta, v0[1:4]; tol=1e-6)
+    @test res.theta[1] ≈ value(z0) atol = 1e-6              # hạng đầu = MLU tối ưu
+end

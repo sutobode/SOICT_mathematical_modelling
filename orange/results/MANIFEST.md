@@ -1,11 +1,11 @@
 # Hồ sơ truy vết kết quả thực nghiệm
 
-Tạo lúc: 2026-10-20 14:59:00
+Tạo lúc: 2026-10-20 16:09:03
 
 ## Phiên bản mã nguồn
 
 - Repository: `https://github.com/sutobode/SOICT_mathematical_modelling.git`
-- Nhánh: `feature/tasr`; commit hiện tại: `f7ddb2f` (docs: audit cross-check; report no longer claims lex_refine is used; solver-time naming)
+- Nhánh: `feature/tasr`; commit hiện tại: `9d32098` (docs: correct which seeds save per-run solutions; setA-04 seed 8 done)
 - Commit chưa lưu (thay đổi chưa commit trong `orange/src`): 0 file
 - SHA-256 của `orange/Manifest.toml` (khóa phiên bản thư viện Julia): `268873ad2c6ebc345270b30f982354b34d73580d0ce29ed47724c5e22ff8b8b2`
 

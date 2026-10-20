@@ -34,3 +34,27 @@ Src: B => Branching; C => Central rounding; F => Feasibility pump; H => Heuristi
 Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
 
          0       0         0   0.00%   0               0.5885748276     100.00%        0      0      0         0    18.7s
+         0       0         0   0.00%   0               0.5885748276     100.00%        0      0      0    102126  3603.5s
+
+Solving report
+  Status            Time limit reached
+  Primal bound      0.588574827616
+  Dual bound        0
+  Gap               100% (tolerance: 0.0001%)
+  P-D integral      3584.83249617
+  Solution status   feasible
+                    0.588574827616 (objective)
+                    0 (bound viol.)
+                    0 (int. viol.)
+                    0 (row viol.)
+  Timing            3603.52
+                    1.37 (Presolve)
+                    3602.09 (Solve)
+                    0.00 (Postsolve)
+  Max sub-MIP depth 0
+  Nodes             0
+  Repair LPs        0
+  LP iterations     102126
+                    0 (strong br.)
+                    0 (separation)
+                    0 (heuristics)

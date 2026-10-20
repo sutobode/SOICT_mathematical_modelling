@@ -1,0 +1,2 @@
+instance,P,run,n,m,nD,status,z,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,start_time,start_mlu
+setA-04,2,5,50,250,200,Not Optimal,0.588574623115578,0.588574623115578,1.000000502512563,0.41142567265041574,0.0,1.0,3604.267306804657,0,ok,0.588574827615578,0.0622236,0.588574623115578

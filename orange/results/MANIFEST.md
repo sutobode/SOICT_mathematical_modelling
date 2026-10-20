@@ -1,11 +1,11 @@
 # Hồ sơ truy vết kết quả thực nghiệm
 
-Tạo lúc: 2026-10-20 13:17:16
+Tạo lúc: 2026-10-20 14:28:58
 
 ## Phiên bản mã nguồn
 
 - Repository: `https://github.com/sutobode/SOICT_mathematical_modelling.git`
-- Nhánh: `feature/tasr`; commit hiện tại: `2d3dd3a` (ops: hang_guard.py stops runaway runs (>7800 s); journal entry for setA-04 seed 6 overrun)
+- Nhánh: `feature/tasr`; commit hiện tại: `7e997a2` (data: setA-04 t=0,1 seed 7 done)
 - Commit chưa lưu (thay đổi chưa commit trong `orange/src`): 0 file
 - SHA-256 của `orange/Manifest.toml` (khóa phiên bản thư viện Julia): `268873ad2c6ebc345270b30f982354b34d73580d0ce29ed47724c5e22ff8b8b2`
 

@@ -767,3 +767,5 @@ end
     @test lex_leq(res.theta, v0[1:4]; tol=1e-6)
     @test res.theta[1] ≈ value(z0) atol = 1e-6              # hạng đầu = MLU tối ưu
 end
+
+include("multigraph.jl")   # SetA có thật sự là đa đồ thị không?

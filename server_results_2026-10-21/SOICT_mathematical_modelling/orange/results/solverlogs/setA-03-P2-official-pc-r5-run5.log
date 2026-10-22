@@ -1,0 +1,89 @@
+Running HiGHS 1.15.1 (git hash: 04024d701f): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Using BLAS: libblastrampoline 
+MIP has 104540 rows; 147001 cols; 1132319 nonzeros; 98000 integer variables (98000 binary)
+Coefficient ranges:
+  Matrix  [1e+00, 1e+03]
+  Cost    [1e+00, 1e+00]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 5e+01]
+Assessing feasibility of MIP using primal feasibility and integrality tolerance of       1e-06
+Solution has               num          max          sum
+Col     infeasibilities      0            0            0
+Integer infeasibilities      0            0            0
+Row     infeasibilities      0            0            0
+Row     residuals            0            0            0
+Presolving model
+104438 rows, 147001 cols, 1132217 nonzeros 0s
+104438 rows, 147001 cols, 1128428 nonzeros 197s
+Presolve reductions: rows 104438(-102); columns 147001(-0); nonzeros 1128428(-3891) 
+
+MIP start solution is feasible, objective value is 0.943543414634
+
+Solving MIP model with:
+   104438 rows
+   147001 cols (98000 binary, 0 integer, 0 implied int., 49001 continuous, 0 domain fixed)
+   1128428 nonzeros
+   Thread count 1 (of 16 threads). Using 1 max workers. Parallel search off
+
+Src: B => Branching; C => Central rounding; F => Feasibility pump; H => Heuristic;
+     I => Shifting; J => Feasibility jump; L => Sub-MIP; P => Empty MIP; R => Randomized rounding;
+     S => Solve LP; T => Evaluate node; U => Unbounded; X => User solution; Y => HiGHS solution;
+     Z => ZI Round; l => Trivial lower; p => Trivial point; u => Trivial upper; z => Trivial zero
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+         0       0         0   0.00%   0               0.9435434146     100.00%        0      0      0         0   199.5s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%        0      0      1      2253   202.6s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%      174     12      1      7902   211.7s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%      413     23      1     11872   218.7s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%      627     32      1     17757   230.9s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%      775     41      1     22061   240.1s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%      886     48     21     29784   282.9s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%      954     58     21     37827   304.3s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%      995     68     21     46344   331.1s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     1037     72     21     54402   356.0s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     1157     79     21     63186   386.0s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     1298     87     21     72355   418.7s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     1409     95     21     80033   444.2s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     1540    105     21     89336   478.9s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     1643    112     21    100935   521.1s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     1866    120     21    109682   552.3s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     2017    104     21    116808   580.9s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     2275    115     21    122628   601.5s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     2466    126     21    130853   632.9s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     2667    132     21    135228   646.5s
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     2906    141     21    142800   676.0s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     2941    118     21    150234   703.4s
+         0       0         0   0.00%   0.6336611557    0.9435434146      32.84%     3252    128     21    159463   741.6s
+         0       0         0   0.00%   0.6773315968    0.9435434146      28.21%     3512    138     21    165710   767.0s
+         0       0         0   0.00%   0.6773315968    0.9435434146      28.21%     3685    146     21    170754   785.7s
+         1       0         1 100.00%   0.9435434146    0.9435434146       0.00%     3853    155     21    204358  1073.6s
+
+Solving report
+  Status            Optimal
+  Primal bound      0.943543414634
+  Dual bound        0.943543414634
+  Gap               0% (tolerance: 0.0001%)
+  P-D integral      274.889208672
+  Solution status   feasible
+                    0.943543414634 (objective)
+                    0 (bound viol.)
+                    0 (int. viol.)
+                    0 (row viol.)
+  Timing            1073.65
+                    197.82 (Presolve)
+                    875.83 (Solve)
+                    0.00 (Postsolve)
+  Max sub-MIP depth 0
+  Nodes             1
+  Repair LPs        0
+  LP iterations     204358
+                    0 (strong br.)
+                    202105 (separation)
+                    0 (heuristics)

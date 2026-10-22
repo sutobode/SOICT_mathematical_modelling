@@ -1,0 +1,61 @@
+T-ASR official experiment campaign - computational environment
+================================================================
+Sources: orange/results/environment-server.txt (written at campaign start),
+/etc/os-release and `Pkg.status(mode=PKGMODE_MANIFEST)` read on the server
+(read-only, 2026-10-22), orange/Manifest.toml and source code at commit 0da1a52.
+
+Host
+----
+Server                : 10.0.12.30 (shared server; other users' jobs were running)
+OS                    : Ubuntu 24.04.3 LTS (Noble Numbat), Linux 6.8.0-124-generic x86_64
+Virtualisation        : VMware guest (Hypervisor vendor: VMware, full virtualisation)
+CPU model             : Intel(R) Xeon(R) Silver 4314 CPU @ 2.40GHz
+vCPUs (logical)       : 16  (lscpu: 16 sockets x 1 core x 1 thread per core)
+Physical cores        : not observable from inside the VM (16 vCPUs exposed)
+RAM total             : 125 GiB
+RAM available at start: 117 GiB (free -h "available", 2026-10-20 ~15:52 UTC)
+Swap                  : 8 GiB (3.7 GiB in use at start, by other processes)
+
+Software
+--------
+Julia                 : 1.13.1 (official linux x86_64 binary)
+JuMP                  : 1.32.1
+MathOptInterface      : 1.54.0
+HiGHS.jl              : 1.26.0
+HiGHS (library)       : 1.15.1 (HiGHS_jll 1.15.1+3; solver logs: "Running HiGHS 1.15.1 (git hash: 04024d701f)")
+Graphs.jl             : 1.15.0
+JSON3.jl              : 1.14.3
+Independent verifier  : orange/scripts/verify_srpaths.py, Python 3.12.3 (standard library only)
+
+Process / thread settings (exported by the campaign driver)
+------------------------------------------------------------
+JULIA_NUM_THREADS     : 1
+OPENBLAS_NUM_THREADS  : 1
+OMP_NUM_THREADS       : 1
+MKL_NUM_THREADS       : 1
+Concurrency           : one experiment Julia process at a time (strictly sequential batches)
+
+Solver settings (source: orange/src/experiment.jl, commit 0da1a52)
+------------------------------------------------------------------
+HiGHS threads         : 1 (hard-coded; log: "Thread count 1 (of 16 threads) ... Parallel search off")
+mip_rel_gap           : 1e-6
+random_seed           : = run id (1..10) for both full-arc and restricted-waypoint MILPs
+presolve              : "off" when the model has > 1,200,000 variables (PRESOLVE_OFF_VARS), else "choose"
+                        (solver logs: presolve switched off only for P=2 setA-04 and P=2 setA-05;
+                        all other full-arc models were presolved)
+Time limit            : P=1 1800 s, P=2 3600 s per run, passed via set_time_limit_sec; one budget shared
+                        across the (optional) acyclic retry: remaining = limit - first-attempt time
+MIP start             : heuristic local_search(...) start solution, seed fixed at 1 (same for all runs);
+                        its time (column start_time, <1 s) is not included in solve_time
+Restricted candidates : official runs use candidate_seed = 1 and extend_start_candidates = false,
+                        so the waypoint candidate set is identical across runs (SHA-256 fingerprint in CSV)
+ORANGE_MAX_VARS       : 16,000,000 for P=1 full-arc batches, 10,000,000 for P=2 full-arc batches
+Memory guard          : full-arc run skipped if estimated bytes > 0.7 * free memory (never triggered)
+
+Campaign timeline (UTC)
+-----------------------
+2026-10-20 15:49:48  branch hung @ 0da1a52, working tree clean (checked by driver), Pkg.instantiate
+2026-10-20 15:50:57  test suite start; 15:52:02 end, all tests passed
+2026-10-20 15:52:02  first official batch (P=1 setA-01..03)
+2026-10-20 16:17:43  driver switched to the deadline-ordered plan (pipeline2.sh)
+2026-10-22 11:51:45  last batch finished; 11:52:42 official_tables.jl finished (rc=0)

@@ -1,0 +1,26 @@
+# Official path-count results, P=2
+
+| Instance | Vertices | Links | Demands | Routing mode | Model type | Run count | Successful runs | Full model status | Best MLU | Valid MLU lower bound | Average solve time (s) | Average gap | Average B&B nodes | Optimal runs | Status | Best run | Verification | Artifact |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| setA-01 | 20 | 80 | 40 | pathcount | full_arc | 10 | 10 | complete | 0.92938 | 0.92938 | 20.8 | 0.0 | 1.0 | 10/10 | Optimal | 1 | verified | official-artifacts/setA-01-P2-pathcount-best-run1-srpaths.json |
+| setA-02 | 30 | 150 | 45 | pathcount | full_arc | 10 | 10 | complete | 0.90307 | 0.90307 | 2234.9 | 0.45882 | 0.4 | 4/10 | Feasible upper bound (restricted) | 1 | verified | official-artifacts/setA-02-P2-pathcount-best-run1-srpaths.json |
+| setA-03 | 50 | 250 | 20 | pathcount | full_arc | 10 | 10 | complete | 0.94354 | 0.94354 | 759.6 | 0.0 | 1.0 | 10/10 | Optimal | 1 | verified | official-artifacts/setA-03-P2-pathcount-best-run1-srpaths.json |
+| setA-04 | 50 | 250 | 200 | pathcount | full_arc | 10 | 10 | complete | 0.58857 | 0.58114 | 6346.0 | 0.01262 | 0.0 | 0/10 | Feasible upper bound (restricted) | 1 | verified | official-artifacts/setA-04-P2-pathcount-best-run1-srpaths.json |
+| setA-05 | 100 | 396 | 100 | pathcount | full_arc | 10 | 10 | complete | 0.29814 | 0.20499 | 5037.9 | 0.72041 | 0.0 | 0/10 | Feasible upper bound (restricted) | 6 | verified | official-artifacts/setA-05-P2-pathcount-best-run6-srpaths.json |
+| setA-06 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-07 | 100 | 500 | 800 | pathcount | restricted_waypoint | 10 | 10 | not_run | 0.90799 | N/A | 80.8 | N/A | 0.0 | 10/10 | Feasible upper bound (restricted) | 1 | verified | official-artifacts/setA-07-P2-pathcount-best-run1-srpaths.json |
+| setA-08 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-09 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-10 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-11 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-12 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-13 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-14 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-15 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-16 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-17 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-18 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-19 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+| setA-20 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+
+Only complete path-count, pure-MLU samples with runs 1 through 10 are reportable. Restricted waypoint rows are feasible upper bounds, not original-problem optima.

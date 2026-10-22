@@ -1,0 +1,6 @@
+11:MIN_AVAIL_GB=${MIN_AVAIL_GB:-40}
+1125961 timeout --signal=TERM --kill-after=120 200530 bash -c ORANGE_MAX_VARS=10000000 julia --project=orange orange/scripts/run_experiments
+1125962 julia --project=orange orange/scripts/run_experiments.jl 2 3600 1 3 pc 1 10
+1127601 bash -c while kill -0 1125961 2>/dev/null; do sleep 60; done; exec bash /home/darkweb/network-model-test/pipeline2.sh
+2026-10-20T16:17:50+00:00 V2 p2_s01-03 START attempt=1 CMD: ORANGE_MAX_VARS=10000000 julia --project=orange orange/scripts/run_experiments.jl 2 3600 1 3 pc 1 10
+2026-10-20T16:22:13+00:00 THRESHOLD: MIN_AVAIL_GB 60 -> 40 (user). Driver restarted after current batch (timeout pid 1125961) ends.

@@ -1,11 +1,11 @@
 # Hồ sơ truy vết kết quả thực nghiệm
 
-Tạo lúc: 2026-10-20 23:40:26
+Tạo lúc: 2026-10-22 19:11:28
 
 ## Phiên bản mã nguồn
 
 - Repository: `https://github.com/sutobode/SOICT_mathematical_modelling.git`
-- Nhánh: `feature/tasr`; commit hiện tại: `af07293` (ops: follow-up makeup for setA-05 seed 10 (killed by watchdog on low RAM); journal)
+- Nhánh: `feature/tasr`; commit hiện tại: `abfae47` (test: SetA has no real multigraph (no parallel arcs/self-loops) - Julia test with positive control and standalone Python checker)
 - Commit chưa lưu (thay đổi chưa commit trong `orange/src`): 0 file
 - SHA-256 của `orange/Manifest.toml` (khóa phiên bản thư viện Julia): `268873ad2c6ebc345270b30f982354b34d73580d0ce29ed47724c5e22ff8b8b2`
 

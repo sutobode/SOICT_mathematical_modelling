@@ -2,8 +2,8 @@ Instance,Vertices,Links,Demands,Best objective (MLU),CPU time (s),Status,Gap,B&B
 setA-01,20,80,40,0.92938,39.3,Optimal,--,1.0,10,arc-pc,0.92938
 setA-02,30,150,45,0.90307,2869.9,Optimal 9/10,0.1,1.0,10,arc-pc,0.90307
 setA-03,50,250,20,0.94354,1131.2,Optimal 8/10,0.2,1.0,10,arc-pc,0.94354
-setA-04,50,250,200,0.58857,4157.0,Not Optimal,0.72,0.0,7,arc-pc,0.58281
-setA-05,100,396,100,0.99999,4327.1,Not Optimal,1.0,0.0,5,arc-pc,0.20499
+setA-04,50,250,200,0.58857,4034.7,Not Optimal,0.78,0.0,9,arc-pc,0.58281
+setA-05,100,396,100,0.20499,3983.1,Optimal 1/9,0.89,0.0,9,arc-pc,0.20499
 setA-06,100,500,500,0.14085,2223.5,Not Optimal (1-wp),0.3,0.0,1,wp-cg,0.14085
 setA-07,100,500,800,0.90799,3.2,Optimal (1-wp),--,0.0,1,wp-cg,0.90799
 setA-08,150,654,200,0.3189,8.5,Optimal (1-wp),--,1.0,1,wp-cg,0.3189

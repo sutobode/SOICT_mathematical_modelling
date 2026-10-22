@@ -28,6 +28,8 @@ end
 @testset "ecmp toy (Bảng 2 của đề)" begin
     inst = read_instance(TOY)
     R = routing(inst, 1)
+    @test R.D[1, 6] ≈ 400.0
+    @test R.S[1, 6] ≈ 3.0
     f = ecmp_split(inst, R, 1, 6)                        # v0 -> v5
     @test f[arc(inst, 0)] ≈ 1.0                          # a0,1
     @test f[arc(inst, 2)] ≈ 0.5                          # a1,3
@@ -73,6 +75,70 @@ end
     f = ecmp_split(inst, routing(inst, 1), 1, 4)
     # 0.1+0.2 = 0.30000000000000004 và 0.15+0.15 = 0.3 phải hòa: 4 cung, mỗi cung 0.5
     @test length(f) == 4 && all(≈(0.5), values(f))
+end
+
+@testset "parallel arcs with different metrics" begin
+    dir = mktempdir()
+    write(joinpath(dir, "t-net.json"), """{"directed":true,"multigraph":true,
+      "nodes":[{"name":"s","id":0},{"name":"t","id":1}],
+      "links":[{"id":10,"from":0,"to":1,"metric":1,"capacity":10},
+               {"id":11,"from":0,"to":1,"metric":3,"capacity":20}]}""")
+    write(joinpath(dir, "t-tm.json"), """{"num_time_slots":2,"demands":[{"v":[1,1],"s":0,"t":1}]}""")
+    write(joinpath(dir, "t-scenario.json"), """{"max_segments":2,"budget":[],
+      "interventions":[{"t":1,"links":[10]}]}""")
+    inst = read_instance(joinpath(dir, "t"))
+    @test inst.link_id == [10, 11]
+    @test inst.down[2] == [1]
+    R1, R2 = routing(inst, 1), routing(inst, 2)
+    @test R1.D[1, 2] ≈ 1.0 && R1.S[1, 2] ≈ 1.0
+    @test R2.D[1, 2] ≈ 3.0 && R2.S[1, 2] ≈ 1.0
+    for mode in (:ecmp, :pathcount)
+        before = Dict(build_r(inst, 1; mode=mode)[(1, 2)])
+        after = Dict(build_r(inst, 2; mode=mode)[(1, 2)])
+        @test before[1] ≈ 1.0
+        @test get(before, 2, 0.0) ≈ 0.0
+        @test !haskey(after, 1) && after[2] ≈ 1.0
+    end
+end
+
+@testset "equal parallel arcs and intervention" begin
+    dir = mktempdir()
+    write(joinpath(dir, "t-net.json"), """{"directed":true,"multigraph":false,
+      "nodes":[{"name":"s","id":0},{"name":"t","id":1}],
+      "links":[{"id":10,"from":0,"to":1,"metric":1,"capacity":10},
+               {"id":11,"from":0,"to":1,"metric":1,"capacity":20}]}""")
+    write(joinpath(dir, "t-tm.json"), """{"num_time_slots":2,"demands":[{"v":[1,1],"s":0,"t":1}]}""")
+    write(joinpath(dir, "t-scenario.json"), """{"max_segments":2,"budget":[],
+      "interventions":[{"t":1,"links":[10]}]}""")
+    inst = read_instance(joinpath(dir, "t"))
+    R1, R2 = routing(inst, 1), routing(inst, 2)
+    @test R1.D[1, 2] ≈ 1.0 && R1.S[1, 2] ≈ 2.0
+    @test R2.D[1, 2] ≈ 1.0 && R2.S[1, 2] ≈ 1.0
+    for mode in (:ecmp, :pathcount)
+        before = Dict(build_r(inst, 1; mode=mode)[(1, 2)])
+        after = Dict(build_r(inst, 2; mode=mode)[(1, 2)])
+        @test before[1] ≈ 0.5 && before[2] ≈ 0.5
+        @test !haskey(after, 1) && after[2] ≈ 1.0
+    end
+end
+
+@testset "parallel arcs and another equal-cost route" begin
+    dir = mktempdir()
+    write(joinpath(dir, "t-net.json"), """{"directed":true,"multigraph":true,
+      "nodes":[{"name":"s","id":0},{"name":"t","id":1},{"name":"v","id":2}],
+      "links":[{"id":10,"from":0,"to":1,"metric":2,"capacity":10},
+               {"id":11,"from":0,"to":1,"metric":2,"capacity":10},
+               {"id":12,"from":0,"to":2,"metric":1,"capacity":10},
+               {"id":13,"from":2,"to":1,"metric":1,"capacity":10}]}""")
+    write(joinpath(dir, "t-tm.json"), """{"num_time_slots":1,"demands":[{"v":[1],"s":0,"t":1}]}""")
+    write(joinpath(dir, "t-scenario.json"), """{"max_segments":2,"budget":[],"interventions":[]}""")
+    inst = read_instance(joinpath(dir, "t"))
+    R = routing(inst, 1)
+    @test R.D[1, 2] ≈ 2.0 && R.S[1, 2] ≈ 3.0
+    for mode in (:ecmp, :pathcount)
+        f = Dict(build_r(inst, 1; mode=mode)[(1, 2)])
+        @test all(a -> f[a] ≈ 1 / 3, 1:4)
+    end
 end
 
 @testset "changes (Bảng 1 của đề)" begin

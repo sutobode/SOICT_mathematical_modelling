@@ -767,8 +767,9 @@ end
     out = mktempdir()
     logdir = joinpath(out, "solverlogs")
     csv = run_instance(TOY, "toy", 2, 60; runs=2, outdir=out, solver_log_dir=logdir)
-    files = sort(readdir(logdir))
+    files = sort(filter(endswith(".log"), readdir(logdir)))
     @test files == ["toy-P2-run1.log", "toy-P2-run2.log"]
+    @test sort(filter(endswith(".json"), readdir(logdir))) == ["toy-P2-run1-budget.json", "toy-P2-run2-budget.json"]
     txt = read(joinpath(logdir, files[1]), String)
     @test occursin("HiGHS", txt) || occursin("Presolv", txt) || occursin("Solving", txt)
     @test filesize(joinpath(logdir, files[1])) > 200
@@ -855,6 +856,53 @@ end
     cfg = official_wp_configuration(TOY, 1)
     @test cfg.K == parse(Int, rows[1]["K"])
     @test cfg.candidate_fingerprint == rows[1]["candidate_fingerprint"]
+end
+
+@testset "budget guard keeps results within the time budget" begin
+    inst = read_instance(TOY)
+    P = 2
+    rs = [build_r(inst, p; mode=:pathcount) for p in 1:P]
+    start = direct_paths(inst, P)
+    logdir = mktempdir()
+    log_path = joinpath(logdir, "toy-run1.log")
+    model, x, z = Orange.solve_once(inst, rs, P, 60.0, 1, false, start; log_path=log_path,
+                                    objective_mode=:pure_mlu)
+    g = model.ext[:budget_guard]
+    @test g.limit == 60.0 && isfinite(g.wall) && g.wall <= 60.0 + Orange.BUDGET_GRACE_SEC
+    final = Orange.evaluate(inst, rs, P, model, x, z; objective_mode=:pure_mlu)
+    @test final.status == "Optimal" && final.check == "ok"
+    record = Orange.JSON3.read(read(replace(log_path, ".log" => "-budget.json"), String))
+    @test record["truncated"] == false && record["reported_mlu"] ≈ final.mlu
+    @test isempty(g.inc_sol) || g.inc_obj >= final.obj - 1e-6
+
+    # the solver ran past the budget: report the last improving solution found within it, at the budget time.
+    # The in-budget incumbent is the HiGHS column vector of the final solution, which checks the column mapping.
+    raw = Orange._evaluate_final(inst, rs, P, model, x, z; objective_mode=:pure_mlu)
+    inner = JuMP.unsafe_backend(model)
+    sol = zeros(MOI.get(inner, MOI.NumberOfVariables()))
+    for v in all_variables(model)
+        sol[HiGHS.column(inner, optimizer_index(v)) + 1] = value(v)
+    end
+    late = Orange.BudgetGuard(60.0)
+    late.inc_sol, late.inc_obj, late.inc_time, late.bound = sol, objective_value(model), 12.0, 0.1
+    over, rec = Orange._apply_budget(inst, rs, P, model, x, z, late, raw; objective_mode=:pure_mlu,
+                                     start_paths=start, wall=160.0)
+    @test rec["truncated"] && over.t == 60.0 && over.status == "Not Optimal"
+    @test over.check == "ok(budget-truncated)" && rec["reported_source"] == "callback@12.0s"
+    @test over.paths == raw.paths && over.mlu ≈ raw.mlu && over.pure_bound == 0.1
+
+    # nothing improved within the budget: the MIP start (known before the solve) is the in-budget incumbent
+    empty_guard = Orange.BudgetGuard(60.0)
+    empty_guard.bound = 0.25
+    over0, rec0 = Orange._apply_budget(inst, rs, P, model, x, z, empty_guard, raw; objective_mode=:pure_mlu,
+                                       start_paths=start, wall=200.0)
+    @test rec0["reported_source"] == "mip_start" && over0.paths == start
+    @test over0.mlu ≈ max_utilization(inst, rs, start, P) && over0.pure_bound == 0.25 && over0.t == 60.0
+
+    # the solver clock disagrees with the monotonic clock: report the monotonic time
+    skewed = merge(raw, (; t=10_000.0))
+    fixed, _ = Orange._apply_budget(inst, rs, P, model, x, z, g, skewed; objective_mode=:pure_mlu, wall=5.0)
+    @test fixed.t == 5.0 && fixed.check == raw.check * "(solver-clock)" && fixed.mlu == raw.mlu
 end
 
 include("lexicographic.jl")

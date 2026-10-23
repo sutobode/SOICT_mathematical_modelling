@@ -23,6 +23,18 @@ function pure_mlu_gap(mlu, bound)
     return max(0.0, 1.0 - bound / mlu)
 end
 
+"""
+Run tốt nhất của một cấu hình: MLU nhỏ nhất. Các run cùng MLU (sai khác tương đối ≤ 1e-9) là cùng một nghiệm
+về giá trị; khi đó ưu tiên run đã chứng minh tối ưu bài toán gốc (LB = UB), rồi run id nhỏ, để trạng thái của
+cấu hình không phụ thuộc việc run id nhỏ nhất có chứng minh được hay không (setA-02 t=0,1).
+"""
+function _official_best_row(rows)
+    best_mlu = minimum(_rowfloat(r, "mlu") for r in rows)
+    tied = filter(r -> _rowfloat(r, "mlu") <= best_mlu + 1e-9 * max(1.0, abs(best_mlu)), rows)
+    return first(sort(tied; by=r -> (get(r, "original_problem_optimal", "") == "true" ? 0 : 1,
+                                     something(_rowint(r, "run"), typemax(Int)))))
+end
+
 "Summarize one official configuration without silently accepting incomplete or mixed samples."
 function summarize_official_rows(rows; expected_runs=OFFICIAL_RUN_IDS)
     isempty(rows) && return (complete=false, reason="no rows", run_count=0, successful_runs=0,
@@ -63,7 +75,7 @@ function summarize_official_rows(rows; expected_runs=OFFICIAL_RUN_IDS)
         return (complete=false, reason="fewer than 10 valid runs", run_count=length(ordered),
                 successful_runs=length(successful), optimal_runs=count(r -> get(r, "status", "") == "Optimal", successful),
                 best_row=nothing, avg_time=NaN, avg_gap=NaN, avg_nodes=NaN, lower_bound=NaN)
-    best = first(sort(successful; by=r -> (_rowfloat(r, "mlu"), something(_rowint(r, "run"), typemax(Int)))))
+    best = _official_best_row(successful)
     has_artifact = !isempty(get(best, "srpaths_file", "")) && !isempty(get(best, "loads_file", ""))
     has_artifact || return (complete=false, reason="best run has no artifact", run_count=10, successful_runs=10,
                             optimal_runs=count(r -> get(r, "status", "") == "Optimal", successful),

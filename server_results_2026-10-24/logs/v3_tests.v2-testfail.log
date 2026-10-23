@@ -1,0 +1,138 @@
+┌ Info: setA-01 t=0
+│   termination_status(model) = OPTIMAL::TerminationStatusCode = 1
+│   value(z) = 0.929383899821109
+│   base_mlu(inst, rs, 1) = 1.0000006861063466
+└   t = 1.922347097
+ERROR: LoadError: Some tests did not pass: 2 passed, 2 failed, 0 errored, 0 broken.
+in expression starting at /home/darkweb/network-model-test/SOICT_mathematical_modelling/orange/test/runtests.jl:700
+Test Summary: | Pass  Total  Time
+io            |    8      8  3.3s
+Test Summary:                         | Pass  Total  Time
+setA readable (kể cả multigraph=true) |   60     60  4.1s
+Test Summary:            | Pass  Total  Time
+ecmp toy (Bảng 2 của đề) |    9      9  1.6s
+Test Summary:                     | Pass  Total  Time
+pathcount toy (calculating_r.pdf) |    5      5  0.4s
+Test Summary:  | Pass  Total  Time
+ecmp down arcs |    3      3  0.4s
+Test Summary:   | Pass  Total  Time
+ecmp float ties |    1      1  0.1s
+Test Summary:           | Pass  Total  Time
+changes (Bảng 1 của đề) |    4      4  0.1s
+Test Summary:        | Pass  Total  Time
+toy loads from paths |    2      2  0.6s
+Test Summary:                           | Pass  Total  Time
+model t=0 equals brute force (maxSeg=2) |    5      5  4.8s
+Test Summary:                              | Pass  Total  Time
+zero-volume demand is fixed to direct path |    3      3  1.0s
+Test Summary:                      | Pass  Total  Time
+unreachable segments are forbidden |    3      3  0.1s
+Test Summary:                | Pass  Total  Time
+extract_paths ignores cycles |    2      2  0.2s
+Test Summary:                          | Pass  Total  Time
+solution check, srpaths, loads (t=0,1) |    8      8  5.6s
+Test Summary:                     | Pass  Total  Time
+budget 0 forces identical routing |    2      2  0.5s
+Test Summary:                                 | Pass  Total  Time
+toy t=0,1 with maxSeg=4 (có thể có chu trình) |    4      4  0.8s
+Test Summary:       | Pass  Total  Time
+setA-01 smoke (t=0) |    2      2  2.1s
+Test Summary:                         | Pass  Total  Time
+runner writes csv and survives errors |    5      5  6.5s
+Test Summary: | Pass  Total  Time
+local search  |    4      4  0.1s
+Test Summary:                    | Pass  Total  Time
+total-load tie-breaker keeps MLU |    3      3  0.4s
+Test Summary:                       | Pass  Total  Time
+acyclic model has simple paths only |    6      6  0.3s
+Test Summary:                     | Pass  Total  Time
+degree constraints and scaled eps |    2      2  0.1s
+Test Summary:                           | Pass  Total  Time
+runner reports actual gap and objective |    3      3  0.2s
+Test Summary:               | Pass  Total  Time
+warm start from given paths |    4      4  0.8s
+Test Summary:               | Pass  Total  Time
+runner uses heuristic start |    3      3  0.0s
+Test Summary:                                        | Pass  Total  Time
+slow instances get slow_runs runs, fast get all runs |    2      2  0.2s
+Test Summary:                                        | Pass  Total  Time
+candidates: K smallest detours, valid in all periods |   10     10  0.4s
+Test Summary:                             | Pass  Total  Time
+waypoint model equals brute force (K=all) |   18     18  1.7s
+Test Summary:                                       | Pass  Total  Time
+waypoint model warm start and restricted candidates |    3      3  1.0s
+Test Summary:                        | Pass  Total  Time
+start waypoint is always a candidate |    3      3  0.1s
+Test Summary:                              | Pass  Total  Time
+waypoint runner writes csv with adaptive K |    7      7  6.5s
+Test Summary:                                           | Pass  Total  Time
+waypoint model with pairs equals brute force (maxSeg=3) |   10     10  2.6s
+Test Summary:                                       | Pass  Total  Time
+single-waypoint budget uses the compact formulation |    2      2  0.1s
+Test Summary:                                     | Pass  Total  Time
+column generation reaches the full LP value (P=1) |    4      4  0.9s
+Test Summary:                                                              | Pass  Total  Time
+column generation on a real instance finds the optimum with few candidates |    3      3  0.2s
+Test Summary:                                                | Pass  Total  Time
+column generation with budget (P=2) returns valid candidates |    6      6  0.1s
+Test Summary:                          | Pass  Total  Time
+waypoint runner with column generation |    5      5  0.0s
+Test Summary:                                                | Pass  Total  Time
+load-freezing heuristic never worsens the sorted load vector |   12     12  1.8s
+Test Summary:                   | Pass  Total  Time
+choose_K fits the memory budget |    4      4  0.0s
+Test Summary:                                      | Pass  Total  Time
+waypoint runner skips instead of exhausting memory |    3      3  0.4s
+Test Summary:                                          | Pass  Total  Time
+column enrichment adds the lowest reduced-cost columns |    5      5  0.1s
+Test Summary:                                                               | Pass  Total  Time
+LNS never worsens the start and reaches the optimum when everything is free |   10     10  1.0s
+Test Summary:                          | Pass  Total  Time
+frozen demands keep their start choice |    1      1  0.0s
+Test Summary:                                | Pass  Total  Time
+read_srpaths is the inverse of write_srpaths |    1      1  0.7s
+Test Summary:                                                                    | Pass  Total  Time
+pipeline with the calculating_r.pdf coefficients (path-count) equals brute force |    5      5  0.1s
+Test Summary:                                               | Pass  Total  Time
+run_instance writes -pc results when asked for path-count r |    2      2  0.0s
+Test Summary:                      | Pass  Total  Time
+waypoint runner with LNS polishing |    5      5  5.0s
+Test Summary:                                           | Pass  Total  Time
+presolve is switched off only for very large arc models |    2      2  0.0s
+Test Summary:                                 | Pass  Total  Time
+arc runner skips instead of exhausting memory |    4      4  0.3s
+Test Summary:                                           | Pass  Total  Time
+filter_cands keeps only waypoints valid in every period |    2      2  0.1s
+Test Summary:                                                      | Pass  Total  Time
+fast pipeline: no MILP, column generation on the first period, LNS |    6      6  5.0s
+Test Summary:                                             | Pass  Total  Time
+extra runs can be appended to an existing csv (runs 4..N) |    5      5  0.4s
+
+solver log is saved per run when requested: Test Failed at /home/darkweb/network-model-test/SOICT_mathematical_modelling/orange/test/runtests.jl:705
+  Expression: files == ["toy-P2-run1.log", "toy-P2-run2.log"]
+   Evaluated: ["toy-P2-run1-budget.json", "toy-P2-run1.log", "toy-P2-run2-budget.json", "toy-P2-run2.log"] == ["toy-P2-run1.log", "toy-P2-run2.log"]
+  Stacktrace:
+   [1] top-level scope
+     @ ~/network-model-test/SOICT_mathematical_modelling/orange/test/runtests.jl:701
+   [2] macro expansion
+     @ ~/network-model-test/julia-1.13.1/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+   [3] macro expansion
+     @ ~/network-model-test/SOICT_mathematical_modelling/orange/test/runtests.jl:705 [inlined]
+   [4] macro expansion
+     @ ~/network-model-test/julia-1.13.1/share/julia/stdlib/v1.13/Test/src/Test.jl:758 [inlined]
+
+solver log is saved per run when requested: Test Failed at /home/darkweb/network-model-test/SOICT_mathematical_modelling/orange/test/runtests.jl:707
+  Expression: occursin("HiGHS", txt) || (occursin("Presolv", txt) || occursin("Solving", txt))
+  Stacktrace:
+   [1] top-level scope
+     @ ~/network-model-test/SOICT_mathematical_modelling/orange/test/runtests.jl:701
+   [2] macro expansion
+     @ ~/network-model-test/julia-1.13.1/share/julia/stdlib/v1.13/Test/src/Test.jl:1967 [inlined]
+   [3] macro expansion
+     @ ~/network-model-test/SOICT_mathematical_modelling/orange/test/runtests.jl:707 [inlined]
+   [4] macro expansion
+     @ ~/network-model-test/julia-1.13.1/share/julia/stdlib/v1.13/Test/src/Test.jl:758 [inlined]
+Test Summary:                              | Pass  Fail  Total  Time
+solver log is saved per run when requested |    2     2      4  2.1s
+RNG of the outermost testset: Random.Xoshiro(0x20eeeca085a0f28e, 0xf8b51a3a1ed8d2cc, 0x9a17548c68a713c1, 0x859d073c88840cf1, 0xb4ce14b4a90b284e)
+TEST_EXIT=1

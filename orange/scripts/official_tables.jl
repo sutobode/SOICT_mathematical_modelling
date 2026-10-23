@@ -24,7 +24,8 @@ for P in (1, 2)
                      fmt_official(something(tryparse(Float64, get(record, "avg_solve_time", "")), NaN); digits=1),
                      fmt_official(something(tryparse(Float64, get(record, "avg_gap", "")), NaN)),
                      fmt_official(something(tryparse(Float64, get(record, "avg_nodes", "")), NaN); digits=1),
-                     get(record, "optimal_runs", "0") * "/10", get(record, "status", "INCOMPLETE"),
+                     get(record, "model_type", "none") == "restricted_waypoint" ? "N/A (restricted)" :
+                         get(record, "optimal_runs", "0") * "/10", get(record, "status", "INCOMPLETE"),
                      get(record, "best_run", "N/A"), get(record, "verification_status", "not_verified"),
                      get(record, "srpaths_file", "")])
     end

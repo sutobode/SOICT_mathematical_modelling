@@ -1,0 +1,9 @@
+2026-10-22T17:50:05+00:00 V3 setup: base 0da1a520dc086e2a7c3f2f74a6212205376680be + patch ff5040efad5d4c1082f5fe23e0828a93137aaf7542b31272dc6b4d208f5109a8
+2026-10-22T17:50:05+00:00 V3 archived 80 superseded files to /home/darkweb/network-model-test/archive_superseded_2026-10-23
+2026-10-22T17:50:05+00:00 V3 p2_s05 START attempt=1 CMD: ORANGE_MAX_VARS=10000000 julia --project=orange orange/scripts/run_experiments.jl 2 3600 5 5 pc 1 10
+2026-10-23T08:16:08+00:00 V3 p2_s05 END attempt=1 rc=0
+2026-10-23T08:16:09+00:00 V3 p2_s04 START attempt=1 CMD: ORANGE_MAX_VARS=10000000 julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 4 pc 1 10
+2026-10-23T18:37:18+00:00 V3 p2_s04 END attempt=1 rc=0
+2026-10-23T18:37:18+00:00 V3 TABLES start
+2026-10-23T18:38:20+00:00 V3 TABLES end rc=0
+2026-10-23T18:38:20+00:00 V3 PIPELINE FINISHED

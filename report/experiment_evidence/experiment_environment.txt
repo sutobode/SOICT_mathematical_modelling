@@ -59,3 +59,16 @@ Campaign timeline (UTC)
 2026-10-20 15:52:02  first official batch (P=1 setA-01..03)
 2026-10-20 16:17:43  driver switched to the deadline-ordered plan (pipeline2.sh)
 2026-10-22 11:51:45  last batch finished; 11:52:42 official_tables.jl finished (rc=0)
+2026-10-22 17:50:05  patch ff5040ef (time-budget guard + status labels) applied on 0da1a52; 72/72 testsets passed;
+                     superseded P=2 setA-04/05 rows moved to archive_superseded_2026-10-23/; rerun started
+2026-10-23 08:16:08  P=2 setA-05 rerun finished (10/10)
+2026-10-23 18:37:18  P=2 setA-04 rerun finished (10/10); 18:38:20 official tables regenerated (rc=0)
+
+Time-budget guard (rerun only: P=2 setA-04 and setA-05)
+-------------------------------------------------------
+Clock                 : Julia monotonic clock started after the model is copied to HiGHS, independent of
+                        HiGHS' own clock (HiGHS' time_limit is still set to the same value as before)
+Callbacks             : SimplexInterrupt, IpmInterrupt, MipInterrupt (stop requested after the limit),
+                        MipImprovingSolution and MipLogging (last incumbent / dual bound within the limit)
+Grace                 : 10 s; beyond it the run reports the state at the limit, check = "ok(budget-truncated)"
+Evidence              : solverlogs/<run>-budget.json for each of the 20 rerun runs

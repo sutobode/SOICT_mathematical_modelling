@@ -202,3 +202,39 @@ end
     @test isfile(joinpath(out, row["srpaths_file"]))
     @test isfile(joinpath(out, row["loads_file"]))
 end
+
+@testset "status labels follow model type and proof of optimality" begin
+    @test official_status_label("full_arc", true) == "Optimal"
+    @test official_status_label("full_arc", false) == "Feasible - not proven optimal"
+    @test official_status_label("restricted_waypoint", false) == "Restricted feasible upper bound"
+    @test official_status_label("restricted_waypoint", true) == "Restricted feasible upper bound"
+end
+
+@testset "a proof in any tied run makes the configuration optimal" begin
+    # setA-02 t=0,1: every run finds the same MLU; runs 2, 3, 7, 10 prove it optimal, run 1 times out
+    rows = [official_fixture_row(r; mlu=0.9030747093, status=(r in (2, 3, 7, 10) ? "Optimal" : "Not Optimal"))
+            for r in 1:10]
+    for r in rows
+        r["original_problem_optimal"] = r["status"] == "Optimal" ? "true" : "false"
+    end
+    summary = summarize_official_rows(rows)
+    @test summary.complete && summary.best_row["run"] == "2"
+    rows[4]["mlu"] = "0.90307470930000001"          # same value within the tie tolerance
+    @test summarize_official_rows(rows).best_row["run"] == "2"
+    rows[5]["mlu"] = "0.8"                          # a strictly better incumbent always wins
+    @test summarize_official_rows(rows).best_row["run"] == "5"
+
+    out = mktempdir()
+    verified = [write_verified_full_run(out, r) for r in 1:10]
+    for r in verified
+        r["status"] = "Not Optimal"
+        r["original_problem_optimal"] = "false"
+    end
+    write_current_rows(joinpath(out, "setA-01-P1-official-pc-all.csv"), verified)
+    @test best_known_records(out; copy_artifacts=false)[("setA-01", 1)]["status"] == "Feasible - not proven optimal"
+    verified[6]["status"] = "Optimal"
+    verified[6]["original_problem_optimal"] = "true"
+    write_current_rows(joinpath(out, "setA-01-P1-official-pc-all.csv"), verified)
+    record = best_known_records(out; copy_artifacts=false)[("setA-01", 1)]
+    @test record["status"] == "Optimal" && record["best_run"] == "6" && record["original_problem_optimal"] == "true"
+end

@@ -1,0 +1,21 @@
+===== 2026-10-22T11:36:03+00:00 attempt 1: julia --project=orange orange/scripts/run_official_wp.jl 2 3600 7 7 1 10
+== setA-07 P=2 pathcount restricted_waypoint run=1
+   ran
+== setA-07 P=2 pathcount restricted_waypoint run=2
+   ran
+== setA-07 P=2 pathcount restricted_waypoint run=3
+   ran
+== setA-07 P=2 pathcount restricted_waypoint run=4
+   ran
+== setA-07 P=2 pathcount restricted_waypoint run=5
+   ran
+== setA-07 P=2 pathcount restricted_waypoint run=6
+   ran
+== setA-07 P=2 pathcount restricted_waypoint run=7
+   ran
+== setA-07 P=2 pathcount restricted_waypoint run=8
+   ran
+== setA-07 P=2 pathcount restricted_waypoint run=9
+   ran
+== setA-07 P=2 pathcount restricted_waypoint run=10
+   ran

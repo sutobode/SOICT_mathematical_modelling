@@ -151,6 +151,15 @@ end
 
 fmt_official(x; digits=5) = !isfinite(x) ? "N/A" : string(round(x; digits=digits))
 
+"""
+Nhãn trạng thái của một cấu hình. Mô hình theo cung: `Optimal` khi một run hợp lệ chứng minh LB = UB, ngược lại
+nghiệm khả thi chưa chứng minh tối ưu. Mô hình waypoint chỉ cho cận trên của bài toán gốc, kể cả khi HiGHS
+chứng minh tối ưu trong không gian waypoint bị giới hạn.
+"""
+official_status_label(model_type, original_optimal::Bool) =
+    model_type == "restricted_waypoint" ? "Restricted feasible upper bound" :
+    original_optimal ? "Optimal" : "Feasible - not proven optimal"
+
 function best_known_records(resdir; copy_artifacts=true)
     groups = grouped_official_rows(resdir)
     records = Dict{Tuple{String,Int},Dict{String,String}}()
@@ -218,8 +227,7 @@ function best_known_records(resdir; copy_artifacts=true)
                 record["srpaths_file"] = best["srpaths_file"]
                 record["loads_file"] = best["loads_file"]
             end
-            record["status"] = model_type == "full_arc" && record["original_problem_optimal"] == "true" ?
-                               "Optimal" : "Feasible upper bound (restricted)"
+            record["status"] = official_status_label(model_type, record["original_problem_optimal"] == "true")
         else
             record["best_mlu"] = "NaN"
             record["pure_mlu_gap"] = "NaN"

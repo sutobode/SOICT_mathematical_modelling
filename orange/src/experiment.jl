@@ -33,11 +33,148 @@ function solve_once(inst, rs, P, tlimit, seed, acyclic, start_paths; log_path=no
         set_optimizer_attribute(model, "log_file", log_path)
     end
     set_optimizer_attribute(model, "presolve", presolve_setting(num_variables(model)))
-    optimize!(model)
+    if isfinite(tlimit)
+        # chép mô hình sang HiGHS trước khi bấm giờ, để đồng hồ của guard khớp với lúc HiGHS bắt đầu giải
+        MOI.Utilities.attach_optimizer(model)
+        guard = BudgetGuard(tlimit)
+        MOI.set(model, HiGHS.CallbackFunction(GUARD_CALLBACKS), guard_callback(guard))
+        model.ext[:budget_guard] = guard
+        model.ext[:budget_start] = start_paths
+        model.ext[:budget_log] = log_path
+        guard.t0 = time_ns()
+        optimize!(model)
+        guard.wall = guard_elapsed(guard)
+    else
+        optimize!(model)
+    end
     return model, x, z
 end
 
+"Thời gian vượt giới hạn do HiGHS dừng chậm (đóng solver) vẫn được chấp nhận, không cắt kết quả."
+const BUDGET_GRACE_SEC = 10.0
+
+"""
+Ngân sách thời gian của một lần giải, đo bằng đồng hồ đơn điệu của Julia (đồng hồ của HiGHS đã từng nhảy:
+setA-04 t=0,1 run 1 báo 29 991 s sau 887 s thực). Callback ghi lại nghiệm cải thiện và cận dưới cuối cùng
+HiGHS báo trong ngân sách và yêu cầu HiGHS dừng ngay khi nó trả quyền điều khiển sau hạn. Một số pha của
+HiGHS không gọi callback và không theo time_limit (tính analytic center bằng IPM trên instance riêng, rồi
+central rounding: setA-05 t=0,1 chạy tới ~7 000 s); khi đó `evaluate` cắt kết quả về trạng thái tại hạn.
+"""
+mutable struct BudgetGuard
+    limit::Float64
+    t0::UInt64
+    wall::Float64
+    inc_obj::Float64
+    inc_time::Float64
+    inc_sol::Vector{Float64}
+    bound::Float64
+    bound_time::Float64
+    nodes::Float64
+    interrupted::Bool
+end
+BudgetGuard(limit::Real) = BudgetGuard(Float64(limit), time_ns(), NaN, Inf, NaN, Float64[], -Inf, NaN, NaN, false)
+guard_elapsed(g::BudgetGuard) = (time_ns() - g.t0) / 1e9
+
+const GUARD_INTERRUPTS = Cint[HiGHS.kHighsCallbackSimplexInterrupt, HiGHS.kHighsCallbackIpmInterrupt,
+                              HiGHS.kHighsCallbackMipInterrupt]
+const GUARD_CALLBACKS = vcat(GUARD_INTERRUPTS, Cint[HiGHS.kHighsCallbackMipImprovingSolution,
+                                                    HiGHS.kHighsCallbackMipLogging])
+
+function guard_callback(g::BudgetGuard)
+    return function (cb_type::Cint, ::Ptr{Cchar}, data::HiGHS.HighsCallbackDataOut)
+        t = guard_elapsed(g)
+        if t > g.limit
+            g.interrupted = true
+            return cb_type in GUARD_INTERRUPTS ? Cint(1) : Cint(0)
+        end
+        if cb_type == HiGHS.kHighsCallbackMipImprovingSolution
+            if data.mip_solution != C_NULL && data.objective_function_value < g.inc_obj
+                g.inc_obj = data.objective_function_value
+                g.inc_time = t
+                g.inc_sol = copy(unsafe_wrap(Array, data.mip_solution, Int(data.mip_solution_size)))
+            end
+        elseif cb_type == HiGHS.kHighsCallbackMipInterrupt || cb_type == HiGHS.kHighsCallbackMipLogging
+            if isfinite(data.mip_dual_bound) && data.mip_dual_bound > g.bound
+                g.bound = data.mip_dual_bound
+                g.bound_time = t
+            end
+            g.nodes = Float64(data.mip_node_count)
+        end
+        return Cint(0)
+    end
+end
+
+"Đọc nghiệm x, z từ vector cột của HiGHS (nghiệm do callback chép lại)."
+function _paths_from_vector(inst, model, x, z, P, sol)
+    inner = JuMP.unsafe_backend(model)
+    val(v) = sol[HiGHS.column(inner, JuMP.optimizer_index(v)) + 1]
+    return extract_paths(inst, x, P; val=val), val(z)
+end
+
+"""
+Kết quả theo ngân sách. Nếu HiGHS dừng trong hạn (cộng BUDGET_GRACE_SEC), giữ nguyên kết quả cuối, chỉ thay
+thời gian bằng đồng hồ đơn điệu khi đồng hồ của HiGHS lệch. Nếu HiGHS chạy quá hạn, dùng nghiệm cải thiện cuối
+cùng tìm được trong hạn (hoặc nghiệm khởi đầu đã có trước khi giải) và cận dưới cuối cùng trong hạn; thời gian
+báo cáo là đúng ngân sách và cột check mang hậu tố `(budget-truncated)`.
+"""
+function _apply_budget(inst, rs, P, model, x, z, g::BudgetGuard, res; objective_mode::Symbol,
+                       start_paths=nothing, wall=g.wall)
+    truncated = wall > g.limit + BUDGET_GRACE_SEC
+    source = "final"
+    out = res
+    if !truncated
+        if isfinite(res.t) && res.t > wall + 60
+            out = merge(res, (; t=wall, check=res.check * "(solver-clock)"))
+        end
+    else
+        paths, zv, obj = nothing, NaN, NaN
+        if !isempty(g.inc_sol)
+            paths, zv = _paths_from_vector(inst, model, x, z, P, g.inc_sol)
+            obj, source = g.inc_obj, "callback@$(round(g.inc_time; digits=1))s"
+        elseif start_paths !== nothing
+            paths, source = start_paths, "mip_start"
+            zv = max_utilization(inst, rs, start_paths, P)
+            obj = objective_mode === :pure_mlu ? zv : NaN
+        end
+        bnd = isfinite(g.bound) ? g.bound : NaN
+        pure_bound = pure_mlu_bound(string(objective_mode), bnd)
+        if paths === nothing
+            out = (; status="Not Optimal", zv=NaN, mlu=NaN, obj=NaN, bnd, gap=NaN, pure_bound, pure_gap=NaN,
+                   t=g.limit, nodes=g.nodes, check="no_solution(budget-truncated)", paths=nothing)
+        else
+            chk = check_solution(inst, rs, paths, P, zv + 1e-5)
+            gap = isfinite(bnd) && isfinite(obj) && obj > 0 ? max(0.0, 1.0 - bnd / obj) : NaN
+            check = (chk.budget_ok ? "ok" : "budget_violation") * "(budget-truncated)"
+            out = (; status="Not Optimal", zv, mlu=chk.mlu, obj, bnd, gap, pure_bound,
+                   pure_gap=pure_mlu_gap(chk.mlu, pure_bound), t=g.limit, nodes=g.nodes, check, paths)
+        end
+    end
+    record = Dict("limit_s" => g.limit, "solver_wall_s" => wall, "highs_solve_time_s" => res.t,
+                  "grace_s" => BUDGET_GRACE_SEC, "interrupt_requested" => g.interrupted,
+                  "truncated" => truncated, "reported_source" => source,
+                  "incumbent_time_s" => g.inc_time, "incumbent_obj" => g.inc_obj,
+                  "bound_time_s" => g.bound_time, "bound_at_budget" => g.bound, "nodes_at_budget" => g.nodes,
+                  "final_status" => res.status, "final_mlu" => res.mlu, "final_bound" => res.bnd,
+                  "reported_status" => out.status, "reported_mlu" => out.mlu, "reported_time_s" => out.t)
+    return out, record
+end
+
 function evaluate(inst, rs, P, model, x, z; objective_mode::Symbol=:weighted_secondary)
+    res = _evaluate_final(inst, rs, P, model, x, z; objective_mode=objective_mode)
+    g = get(model.ext, :budget_guard, nothing)
+    g === nothing && return res
+    out, record = _apply_budget(inst, rs, P, model, x, z, g, res; objective_mode=objective_mode,
+                                start_paths=model.ext[:budget_start])
+    log_path = model.ext[:budget_log]
+    if log_path !== nothing
+        open(replace(log_path, ".log" => "-budget.json"), "w") do io
+            JSON3.write(io, Dict(k => (v isa Real && !isfinite(v) ? string(v) : v) for (k, v) in record))
+        end
+    end
+    return out
+end
+
+function _evaluate_final(inst, rs, P, model, x, z; objective_mode::Symbol=:weighted_secondary)
     st = termination_status(model)
     status = st == MOI.OPTIMAL ? "Optimal" : st == MOI.INFEASIBLE ? "Infeasible" : "Not Optimal"
     bnd = try objective_bound(model) catch; NaN end

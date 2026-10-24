@@ -1,0 +1,143 @@
+┌ Info: setA-01 t=0
+│   termination_status(model) = OPTIMAL::TerminationStatusCode = 1
+│   value(z) = 0.929383899821109
+│   base_mlu(inst, rs, 1) = 1.0000006861063466
+└   t = 1.894637942
+Test Summary: | Pass  Total  Time
+io            |    8      8  2.5s
+Test Summary:                         | Pass  Total  Time
+setA readable (kể cả multigraph=true) |   60     60  1.8s
+Test Summary:            | Pass  Total  Time
+ecmp toy (Bảng 2 của đề) |    9      9  1.5s
+Test Summary:                     | Pass  Total  Time
+pathcount toy (calculating_r.pdf) |    5      5  0.4s
+Test Summary:  | Pass  Total  Time
+ecmp down arcs |    3      3  0.3s
+Test Summary:   | Pass  Total  Time
+ecmp float ties |    1      1  0.1s
+Test Summary:           | Pass  Total  Time
+changes (Bảng 1 của đề) |    4      4  0.1s
+Test Summary:        | Pass  Total  Time
+toy loads from paths |    2      2  0.5s
+Test Summary:                           | Pass  Total  Time
+model t=0 equals brute force (maxSeg=2) |    5      5  3.4s
+Test Summary:                              | Pass  Total  Time
+zero-volume demand is fixed to direct path |    3      3  0.8s
+Test Summary:                      | Pass  Total  Time
+unreachable segments are forbidden |    3      3  0.1s
+Test Summary:                | Pass  Total  Time
+extract_paths ignores cycles |    2      2  0.2s
+Test Summary:                          | Pass  Total  Time
+solution check, srpaths, loads (t=0,1) |    8      8  2.7s
+Test Summary:                     | Pass  Total  Time
+budget 0 forces identical routing |    2      2  0.6s
+Test Summary:                                 | Pass  Total  Time
+toy t=0,1 with maxSeg=4 (có thể có chu trình) |    4      4  0.9s
+Test Summary:       | Pass  Total  Time
+setA-01 smoke (t=0) |    2      2  2.1s
+Test Summary:                         | Pass  Total  Time
+runner writes csv and survives errors |    5      5  5.0s
+Test Summary: | Pass  Total  Time
+local search  |    4      4  0.1s
+Test Summary:                    | Pass  Total  Time
+total-load tie-breaker keeps MLU |    3      3  0.2s
+Test Summary:                       | Pass  Total  Time
+acyclic model has simple paths only |    6      6  0.3s
+Test Summary:                     | Pass  Total  Time
+degree constraints and scaled eps |    2      2  0.1s
+Test Summary:                           | Pass  Total  Time
+runner reports actual gap and objective |    3      3  0.2s
+Test Summary:               | Pass  Total  Time
+warm start from given paths |    4      4  0.8s
+Test Summary:               | Pass  Total  Time
+runner uses heuristic start |    3      3  0.0s
+Test Summary:                                        | Pass  Total  Time
+slow instances get slow_runs runs, fast get all runs |    2      2  0.2s
+Test Summary:                                        | Pass  Total  Time
+candidates: K smallest detours, valid in all periods |   10     10  0.4s
+Test Summary:                             | Pass  Total  Time
+waypoint model equals brute force (K=all) |   18     18  1.5s
+Test Summary:                                       | Pass  Total  Time
+waypoint model warm start and restricted candidates |    3      3  0.9s
+Test Summary:                        | Pass  Total  Time
+start waypoint is always a candidate |    3      3  0.1s
+Test Summary:                              | Pass  Total  Time
+waypoint runner writes csv with adaptive K |    7      7  5.8s
+Test Summary:                                           | Pass  Total  Time
+waypoint model with pairs equals brute force (maxSeg=3) |   10     10  2.4s
+Test Summary:                                       | Pass  Total  Time
+single-waypoint budget uses the compact formulation |    2      2  0.1s
+Test Summary:                                     | Pass  Total  Time
+column generation reaches the full LP value (P=1) |    4      4  0.8s
+Test Summary:                                                              | Pass  Total  Time
+column generation on a real instance finds the optimum with few candidates |    3      3  0.2s
+Test Summary:                                                | Pass  Total  Time
+column generation with budget (P=2) returns valid candidates |    6      6  0.1s
+Test Summary:                          | Pass  Total  Time
+waypoint runner with column generation |    5      5  0.0s
+Test Summary:                                                | Pass  Total  Time
+load-freezing heuristic never worsens the sorted load vector |   12     12  1.7s
+Test Summary:                   | Pass  Total  Time
+choose_K fits the memory budget |    4      4  0.0s
+Test Summary:                                      | Pass  Total  Time
+waypoint runner skips instead of exhausting memory |    3      3  0.4s
+Test Summary:                                          | Pass  Total  Time
+column enrichment adds the lowest reduced-cost columns |    5      5  0.1s
+Test Summary:                                                               | Pass  Total  Time
+LNS never worsens the start and reaches the optimum when everything is free |   10     10  0.9s
+Test Summary:                          | Pass  Total  Time
+frozen demands keep their start choice |    1      1  0.0s
+Test Summary:                                | Pass  Total  Time
+read_srpaths is the inverse of write_srpaths |    1      1  0.2s
+Test Summary:                                                                    | Pass  Total  Time
+pipeline with the calculating_r.pdf coefficients (path-count) equals brute force |    5      5  0.1s
+Test Summary:                                               | Pass  Total  Time
+run_instance writes -pc results when asked for path-count r |    2      2  0.0s
+Test Summary:                      | Pass  Total  Time
+waypoint runner with LNS polishing |    5      5  5.0s
+Test Summary:                                           | Pass  Total  Time
+presolve is switched off only for very large arc models |    2      2  0.0s
+Test Summary:                                 | Pass  Total  Time
+arc runner skips instead of exhausting memory |    4      4  0.3s
+Test Summary:                                           | Pass  Total  Time
+filter_cands keeps only waypoints valid in every period |    2      2  0.0s
+Test Summary:                                                      | Pass  Total  Time
+fast pipeline: no MILP, column generation on the first period, LNS |    6      6  5.0s
+Test Summary:                                             | Pass  Total  Time
+extra runs can be appended to an existing csv (runs 4..N) |    5      5  0.3s
+Test Summary:                              | Pass  Total  Time
+solver log is saved per run when requested |    4      4  0.2s
+Test Summary:                                    | Pass  Total  Time
+official retry shares time and accumulates nodes |    6      6  0.5s
+Test Summary:                              | Pass  Total  Time
+official guard configuration and RAM guard |    6      6  0.0s
+Test Summary:                                      | Pass  Total  Time
+official restricted candidates are run-independent |    5      5  0.2s
+Test Summary:                                            | Pass  Total  Time
+exact lexicographic loads prefer the smaller second rank |    3      3  1.7s
+Test Summary:                                                 | Pass  Total  Time
+exact lexicographic loads reach the third rank after two ties |    2      2  0.0s
+Test Summary:                                                     | Pass  Total  Time
+acyclic exact lexicographic solution excludes disconnected cycles |    3      3  0.0s
+Test Summary:                                                           | Pass  Total  Time
+P1 and finite-budget P2 lexicographic exports match the optimized model |   13     13  1.3s
+Test Summary:                                                    | Pass  Total  Time
+official aggregation isolates routing mode and requires ten runs |    4      4  1.5s
+Test Summary:                           | Pass  Total  Time
+weighted bounds are not pure MLU bounds |    4      4  0.0s
+Test Summary:                          | Pass  Total  Time
+missing gaps are unavailable, not zero |    2      2  0.0s
+Test Summary:                          | Pass  Total  Time
+best run retains its matching artifact |    4      4  0.0s
+Test Summary:                                             | Pass  Total  Time
+restricted aggregation requires the candidate fingerprint |    3      3  0.0s
+Test Summary:                                    | Pass  Total  Time
+official load artifact is independently verified |    4      4  2.6s
+Test Summary:                                                  | Pass  Total  Time
+official resume validates content and preserves completed runs |    5      5  0.3s
+Test Summary:                                 | Pass  Total  Time
+resumed official sample has exactly runs 1:10 |    2      2  0.5s
+Test Summary:                                               | Pass  Total  Time
+legacy and malformed rows cannot enter official aggregation |    2      2  0.0s
+Test Summary:                                      | Pass  Total  Time
+restricted optimum is not original-problem optimal |    7      7  0.0s

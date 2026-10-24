@@ -1,7 +1,12 @@
-Raw evidence copied unchanged from server_results_2026-10-24 (campaign outputs downloaded 2026-10-23):
-- pipeline.log, v3_p2_s05.log, v3_p2_s04.log: driver and rerun batch logs (UTC); 00_tests.log / v3_tests.log: test suites
-- fix_time_limit_status.patch (SHA-256 ff5040ef...): the fix applied on top of 0da1a52; server_working_tree.diff: server diff
-- verify_all_runs.csv: independent verify_srpaths.py result for all 120 final official runs
-- solverlogs/*-budget.json: budget-guard record of each rerun run; solverlogs/*.log: truncated and comparison runs
+Raw evidence copied unchanged from server_results_2026-10-24 (V3) and server_results_2026-10-24_v4 (V4, downloaded 2026-10-24):
+- pipeline.log: driver log for all campaigns (UTC), now including the V4 lines
+- v3_p2_s04.log: V3 rerun batch log for setA-04 P2
+- v4_p2_s05_r*.log: V4 rerun batch logs for setA-05 P2 (5 parallel processes, 2 runs each)
+- 00_tests.log, v3_tests.log, v4_tests.log: test suites run before the first campaign, V3 and V4
+- fix_time_limit_status.patch (SHA-256 ff5040ef...): the V3 fix applied on top of 0da1a52; server_working_tree.diff: server diff at V3
+- fix_local_search_joint.patch (SHA-256 2a7b3841...): the V4 fix (local_search joint all-period moves) applied on top of the V3 code
+- verify_all_runs.csv: independent verify_srpaths.py result for all 120 final official runs (setA-05 P2 re-verified after V4)
+- solverlogs/*-budget.json: budget-guard record of each V3/V4 rerun run; solverlogs/*.log: truncated and comparison runs
 - superseded_first_campaign/: first-campaign anomalies (setA-04 P2 r1 clock jump; setA-05 P2 r6 incumbent after the budget)
-- generated_official_tables/: final tables exactly as produced by official_tables.jl (with the status fix)
+- superseded_v3_setA05_P2/: V3 batch log and solver records of setA-05 P2, replaced by the V4 rerun
+- generated_official_tables/: final tables exactly as produced by official_tables.jl after the V4 rerun

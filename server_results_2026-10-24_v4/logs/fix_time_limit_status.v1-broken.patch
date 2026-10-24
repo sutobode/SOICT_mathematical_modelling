@@ -1,0 +1,331 @@
+diff --git a/orange/scripts/official_common.jl b/orange/scripts/official_common.jl
+index a90c4ef..091651d 100644
+--- a/orange/scripts/official_common.jl
++++ b/orange/scripts/official_common.jl
+@@ -151,6 +151,15 @@ end
+ 
+ fmt_official(x; digits=5) = !isfinite(x) ? "N/A" : string(round(x; digits=digits))
+ 
++"""
++Nhãn trạng thái của một cấu hình. Mô hình theo cung: `Optimal` khi một run hợp lệ chứng minh LB = UB, ngược lại
++nghiệm khả thi chưa chứng minh tối ưu. Mô hình waypoint chỉ cho cận trên của bài toán gốc, kể cả khi HiGHS
++chứng minh tối ưu trong không gian waypoint bị giới hạn.
++"""
++official_status_label(model_type, original_optimal::Bool) =
++    model_type == "restricted_waypoint" ? "Restricted feasible upper bound" :
++    original_optimal ? "Optimal" : "Feasible - not proven optimal"
++
+ function best_known_records(resdir; copy_artifacts=true)
+     groups = grouped_official_rows(resdir)
+     records = Dict{Tuple{String,Int},Dict{String,String}}()
+@@ -218,8 +227,7 @@ function best_known_records(resdir; copy_artifacts=true)
+                 record["srpaths_file"] = best["srpaths_file"]
+                 record["loads_file"] = best["loads_file"]
+             end
+-            record["status"] = model_type == "full_arc" && record["original_problem_optimal"] == "true" ?
+-                               "Optimal" : "Feasible upper bound (restricted)"
++            record["status"] = official_status_label(model_type, record["original_problem_optimal"] == "true")
+         else
+             record["best_mlu"] = "NaN"
+             record["pure_mlu_gap"] = "NaN"
+diff --git a/orange/scripts/official_tables.jl b/orange/scripts/official_tables.jl
+index dd47755..b39c7c8 100644
+--- a/orange/scripts/official_tables.jl
++++ b/orange/scripts/official_tables.jl
+@@ -24,7 +24,8 @@ for P in (1, 2)
+                      fmt_official(something(tryparse(Float64, get(record, "avg_solve_time", "")), NaN); digits=1),
+                      fmt_official(something(tryparse(Float64, get(record, "avg_gap", "")), NaN)),
+                      fmt_official(something(tryparse(Float64, get(record, "avg_nodes", "")), NaN); digits=1),
+-                     get(record, "optimal_runs", "0") * "/10", get(record, "status", "INCOMPLETE"),
++                     get(record, "model_type", "none") == "restricted_waypoint" ? "N/A (restricted)" :
++                         get(record, "optimal_runs", "0") * "/10", get(record, "status", "INCOMPLETE"),
+                      get(record, "best_run", "N/A"), get(record, "verification_status", "not_verified"),
+                      get(record, "srpaths_file", "")])
+     end
+diff --git a/orange/src/experiment.jl b/orange/src/experiment.jl
+index 621b228..0bc091e 100644
+--- a/orange/src/experiment.jl
++++ b/orange/src/experiment.jl
+@@ -33,11 +33,148 @@ function solve_once(inst, rs, P, tlimit, seed, acyclic, start_paths; log_path=no
+         set_optimizer_attribute(model, "log_file", log_path)
+     end
+     set_optimizer_attribute(model, "presolve", presolve_setting(num_variables(model)))
+-    optimize!(model)
++    if isfinite(tlimit)
++        # chép mô hình sang HiGHS trước khi bấm giờ, để đồng hồ của guard khớp với lúc HiGHS bắt đầu giải
++        MOI.Utilities.attach_optimizer(model)
++        guard = BudgetGuard(tlimit)
++        MOI.set(model, HiGHS.CallbackFunction(GUARD_CALLBACKS), guard_callback(guard))
++        model.ext[:budget_guard] = guard
++        model.ext[:budget_start] = start_paths
++        model.ext[:budget_log] = log_path
++        guard.t0 = time_ns()
++        optimize!(model)
++        guard.wall = guard_elapsed(guard)
++    else
++        optimize!(model)
++    end
+     return model, x, z
+ end
+ 
++"Thời gian vượt giới hạn do HiGHS dừng chậm (đóng solver) vẫn được chấp nhận, không cắt kết quả."
++const BUDGET_GRACE_SEC = 10.0
++
++"""
++Ngân sách thời gian của một lần giải, đo bằng đồng hồ đơn điệu của Julia (đồng hồ của HiGHS đã từng nhảy:
++setA-04 t=0,1 run 1 báo 29 991 s sau 887 s thực). Callback ghi lại nghiệm cải thiện và cận dưới cuối cùng
++HiGHS báo trong ngân sách và yêu cầu HiGHS dừng ngay khi nó trả quyền điều khiển sau hạn. Một số pha của
++HiGHS không gọi callback và không theo time_limit (tính analytic center bằng IPM trên instance riêng, rồi
++central rounding: setA-05 t=0,1 chạy tới ~7 000 s); khi đó `evaluate` cắt kết quả về trạng thái tại hạn.
++"""
++mutable struct BudgetGuard
++    limit::Float64
++    t0::UInt64
++    wall::Float64
++    inc_obj::Float64
++    inc_time::Float64
++    inc_sol::Vector{Float64}
++    bound::Float64
++    bound_time::Float64
++    nodes::Float64
++    interrupted::Bool
++end
++BudgetGuard(limit::Real) = BudgetGuard(Float64(limit), time_ns(), NaN, Inf, NaN, Float64[], -Inf, NaN, NaN, false)
++guard_elapsed(g::BudgetGuard) = (time_ns() - g.t0) / 1e9
++
++const GUARD_INTERRUPTS = Cint[HiGHS.kHighsCallbackSimplexInterrupt, HiGHS.kHighsCallbackIpmInterrupt,
++                              HiGHS.kHighsCallbackMipInterrupt]
++const GUARD_CALLBACKS = vcat(GUARD_INTERRUPTS, Cint[HiGHS.kHighsCallbackMipImprovingSolution,
++                                                    HiGHS.kHighsCallbackMipLogging])
++
++function guard_callback(g::BudgetGuard)
++    return function (cb_type::Cint, ::Ptr{Cchar}, data::HiGHS.HighsCallbackDataOut)
++        t = guard_elapsed(g)
++        if t > g.limit
++            g.interrupted = true
++            return cb_type in GUARD_INTERRUPTS ? Cint(1) : Cint(0)
++        end
++        if cb_type == HiGHS.kHighsCallbackMipImprovingSolution
++            if data.mip_solution != C_NULL && data.objective_function_value < g.inc_obj
++                g.inc_obj = data.objective_function_value
++                g.inc_time = t
++                g.inc_sol = copy(unsafe_wrap(Array, data.mip_solution, Int(data.mip_solution_size)))
++            end
++        elseif cb_type == HiGHS.kHighsCallbackMipInterrupt || cb_type == HiGHS.kHighsCallbackMipLogging
++            if isfinite(data.mip_dual_bound) && data.mip_dual_bound > g.bound
++                g.bound = data.mip_dual_bound
++                g.bound_time = t
++            end
++            g.nodes = Float64(data.mip_node_count)
++        end
++        return Cint(0)
++    end
++end
++
++"Đọc nghiệm x, z từ vector cột của HiGHS (nghiệm do callback chép lại)."
++function _paths_from_vector(inst, model, x, z, P, sol)
++    inner = JuMP.unsafe_backend(model)
++    val(v) = sol[HiGHS.column(inner, JuMP.optimizer_index(v)) + 1]
++    return extract_paths(inst, x, P; val=val), val(z)
++end
++
++"""
++Kết quả theo ngân sách. Nếu HiGHS dừng trong hạn (cộng BUDGET_GRACE_SEC), giữ nguyên kết quả cuối, chỉ thay
++thời gian bằng đồng hồ đơn điệu khi đồng hồ của HiGHS lệch. Nếu HiGHS chạy quá hạn, dùng nghiệm cải thiện cuối
++cùng tìm được trong hạn (hoặc nghiệm khởi đầu đã có trước khi giải) và cận dưới cuối cùng trong hạn; thời gian
++báo cáo là đúng ngân sách và cột check mang hậu tố `(budget-truncated)`.
++"""
++function _apply_budget(inst, rs, P, model, x, z, g::BudgetGuard, res; objective_mode::Symbol,
++                       start_paths=nothing, wall=g.wall)
++    truncated = wall > g.limit + BUDGET_GRACE_SEC
++    source = "final"
++    out = res
++    if !truncated
++        if isfinite(res.t) && res.t > wall + 60
++            out = merge(res, (; t=wall, check=res.check * "(solver-clock)"))
++        end
++    else
++        paths, zv, obj = nothing, NaN, NaN
++        if !isempty(g.inc_sol)
++            paths, zv = _paths_from_vector(inst, model, x, z, P, g.inc_sol)
++            obj, source = g.inc_obj, "callback@$(round(g.inc_time; digits=1))s"
++        elseif start_paths !== nothing
++            paths, source = start_paths, "mip_start"
++            zv = max_utilization(inst, rs, start_paths, P)
++            obj = objective_mode === :pure_mlu ? zv : NaN
++        end
++        bnd = isfinite(g.bound) ? g.bound : NaN
++        pure_bound = pure_mlu_bound(string(objective_mode), bnd)
++        if paths === nothing
++            out = (; status="Not Optimal", zv=NaN, mlu=NaN, obj=NaN, bnd, gap=NaN, pure_bound, pure_gap=NaN,
++                   t=g.limit, nodes=g.nodes, check="no_solution(budget-truncated)", paths=nothing)
++        else
++            chk = check_solution(inst, rs, paths, P, zv + 1e-5)
++            gap = isfinite(bnd) && isfinite(obj) && obj > 0 ? max(0.0, 1.0 - bnd / obj) : NaN
++            check = (chk.budget_ok ? "ok" : "budget_violation") * "(budget-truncated)"
++            out = (; status="Not Optimal", zv, mlu=chk.mlu, obj, bnd, gap, pure_bound,
++                   pure_gap=pure_mlu_gap(chk.mlu, pure_bound), t=g.limit, nodes=g.nodes, check, paths)
++        end
++    end
++    record = Dict("limit_s" => g.limit, "solver_wall_s" => wall, "highs_solve_time_s" => res.t,
++                  "grace_s" => BUDGET_GRACE_SEC, "interrupt_requested" => g.interrupted,
++                  "truncated" => truncated, "reported_source" => source,
++                  "incumbent_time_s" => g.inc_time, "incumbent_obj" => g.inc_obj,
++                  "bound_time_s" => g.bound_time, "bound_at_budget" => g.bound, "nodes_at_budget" => g.nodes,
++                  "final_status" => res.status, "final_mlu" => res.mlu, "final_bound" => res.bnd,
++                  "reported_status" => out.status, "reported_mlu" => out.mlu, "reported_time_s" => out.t)
++    return out, record
++end
++
+ function evaluate(inst, rs, P, model, x, z; objective_mode::Symbol=:weighted_secondary)
++    res = _evaluate_final(inst, rs, P, model, x, z; objective_mode=objective_mode)
++    g = get(model.ext, :budget_guard, nothing)
++    g === nothing && return res
++    out, record = _apply_budget(inst, rs, P, model, x, z, g, res; objective_mode=objective_mode,
++                                start_paths=model.ext[:budget_start])
++    log_path = model.ext[:budget_log]
++    if log_path !== nothing
++        open(replace(log_path, ".log" => "-budget.json"), "w") do io
++            JSON3.write(io, Dict(k => (v isa Real && !isfinite(v) ? string(v) : v) for (k, v) in record))
++        end
++    end
++    return out
++end
++
++function _evaluate_final(inst, rs, P, model, x, z; objective_mode::Symbol=:weighted_secondary)
+     st = termination_status(model)
+     status = st == MOI.OPTIMAL ? "Optimal" : st == MOI.INFEASIBLE ? "Infeasible" : "Not Optimal"
+     bnd = try objective_bound(model) catch; NaN end
+diff --git a/orange/src/reporting.jl b/orange/src/reporting.jl
+index f94b82b..b3cf7ee 100644
+--- a/orange/src/reporting.jl
++++ b/orange/src/reporting.jl
+@@ -24,6 +24,18 @@ function pure_mlu_gap(mlu, bound)
+ end
+ 
+ "Summarize one official configuration without silently accepting incomplete or mixed samples."
++"""
++Run tốt nhất của một cấu hình: MLU nhỏ nhất. Các run cùng MLU (sai khác tương đối ≤ 1e-9) là cùng một nghiệm
++về giá trị; khi đó ưu tiên run đã chứng minh tối ưu bài toán gốc (LB = UB), rồi run id nhỏ, để trạng thái của
++cấu hình không phụ thuộc việc run id nhỏ nhất có chứng minh được hay không (setA-02 t=0,1).
++"""
++function _official_best_row(rows)
++    best_mlu = minimum(_rowfloat(r, "mlu") for r in rows)
++    tied = filter(r -> _rowfloat(r, "mlu") <= best_mlu + 1e-9 * max(1.0, abs(best_mlu)), rows)
++    return first(sort(tied; by=r -> (get(r, "original_problem_optimal", "") == "true" ? 0 : 1,
++                                     something(_rowint(r, "run"), typemax(Int)))))
++end
++
+ function summarize_official_rows(rows; expected_runs=OFFICIAL_RUN_IDS)
+     isempty(rows) && return (complete=false, reason="no rows", run_count=0, successful_runs=0,
+                              optimal_runs=0, best_row=nothing, avg_time=NaN, avg_gap=NaN,
+@@ -63,7 +75,7 @@ function summarize_official_rows(rows; expected_runs=OFFICIAL_RUN_IDS)
+         return (complete=false, reason="fewer than 10 valid runs", run_count=length(ordered),
+                 successful_runs=length(successful), optimal_runs=count(r -> get(r, "status", "") == "Optimal", successful),
+                 best_row=nothing, avg_time=NaN, avg_gap=NaN, avg_nodes=NaN, lower_bound=NaN)
+-    best = first(sort(successful; by=r -> (_rowfloat(r, "mlu"), something(_rowint(r, "run"), typemax(Int)))))
++    best = _official_best_row(successful)
+     has_artifact = !isempty(get(best, "srpaths_file", "")) && !isempty(get(best, "loads_file", ""))
+     has_artifact || return (complete=false, reason="best run has no artifact", run_count=10, successful_runs=10,
+                             optimal_runs=count(r -> get(r, "status", "") == "Optimal", successful),
+diff --git a/orange/test/official_reporting.jl b/orange/test/official_reporting.jl
+index 63d31b5..1358559 100644
+--- a/orange/test/official_reporting.jl
++++ b/orange/test/official_reporting.jl
+@@ -202,3 +202,39 @@ end
+     @test isfile(joinpath(out, row["srpaths_file"]))
+     @test isfile(joinpath(out, row["loads_file"]))
+ end
++
++@testset "status labels follow model type and proof of optimality" begin
++    @test official_status_label("full_arc", true) == "Optimal"
++    @test official_status_label("full_arc", false) == "Feasible - not proven optimal"
++    @test official_status_label("restricted_waypoint", false) == "Restricted feasible upper bound"
++    @test official_status_label("restricted_waypoint", true) == "Restricted feasible upper bound"
++end
++
++@testset "a proof in any tied run makes the configuration optimal" begin
++    # setA-02 t=0,1: every run finds the same MLU; runs 2, 3, 7, 10 prove it optimal, run 1 times out
++    rows = [official_fixture_row(r; mlu=0.9030747093, status=(r in (2, 3, 7, 10) ? "Optimal" : "Not Optimal"))
++            for r in 1:10]
++    for r in rows
++        r["original_problem_optimal"] = r["status"] == "Optimal" ? "true" : "false"
++    end
++    summary = summarize_official_rows(rows)
++    @test summary.complete && summary.best_row["run"] == "2"
++    rows[4]["mlu"] = "0.90307470930000001"          # same value within the tie tolerance
++    @test summarize_official_rows(rows).best_row["run"] == "2"
++    rows[5]["mlu"] = "0.8"                          # a strictly better incumbent always wins
++    @test summarize_official_rows(rows).best_row["run"] == "5"
++
++    out = mktempdir()
++    verified = [write_verified_full_run(out, r) for r in 1:10]
++    for r in verified
++        r["status"] = "Not Optimal"
++        r["original_problem_optimal"] = "false"
++    end
++    write_current_rows(joinpath(out, "setA-01-P1-official-pc-all.csv"), verified)
++    @test best_known_records(out; copy_artifacts=false)[("setA-01", 1)]["status"] == "Feasible - not proven optimal"
++    verified[6]["status"] = "Optimal"
++    verified[6]["original_problem_optimal"] = "true"
++    write_current_rows(joinpath(out, "setA-01-P1-official-pc-all.csv"), verified)
++    record = best_known_records(out; copy_artifacts=false)[("setA-01", 1)]
++    @test record["status"] == "Optimal" && record["best_run"] == "6" && record["original_problem_optimal"] == "true"
++end
+diff --git a/orange/test/runtests.jl b/orange/test/runtests.jl
+index e0ef3a5..09074a4 100644
+--- a/orange/test/runtests.jl
++++ b/orange/test/runtests.jl
+@@ -857,5 +857,52 @@ end
+     @test cfg.candidate_fingerprint == rows[1]["candidate_fingerprint"]
+ end
+ 
++@testset "budget guard keeps results within the time budget" begin
++    inst = read_instance(TOY)
++    P = 2
++    rs = [build_r(inst, p; mode=:pathcount) for p in 1:P]
++    start = direct_paths(inst, P)
++    logdir = mktempdir()
++    log_path = joinpath(logdir, "toy-run1.log")
++    model, x, z = Orange.solve_once(inst, rs, P, 60.0, 1, false, start; log_path=log_path,
++                                    objective_mode=:pure_mlu)
++    g = model.ext[:budget_guard]
++    @test g.limit == 60.0 && isfinite(g.wall) && g.wall <= 60.0 + Orange.BUDGET_GRACE_SEC
++    final = Orange.evaluate(inst, rs, P, model, x, z; objective_mode=:pure_mlu)
++    @test final.status == "Optimal" && final.check == "ok"
++    record = Orange.JSON3.read(read(replace(log_path, ".log" => "-budget.json"), String))
++    @test record["truncated"] == false && record["reported_mlu"] ≈ final.mlu
++    @test isempty(g.inc_sol) || g.inc_obj >= final.obj - 1e-6
++
++    # the solver ran past the budget: report the last improving solution found within it, at the budget time.
++    # The in-budget incumbent is the HiGHS column vector of the final solution, which checks the column mapping.
++    raw = Orange._evaluate_final(inst, rs, P, model, x, z; objective_mode=:pure_mlu)
++    inner = JuMP.unsafe_backend(model)
++    sol = zeros(MOI.get(inner, MOI.NumberOfVariables()))
++    for v in all_variables(model)
++        sol[HiGHS.column(inner, optimizer_index(v)) + 1] = value(v)
++    end
++    late = Orange.BudgetGuard(60.0)
++    late.inc_sol, late.inc_obj, late.inc_time, late.bound = sol, objective_value(model), 12.0, 0.1
++    over, rec = Orange._apply_budget(inst, rs, P, model, x, z, late, raw; objective_mode=:pure_mlu,
++                                     start_paths=start, wall=160.0)
++    @test rec["truncated"] && over.t == 60.0 && over.status == "Not Optimal"
++    @test over.check == "ok(budget-truncated)" && rec["reported_source"] == "callback@12.0s"
++    @test over.paths == raw.paths && over.mlu ≈ raw.mlu && over.pure_bound == 0.1
++
++    # nothing improved within the budget: the MIP start (known before the solve) is the in-budget incumbent
++    empty_guard = Orange.BudgetGuard(60.0)
++    empty_guard.bound = 0.25
++    over0, rec0 = Orange._apply_budget(inst, rs, P, model, x, z, empty_guard, raw; objective_mode=:pure_mlu,
++                                       start_paths=start, wall=200.0)
++    @test rec0["reported_source"] == "mip_start" && over0.paths == start
++    @test over0.mlu ≈ max_utilization(inst, rs, start, P) && over0.pure_bound == 0.25 && over0.t == 60.0
++
++    # the solver clock disagrees with the monotonic clock: report the monotonic time
++    skewed = merge(raw, (; t=10_000.0))
++    fixed, _ = Orange._apply_budget(inst, rs, P, model, x, z, g, skewed; objective_mode=:pure_mlu, wall=5.0)
++    @test fixed.t == 5.0 && fixed.check == raw.check * "(solver-clock)" && fixed.mlu == raw.mlu
++end
++
+ include("lexicographic.jl")
+ include("official_reporting.jl")

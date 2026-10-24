@@ -1,16 +1,16 @@
-# SetA-05 P2: supplementary analysis (after the official campaign)
+# SetA-05 P2: why the first runs failed and how the optimum was found and proved
 
-This analysis is **not part of the official 10-run campaign**. The official tables (`final_configuration_summary.csv`, `table_official_P2.tex`) are unchanged and still report SetA-05 P2 as *Feasible – not proven optimal*, MLU 0.999986144, gap 0.8975. This note shows that the true optimum is **0.2049858752** and proves it. Raw files are in `improvement_results_2026-10-24/setA05_bound/`.
+This note explains the 2026-10-24 (V4) rerun of SetA-05 P2. The V3 official runs stayed at MLU 0.999986144 (the baseline, gap 0.8975). The analysis below found and proved the optimum **0.2049858752**. It led to a fix of the `local_search` heuristic. With the fix, the official 10-run rerun reached this value in all 10 runs and proved it in 5 (`final_configuration_summary.csv`: *Optimal*). Raw files of the analysis are in `improvement_results_2026-10-24/setA05_bound/`.
 
 ## Result
 
-| | Official campaign | Supplementary analysis |
-|---|---|---|
-| Best MLU | 0.9999861440 | **0.2049858752** |
-| Lower bound | 0.2049858752 (best run) | **0.2049858752** |
-| Gap | 0.8975 | **0 (optimal)** |
-| Budget used at t = 1 (κ = 1) | 0 | 0 |
-| Independent verifier (`verify_srpaths.py`) | verified | verified, `problems: []` |
+| | V3 official runs (superseded) | Analysis | V4 official rerun |
+|---|---|---|---|
+| Best MLU | 0.9999861440 | **0.2049858752** | **0.2049858752** (10/10 runs) |
+| Lower bound | 0.2049858752 (after the budget only) | **0.2049858752** (node cut, LP) | **0.2049858752** (5/10 runs) |
+| Status | Feasible – not proven optimal | optimal (proof below) | **Optimal** |
+| Budget used at t = 1 (κ = 1) | 0 | 0 | 0 |
+| Independent verifier (`verify_srpaths.py`) | verified | verified, `problems: []` | 10/10 verified |
 
 ## Why the baseline is at 0.99999
 
@@ -35,7 +35,7 @@ which equals the value reached. Two further checks give the same number:
 
 The same node-cut argument explains SetA-05 P1: node 83 receives 3.191 units through in-arcs of total capacity 27.624. That bound, 0.1155237, equals the official optimum.
 
-## Why the official runs missed it
+## Why the V3 official runs missed it
 
 - **Heuristic.** `local_search` (seed 1) supplied the MIP start in all full-arc runs. It changed a path in one period at a time. With κ = 1, every such move costs at least 3 segment changes (two distinct s–t segment paths always differ in at least 3 segments), so every move was rejected. The heuristic returned the direct paths. The move that was needed, changing demand 19 in both periods at once, was never tried.
 - **MILP.** With presolve off (size rule) and 2.97 M columns, HiGHS did not finish the root LP within 3600 s, so its primal heuristics never ran.
@@ -48,7 +48,16 @@ The same node-cut argument explains SetA-05 P1: node 83 receives 3.191 units thr
 - SetA-05 P1: 0.1155237446, the official optimum.
 - Toy instance with budget 0: a new unit test requires the heuristic to reach the brute-force optimum.
 
-This changes the MIP start, and with it the official runs that used it. Rerunning the official SetA-05 P2 configuration with the fixed heuristic would turn its row into *Optimal*. This has not been done.
+## Official rerun with the fixed heuristic (V4, 2026-10-24)
+
+Same protocol as before (3600 s, seeds 1–10, one thread per run). The only change was the patched `local_search` (`fix_local_search_joint.patch`, SHA-256 `2a7b3841…`). The 10 runs were spread over 5 parallel processes.
+
+| Runs (seeds) | Status | MLU | LB | Solve time |
+|---|---|---|---|---|
+| 2, 3, 6, 7, 10 | Optimal | 0.2049858752 | 0.2049858752 | 120–189 s |
+| 1, 4, 5, 8, 9 | time limit | 0.2049858752 | 0 | 3600 s |
+
+Every run starts from the optimal MIP start. The time is spent on the root LP: dual simplex with presolve off, because the model has 2.97 M columns. That LP is highly degenerate, and its solve time depends strongly on the seed. Seed 2 finishes it in 1,665 iterations; seed 1 has not finished after 32,146. The seeds that fail are the same ones whose V3 runs never reached a bound.
 
 ## Supporting result: small budgets mean identical routings
 

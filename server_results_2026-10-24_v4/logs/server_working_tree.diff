@@ -1,0 +1,713 @@
+diff --git a/orange/results/best_known.csv b/orange/results/best_known.csv
+index f143cd7..73b1636 100644
+--- a/orange/results/best_known.csv
++++ b/orange/results/best_known.csv
+@@ -1,41 +1,13 @@
+-instance,P,best_mlu,source,mlu_base,improvement,lb_orig,gap_orig,lb_1wp,gap_1wp
+-setA-01,1,0.929383899821109,arc,1.0000006861063466,0.07061673783464562,0.929383899821109,0.0,0.9293838923211091,8.06986211188132e-9
+-setA-01,2,0.929383899821109,arc,1.0000006861063466,0.07061673783464562,0.929383899821109,0.0,0.929383704821109,2.098164171293604e-7
+-setA-02,1,0.5485780439121757,arc,1.0,0.4514219560878243,0.5485780439121757,0.0,0.5485779572455091,1.579842058285763e-7
+-setA-02,2,0.9030747093023255,arc,1.0980781976744185,0.17758615805785427,0.9030747093023255,0.0,0.90307451374677,2.1654416126892784e-7
+-setA-03,1,0.9435434146341464,arc,1.0000012077294687,0.056457724909664164,0.9435434146341464,0.0,0.9435433296341464,9.008594470394371e-8
+-setA-03,2,0.9435434146341464,wp,1.0000012077294687,0.056457724909664164,NaN,NaN,0.9435432296341464,1.9606940937499928e-7
+-setA-04,1,0.45911959798994967,wp,0.6918238693467338,0.33636346137712625,0.45906731159262837,0.00011388404579160127,0.45911957248994956,5.5541083843202443e-8
+-setA-04,2,0.5828095477386935,wp,1.000000502512563,0.41719074513027876,NaN,NaN,0.5828095097386933,6.520140305443789e-8
+-setA-05,1,0.11552374457848462,arc,0.3333171085207893,0.6534118962835078,0.11552374457848462,0.0,0.11552365157848461,8.050293066608205e-7
+-setA-05,2,0.20498587519516004,wp,0.9999861440214215,0.795011284485589,NaN,NaN,0.20498587319516004,9.756769836499757e-9
+-setA-06,1,0.09859157,wp,1.0000001,0.901408439859156,NaN,NaN,0.09859146614269414,1.0534095954417566e-6
+-setA-06,2,0.1408451,wp-cg,1.0000001,0.8591549140845086,NaN,NaN,NaN,NaN
+-setA-07,1,0.907989440993789,wp,0.907989440993789,0.0,NaN,NaN,0.907989340993789,1.1013343925725394e-7
+-setA-07,2,0.907989440993789,wp-cg,1.0,0.09201055900621102,NaN,NaN,NaN,NaN
+-setA-08,1,0.3189036974295927,wp,1.0,0.6810963025704073,NaN,NaN,0.3189036024295927,2.978955739862954e-7
+-setA-08,2,0.3189036974295927,wp-cg,1.0,0.6810963025704073,NaN,NaN,NaN,NaN
+-setA-09,1,0.5053842105263158,wp,0.6111367857142858,0.17304239846136615,NaN,NaN,0.5053842015263158,1.780823333241699e-8
+-setA-09,2,0.84965,wp-cg,1.0,0.15034999999999998,NaN,NaN,NaN,NaN
+-setA-10,1,0.06956524,wp-cg-lns,1.0000001,0.9304347669565233,NaN,NaN,0.06832292873802372,0.017858218586987995
+-setA-10,2,0.1086957,wp-cg-lns,1.0000001,0.891304310869569,NaN,NaN,NaN,NaN
+-setA-11,1,0.6135438405797101,wp,1.0,0.3864561594202899,NaN,NaN,0.6135438298296992,1.7521178063972798e-8
+-setA-11,2,0.7857889570552147,wp-cg,1.0,0.21421104294478532,NaN,NaN,NaN,NaN
+-setA-12,1,0.6400750303431534,wp,1.0001103387399315,0.3599955869373346,NaN,NaN,0.6400749305931535,1.5584110490962644e-7
+-setA-12,2,0.8798725921431821,wp-cg,1.0001103387399315,0.1202244811789871,NaN,NaN,NaN,NaN
+-setA-13,1,0.038888849999999996,wp-cg-lns,0.9999990000000001,0.9611111111111111,NaN,NaN,0.03884992232739899,0.0010009982964527264
+-setA-13,2,0.076923,wp-cg-lns,0.9999990000000001,0.9230769230769231,NaN,NaN,NaN,NaN
+-setA-14,1,0.43420904734169197,wp-cg,1.0,0.565790952658308,NaN,NaN,0.4239095950894921,0.023720031434754763
+-setA-14,2,0.533147771569866,wp-cg,1.0,0.46685222843013396,NaN,NaN,NaN,NaN
+-setA-15,1,0.825206,wp-cg,1.0,0.174794,NaN,NaN,0.8252059000805554,1.2108424396473083e-7
+-setA-15,2,0.8986958083832335,wp-cg,1.0,0.10130419161676651,NaN,NaN,NaN,NaN
+-setA-16,1,0.12295089999999999,wp-cg,0.9672130000000001,0.8728812577994713,NaN,NaN,0.12295071112593596,1.5361747170983264e-6
+-setA-16,2,0.5163933,wp-cg-lns-fast,0.9999997000000003,0.48360654508196366,NaN,NaN,NaN,NaN
+-setA-17,1,0.4241923414331185,wp-cg,1.0000751487111699,0.5758395336792548,NaN,NaN,0.4241922414619105,2.3567424078940746e-7
+-setA-17,2,0.4241923414331185,wp-cg,1.0000751487111699,0.5758395336792548,NaN,NaN,NaN,NaN
+-setA-18,1,0.6333654970760234,wp-cg,0.6333654970760234,0.0,NaN,NaN,0.6333653970760235,1.578867184770516e-7
+-setA-18,2,0.9999987654320988,wp-cg,0.9999987654320988,0.0,NaN,NaN,NaN,NaN
+-setA-19,1,0.06744728,wp-cg,0.999999850000001,0.9325527098829065,NaN,NaN,0.06565514335185588,0.02657092544197659
+-setA-19,2,0.10257612000000002,wp-cg-lns-fast,0.999999850000001,0.8974238646135798,NaN,NaN,NaN,NaN
+-setA-20,1,0.991312385321101,wp-cg,0.9999993333333329,0.008686953803534458,NaN,NaN,0.9913122853254304,1.0087200774666627e-7
+-setA-20,2,0.991312385321101,wp-cg,0.9999993333333329,0.008686953803534458,NaN,NaN,NaN,NaN
++instance,P,routing_mode,model_type,run_count,successful_runs,optimal_runs,status,best_mlu,best_run,source_csv,srpaths_file,loads_file,verification_status,original_problem_optimal,pure_mlu_lower_bound,pure_mlu_gap,avg_solve_time,avg_gap,avg_nodes,full_model_status
++setA-01,1,pathcount,full_arc,10,10,10,Optimal,0.929383899821109,1,setA-01-P1-official-pc-r1.csv,official-artifacts/setA-01-P1-pathcount-best-run1-srpaths.json,official-artifacts/setA-01-P1-pathcount-best-run1-loads.csv,verified,true,0.929383899821109,0.0,0.6824592590332031,0.0,1.0,complete
++setA-01,2,pathcount,full_arc,10,10,10,Optimal,0.929383899821109,1,setA-01-P2-official-pc-r1.csv,official-artifacts/setA-01-P2-pathcount-best-run1-srpaths.json,official-artifacts/setA-01-P2-pathcount-best-run1-loads.csv,verified,true,0.929383899821109,0.0,20.769899892807008,0.0,1.0,complete
++setA-02,1,pathcount,full_arc,10,10,10,Optimal,0.5485780439121757,1,setA-02-P1-official-pc-r1.csv,official-artifacts/setA-02-P1-pathcount-best-run1-srpaths.json,official-artifacts/setA-02-P1-pathcount-best-run1-loads.csv,verified,true,0.5485780439121757,0.0,3.680731916427612,0.0,1.0,complete
++setA-02,2,pathcount,full_arc,10,10,4,Optimal,0.9030747093023255,2,setA-02-P2-official-pc-r2.csv,official-artifacts/setA-02-P2-pathcount-best-run2-srpaths.json,official-artifacts/setA-02-P2-pathcount-best-run2-loads.csv,verified,true,0.9030747093023255,0.0,2234.8699442863463,0.45882057855582065,0.4,complete
++setA-03,1,pathcount,full_arc,10,10,10,Optimal,0.9435434146341464,1,setA-03-P1-official-pc-r1.csv,official-artifacts/setA-03-P1-pathcount-best-run1-srpaths.json,official-artifacts/setA-03-P1-pathcount-best-run1-loads.csv,verified,true,0.9435434146341464,0.0,32.01214225292206,0.0,9.0,complete
++setA-03,2,pathcount,full_arc,10,10,10,Optimal,0.9435434146341464,1,setA-03-P2-official-pc-r1.csv,official-artifacts/setA-03-P2-pathcount-best-run1-srpaths.json,official-artifacts/setA-03-P2-pathcount-best-run1-loads.csv,verified,true,0.9435434146341464,0.0,759.5549525260925,0.0,1.0,complete
++setA-04,1,pathcount,full_arc,10,10,0,Feasible - not proven optimal,0.5182792307692308,1,setA-04-P1-official-pc-r1.csv,official-artifacts/setA-04-P1-pathcount-best-run1-srpaths.json,official-artifacts/setA-04-P1-pathcount-best-run1-loads.csv,verified,false,0.4590678030303047,0.11424619051595875,1800.3069886445999,0.20282157146436522,0.0,complete
++setA-04,2,pathcount,full_arc,10,10,0,Feasible - not proven optimal,0.588574623115578,1,setA-04-P2-official-pc-r1.csv,official-artifacts/setA-04-P2-pathcount-best-run1-srpaths.json,official-artifacts/setA-04-P2-pathcount-best-run1-loads.csv,verified,false,0.5811439393939396,0.012624879547651124,3600.680441403389,0.012624879547651301,0.0,complete
++setA-05,1,pathcount,full_arc,10,10,10,Optimal,0.11552374457848462,1,setA-05-P1-official-pc-r1.csv,official-artifacts/setA-05-P1-pathcount-best-run1-srpaths.json,official-artifacts/setA-05-P1-pathcount-best-run1-loads.csv,verified,true,0.11552374457848462,0.0,149.36634862422943,0.0,1.0,complete
++setA-05,2,pathcount,full_arc,10,10,0,Feasible - not proven optimal,0.9999861440214215,1,setA-05-P2-official-pc-r1.csv,official-artifacts/setA-05-P2-pathcount-best-run1-srpaths.json,official-artifacts/setA-05-P2-pathcount-best-run1-loads.csv,verified,false,0.20498587519516004,0.795011284485589,3601.096116876602,0.8975056422427945,0.0,complete
++setA-07,2,pathcount,restricted_waypoint,10,10,10,Restricted feasible upper bound,0.907989440993789,1,setA-07-wp-P2-official-pc-r1.csv,official-artifacts/setA-07-P2-pathcount-best-run1-srpaths.json,official-artifacts/setA-07-P2-pathcount-best-run1-loads.csv,verified,false,NaN,NaN,80.76637690067291,NaN,0.0,not_run
++setA-10,1,pathcount,restricted_waypoint,10,10,0,Restricted feasible upper bound,0.071195675,5,setA-10-wp-P1-official-pc-r5.csv,official-artifacts/setA-10-P1-pathcount-best-run5-srpaths.json,official-artifacts/setA-10-P1-pathcount-best-run5-loads.csv,verified,false,NaN,NaN,1801.1683757305145,NaN,1299.3,not_run
+diff --git a/orange/results/table_official_P1.csv b/orange/results/table_official_P1.csv
+index 460f774..1b24d10 100644
+--- a/orange/results/table_official_P1.csv
++++ b/orange/results/table_official_P1.csv
+@@ -1,21 +1,21 @@
+-Instance,Vertices,Links,Demands,Best objective (MLU),CPU time (s),Status,Gap,B&B nodes,Runs,Model,Best known (any method)
+-setA-01,20,80,40,0.92938,0.8,Optimal,--,1.0,10,arc-pc,0.92938
+-setA-02,30,150,45,0.54858,2.3,Optimal,--,1.0,10,arc-pc,0.54858
+-setA-03,50,250,20,0.94354,5.2,Optimal,--,1.0,10,arc-pc,0.94354
+-setA-04,50,250,200,0.50105,1800.9,Not Optimal,0.19,0.0,10,arc-pc,0.45912
+-setA-05,100,396,100,0.11552,291.5,Optimal,--,1.0,10,arc-pc,0.11552
+-setA-06,100,500,500,0.09859,10.7,Optimal*,--,1.0,1,wp,0.09859
+-setA-07,100,500,800,0.90799,2.7,Optimal*,--,0.0,1,wp,0.90799
+-setA-08,150,654,200,0.3189,1.2,Optimal*,--,0.0,1,wp,0.3189
+-setA-09,150,750,200,0.50538,2.0,Optimal*,--,1.0,1,wp,0.50538
+-setA-10,150,966,1000,0.06957,300.1,Not Optimal*,0.018,0.0,1,wp-cg-lns,0.06957
+-setA-11,200,1000,400,0.61354,32.2,Optimal*,--,13.0,1,wp,0.61354
+-setA-12,200,898,400,0.64008,6.3,Optimal*,--,1.0,1,wp,0.64008
+-setA-13,200,1000,2000,0.03889,300.2,Not Optimal*,0.001,0.0,1,wp-cg-lns,0.03889
+-setA-14,250,1108,600,0.43421,0.5,Not Optimal*,0.024,1.0,1,wp-cg,0.43421
+-setA-15,250,1250,600,0.82521,0.4,Optimal*,--,0.0,1,wp-cg,0.82521
+-setA-16,250,1452,4800,0.12295,115.7,Optimal*,--,1.0,1,wp-cg,0.12295
+-setA-17,300,1270,2000,0.42419,2.4,Optimal*,--,1.0,1,wp-cg,0.42419
+-setA-18,300,1500,2000,0.63337,1.3,Optimal*,--,0.0,1,wp-cg,0.63337
+-setA-19,300,1998,6000,0.06745,1800.2,Not Optimal*,0.027,632.0,1,wp-cg,0.06745
+-setA-20,400,2000,6000,0.99131,4.9,Optimal*,--,0.0,1,wp-cg,0.99131
++Instance,Vertices,Links,Demands,Routing mode,Model type,Run count,Successful runs,Full model status,Best MLU,Valid MLU lower bound,Average solve time (s),Average gap,Average B&B nodes,Optimal runs,Status,Best run,Verification,Artifact
++setA-01,20,80,40,pathcount,full_arc,10,10,complete,0.92938,0.92938,0.7,0.0,1.0,10/10,Optimal,1,verified,official-artifacts/setA-01-P1-pathcount-best-run1-srpaths.json
++setA-02,30,150,45,pathcount,full_arc,10,10,complete,0.54858,0.54858,3.7,0.0,1.0,10/10,Optimal,1,verified,official-artifacts/setA-02-P1-pathcount-best-run1-srpaths.json
++setA-03,50,250,20,pathcount,full_arc,10,10,complete,0.94354,0.94354,32.0,0.0,9.0,10/10,Optimal,1,verified,official-artifacts/setA-03-P1-pathcount-best-run1-srpaths.json
++setA-04,50,250,200,pathcount,full_arc,10,10,complete,0.51828,0.45907,1800.3,0.20282,0.0,0/10,Feasible - not proven optimal,1,verified,official-artifacts/setA-04-P1-pathcount-best-run1-srpaths.json
++setA-05,100,396,100,pathcount,full_arc,10,10,complete,0.11552,0.11552,149.4,0.0,1.0,10/10,Optimal,1,verified,official-artifacts/setA-05-P1-pathcount-best-run1-srpaths.json
++setA-06,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-07,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-08,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-09,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-10,150,966,1000,pathcount,restricted_waypoint,10,10,not_run,0.0712,N/A,1801.2,N/A,1299.3,N/A (restricted),Restricted feasible upper bound,5,verified,official-artifacts/setA-10-P1-pathcount-best-run5-srpaths.json
++setA-11,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-12,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-13,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-14,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-15,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-16,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-17,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-18,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-19,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-20,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
+diff --git a/orange/results/table_official_P1.md b/orange/results/table_official_P1.md
+index fb714a8..bb1ffc8 100644
+--- a/orange/results/table_official_P1.md
++++ b/orange/results/table_official_P1.md
+@@ -1,26 +1,26 @@
+-# Table 1 -- time period 0 only, limit 1800 s (step 6)
++# Official path-count results, P=1
+ 
+-| Instance | Vertices | Links | Demands | Best objective (MLU) | CPU time (s) | Status | Gap | B&B nodes | Runs | Model | Best known (any method) |
+-|---|---|---|---|---|---|---|---|---|---|---|---|
+-| setA-01 | 20 | 80 | 40 | 0.92938 | 0.8 | Optimal | -- | 1.0 | 10 | arc-pc | 0.92938 |
+-| setA-02 | 30 | 150 | 45 | 0.54858 | 2.3 | Optimal | -- | 1.0 | 10 | arc-pc | 0.54858 |
+-| setA-03 | 50 | 250 | 20 | 0.94354 | 5.2 | Optimal | -- | 1.0 | 10 | arc-pc | 0.94354 |
+-| setA-04 | 50 | 250 | 200 | 0.50105 | 1800.9 | Not Optimal | 0.19 | 0.0 | 10 | arc-pc | 0.45912 |
+-| setA-05 | 100 | 396 | 100 | 0.11552 | 291.5 | Optimal | -- | 1.0 | 10 | arc-pc | 0.11552 |
+-| setA-06 | 100 | 500 | 500 | 0.09859 | 10.7 | Optimal* | -- | 1.0 | 1 | wp | 0.09859 |
+-| setA-07 | 100 | 500 | 800 | 0.90799 | 2.7 | Optimal* | -- | 0.0 | 1 | wp | 0.90799 |
+-| setA-08 | 150 | 654 | 200 | 0.3189 | 1.2 | Optimal* | -- | 0.0 | 1 | wp | 0.3189 |
+-| setA-09 | 150 | 750 | 200 | 0.50538 | 2.0 | Optimal* | -- | 1.0 | 1 | wp | 0.50538 |
+-| setA-10 | 150 | 966 | 1000 | 0.06957 | 300.1 | Not Optimal* | 0.018 | 0.0 | 1 | wp-cg-lns | 0.06957 |
+-| setA-11 | 200 | 1000 | 400 | 0.61354 | 32.2 | Optimal* | -- | 13.0 | 1 | wp | 0.61354 |
+-| setA-12 | 200 | 898 | 400 | 0.64008 | 6.3 | Optimal* | -- | 1.0 | 1 | wp | 0.64008 |
+-| setA-13 | 200 | 1000 | 2000 | 0.03889 | 300.2 | Not Optimal* | 0.001 | 0.0 | 1 | wp-cg-lns | 0.03889 |
+-| setA-14 | 250 | 1108 | 600 | 0.43421 | 0.5 | Not Optimal* | 0.024 | 1.0 | 1 | wp-cg | 0.43421 |
+-| setA-15 | 250 | 1250 | 600 | 0.82521 | 0.4 | Optimal* | -- | 0.0 | 1 | wp-cg | 0.82521 |
+-| setA-16 | 250 | 1452 | 4800 | 0.12295 | 115.7 | Optimal* | -- | 1.0 | 1 | wp-cg | 0.12295 |
+-| setA-17 | 300 | 1270 | 2000 | 0.42419 | 2.4 | Optimal* | -- | 1.0 | 1 | wp-cg | 0.42419 |
+-| setA-18 | 300 | 1500 | 2000 | 0.63337 | 1.3 | Optimal* | -- | 0.0 | 1 | wp-cg | 0.63337 |
+-| setA-19 | 300 | 1998 | 6000 | 0.06745 | 1800.2 | Not Optimal* | 0.027 | 632.0 | 1 | wp-cg | 0.06745 |
+-| setA-20 | 400 | 2000 | 6000 | 0.99131 | 4.9 | Optimal* | -- | 0.0 | 1 | wp-cg | 0.99131 |
++| Instance | Vertices | Links | Demands | Routing mode | Model type | Run count | Successful runs | Full model status | Best MLU | Valid MLU lower bound | Average solve time (s) | Average gap | Average B&B nodes | Optimal runs | Status | Best run | Verification | Artifact |
++|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
++| setA-01 | 20 | 80 | 40 | pathcount | full_arc | 10 | 10 | complete | 0.92938 | 0.92938 | 0.7 | 0.0 | 1.0 | 10/10 | Optimal | 1 | verified | official-artifacts/setA-01-P1-pathcount-best-run1-srpaths.json |
++| setA-02 | 30 | 150 | 45 | pathcount | full_arc | 10 | 10 | complete | 0.54858 | 0.54858 | 3.7 | 0.0 | 1.0 | 10/10 | Optimal | 1 | verified | official-artifacts/setA-02-P1-pathcount-best-run1-srpaths.json |
++| setA-03 | 50 | 250 | 20 | pathcount | full_arc | 10 | 10 | complete | 0.94354 | 0.94354 | 32.0 | 0.0 | 9.0 | 10/10 | Optimal | 1 | verified | official-artifacts/setA-03-P1-pathcount-best-run1-srpaths.json |
++| setA-04 | 50 | 250 | 200 | pathcount | full_arc | 10 | 10 | complete | 0.51828 | 0.45907 | 1800.3 | 0.20282 | 0.0 | 0/10 | Feasible - not proven optimal | 1 | verified | official-artifacts/setA-04-P1-pathcount-best-run1-srpaths.json |
++| setA-05 | 100 | 396 | 100 | pathcount | full_arc | 10 | 10 | complete | 0.11552 | 0.11552 | 149.4 | 0.0 | 1.0 | 10/10 | Optimal | 1 | verified | official-artifacts/setA-05-P1-pathcount-best-run1-srpaths.json |
++| setA-06 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-07 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-08 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-09 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-10 | 150 | 966 | 1000 | pathcount | restricted_waypoint | 10 | 10 | not_run | 0.0712 | N/A | 1801.2 | N/A | 1299.3 | N/A (restricted) | Restricted feasible upper bound | 5 | verified | official-artifacts/setA-10-P1-pathcount-best-run5-srpaths.json |
++| setA-11 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-12 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-13 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-14 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-15 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-16 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-17 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-18 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-19 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-20 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+ 
+-Model `arc-pc`: arc-based MILP of the statement, split coefficients r from calculating_r.pdf. Rows marked * come from the waypoint model (restricted problem: at most one waypoint per demand) because the arc-based model does not fit in memory; their status and gap refer to that restricted problem. Time, gap and nodes are averages over the runs listed in column Runs. Last column: best MLU found by any method (waypoint model, column generation, LNS), for comparison with the arc-model row.
++Only complete path-count, pure-MLU samples with runs 1 through 10 are reportable. Restricted waypoint rows are feasible upper bounds, not original-problem optima.
+diff --git a/orange/results/table_official_P2.csv b/orange/results/table_official_P2.csv
+index 30d4029..0f852b6 100644
+--- a/orange/results/table_official_P2.csv
++++ b/orange/results/table_official_P2.csv
+@@ -1,21 +1,21 @@
+-Instance,Vertices,Links,Demands,Best objective (MLU),CPU time (s),Status,Gap,B&B nodes,Runs,Model,Best known (any method)
+-setA-01,20,80,40,0.92938,39.3,Optimal,--,1.0,10,arc-pc,0.92938
+-setA-02,30,150,45,0.90307,2869.9,Optimal 9/10,0.1,1.0,10,arc-pc,0.90307
+-setA-03,50,250,20,0.94354,1131.2,Optimal 8/10,0.2,1.0,10,arc-pc,0.94354
+-setA-04,50,250,200,0.58857,3610.4,Not Optimal,0.75,0.0,4,arc-pc,0.58281
+-setA-05,100,396,100,0.99999,4327.1,Not Optimal,1.0,0.0,5,arc-pc,0.20499
+-setA-06,100,500,500,0.14085,2223.5,Not Optimal*,--,0.0,1,wp-cg,0.14085
+-setA-07,100,500,800,0.90799,3.2,Not Optimal*,--,0.0,1,wp-cg,0.90799
+-setA-08,150,654,200,0.3189,8.5,Not Optimal*,--,1.0,1,wp-cg,0.3189
+-setA-09,150,750,200,0.84965,0.3,Not Optimal*,--,0.0,1,wp-cg,0.84965
+-setA-10,150,966,1000,0.1087,300.6,Not Optimal*,--,0.0,1,wp-cg-lns,0.1087
+-setA-11,200,1000,400,0.78579,1.3,Not Optimal*,--,0.0,1,wp-cg,0.78579
+-setA-12,200,898,400,0.87987,1.3,Not Optimal*,--,0.0,1,wp-cg,0.87987
+-setA-13,200,1000,2000,0.07692,302.0,Not Optimal*,--,0.0,1,wp-cg-lns,0.07692
+-setA-14,250,1108,600,0.53315,78.0,Not Optimal*,--,37.0,1,wp-cg,0.53315
+-setA-15,250,1250,600,0.8987,1.3,Not Optimal*,--,0.0,1,wp-cg,0.8987
+-setA-16,250,1452,4800,0.51639,0.0,Not Optimal*,--,--,1,wp-cg-lns-fast,0.51639
+-setA-17,300,1270,2000,0.42419,527.3,Not Optimal*,--,1.0,1,wp-cg,0.42419
+-setA-18,300,1500,2000,1.0,17.2,Not Optimal*,--,0.0,1,wp-cg,1.0
+-setA-19,300,1998,6000,0.10258,0.0,Not Optimal*,--,--,1,wp-cg-lns-fast,0.10258
+-setA-20,400,2000,6000,0.99131,597.5,Not Optimal*,--,0.0,1,wp-cg,0.99131
++Instance,Vertices,Links,Demands,Routing mode,Model type,Run count,Successful runs,Full model status,Best MLU,Valid MLU lower bound,Average solve time (s),Average gap,Average B&B nodes,Optimal runs,Status,Best run,Verification,Artifact
++setA-01,20,80,40,pathcount,full_arc,10,10,complete,0.92938,0.92938,20.8,0.0,1.0,10/10,Optimal,1,verified,official-artifacts/setA-01-P2-pathcount-best-run1-srpaths.json
++setA-02,30,150,45,pathcount,full_arc,10,10,complete,0.90307,0.90307,2234.9,0.45882,0.4,4/10,Optimal,2,verified,official-artifacts/setA-02-P2-pathcount-best-run2-srpaths.json
++setA-03,50,250,20,pathcount,full_arc,10,10,complete,0.94354,0.94354,759.6,0.0,1.0,10/10,Optimal,1,verified,official-artifacts/setA-03-P2-pathcount-best-run1-srpaths.json
++setA-04,50,250,200,pathcount,full_arc,10,10,complete,0.58857,0.58114,3600.7,0.01262,0.0,0/10,Feasible - not proven optimal,1,verified,official-artifacts/setA-04-P2-pathcount-best-run1-srpaths.json
++setA-05,100,396,100,pathcount,full_arc,10,10,complete,0.99999,0.20499,3601.1,0.89751,0.0,0/10,Feasible - not proven optimal,1,verified,official-artifacts/setA-05-P2-pathcount-best-run1-srpaths.json
++setA-06,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-07,100,500,800,pathcount,restricted_waypoint,10,10,not_run,0.90799,N/A,80.8,N/A,0.0,N/A (restricted),Restricted feasible upper bound,1,verified,official-artifacts/setA-07-P2-pathcount-best-run1-srpaths.json
++setA-08,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-09,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-10,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-11,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-12,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-13,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-14,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-15,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-16,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-17,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-18,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-19,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
++setA-20,N/A,N/A,N/A,pathcount,none,0,0,not_run,N/A,N/A,N/A,N/A,N/A,0/10,INCOMPLETE,N/A,not_verified,
+diff --git a/orange/results/table_official_P2.md b/orange/results/table_official_P2.md
+index 3b43a53..ee09af4 100644
+--- a/orange/results/table_official_P2.md
++++ b/orange/results/table_official_P2.md
+@@ -1,26 +1,26 @@
+-# Table 2 -- time periods 0 and 1 with budget, limit 3600 s (step 9)
++# Official path-count results, P=2
+ 
+-| Instance | Vertices | Links | Demands | Best objective (MLU) | CPU time (s) | Status | Gap | B&B nodes | Runs | Model | Best known (any method) |
+-|---|---|---|---|---|---|---|---|---|---|---|---|
+-| setA-01 | 20 | 80 | 40 | 0.92938 | 39.3 | Optimal | -- | 1.0 | 10 | arc-pc | 0.92938 |
+-| setA-02 | 30 | 150 | 45 | 0.90307 | 2869.9 | Optimal 9/10 | 0.1 | 1.0 | 10 | arc-pc | 0.90307 |
+-| setA-03 | 50 | 250 | 20 | 0.94354 | 1131.2 | Optimal 8/10 | 0.2 | 1.0 | 10 | arc-pc | 0.94354 |
+-| setA-04 | 50 | 250 | 200 | 0.58857 | 3610.4 | Not Optimal | 0.75 | 0.0 | 4 | arc-pc | 0.58281 |
+-| setA-05 | 100 | 396 | 100 | 0.99999 | 4327.1 | Not Optimal | 1.0 | 0.0 | 5 | arc-pc | 0.20499 |
+-| setA-06 | 100 | 500 | 500 | 0.14085 | 2223.5 | Not Optimal* | -- | 0.0 | 1 | wp-cg | 0.14085 |
+-| setA-07 | 100 | 500 | 800 | 0.90799 | 3.2 | Not Optimal* | -- | 0.0 | 1 | wp-cg | 0.90799 |
+-| setA-08 | 150 | 654 | 200 | 0.3189 | 8.5 | Not Optimal* | -- | 1.0 | 1 | wp-cg | 0.3189 |
+-| setA-09 | 150 | 750 | 200 | 0.84965 | 0.3 | Not Optimal* | -- | 0.0 | 1 | wp-cg | 0.84965 |
+-| setA-10 | 150 | 966 | 1000 | 0.1087 | 300.6 | Not Optimal* | -- | 0.0 | 1 | wp-cg-lns | 0.1087 |
+-| setA-11 | 200 | 1000 | 400 | 0.78579 | 1.3 | Not Optimal* | -- | 0.0 | 1 | wp-cg | 0.78579 |
+-| setA-12 | 200 | 898 | 400 | 0.87987 | 1.3 | Not Optimal* | -- | 0.0 | 1 | wp-cg | 0.87987 |
+-| setA-13 | 200 | 1000 | 2000 | 0.07692 | 302.0 | Not Optimal* | -- | 0.0 | 1 | wp-cg-lns | 0.07692 |
+-| setA-14 | 250 | 1108 | 600 | 0.53315 | 78.0 | Not Optimal* | -- | 37.0 | 1 | wp-cg | 0.53315 |
+-| setA-15 | 250 | 1250 | 600 | 0.8987 | 1.3 | Not Optimal* | -- | 0.0 | 1 | wp-cg | 0.8987 |
+-| setA-16 | 250 | 1452 | 4800 | 0.51639 | 0.0 | Not Optimal* | -- | -- | 1 | wp-cg-lns-fast | 0.51639 |
+-| setA-17 | 300 | 1270 | 2000 | 0.42419 | 527.3 | Not Optimal* | -- | 1.0 | 1 | wp-cg | 0.42419 |
+-| setA-18 | 300 | 1500 | 2000 | 1.0 | 17.2 | Not Optimal* | -- | 0.0 | 1 | wp-cg | 1.0 |
+-| setA-19 | 300 | 1998 | 6000 | 0.10258 | 0.0 | Not Optimal* | -- | -- | 1 | wp-cg-lns-fast | 0.10258 |
+-| setA-20 | 400 | 2000 | 6000 | 0.99131 | 597.5 | Not Optimal* | -- | 0.0 | 1 | wp-cg | 0.99131 |
++| Instance | Vertices | Links | Demands | Routing mode | Model type | Run count | Successful runs | Full model status | Best MLU | Valid MLU lower bound | Average solve time (s) | Average gap | Average B&B nodes | Optimal runs | Status | Best run | Verification | Artifact |
++|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
++| setA-01 | 20 | 80 | 40 | pathcount | full_arc | 10 | 10 | complete | 0.92938 | 0.92938 | 20.8 | 0.0 | 1.0 | 10/10 | Optimal | 1 | verified | official-artifacts/setA-01-P2-pathcount-best-run1-srpaths.json |
++| setA-02 | 30 | 150 | 45 | pathcount | full_arc | 10 | 10 | complete | 0.90307 | 0.90307 | 2234.9 | 0.45882 | 0.4 | 4/10 | Optimal | 2 | verified | official-artifacts/setA-02-P2-pathcount-best-run2-srpaths.json |
++| setA-03 | 50 | 250 | 20 | pathcount | full_arc | 10 | 10 | complete | 0.94354 | 0.94354 | 759.6 | 0.0 | 1.0 | 10/10 | Optimal | 1 | verified | official-artifacts/setA-03-P2-pathcount-best-run1-srpaths.json |
++| setA-04 | 50 | 250 | 200 | pathcount | full_arc | 10 | 10 | complete | 0.58857 | 0.58114 | 3600.7 | 0.01262 | 0.0 | 0/10 | Feasible - not proven optimal | 1 | verified | official-artifacts/setA-04-P2-pathcount-best-run1-srpaths.json |
++| setA-05 | 100 | 396 | 100 | pathcount | full_arc | 10 | 10 | complete | 0.99999 | 0.20499 | 3601.1 | 0.89751 | 0.0 | 0/10 | Feasible - not proven optimal | 1 | verified | official-artifacts/setA-05-P2-pathcount-best-run1-srpaths.json |
++| setA-06 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-07 | 100 | 500 | 800 | pathcount | restricted_waypoint | 10 | 10 | not_run | 0.90799 | N/A | 80.8 | N/A | 0.0 | N/A (restricted) | Restricted feasible upper bound | 1 | verified | official-artifacts/setA-07-P2-pathcount-best-run1-srpaths.json |
++| setA-08 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-09 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-10 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-11 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-12 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-13 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-14 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-15 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-16 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-17 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-18 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-19 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
++| setA-20 | N/A | N/A | N/A | pathcount | none | 0 | 0 | not_run | N/A | N/A | N/A | N/A | N/A | 0/10 | INCOMPLETE | N/A | not_verified |  |
+ 
+-Model `arc-pc`: arc-based MILP of the statement, split coefficients r from calculating_r.pdf. Rows marked * come from the waypoint model (restricted problem: at most one waypoint per demand) because the arc-based model does not fit in memory; their status and gap refer to that restricted problem. Time, gap and nodes are averages over the runs listed in column Runs. Last column: best MLU found by any method (waypoint model, column generation, LNS), for comparison with the arc-model row.
++Only complete path-count, pure-MLU samples with runs 1 through 10 are reportable. Restricted waypoint rows are feasible upper bounds, not original-problem optima.
+diff --git a/orange/scripts/official_common.jl b/orange/scripts/official_common.jl
+index a90c4ef..091651d 100644
+--- a/orange/scripts/official_common.jl
++++ b/orange/scripts/official_common.jl
+@@ -151,6 +151,15 @@ end
+ 
+ fmt_official(x; digits=5) = !isfinite(x) ? "N/A" : string(round(x; digits=digits))
+ 
++"""
++Nhãn trạng thái của một cấu hình. Mô hình theo cung: `Optimal` khi một run hợp lệ chứng minh LB = UB, ngược lại
++nghiệm khả thi chưa chứng minh tối ưu. Mô hình waypoint chỉ cho cận trên của bài toán gốc, kể cả khi HiGHS
++chứng minh tối ưu trong không gian waypoint bị giới hạn.
++"""
++official_status_label(model_type, original_optimal::Bool) =
++    model_type == "restricted_waypoint" ? "Restricted feasible upper bound" :
++    original_optimal ? "Optimal" : "Feasible - not proven optimal"
++
+ function best_known_records(resdir; copy_artifacts=true)
+     groups = grouped_official_rows(resdir)
+     records = Dict{Tuple{String,Int},Dict{String,String}}()
+@@ -218,8 +227,7 @@ function best_known_records(resdir; copy_artifacts=true)
+                 record["srpaths_file"] = best["srpaths_file"]
+                 record["loads_file"] = best["loads_file"]
+             end
+-            record["status"] = model_type == "full_arc" && record["original_problem_optimal"] == "true" ?
+-                               "Optimal" : "Feasible upper bound (restricted)"
++            record["status"] = official_status_label(model_type, record["original_problem_optimal"] == "true")
+         else
+             record["best_mlu"] = "NaN"
+             record["pure_mlu_gap"] = "NaN"
+diff --git a/orange/scripts/official_tables.jl b/orange/scripts/official_tables.jl
+index dd47755..b39c7c8 100644
+--- a/orange/scripts/official_tables.jl
++++ b/orange/scripts/official_tables.jl
+@@ -24,7 +24,8 @@ for P in (1, 2)
+                      fmt_official(something(tryparse(Float64, get(record, "avg_solve_time", "")), NaN); digits=1),
+                      fmt_official(something(tryparse(Float64, get(record, "avg_gap", "")), NaN)),
+                      fmt_official(something(tryparse(Float64, get(record, "avg_nodes", "")), NaN); digits=1),
+-                     get(record, "optimal_runs", "0") * "/10", get(record, "status", "INCOMPLETE"),
++                     get(record, "model_type", "none") == "restricted_waypoint" ? "N/A (restricted)" :
++                         get(record, "optimal_runs", "0") * "/10", get(record, "status", "INCOMPLETE"),
+                      get(record, "best_run", "N/A"), get(record, "verification_status", "not_verified"),
+                      get(record, "srpaths_file", "")])
+     end
+diff --git a/orange/src/experiment.jl b/orange/src/experiment.jl
+index 621b228..0bc091e 100644
+--- a/orange/src/experiment.jl
++++ b/orange/src/experiment.jl
+@@ -33,11 +33,148 @@ function solve_once(inst, rs, P, tlimit, seed, acyclic, start_paths; log_path=no
+         set_optimizer_attribute(model, "log_file", log_path)
+     end
+     set_optimizer_attribute(model, "presolve", presolve_setting(num_variables(model)))
+-    optimize!(model)
++    if isfinite(tlimit)
++        # chép mô hình sang HiGHS trước khi bấm giờ, để đồng hồ của guard khớp với lúc HiGHS bắt đầu giải
++        MOI.Utilities.attach_optimizer(model)
++        guard = BudgetGuard(tlimit)
++        MOI.set(model, HiGHS.CallbackFunction(GUARD_CALLBACKS), guard_callback(guard))
++        model.ext[:budget_guard] = guard
++        model.ext[:budget_start] = start_paths
++        model.ext[:budget_log] = log_path
++        guard.t0 = time_ns()
++        optimize!(model)
++        guard.wall = guard_elapsed(guard)
++    else
++        optimize!(model)
++    end
+     return model, x, z
+ end
+ 
++"Thời gian vượt giới hạn do HiGHS dừng chậm (đóng solver) vẫn được chấp nhận, không cắt kết quả."
++const BUDGET_GRACE_SEC = 10.0
++
++"""
++Ngân sách thời gian của một lần giải, đo bằng đồng hồ đơn điệu của Julia (đồng hồ của HiGHS đã từng nhảy:
++setA-04 t=0,1 run 1 báo 29 991 s sau 887 s thực). Callback ghi lại nghiệm cải thiện và cận dưới cuối cùng
++HiGHS báo trong ngân sách và yêu cầu HiGHS dừng ngay khi nó trả quyền điều khiển sau hạn. Một số pha của
++HiGHS không gọi callback và không theo time_limit (tính analytic center bằng IPM trên instance riêng, rồi
++central rounding: setA-05 t=0,1 chạy tới ~7 000 s); khi đó `evaluate` cắt kết quả về trạng thái tại hạn.
++"""
++mutable struct BudgetGuard
++    limit::Float64
++    t0::UInt64
++    wall::Float64
++    inc_obj::Float64
++    inc_time::Float64
++    inc_sol::Vector{Float64}
++    bound::Float64
++    bound_time::Float64
++    nodes::Float64
++    interrupted::Bool
++end
++BudgetGuard(limit::Real) = BudgetGuard(Float64(limit), time_ns(), NaN, Inf, NaN, Float64[], -Inf, NaN, NaN, false)
++guard_elapsed(g::BudgetGuard) = (time_ns() - g.t0) / 1e9
++
++const GUARD_INTERRUPTS = Cint[HiGHS.kHighsCallbackSimplexInterrupt, HiGHS.kHighsCallbackIpmInterrupt,
++                              HiGHS.kHighsCallbackMipInterrupt]
++const GUARD_CALLBACKS = vcat(GUARD_INTERRUPTS, Cint[HiGHS.kHighsCallbackMipImprovingSolution,
++                                                    HiGHS.kHighsCallbackMipLogging])
++
++function guard_callback(g::BudgetGuard)
++    return function (cb_type::Cint, ::Ptr{Cchar}, data::HiGHS.HighsCallbackDataOut)
++        t = guard_elapsed(g)
++        if t > g.limit
++            g.interrupted = true
++            return cb_type in GUARD_INTERRUPTS ? Cint(1) : Cint(0)
++        end
++        if cb_type == HiGHS.kHighsCallbackMipImprovingSolution
++            if data.mip_solution != C_NULL && data.objective_function_value < g.inc_obj
++                g.inc_obj = data.objective_function_value
++                g.inc_time = t
++                g.inc_sol = copy(unsafe_wrap(Array, data.mip_solution, Int(data.mip_solution_size)))
++            end
++        elseif cb_type == HiGHS.kHighsCallbackMipInterrupt || cb_type == HiGHS.kHighsCallbackMipLogging
++            if isfinite(data.mip_dual_bound) && data.mip_dual_bound > g.bound
++                g.bound = data.mip_dual_bound
++                g.bound_time = t
++            end
++            g.nodes = Float64(data.mip_node_count)
++        end
++        return Cint(0)
++    end
++end
++
++"Đọc nghiệm x, z từ vector cột của HiGHS (nghiệm do callback chép lại)."
++function _paths_from_vector(inst, model, x, z, P, sol)
++    inner = JuMP.unsafe_backend(model)
++    val(v) = sol[HiGHS.column(inner, JuMP.optimizer_index(v)) + 1]
++    return extract_paths(inst, x, P; val=val), val(z)
++end
++
++"""
++Kết quả theo ngân sách. Nếu HiGHS dừng trong hạn (cộng BUDGET_GRACE_SEC), giữ nguyên kết quả cuối, chỉ thay
++thời gian bằng đồng hồ đơn điệu khi đồng hồ của HiGHS lệch. Nếu HiGHS chạy quá hạn, dùng nghiệm cải thiện cuối
++cùng tìm được trong hạn (hoặc nghiệm khởi đầu đã có trước khi giải) và cận dưới cuối cùng trong hạn; thời gian
++báo cáo là đúng ngân sách và cột check mang hậu tố `(budget-truncated)`.
++"""
++function _apply_budget(inst, rs, P, model, x, z, g::BudgetGuard, res; objective_mode::Symbol,
++                       start_paths=nothing, wall=g.wall)
++    truncated = wall > g.limit + BUDGET_GRACE_SEC
++    source = "final"
++    out = res
++    if !truncated
++        if isfinite(res.t) && res.t > wall + 60
++            out = merge(res, (; t=wall, check=res.check * "(solver-clock)"))
++        end
++    else
++        paths, zv, obj = nothing, NaN, NaN
++        if !isempty(g.inc_sol)
++            paths, zv = _paths_from_vector(inst, model, x, z, P, g.inc_sol)
++            obj, source = g.inc_obj, "callback@$(round(g.inc_time; digits=1))s"
++        elseif start_paths !== nothing
++            paths, source = start_paths, "mip_start"
++            zv = max_utilization(inst, rs, start_paths, P)
++            obj = objective_mode === :pure_mlu ? zv : NaN
++        end
++        bnd = isfinite(g.bound) ? g.bound : NaN
++        pure_bound = pure_mlu_bound(string(objective_mode), bnd)
++        if paths === nothing
++            out = (; status="Not Optimal", zv=NaN, mlu=NaN, obj=NaN, bnd, gap=NaN, pure_bound, pure_gap=NaN,
++                   t=g.limit, nodes=g.nodes, check="no_solution(budget-truncated)", paths=nothing)
++        else
++            chk = check_solution(inst, rs, paths, P, zv + 1e-5)
++            gap = isfinite(bnd) && isfinite(obj) && obj > 0 ? max(0.0, 1.0 - bnd / obj) : NaN
++            check = (chk.budget_ok ? "ok" : "budget_violation") * "(budget-truncated)"
++            out = (; status="Not Optimal", zv, mlu=chk.mlu, obj, bnd, gap, pure_bound,
++                   pure_gap=pure_mlu_gap(chk.mlu, pure_bound), t=g.limit, nodes=g.nodes, check, paths)
++        end
++    end
++    record = Dict("limit_s" => g.limit, "solver_wall_s" => wall, "highs_solve_time_s" => res.t,
++                  "grace_s" => BUDGET_GRACE_SEC, "interrupt_requested" => g.interrupted,
++                  "truncated" => truncated, "reported_source" => source,
++                  "incumbent_time_s" => g.inc_time, "incumbent_obj" => g.inc_obj,
++                  "bound_time_s" => g.bound_time, "bound_at_budget" => g.bound, "nodes_at_budget" => g.nodes,
++                  "final_status" => res.status, "final_mlu" => res.mlu, "final_bound" => res.bnd,
++                  "reported_status" => out.status, "reported_mlu" => out.mlu, "reported_time_s" => out.t)
++    return out, record
++end
++
+ function evaluate(inst, rs, P, model, x, z; objective_mode::Symbol=:weighted_secondary)
++    res = _evaluate_final(inst, rs, P, model, x, z; objective_mode=objective_mode)
++    g = get(model.ext, :budget_guard, nothing)
++    g === nothing && return res
++    out, record = _apply_budget(inst, rs, P, model, x, z, g, res; objective_mode=objective_mode,
++                                start_paths=model.ext[:budget_start])
++    log_path = model.ext[:budget_log]
++    if log_path !== nothing
++        open(replace(log_path, ".log" => "-budget.json"), "w") do io
++            JSON3.write(io, Dict(k => (v isa Real && !isfinite(v) ? string(v) : v) for (k, v) in record))
++        end
++    end
++    return out
++end
++
++function _evaluate_final(inst, rs, P, model, x, z; objective_mode::Symbol=:weighted_secondary)
+     st = termination_status(model)
+     status = st == MOI.OPTIMAL ? "Optimal" : st == MOI.INFEASIBLE ? "Infeasible" : "Not Optimal"
+     bnd = try objective_bound(model) catch; NaN end
+diff --git a/orange/src/reporting.jl b/orange/src/reporting.jl
+index f94b82b..508ded2 100644
+--- a/orange/src/reporting.jl
++++ b/orange/src/reporting.jl
+@@ -23,6 +23,18 @@ function pure_mlu_gap(mlu, bound)
+     return max(0.0, 1.0 - bound / mlu)
+ end
+ 
++"""
++Run tốt nhất của một cấu hình: MLU nhỏ nhất. Các run cùng MLU (sai khác tương đối ≤ 1e-9) là cùng một nghiệm
++về giá trị; khi đó ưu tiên run đã chứng minh tối ưu bài toán gốc (LB = UB), rồi run id nhỏ, để trạng thái của
++cấu hình không phụ thuộc việc run id nhỏ nhất có chứng minh được hay không (setA-02 t=0,1).
++"""
++function _official_best_row(rows)
++    best_mlu = minimum(_rowfloat(r, "mlu") for r in rows)
++    tied = filter(r -> _rowfloat(r, "mlu") <= best_mlu + 1e-9 * max(1.0, abs(best_mlu)), rows)
++    return first(sort(tied; by=r -> (get(r, "original_problem_optimal", "") == "true" ? 0 : 1,
++                                     something(_rowint(r, "run"), typemax(Int)))))
++end
++
+ "Summarize one official configuration without silently accepting incomplete or mixed samples."
+ function summarize_official_rows(rows; expected_runs=OFFICIAL_RUN_IDS)
+     isempty(rows) && return (complete=false, reason="no rows", run_count=0, successful_runs=0,
+@@ -63,7 +75,7 @@ function summarize_official_rows(rows; expected_runs=OFFICIAL_RUN_IDS)
+         return (complete=false, reason="fewer than 10 valid runs", run_count=length(ordered),
+                 successful_runs=length(successful), optimal_runs=count(r -> get(r, "status", "") == "Optimal", successful),
+                 best_row=nothing, avg_time=NaN, avg_gap=NaN, avg_nodes=NaN, lower_bound=NaN)
+-    best = first(sort(successful; by=r -> (_rowfloat(r, "mlu"), something(_rowint(r, "run"), typemax(Int)))))
++    best = _official_best_row(successful)
+     has_artifact = !isempty(get(best, "srpaths_file", "")) && !isempty(get(best, "loads_file", ""))
+     has_artifact || return (complete=false, reason="best run has no artifact", run_count=10, successful_runs=10,
+                             optimal_runs=count(r -> get(r, "status", "") == "Optimal", successful),
+diff --git a/orange/test/official_reporting.jl b/orange/test/official_reporting.jl
+index 63d31b5..1358559 100644
+--- a/orange/test/official_reporting.jl
++++ b/orange/test/official_reporting.jl
+@@ -202,3 +202,39 @@ end
+     @test isfile(joinpath(out, row["srpaths_file"]))
+     @test isfile(joinpath(out, row["loads_file"]))
+ end
++
++@testset "status labels follow model type and proof of optimality" begin
++    @test official_status_label("full_arc", true) == "Optimal"
++    @test official_status_label("full_arc", false) == "Feasible - not proven optimal"
++    @test official_status_label("restricted_waypoint", false) == "Restricted feasible upper bound"
++    @test official_status_label("restricted_waypoint", true) == "Restricted feasible upper bound"
++end
++
++@testset "a proof in any tied run makes the configuration optimal" begin
++    # setA-02 t=0,1: every run finds the same MLU; runs 2, 3, 7, 10 prove it optimal, run 1 times out
++    rows = [official_fixture_row(r; mlu=0.9030747093, status=(r in (2, 3, 7, 10) ? "Optimal" : "Not Optimal"))
++            for r in 1:10]
++    for r in rows
++        r["original_problem_optimal"] = r["status"] == "Optimal" ? "true" : "false"
++    end
++    summary = summarize_official_rows(rows)
++    @test summary.complete && summary.best_row["run"] == "2"
++    rows[4]["mlu"] = "0.90307470930000001"          # same value within the tie tolerance
++    @test summarize_official_rows(rows).best_row["run"] == "2"
++    rows[5]["mlu"] = "0.8"                          # a strictly better incumbent always wins
++    @test summarize_official_rows(rows).best_row["run"] == "5"
++
++    out = mktempdir()
++    verified = [write_verified_full_run(out, r) for r in 1:10]
++    for r in verified
++        r["status"] = "Not Optimal"
++        r["original_problem_optimal"] = "false"
++    end
++    write_current_rows(joinpath(out, "setA-01-P1-official-pc-all.csv"), verified)
++    @test best_known_records(out; copy_artifacts=false)[("setA-01", 1)]["status"] == "Feasible - not proven optimal"
++    verified[6]["status"] = "Optimal"
++    verified[6]["original_problem_optimal"] = "true"
++    write_current_rows(joinpath(out, "setA-01-P1-official-pc-all.csv"), verified)
++    record = best_known_records(out; copy_artifacts=false)[("setA-01", 1)]
++    @test record["status"] == "Optimal" && record["best_run"] == "6" && record["original_problem_optimal"] == "true"
++end
+diff --git a/orange/test/runtests.jl b/orange/test/runtests.jl
+index 47bda83..c6ac60a 100644
+--- a/orange/test/runtests.jl
++++ b/orange/test/runtests.jl
+@@ -701,8 +701,9 @@ end
+     out = mktempdir()
+     logdir = joinpath(out, "solverlogs")
+     csv = run_instance(TOY, "toy", 2, 60; runs=2, outdir=out, solver_log_dir=logdir)
+-    files = sort(readdir(logdir))
++    files = sort(filter(endswith(".log"), readdir(logdir)))
+     @test files == ["toy-P2-run1.log", "toy-P2-run2.log"]
++    @test sort(filter(endswith(".json"), readdir(logdir))) == ["toy-P2-run1-budget.json", "toy-P2-run2-budget.json"]
+     txt = read(joinpath(logdir, files[1]), String)
+     @test occursin("HiGHS", txt) || occursin("Presolv", txt) || occursin("Solving", txt)
+     @test filesize(joinpath(logdir, files[1])) > 200
+@@ -791,5 +792,52 @@ end
+     @test cfg.candidate_fingerprint == rows[1]["candidate_fingerprint"]
+ end
+ 
++@testset "budget guard keeps results within the time budget" begin
++    inst = read_instance(TOY)
++    P = 2
++    rs = [build_r(inst, p; mode=:pathcount) for p in 1:P]
++    start = direct_paths(inst, P)
++    logdir = mktempdir()
++    log_path = joinpath(logdir, "toy-run1.log")
++    model, x, z = Orange.solve_once(inst, rs, P, 60.0, 1, false, start; log_path=log_path,
++                                    objective_mode=:pure_mlu)
++    g = model.ext[:budget_guard]
++    @test g.limit == 60.0 && isfinite(g.wall) && g.wall <= 60.0 + Orange.BUDGET_GRACE_SEC
++    final = Orange.evaluate(inst, rs, P, model, x, z; objective_mode=:pure_mlu)
++    @test final.status == "Optimal" && final.check == "ok"
++    record = Orange.JSON3.read(read(replace(log_path, ".log" => "-budget.json"), String))
++    @test record["truncated"] == false && record["reported_mlu"] ≈ final.mlu
++    @test isempty(g.inc_sol) || g.inc_obj >= final.obj - 1e-6
++
++    # the solver ran past the budget: report the last improving solution found within it, at the budget time.
++    # The in-budget incumbent is the HiGHS column vector of the final solution, which checks the column mapping.
++    raw = Orange._evaluate_final(inst, rs, P, model, x, z; objective_mode=:pure_mlu)
++    inner = JuMP.unsafe_backend(model)
++    sol = zeros(MOI.get(inner, MOI.NumberOfVariables()))
++    for v in all_variables(model)
++        sol[HiGHS.column(inner, optimizer_index(v)) + 1] = value(v)
++    end
++    late = Orange.BudgetGuard(60.0)
++    late.inc_sol, late.inc_obj, late.inc_time, late.bound = sol, objective_value(model), 12.0, 0.1
++    over, rec = Orange._apply_budget(inst, rs, P, model, x, z, late, raw; objective_mode=:pure_mlu,
++                                     start_paths=start, wall=160.0)
++    @test rec["truncated"] && over.t == 60.0 && over.status == "Not Optimal"
++    @test over.check == "ok(budget-truncated)" && rec["reported_source"] == "callback@12.0s"
++    @test over.paths == raw.paths && over.mlu ≈ raw.mlu && over.pure_bound == 0.1
++
++    # nothing improved within the budget: the MIP start (known before the solve) is the in-budget incumbent
++    empty_guard = Orange.BudgetGuard(60.0)
++    empty_guard.bound = 0.25
++    over0, rec0 = Orange._apply_budget(inst, rs, P, model, x, z, empty_guard, raw; objective_mode=:pure_mlu,
++                                       start_paths=start, wall=200.0)
++    @test rec0["reported_source"] == "mip_start" && over0.paths == start
++    @test over0.mlu ≈ max_utilization(inst, rs, start, P) && over0.pure_bound == 0.25 && over0.t == 60.0
++
++    # the solver clock disagrees with the monotonic clock: report the monotonic time
++    skewed = merge(raw, (; t=10_000.0))
++    fixed, _ = Orange._apply_budget(inst, rs, P, model, x, z, g, skewed; objective_mode=:pure_mlu, wall=5.0)
++    @test fixed.t == 5.0 && fixed.check == raw.check * "(solver-clock)" && fixed.mlu == raw.mlu
++end
++
+ include("lexicographic.jl")
+ include("official_reporting.jl")
+diff --git a/report/table_official_P1.tex b/report/table_official_P1.tex
+index ed0dda1..a6e462f 100644
+--- a/report/table_official_P1.tex
++++ b/report/table_official_P1.tex
+@@ -1,26 +1,26 @@
+-% sinh tự động bởi orange/scripts/official_tables.jl -- KHÔNG sửa tay
+-\begin{tabular}{lrrrrrlrrrll}
++% generated deterministically by orange/scripts/official_tables.jl
++\begin{tabular}{lrrrrrrrlll}
+ \toprule
+-Inst & $n$ & $m$ & $|D|$ & Best obj. & CPU (s) & Status & Gap & Nodes & Runs & Model & Best known \\ \midrule
+-setA-01 & 20 & 80 & 40 & 0.92938 & 0.8 & Optimal & -- & 1.0 & 10 & arc-pc & 0.92938 \\
+-setA-02 & 30 & 150 & 45 & 0.54858 & 2.3 & Optimal & -- & 1.0 & 10 & arc-pc & 0.54858 \\
+-setA-03 & 50 & 250 & 20 & 0.94354 & 5.2 & Optimal & -- & 1.0 & 10 & arc-pc & 0.94354 \\
+-setA-04 & 50 & 250 & 200 & 0.50105 & 1800.9 & Not Optimal & 0.19 & 0.0 & 10 & arc-pc & 0.45912 \\
+-setA-05 & 100 & 396 & 100 & 0.11552 & 291.5 & Optimal & -- & 1.0 & 10 & arc-pc & 0.11552 \\
+-setA-06 & 100 & 500 & 500 & 0.09859 & 10.7 & Optimal* & -- & 1.0 & 1 & wp & 0.09859 \\
+-setA-07 & 100 & 500 & 800 & 0.90799 & 2.7 & Optimal* & -- & 0.0 & 1 & wp & 0.90799 \\
+-setA-08 & 150 & 654 & 200 & 0.3189 & 1.2 & Optimal* & -- & 0.0 & 1 & wp & 0.3189 \\
+-setA-09 & 150 & 750 & 200 & 0.50538 & 2.0 & Optimal* & -- & 1.0 & 1 & wp & 0.50538 \\
+-setA-10 & 150 & 966 & 1000 & 0.06957 & 300.1 & Not Optimal* & 0.018 & 0.0 & 1 & wp-cg-lns & 0.06957 \\
+-setA-11 & 200 & 1000 & 400 & 0.61354 & 32.2 & Optimal* & -- & 13.0 & 1 & wp & 0.61354 \\
+-setA-12 & 200 & 898 & 400 & 0.64008 & 6.3 & Optimal* & -- & 1.0 & 1 & wp & 0.64008 \\
+-setA-13 & 200 & 1000 & 2000 & 0.03889 & 300.2 & Not Optimal* & 0.001 & 0.0 & 1 & wp-cg-lns & 0.03889 \\
+-setA-14 & 250 & 1108 & 600 & 0.43421 & 0.5 & Not Optimal* & 0.024 & 1.0 & 1 & wp-cg & 0.43421 \\
+-setA-15 & 250 & 1250 & 600 & 0.82521 & 0.4 & Optimal* & -- & 0.0 & 1 & wp-cg & 0.82521 \\
+-setA-16 & 250 & 1452 & 4800 & 0.12295 & 115.7 & Optimal* & -- & 1.0 & 1 & wp-cg & 0.12295 \\
+-setA-17 & 300 & 1270 & 2000 & 0.42419 & 2.4 & Optimal* & -- & 1.0 & 1 & wp-cg & 0.42419 \\
+-setA-18 & 300 & 1500 & 2000 & 0.63337 & 1.3 & Optimal* & -- & 0.0 & 1 & wp-cg & 0.63337 \\
+-setA-19 & 300 & 1998 & 6000 & 0.06745 & 1800.2 & Not Optimal* & 0.027 & 632.0 & 1 & wp-cg & 0.06745 \\
+-setA-20 & 400 & 2000 & 6000 & 0.99131 & 4.9 & Optimal* & -- & 0.0 & 1 & wp-cg & 0.99131 \\
++Inst & $n$ & $m$ & $|D|$ & MLU & LB & CPU & Gap & Runs & Status & Model \\ \midrule
++setA-01 & 20 & 80 & 40 & 0.92938 & 0.92938 & 0.7 & 0.0 & 10 & Optimal & full\_arc \\
++setA-02 & 30 & 150 & 45 & 0.54858 & 0.54858 & 3.7 & 0.0 & 10 & Optimal & full\_arc \\
++setA-03 & 50 & 250 & 20 & 0.94354 & 0.94354 & 32.0 & 0.0 & 10 & Optimal & full\_arc \\
++setA-04 & 50 & 250 & 200 & 0.51828 & 0.45907 & 1800.3 & 0.20282 & 10 & Feasible - not proven optimal & full\_arc \\
++setA-05 & 100 & 396 & 100 & 0.11552 & 0.11552 & 149.4 & 0.0 & 10 & Optimal & full\_arc \\
++setA-06 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-07 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-08 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-09 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-10 & 150 & 966 & 1000 & 0.0712 & N/A & 1801.2 & N/A & 10 & Restricted feasible upper bound & restricted\_waypoint \\
++setA-11 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-12 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-13 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-14 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-15 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-16 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-17 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-18 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-19 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-20 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
+ \bottomrule
+ \end{tabular}
+diff --git a/report/table_official_P2.tex b/report/table_official_P2.tex
+index 5403675..160018f 100644
+--- a/report/table_official_P2.tex
++++ b/report/table_official_P2.tex
+@@ -1,26 +1,26 @@
+-% sinh tự động bởi orange/scripts/official_tables.jl -- KHÔNG sửa tay
+-\begin{tabular}{lrrrrrlrrrll}
++% generated deterministically by orange/scripts/official_tables.jl
++\begin{tabular}{lrrrrrrrlll}
+ \toprule
+-Inst & $n$ & $m$ & $|D|$ & Best obj. & CPU (s) & Status & Gap & Nodes & Runs & Model & Best known \\ \midrule
+-setA-01 & 20 & 80 & 40 & 0.92938 & 39.3 & Optimal & -- & 1.0 & 10 & arc-pc & 0.92938 \\
+-setA-02 & 30 & 150 & 45 & 0.90307 & 2869.9 & Optimal 9/10 & 0.1 & 1.0 & 10 & arc-pc & 0.90307 \\
+-setA-03 & 50 & 250 & 20 & 0.94354 & 1131.2 & Optimal 8/10 & 0.2 & 1.0 & 10 & arc-pc & 0.94354 \\
+-setA-04 & 50 & 250 & 200 & 0.58857 & 3610.4 & Not Optimal & 0.75 & 0.0 & 4 & arc-pc & 0.58281 \\
+-setA-05 & 100 & 396 & 100 & 0.99999 & 4327.1 & Not Optimal & 1.0 & 0.0 & 5 & arc-pc & 0.20499 \\
+-setA-06 & 100 & 500 & 500 & 0.14085 & 2223.5 & Not Optimal* & -- & 0.0 & 1 & wp-cg & 0.14085 \\
+-setA-07 & 100 & 500 & 800 & 0.90799 & 3.2 & Not Optimal* & -- & 0.0 & 1 & wp-cg & 0.90799 \\
+-setA-08 & 150 & 654 & 200 & 0.3189 & 8.5 & Not Optimal* & -- & 1.0 & 1 & wp-cg & 0.3189 \\
+-setA-09 & 150 & 750 & 200 & 0.84965 & 0.3 & Not Optimal* & -- & 0.0 & 1 & wp-cg & 0.84965 \\
+-setA-10 & 150 & 966 & 1000 & 0.1087 & 300.6 & Not Optimal* & -- & 0.0 & 1 & wp-cg-lns & 0.1087 \\
+-setA-11 & 200 & 1000 & 400 & 0.78579 & 1.3 & Not Optimal* & -- & 0.0 & 1 & wp-cg & 0.78579 \\
+-setA-12 & 200 & 898 & 400 & 0.87987 & 1.3 & Not Optimal* & -- & 0.0 & 1 & wp-cg & 0.87987 \\
+-setA-13 & 200 & 1000 & 2000 & 0.07692 & 302.0 & Not Optimal* & -- & 0.0 & 1 & wp-cg-lns & 0.07692 \\
+-setA-14 & 250 & 1108 & 600 & 0.53315 & 78.0 & Not Optimal* & -- & 37.0 & 1 & wp-cg & 0.53315 \\
+-setA-15 & 250 & 1250 & 600 & 0.8987 & 1.3 & Not Optimal* & -- & 0.0 & 1 & wp-cg & 0.8987 \\
+-setA-16 & 250 & 1452 & 4800 & 0.51639 & 0.0 & Not Optimal* & -- & -- & 1 & wp-cg-lns-fast & 0.51639 \\
+-setA-17 & 300 & 1270 & 2000 & 0.42419 & 527.3 & Not Optimal* & -- & 1.0 & 1 & wp-cg & 0.42419 \\
+-setA-18 & 300 & 1500 & 2000 & 1.0 & 17.2 & Not Optimal* & -- & 0.0 & 1 & wp-cg & 1.0 \\
+-setA-19 & 300 & 1998 & 6000 & 0.10258 & 0.0 & Not Optimal* & -- & -- & 1 & wp-cg-lns-fast & 0.10258 \\
+-setA-20 & 400 & 2000 & 6000 & 0.99131 & 597.5 & Not Optimal* & -- & 0.0 & 1 & wp-cg & 0.99131 \\
++Inst & $n$ & $m$ & $|D|$ & MLU & LB & CPU & Gap & Runs & Status & Model \\ \midrule
++setA-01 & 20 & 80 & 40 & 0.92938 & 0.92938 & 20.8 & 0.0 & 10 & Optimal & full\_arc \\
++setA-02 & 30 & 150 & 45 & 0.90307 & 0.90307 & 2234.9 & 0.45882 & 10 & Optimal & full\_arc \\
++setA-03 & 50 & 250 & 20 & 0.94354 & 0.94354 & 759.6 & 0.0 & 10 & Optimal & full\_arc \\
++setA-04 & 50 & 250 & 200 & 0.58857 & 0.58114 & 3600.7 & 0.01262 & 10 & Feasible - not proven optimal & full\_arc \\
++setA-05 & 100 & 396 & 100 & 0.99999 & 0.20499 & 3601.1 & 0.89751 & 10 & Feasible - not proven optimal & full\_arc \\
++setA-06 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-07 & 100 & 500 & 800 & 0.90799 & N/A & 80.8 & N/A & 10 & Restricted feasible upper bound & restricted\_waypoint \\
++setA-08 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-09 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-10 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-11 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-12 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-13 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-14 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-15 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-16 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-17 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-18 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-19 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
++setA-20 & N/A & N/A & N/A & N/A & N/A & N/A & N/A & 0 & INCOMPLETE & none \\
+ \bottomrule
+ \end{tabular}

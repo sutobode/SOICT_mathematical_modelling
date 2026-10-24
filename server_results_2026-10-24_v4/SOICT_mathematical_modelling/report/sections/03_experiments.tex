@@ -1,0 +1,26 @@
+\section{Numerical experiments}
+\subsection{Instances and implementation}
+We use the 20 instances of set~A ($20\le n\le 400$ nodes, $80\le m\le 2000$ arcs, $20\le |D|\le 6000$ demands), each with two periods, $\mathrm{maxSeg}=6$, and one link down at period $1$ with a budget $\beta(1)$ between $1$ and $90$. Some instances declare \texttt{multigraph: true} without containing parallel arcs, and four instances (05, 08, 12, 14) have real-valued weights; these facts were checked on the data.
+
+The code is written in Julia\,1.13 with JuMP and the open-source MILP solver HiGHS, run on a single thread. Environment: Intel Core i7-1270P, 31.6~GB RAM, Windows~11. The CPU time reported is the solve time of the call to \texttt{optimize!} only. The solver is warm-started with the solution without any waypoint (all demands on their shortest paths), which is always feasible. Each solution is checked by an independent recomputation of the loads from the waypoints (also exported in the SR-path format of the statement), and the model was validated on the toy instance of the statement against an exhaustive enumeration of the waypoints.
+
+\subsection{Protocol}
+The reported values are averages over the runs performed (different solver seeds). Ten runs are done when the first run finishes within 120~s; otherwise one run is done (column ``Runs''). The time limit is 1800~s for period $0$ alone and 3600~s for periods $0$ and $1$ with the budget constraint. The gap of a run that is not optimal is $1-\mathrm{LB}/\mathrm{UB}$.
+The model has $|D|\,n(n-1)$ binary variables per period; this exceeds $4.9\cdot 10^6$ already for instance 06 and $9.5\cdot10^8$ for instance 20, so that the model cannot be built in memory for the large instances; they are marked ``SKIPPED\_TOO\_LARGE'' in the tables.
+
+\subsection{Results at period 0 only (time limit 1800\,s)}
+\begin{table}[h]\centering\scriptsize
+\resizebox{\linewidth}{!}{\input{table_official_P1}}
+\caption{Period 0 only. Model \texttt{arc-pc}: arc-based MILP of the statement with the split coefficients of \texttt{calculating\_r.pdf}; time, gap and nodes are averages over the runs listed in column Runs. Rows from the waypoint model (restricted problem, at most one waypoint per demand) are used when the arc-based model does not fit in memory.}
+\label{tab:p0}
+\end{table}
+
+\subsection{Results at periods 0 and 1 with budget (time limit 3600\,s)}
+\begin{table}[h]\centering\scriptsize
+\resizebox{\linewidth}{!}{\input{table_official_P2}}
+\caption{Periods 0 and 1 with the budget constraint. Same conventions as Table~\ref{tab:p0}.}
+\label{tab:p01}
+\end{table}
+
+\subsection{Discussion and deviations from the instructions}
+% TODO (thành viên B): nhận xét kết quả và liệt kê các điểm lệch so với yêu cầu của thầy (xem project/KE_HOACH_CAC_GIAI_DOAN.md, mục 4).

@@ -180,7 +180,18 @@ Cùng lập luận này giải thích setA-05 P1: nút 83 nhận 3,191 đơn v�
 - setA-05 P1: 0,1155237, bằng tối ưu.
 - Test mới trên toy với ngân sách 0: heuristic phải đạt đúng tối ưu vét cạn.
 
-Kết quả chính thức trong `report/` **không sửa**. Phân tích này được ghi riêng trong `report/setA05_P2_supplementary_analysis.md`.
+### 3.6 Chạy lại chính thức (V4, 24/10)
+
+setA-05 P2 được chạy lại đủ 10 run theo đúng giao thức (3600 s, seed 1–10). Khác biệt duy nhất so với lần trước là heuristic đã sửa. 10 run chia cho 5 tiến trình chạy song song.
+
+| Seed | Kết quả | Thời gian |
+|---|---|---|
+| 2, 3, 6, 7, 10 | **Optimal**: MLU = cận dưới = 0,2049858752 | 120–189 s |
+| 1, 4, 5, 8, 9 | MLU 0,2049858752 nhưng cận dưới vẫn 0, vì LP nút gốc chưa giải xong | 3600 s |
+
+- 10/10 nghiệm qua bộ kiểm tra độc lập.
+- Bảng chính thức `report/final_configuration_summary.csv` giờ ghi setA-05 P2 là **Optimal**, MLU 0,20499, giảm 79,5% so với baseline.
+- Vì sao một nửa số seed hết giờ: LP nút gốc rất suy biến, và lộ trình của simplex phụ thuộc mạnh vào seed. Seed 2 giải xong sau 1.665 vòng lặp; seed 1 sau 32.146 vòng lặp vẫn chưa xong.
 
 ---
 
@@ -191,7 +202,7 @@ Kết quả chính thức trong `report/` **không sửa**. Phân tích này đ�
 | Bổ đề dist ≥ 3 | ✅ Đã chứng minh và kiểm chứng bằng máy |
 | Model gộp khi β < 3 | ✅ Chính xác; nhanh hơn rõ rệt ở setA-01..03 |
 | Model gộp + simplex trên setA-05 P2 | ❌ LP nút gốc không xong. Với IPM, cùng LP đó xong trong 347 s và cho cận 0,20499 |
-| **setA-05 P2** | ✅ **Tối ưu 0,2049858752, đã chứng minh**. Trước đây là 0,99999 với gap 90% |
+| **setA-05 P2** | ✅ **Tối ưu 0,2049858752, đã chứng minh**. Trước đây là 0,99999 với gap 90%. Lần chạy lại chính thức cho Optimal ở 5/10 seed |
 | Heuristic `local_search` | ✅ Đã sửa: thêm bước đổi cùng lúc mọi thời kỳ |
 | Lex bằng công thức sắp xếp | ❌ Thất bại ở hạng 1 vì LP nới lỏng yếu |
 | Lex bằng k-sum | Chưa thử; là hướng đề xuất |

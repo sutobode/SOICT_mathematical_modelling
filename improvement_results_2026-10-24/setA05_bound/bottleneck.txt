@@ -1,0 +1,29 @@
+instance setA-05, n=100, arcs=396, demands=100, budget=[Inf, 1.0]
+
+=== period t=0  down arcs: Int64[] 
+total volume 171.365
+-- baseline (direct <s,t>) top 5 arcs
+arc 211  84->25  cap=2.872  util=0.333317
+arc 130  40->73  cap=26.787  util=0.166786
+arc 194  29->33  cap=20.637  util=0.139169
+arc 218  24->86  cap=89.155  util=0.132436
+arc 193  33->29  cap=20.637  util=0.123706
+-- demands on the top baseline arc 211 (demand, s, t, vol, load on arc)
+d=19  84->25  vol=0.957  load=0.957
+-- best node-cut lower bound: 0.115524  (node-in v=83 vol=3.1912 cap=27.62375831604004)
+-- best forced-arc lower bound: 0.115524  (arc 160 33->83, forced vol 3.191, cap 27.624)
+== period t=0 routing-independent MLU lower bound: 0.115524
+
+=== period t=1  down arcs: [338] (7->38 cap=1.2490500211715698)
+total volume 184.448
+-- baseline (direct <s,t>) top 5 arcs
+arc 211  84->25  cap=2.872  util=0.999986
+arc 265  17->14  cap=26.465  util=0.204986
+arc 194  29->33  cap=20.637  util=0.154636
+arc 32  68->85  cap=26.690  util=0.131520
+arc 199  35->28  cap=25.500  util=0.125145
+-- demands on the top baseline arc 211 (demand, s, t, vol, load on arc)
+d=19  84->25  vol=2.872  load=2.872
+-- best node-cut lower bound: 0.204986  (node-out v=17 vol=5.4249 cap=26.464750289916992)
+-- best forced-arc lower bound: 0.204986  (arc 265 17->14, forced vol 5.425, cap 26.465)
+== period t=1 routing-independent MLU lower bound: 0.204986

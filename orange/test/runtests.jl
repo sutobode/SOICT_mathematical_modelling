@@ -310,8 +310,11 @@ end
     @test mlu >= brute_best(inst, 1) - 1e-9
     @test mlu ≈ max_utilization(inst, rs, paths, 1)
     inst0 = read_instance(TOY; maxseg=2, budget=0)
-    paths0, _ = local_search(inst0, rs, 2; time_limit=5.0)
+    paths0, mlu0 = local_search(inst0, rs, 2; time_limit=5.0)
     @test all(d -> paths0[(d, 1)] == paths0[(d, 2)], 1:2)
+    # ngân sách 0: chỉ bước đổi cùng lúc mọi thời kỳ cải thiện được
+    @test mlu0 ≈ brute_best(inst0, 2) atol = 1e-9
+    @test mlu0 < base_mlu(inst0, rs, 2) - 1e-9
 end
 
 @testset "total-load tie-breaker keeps MLU" begin

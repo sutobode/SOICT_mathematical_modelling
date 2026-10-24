@@ -138,6 +138,10 @@ Key changes after the rerun:
 - **Shared VM.** The experiments ran in a VMware VM on a shared server; CPU contention was not measured.
 - **Scale.** Only setA-01..05 fit the full model (≤ 2.97 M columns); scalability conclusions are limited to that range.
 
+## 10. Post-campaign analysis (not part of the official runs)
+
+SetA-05 P2 was later solved to proven optimality: MLU **0.2049858752**, versus the official 0.999986144. The proof is a node-cut argument and does not depend on the solver. The official MILP runs missed this solution because the `local_search` MIP start could not move under κ = 1. The heuristic has since been fixed. The official tables are unchanged. See `setA05_P2_supplementary_analysis.md`.
+
 ## Final verdict
 
 **READY FOR REPORT**

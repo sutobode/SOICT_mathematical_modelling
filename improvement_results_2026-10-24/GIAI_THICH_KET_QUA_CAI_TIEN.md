@@ -82,7 +82,9 @@ Hai nhận xét phụ:
 
 Model gộp của setA-05 có 990.001 biến, **bằng đúng P1** của setA-05, và chỉ thêm khoảng 400 ràng buộc tải cho t = 1. Thế nhưng P1 giải xong trong khoảng 150 s, còn model gộp chưa giải xong nổi LP ở nút gốc trong 3600 s: presolve mất khoảng 100 s, rồi hơn 110 nghìn vòng lặp simplex vẫn chưa xong.
 
-**Kết luận:** cái khó của setA-05 P2 **không nằm ở biến ngân sách**, mà ở yêu cầu một cách định tuyến duy nhất phải tốt cho **hai topology** cùng lúc (đủ link và thiếu một link). Đây là kết luận từ quan sát, chưa được chứng minh.
+~~**Kết luận:** cái khó của setA-05 P2 **không nằm ở biến ngân sách**, mà ở yêu cầu một cách định tuyến duy nhất phải tốt cho **hai topology** cùng lúc.~~
+
+> **Đính chính (Phần 3):** giả thuyết trên **sai**. Bài toán thật ra dễ: chỉ cần đổi đường cho một demand. Model gộp bị kẹt vì hai lý do. Một là simplex quá chậm với LP gần 1 triệu cột (IPM giải xong cùng LP đó trong 347 s). Hai là nghiệm khởi đầu từ heuristic không cải thiện được gì.
 
 ### 1.6 Cách trình bày khi bảo vệ
 
@@ -135,12 +137,61 @@ Hàm `exact_lexicographic_loads!` (`orange/src/model.jl`) thêm vào model:
 
 ---
 
+## Phần 3. Giải tối ưu setA-05 P2 (`setA05_bound/`)
+
+### 3.1 0,99999 đến từ đâu
+
+`bottleneck.jl` liệt kê các link nghẽn nhất khi mọi demand đi thẳng (baseline):
+
+- Ở t = 1, lưu lượng của **demand 19 (84 → 25)** tăng từ 0,957 lên **2,872**, đúng bằng dung lượng của link trực tiếp 84 → 25. Nếu demand này đi thẳng thì link đầy 100%.
+- Mọi link khác đều có utilization ≤ 0,205.
+
+### 3.2 Nghiệm tối ưu
+
+`fix05.jl` thử mọi đường có 1 hoặc 2 waypoint cho demand 19, dùng **cùng một đường cho cả hai thời kỳ**:
+
+- Đường tốt nhất là ⟨84, 99, 25⟩. Ngân sách dùng 0 ≤ κ = 1.
+- MLU = **0,2049858752**: ở t = 0 cao nhất 0,167 (link 40 → 73), ở t = 1 cao nhất 0,205 (link 17 → 14).
+- Bộ kiểm tra độc lập: `problems: []`.
+
+### 3.3 Chứng minh tối ưu, không cần solver
+
+Ở t = 1, nút 17 chỉ có **một** link đi ra (17 → 14, dung lượng 26,465). Mọi demand xuất phát từ nút 17 (tổng 5,425) đều buộc phải đi qua link này, dù chọn waypoint nào. Vì vậy, với mọi cách định tuyến:
+
+  MLU ≥ 5,425 / 26,465 = **0,2049858** = giá trị đạt được.
+
+Có thêm hai cách xác nhận cho ra đúng số này:
+
+- **Link bắt buộc:** bỏ link 17 → 14 thì các demand trên không còn đường đi (`bottleneck.txt`).
+- **LP nới lỏng của model gộp, giải bằng IPM:** 0,2049858753 sau 347 s (`lpbound.csv`). Lần chạy bằng PDLP (`lp-pdlp.log`) chưa xong khi tải kết quả về.
+
+Cùng lập luận này giải thích setA-05 P1: nút 83 nhận 3,191 đơn vị qua các link đi vào có tổng dung lượng 27,624, nên MLU ≥ 0,1155237, bằng đúng tối ưu chính thức.
+
+### 3.4 Vì sao đợt chạy chính thức bỏ sót
+
+- **`local_search` chỉ đổi đường ở một thời kỳ mỗi bước.** Với κ = 1, mọi bước như vậy tốn ≥ 3 (bổ đề Phần 1), nên đều bị từ chối. Heuristic trả về đường thẳng, MLU 0,99999. Bước cần thiết là đổi **đồng thời** cả hai thời kỳ, tốn 0 ngân sách, nhưng chưa bao giờ được thử.
+- **MILP không giải xong LP nút gốc** bằng simplex trong 3600 s, nên các heuristic bên trong solver không kịp chạy.
+
+### 3.5 Đã sửa
+
+`orange/src/heuristic.jl`: với mỗi ứng viên, nếu đổi riêng một thời kỳ không được thì thử đổi **cùng lúc mọi thời kỳ**. Ngân sách được kiểm tra cho mọi bước chuyển bị ảnh hưởng.
+
+- setA-05 P2: **0,2049858752 trong 1,8 s**.
+- setA-05 P1: 0,1155237, bằng tối ưu.
+- Test mới trên toy với ngân sách 0: heuristic phải đạt đúng tối ưu vét cạn.
+
+Kết quả chính thức trong `report/` **không sửa**. Phân tích này được ghi riêng trong `report/setA05_P2_supplementary_analysis.md`.
+
+---
+
 ## Tóm tắt
 
 | Thí nghiệm | Kết luận |
 |---|---|
 | Bổ đề dist ≥ 3 | ✅ Đã chứng minh và kiểm chứng bằng máy |
 | Model gộp khi β < 3 | ✅ Chính xác; nhanh hơn rõ rệt ở setA-01..03 |
-| Model gộp trên setA-05 P2 | ❌ Không cải thiện; cái khó nằm ở yêu cầu định tuyến tốt cho hai topology |
+| Model gộp + simplex trên setA-05 P2 | ❌ LP nút gốc không xong. Với IPM, cùng LP đó xong trong 347 s và cho cận 0,20499 |
+| **setA-05 P2** | ✅ **Tối ưu 0,2049858752, đã chứng minh**. Trước đây là 0,99999 với gap 90% |
+| Heuristic `local_search` | ✅ Đã sửa: thêm bước đổi cùng lúc mọi thời kỳ |
 | Lex bằng công thức sắp xếp | ❌ Thất bại ở hạng 1 vì LP nới lỏng yếu |
 | Lex bằng k-sum | Chưa thử; là hướng đề xuất |

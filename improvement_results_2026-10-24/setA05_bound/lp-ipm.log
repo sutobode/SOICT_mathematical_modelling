@@ -1,0 +1,65 @@
+Running HiGHS 1.15.1 (git hash: 04024d701f): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Using BLAS: libblastrampoline 
+LP has 30891 rows; 990001 cols; 13680491 nonzeros
+Coefficient ranges:
+  Matrix  [1e-01, 7e+02]
+  Cost    [1e+00, 1e+00]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 6e+00]
+Presolving model
+30891 rows, 990001 cols, 13680491 nonzeros 8s
+Dependent equations search running on 10000 equations with time limit of 72.00s
+Dependent equations search removed 100 rows and 19800 nonzeros in 0.26s (limit = 72.00s)
+30791 rows, 990001 cols, 13641091 nonzeros 19s
+Presolve reductions: rows 30791(-100); columns 990001(-0); nonzeros 13641091(-39400) 
+Solving the presolved LP
+Input
+    Number of variables:                                990001
+    Number of free variables:                           0
+    Number of constraints:                              30791
+    Number of equality constraints:                     9900
+    Number of matrix entries:                           13641091
+    Matrix range:                                       [1e-01, 7e+02]
+    RHS range:                                          [1e+00, 7e+00]
+    Objective range:                                    [1e+00, 1e+00]
+    Bounds range:                                       [1e+00, 1e+00]
+Preprocessing
+    Dualized model:                                     no
+    Number of dense columns:                            1
+    Range of scaling factors:                           [6.25e-02, 1.00e+00]
+    Scaled cost norm:                                   0.0625
+    Scaled bounds norm:                                 7
+IPX version 1.0
+Interior point solve
+ Using starting point provided by user. Skipping initial iterations.
+ Constructing starting basis...
+ Iter       primal obj         dual obj       pinf       dinf       gap      time
+   1    2.05169354e-01   1.99883725e-01   7.40e-04   1.41e-09  4.40e-03     285.7
+   2    2.05166464e-01   1.99665707e-01   7.16e-04   1.40e-09  4.57e-03     290.9
+   3    2.05160750e-01   1.99361970e-01   6.75e-04   1.24e-09  4.82e-03     296.0
+   4    2.05141616e-01   1.99371742e-01   5.79e-04   1.20e-09  4.80e-03     301.3
+   5    2.05086714e-01   1.99474899e-01   3.36e-04   1.12e-09  4.67e-03     307.3
+   6    2.05015692e-01   2.02336593e-01   8.54e-05   8.77e-10  2.23e-03     313.3
+   7    2.04988140e-01   2.04915457e-01   6.27e-06   1.10e-09  6.03e-05     323.1
+   8    2.04985880e-01   2.04981279e-01   1.29e-08   6.57e-10  3.82e-06     329.2
+   9    2.04985876e-01   2.04985481e-01   1.46e-09   4.38e-10  3.28e-07     335.6
+  10    2.04985875e-01   2.04985861e-01   1.81e-10   3.16e-10  1.15e-08     337.9
+  11*   2.04985875e-01   2.04985871e-01   4.23e-14   2.22e-10  3.91e-09     338.7
+Summary
+    Runtime:                                            338.83s
+    Status interior point solve:                        optimal
+    Status crossover:                                   not run
+    objective value:                                    2.04985875e-01
+    interior solution primal residual (abs/rel):        3.78e-08 / 4.73e-09
+    interior solution dual residual (abs/rel):          8.01e-10 / 4.00e-10
+    interior solution objective gap (abs/rel):          3.09e-09 / 2.57e-09
+Hipo: Solved
+
+Performed postsolve
+
+Model status        : Optimal
+IPM       iterations: 37
+Objective value     :  2.0498587526e-01
+P-D objective error :  2.0319153429e-09
+HiGHS run time      :        339.40

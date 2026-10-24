@@ -1,0 +1,2 @@
+method,status,objective,dual_objective,wall,dual_status
+ipm,OPTIMAL,0.2049858753,0.2049858724,346.8,FEASIBLE_POINT

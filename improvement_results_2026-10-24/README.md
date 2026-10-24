@@ -21,6 +21,15 @@ Script: `merge/merge_check.jl`, chạy bằng `julia --project=orange merge_chec
 
 Ghi chú về β = 3 (đối chứng): model gộp lúc đó không còn chính xác. Trên setA-01 hai model cho kết quả bằng nhau; trên setA-02 và setA-03 model gốc hết giờ nên chưa kết luận được.
 
+## 1b. `setA05_bound/`: giải tối ưu setA-05 P2
+
+| File | Nội dung |
+|---|---|
+| `bottleneck.jl`, `bottleneck.txt` | Cận dưới MLU không phụ thuộc cách định tuyến (cắt quanh nút, link bắt buộc) và các link nghẽn nhất của baseline. t = 0: 0,1155237. t = 1: **0,2049858** |
+| `lpbound.jl`, `lpbound.csv`, `lp-*.log` | LP nới lỏng của model gộp. IPM: OPTIMAL 0,2049858753 sau 347 s. PDLP chưa xong khi tải về |
+| `fix05.jl`, `fix05.out` | Đổi đường cho demand 19 thành ⟨84, 99, 25⟩ ở cả hai thời kỳ. MLU **0,2049858752**, bằng cận dưới, nên tối ưu. Bộ kiểm tra độc lập: OK |
+| `setA-05-P2-reroute-*` | Nghiệm và tải từng link |
+
 ## 2. `lex/`: tối ưu lexicographic chính xác
 
 Driver `lex/lex.sh` gọi `orange/scripts/run_lex_pathcount.jl` (không sửa gì) cho setA-01 P1 (1800 s mỗi hạng), setA-01 P2 (3600 s mỗi hạng) và setA-02 P1 (1800 s mỗi hạng).

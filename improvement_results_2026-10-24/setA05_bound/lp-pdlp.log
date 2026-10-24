@@ -1,0 +1,16 @@
+Running HiGHS 1.15.1 (git hash: 04024d701f): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Using BLAS: libblastrampoline 
+LP has 30891 rows; 990001 cols; 13680491 nonzeros
+Coefficient ranges:
+  Matrix  [1e-01, 7e+02]
+  Cost    [1e+00, 1e+00]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 6e+00]
+Presolving model
+30891 rows, 990001 cols, 13680491 nonzeros 9s
+Dependent equations search running on 10000 equations with time limit of 72.00s
+Dependent equations search removed 100 rows and 19800 nonzeros in 0.26s (limit = 72.00s)
+30791 rows, 990001 cols, 13641091 nonzeros 19s
+Presolve reductions: rows 30791(-100); columns 990001(-0); nonzeros 13641091(-39400) 
+Solving the presolved LP

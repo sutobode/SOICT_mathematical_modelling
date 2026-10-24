@@ -7,6 +7,14 @@
 
 ## 1. Bài toán nói bằng lời
 
+![Toàn cảnh bài toán: đầu vào → cái ta chọn (biến x) → cái ta đo (tải) → mục tiêu.](figures/hinh_dung/h6_toan_canh.png)
+
+*Toàn cảnh bài toán: đầu vào → cái ta chọn (biến x) → cái ta đo (tải) → mục tiêu.*
+
+![Mạng toy của đề: 7 router, 22 liên kết một chiều; nhãn ω;c là trọng số và dung lượng. Xanh = nguồn, cam = đích.](figures/hinh_dung/h1_mang_toy.png)
+
+*Mạng toy của đề: 7 router, 22 liên kết một chiều; nhãn ω;c là trọng số và dung lượng. Xanh = nguồn, cam = đích.*
+
 Một mạng IP/MPLS có các **router** (nút) nối với nhau bằng các **liên kết có hướng** (cung), mỗi cung có **trọng số** $\omega$ (để tính đường ngắn nhất) và **dung lượng** $c$ (lượng lưu lượng tối đa). Có một tập **nhu cầu**: mỗi nhu cầu cần gửi một lượng lưu lượng từ một nút nguồn đến một nút đích, và lượng này **thay đổi theo thời gian**.
 
 Gói tin thông thường đi theo **đường ngắn nhất**; nếu nhiều đường ngắn nhất bằng nhau thì lưu lượng được **chia đều** (ECMP). **Segment Routing (SR)** cho phép ép gói tin đi qua một dãy **waypoint** (nút trung gian) theo thứ tự, giữa hai waypoint liên tiếp vẫn đi đường ngắn nhất. Nhờ vậy ta điều khiển được đường đi mà ít phải đổi cấu hình mạng.
@@ -86,10 +94,18 @@ Có một **kịch bản bảo trì**: tại một số thời điểm, vài cun
 Bộ ba $(G=(V,A),\omega,c)$ với $G$ có hướng, $n$ nút. "Cung" và "liên kết" dùng thay nhau. Trong dữ liệu mỗi cung có `id` duy nhất; kịch bản bảo trì chỉ nói tới `id` cung.
 
 ### 3.2. Đồ thị chuyển tiếp và ECMP
+
+![FG(v0,v5): gom các cung nằm trên ít nhất một trong 3 đường ngắn nhất bằng nhau (cùng dài 400).](figures/hinh_dung/h7_do_thi_chuyen_tiep.png)
+
+*FG(v0,v5): gom các cung nằm trên ít nhất một trong 3 đường ngắn nhất bằng nhau (cùng dài 400).*
 $FG(u,v)\subseteq A$ là tập cung nằm trên **ít nhất một** đường ngắn nhất (theo $\omega$) từ $u$ đến $v$.
 **ECMP (Equal-Cost Multi-Path)** theo đề: *"khi $FG(u,v)$ không phải một đường đơn, luồng đi vào một nút của $FG(u,v)$ được chia **đều** giữa các cung đi ra của nút đó trong $FG(u,v)$"*. Đây là phép chia **từng nút một** (hop-by-hop).
 
 ### 3.3. Đường segment, segment
+
+![Đường ⟨v0,v4,v5⟩ có waypoint v4 nên gồm 2 segment; mỗi segment đi theo ECMP trên đồ thị chuyển tiếp của nó.](figures/hinh_dung/h8_duong_segment.png)
+
+*Đường ⟨v0,v4,v5⟩ có waypoint v4 nên gồm 2 segment; mỗi segment đi theo ECMP trên đồ thị chuyển tiếp của nó.*
 Đường segment là một chuỗi các đồ thị chuyển tiếp nối đuôi: đích của cái trước là nguồn của cái sau. Viết $\langle s,w_1,\dots,w_\ell,t\rangle$; nguồn và đích **không** tính là waypoint. $\ell=0$ nghĩa là chỉ đi theo $FG(s,t)$. Mỗi segment $(u,v)$ của đường được gắn với $FG(u,v)$.
 **Số segment** của đường $=\ell+1$ (tính cả đoạn đầu từ nguồn tới waypoint thứ nhất và đoạn cuối từ waypoint cuối tới đích). Vì vậy $\texttt{maxSeg}$ cho phép tối đa $\texttt{maxSeg}-1$ waypoint.
 
@@ -100,12 +116,20 @@ $d=(s_d,\tau_d)$ cần chuyển một lượng $\nu(d,t)\ge0$ từ $s_d$ đến 
 Với $D=\{(s_i,t_i):i=1..k\}$, một sơ đồ định tuyến là $P=\{p_d:d\in D\}$, $p_d$ là một đường segment từ $s_d$ đến $\tau_d$. Ở bài toán nhiều thời điểm có một sơ đồ $P^t$ cho mỗi $t$.
 
 ### 3.6. Chân trời và can thiệp
+
+![Trục thời gian: t=0 bình thường; từ t=1 có cung bị tắt q(t) và ngân sách κ(t) giới hạn số thay đổi giữa hai thời điểm liên tiếp.](figures/hinh_dung/h12_thoi_gian_ngan_sach.png)
+
+*Trục thời gian: t=0 bình thường; từ t=1 có cung bị tắt q(t) và ngân sách κ(t) giới hạn số thay đổi giữa hai thời điểm liên tiếp.*
 $T=\{0,\dots,h-1\}$. Ví dụ $T=\{0,\dots,6\}$ cho kế hoạch hằng ngày trong một tuần. $t=0$ là trạng thái danh định (không sự cố), nên $T^*=T\setminus\{0\}$. Một can thiệp tắt một liên kết (hoặc một nút) trong một khoảng thời gian; về chức năng giống sự cố nhưng được **lên lịch trước**.
 
 ### 3.7. Ngân sách
 Mỗi lần đổi cấu hình (thêm/bớt waypoint) tốn công của con người, nên giới hạn số thay đổi: $\kappa(t)$ là số thay đổi tối đa từ bước $t-1$ sang $t$.
 
 ### 3.8. Khoảng cách giữa hai sơ đồ
+
+![Mỗi hộp là một segment (cũng là một biến x). dist = số hộp chỉ có ở một trong hai lộ trình.](figures/hinh_dung/h5_bien_x_va_dist.png)
+
+*Mỗi hộp là một segment (cũng là một biến x). dist = số hộp chỉ có ở một trong hai lộ trình.*
 $$\mathrm{dist}(P,P')=\sum_{d\in D,\ i,j\in V,\ i\ne j}\bigl|\delta(p_d,ij)-\delta(p'_d,ij)\bigr|.$$
 Tức là số segment có mặt ở sơ đồ này mà vắng ở sơ đồ kia, cộng trên mọi nhu cầu. Ví dụ của đề (Bảng 1), mình đã kiểm lại từng dòng:
 
@@ -118,6 +142,10 @@ Tức là số segment có mặt ở sơ đồ này mà vắng ở sơ đồ kia
 | hai nhu cầu | | $10=4+6$ | cộng theo nhu cầu |
 
 ### 3.9. Tải và MLU
+
+![Tính tải của cung a(4,6) ở t=0: cộng phần luồng của từng nhu cầu rồi chia cho dung lượng.](figures/hinh_dung/h10_cach_tinh_tai.png)
+
+*Tính tải của cung a(4,6) ở t=0: cộng phần luồng của từng nhu cầu rồi chia cho dung lượng.*
 Tải của cung $a$ tại thời điểm $t$:
 $$\boxed{\ \lambda(a,t)=\frac{\sum_{d\in D}\ \sum_{i,j\in V} r(i,j,a,t)\ \nu(d,t)\ \delta(p_d,ij)}{c(a)}\ }$$
 Giải thích từng thừa số: $\delta(p_d,ij)$ chọn các segment mà nhu cầu $d$ dùng; $\nu(d,t)$ là lượng lưu lượng; $r(i,j,a,t)$ là phần của lưu lượng đó đi qua $a$; chia cho $c(a)$ để ra tỉ lệ. Tải có thể lớn hơn $1$ khi cung bị nghẽn.
@@ -139,6 +167,10 @@ $$r_{ijat}=\begin{cases}\dfrac{\sigma_{iu'}(t)\ \sigma_{v'j}(t)}{\sigma_{ij}(t)}
 và $r_{ijat}=0$ nếu không có đường từ $i$ đến $j$ ($\sigma_{ij}=0$). Ý nghĩa: $\sigma^a_{ij}=\sigma_{iu'}\sigma_{v'j}$ là số đường ngắn nhất $i\to j$ đi qua $a$; $r$ là **tỉ lệ số đường**. Cách tính: chạy Dijkstra từ mọi nguồn với bộ đếm số đường (Julia: `dijkstra_shortest_paths(g, i, distmx; allpaths=true)` cho `dists` và `pathcounts`); khoảng cách cập nhật khi $\ell=d(u)+c_{uv}<d(v)$ (đặt $\sigma(v)\gets\sigma(u)$), cộng dồn $\sigma(v)\gets\sigma(v)+\sigma(u)$ khi bằng nhau.
 
 ### 4.3. Hai định nghĩa **không** tương đương — ví dụ cụ thể
+
+![Cùng ba đường ngắn nhất: ECMP chia đều từng nút (0,5 và 0,5) khác với tỉ lệ số đường (1/3 và 2/3).](figures/hinh_dung/h2_ecmp_vs_dem_duong.png)
+
+*Cùng ba đường ngắn nhất: ECMP chia đều từng nút (0,5 và 0,5) khác với tỉ lệ số đường (1/3 và 2/3).*
 Nhu cầu $(v_0,v_5)$ của ví dụ toy có **3 đường ngắn nhất** cùng độ dài 400: $(a_{0,1},a_{1,3},a_{3,5})$, $(a_{0,1},a_{1,4},a_{4,6},a_{6,5})$, $(a_{0,1},a_{1,4},a_{4,3},a_{3,5})$.
 
 | | cung $a_{1,3}$ | cung $a_{1,4}$ | cung $a_{4,3}$ | cung $a_{3,5}$ |
@@ -168,6 +200,10 @@ Nghiệm = tập các $x$ bằng $1$, tạo thành sơ đồ định tuyến $P^
 $$\sum_{j\in V\setminus\{i\}}x^{dt}_{ij}-\sum_{j\in V\setminus\{i\}}x^{dt}_{ji}=\begin{cases}1,&i=s_d\\-1,&i=\tau_d\\0,&\text{còn lại}\end{cases}\qquad\forall i\in V,\ \forall d=(s_d,\tau_d)\in D,\ \forall t\in T.$$
 Đọc: "số segment đi ra khỏi $i$ trừ số segment đi vào $i$" bằng $+1$ tại nguồn, $-1$ tại đích, $0$ ở nút trung gian. Ràng buộc này chỉ ép **một đường (có thể kèm chu trình rời)**; chu trình không có lợi nhưng có thể lách ngân sách, nên nhóm thêm ràng buộc bậc $\le1$ (của nhóm).
 
+![Ràng buộc (1) trên một ví dụ: các segment chọn (x=1) nối đuôi nhau từ nguồn s đến đích τ; ra−vào = +1 / 0 / −1.](figures/hinh_dung/h9_bao_toan_luong.png)
+
+*Ràng buộc (1) trên một ví dụ: các segment chọn (x=1) nối đuôi nhau từ nguồn s đến đích τ; ra−vào = +1 / 0 / −1.*
+
 **(2) Số segment tối đa:**
 $$\sum_{i,j\in V}x^{dt}_{ij}\le\texttt{maxSeg},\qquad\forall d\in D,\ \forall t\in T.$$
 Tính cả đoạn đầu (nguồn → waypoint đầu) và đoạn cuối (waypoint cuối → đích).
@@ -181,6 +217,10 @@ $$\sum_{d\in D}\ \sum_{i,j\in V,\ i\ne j}\bigl|x^{dt}_{ij}-x^{d,t-1}_{ij}\bigr|\
 Đây chính là $\mathrm{dist}(P^{t-1},P^t)\le\kappa(t)$. Dấu giá trị tuyệt đối được **tuyến tính hoá** bằng biến phụ $y^{dt}_{ij}\ge0$ (của nhóm): $y^{dt}_{ij}\ge x^{dt}_{ij}-x^{d,t-1}_{ij}$, $y^{dt}_{ij}\ge x^{d,t-1}_{ij}-x^{dt}_{ij}$, $\sum y\le\kappa(t)$.
 
 ### 5.3. Mục tiêu
+
+![So sánh từ điển: so từng hạng từ cung nặng nhất; hạng đầu tiên khác nhau quyết định bên nào tốt hơn.](figures/hinh_dung/h11_muc_tieu_tu_dien.png)
+
+*So sánh từ điển: so từng hạng từ cung nặng nhất; hạng đầu tiên khác nhau quyết định bên nào tốt hơn.*
 Cho $L=\{\lambda(a,t)\mid a\in A,\ t\in T\}$, $\lambda'(i)$ là phần tử lớn thứ $i$ của $L$:
 $$\operatorname{lex\,min}\ \{\lambda'(i):1\le i\le\lvert L\rvert\}\qquad(5)$$
 $$\text{với các ràng buộc }(1)\text{–}(4)\ \ (6),\qquad x^{dt}_{ij}\in\{0,1\}\ \ (7),\qquad\lambda':\{1,\dots,\lvert L\rvert\}\to\mathbb{Q}^+\ \ (8).$$
@@ -198,6 +238,14 @@ Số biến nhị phân $\lvert D\rvert\,n(n-1)\,\lvert T\rvert$: từ khoảng 
 ---
 
 ## 6. Ví dụ toy trong đề (kiểm tra bằng tay được)
+
+![Hạ tải lớn nhất từ 0,4375 xuống 0,3750 nhờ waypoint v4 (số trong ô = tải λ)](figures/hinh_dung/h3_waypoint_giam_tai.png)
+
+*Hạ tải lớn nhất từ 0,4375 xuống 0,3750 nhờ waypoint v4 (số trong ô = tải λ)*
+
+![t=0 so với t=1: hai cung đỏ nét đứt bị tắt, lưu lượng của d0 phải đi vòng.](figures/hinh_dung/h4_thoi_gian_va_can_thiep.png)
+
+*t=0 so với t=1: hai cung đỏ nét đứt bị tắt, lưu lượng của d0 phải đi vòng.*
 
 **Mạng:** 7 nút (A..G, id 0..6), 22 cung có hướng; nhãn mỗi cung "$\omega(a);c(a)$". **Nhu cầu:** $d_0=(v_0,v_5)$ với $\nu(d_0,0)=50$, $\nu(d_0,1)=100$; $d_1=(v_2,v_5)$ với $\nu(d_1,0)=100$, $\nu(d_1,1)=50$. **Can thiệp:** tại $t=1$ hai cung $a_{1,3}$ và $a_{1,4}$ bị tắt (trong file toy là các `id` 2 và 3). **Cấu hình:** `max_segments` $=4$, `budget` $t=1$: $20$.
 
@@ -256,6 +304,10 @@ Trong SetA, 10/20 file khai báo `multigraph=true` nhưng **không file nào có
 
 ## 8. Yêu cầu của thầy (`project/readme`)
 
+![Chín bước của thầy dẫn tới hai bảng kết quả và báo cáo ≤ 10 trang.](figures/hinh_dung/h14_cac_buoc_cua_thay.png)
+
+*Chín bước của thầy dẫn tới hai bảng kết quả và báo cáo ≤ 10 trang.*
+
 ### 8.1. Sản phẩm nộp (hạn **Chủ nhật 25/10**)
 Báo cáo **tối đa 10 trang** gồm:
 1. **Giới thiệu:** bối cảnh, động lực, mô tả bài toán.
@@ -290,6 +342,10 @@ Báo cáo **tối đa 10 trang** gồm:
 ---
 
 ## 9. Dữ liệu SetA (đã kiểm tra)
+
+![Số biến nhị phân x mỗi thời kỳ của từng instance (thang log): từ ~15 nghìn đến gần 1 tỷ.](figures/hinh_dung/h13_quy_mo_setA.png)
+
+*Số biến nhị phân x mỗi thời kỳ của từng instance (thang log): từ ~15 nghìn đến gần 1 tỷ.*
 
 20 instance, mỗi instance 3 file (`setA-XX-net/tm/scenario.json`). Tất cả: $T=\{0,1\}$ ($h=2$), $\texttt{maxSeg}=6$, **đúng một** cung bị tắt ở $t=1$, trọng số $\omega$ là số nguyên (các instance 05, 08, 12, 14 là số thực), 188 giá trị lưu lượng bằng 0.
 

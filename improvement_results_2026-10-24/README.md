@@ -26,7 +26,7 @@ Ghi chú về β = 3 (đối chứng): model gộp lúc đó không còn chính 
 | File | Nội dung |
 |---|---|
 | `bottleneck.jl`, `bottleneck.txt` | Cận dưới MLU không phụ thuộc cách định tuyến (cắt quanh nút, link bắt buộc) và các link nghẽn nhất của baseline. t = 0: 0,1155237. t = 1: **0,2049858** |
-| `lpbound.jl`, `lpbound.csv`, `lp-*.log` | LP nới lỏng của model gộp. IPM: OPTIMAL 0,2049858753 sau 347 s. PDLP chưa xong khi tải về |
+| `lpbound.jl`, `lpbound.csv`, `lp-*.log` | LP nới lỏng của model gộp. IPM: OPTIMAL 0,2049858753 sau 347 s. PDLP: hết giờ sau 7200 s, chưa ra nghiệm |
 | `fix05.jl`, `fix05.out` | Đổi đường cho demand 19 thành ⟨84, 99, 25⟩ ở cả hai thời kỳ. MLU **0,2049858752**, bằng cận dưới, nên tối ưu. Bộ kiểm tra độc lập: OK |
 | `setA-05-P2-reroute-*` | Nghiệm và tải từng link |
 

@@ -14,3 +14,7 @@ Dependent equations search removed 100 rows and 19800 nonzeros in 0.26s (limit =
 30791 rows, 990001 cols, 13641091 nonzeros 19s
 Presolve reductions: rows 30791(-100); columns 990001(-0); nonzeros 13641091(-39400) 
 Solving the presolved LP
+Model status        : Time limit reached
+PDLP      iterations: 76202
+Objective value     :  0.0000000000e+00
+HiGHS run time      :       7223.34

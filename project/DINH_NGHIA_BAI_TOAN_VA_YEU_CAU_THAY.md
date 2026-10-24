@@ -393,3 +393,137 @@ Ngân sách $\kappa(1)$ rất khác nhau: ba instance (05, 10, 17) chỉ cho ph�
 - [ ] CPU time = chỉ `optimize!`; status theo ba nhãn của thầy; gap $=1-LB/UB$.
 - [ ] Báo cáo $\le10$ trang với ba phần (Giới thiệu, Mô hình, Thực nghiệm), có mô tả môi trường chạy.
 - [ ] (Tuỳ chọn) xuất `srpaths.json` và kiểm tra độc lập.
+
+
+---
+
+## 12. Code hiện tại giải bài toán như thế nào, và kết quả thu được
+
+> **Nguồn:** thư mục làm việc đang ở nhánh `kien` (code của Hùng và Trung Kiên gộp trên nền `main`) và báo cáo `BAO_CAO_KET_QUA_2026-10-24/BAO_CAO.md` của nhánh đó (đợt chạy chính thức trên server 24/10/2026). Phần đối chiếu với đợt chạy trên máy M1 (nhánh `feature/tasr`/`main`) nằm ở mục 12.7. Các số trong mục này lấy từ các file đó, không phải ước lượng.
+
+### 12.1. Code giải bài toán theo trình tự nào
+
+![Code giải bài toán thế nào](figures/ket_qua/k2_code_giai_the_nao.png)
+
+*Hình K2 — Đường đi chính (hàng trên rồi hàng giữa): đọc JSON → tính hệ số $r$ → nghiệm khởi đầu bằng heuristic → MILP đầy đủ → giải → trích nghiệm → tự kiểm tra → kiểm chứng độc lập bằng Python → bảng. Hai khung nét đứt ở dưới là nhánh cho instance quá lớn và các thí nghiệm cải tiến.*
+
+| Bước | File / hàm (trong `orange/`) | Việc làm |
+|---|---|---|
+| 1. Đọc dữ liệu | `src/io.jl`: `read_instance` | Đọc ba file JSON (bỏ qua cờ `multigraph`, tự kiểm tra không có cung song song), cho ra $n$, $m$, $c(a)$, $\omega(a)$, $\nu(d,t)$, $\texttt{maxSeg}$, $\kappa(t)$, các cung bị tắt |
+| 2. Hệ số tách | `src/ecmp.jl`: `build_r` | Hai chế độ: **`:pathcount`** (công thức `calculating_r.pdf`, dùng cho bảng chính thức) và `:ecmp` (từng nút, để đối chiếu) |
+| 3. Nghiệm khởi đầu | `src/heuristic.jl`: `local_search` | Tìm kiếm cục bộ quanh cung nghẽn nhất (giới hạn 30 s) làm nghiệm khởi đầu cho solver. **Mới:** thêm bước đổi đồng thời mọi thời kỳ, có kiểm tra ngân sách |
+| 4. Mô hình | `src/model.jl`: `build_model` | MILP đúng đề: biến $x^{dt}_{ij}$ nhị phân, ràng buộc (1)–(4), mục tiêu chính thức **tối thiểu $z$ (MLU thuần)**; khởi động nóng bằng nghiệm bước 3; tắt presolve khi mô hình rất lớn |
+| 5. Giải | HiGHS, `optimize!` | 1 luồng, `mip_rel_gap` $=10^{-6}$, giới hạn 1800 s (P1) hoặc 3600 s (P2), `random_seed` = số thứ tự lần chạy |
+| 6. Trích và tự kiểm tra | `extract_paths`, `src/verify.jl`: `check_solution` | Chuyển $x$ thành dãy waypoint; tính lại tải, số đoạn, ngân sách; ghi `srpaths.json` và file tải |
+| 7. Kiểm chứng độc lập | `scripts/verify_srpaths.py` | Python, không dùng chung code với Julia: tính lại $r$, tải, MLU, ngân sách từ file nghiệm |
+| 8. Bảng và báo cáo | `scripts/official_tables.jl`, `src/reporting.jl` | Gộp 10 lần chạy thành một dòng bảng; chỉ nhận mẫu đủ 10 lần |
+| Nhánh cho instance lớn | `src/wpmodel.jl`, `src/lns.jl` | Mô hình waypoint $\le1$ waypoint/nhu cầu + sinh cột + LNS; **chỉ cho cận trên** của bài toán gốc |
+
+**Quyết định thiết kế đáng nhớ:** (a) $r$ theo đếm đường (readme Step 3); (b) mục tiêu chính thức là MLU thuần, chính là **hạng đầu của mục tiêu từ điển** (5); (c) mọi nghiệm đều được **kiểm chứng độc lập** trước khi vào bảng; (d) đo "CPU time" chỉ ở lời gọi `optimize!`.
+
+### 12.2. Cách làm thực nghiệm
+
+| Hạng mục | Giá trị (đợt chính thức 24/10) |
+|---|---|
+| Máy | VM Ubuntu 24.04, Xeon Silver 4314 (16 vCPU), 125 GiB RAM |
+| Phần mềm | Julia 1.13.1, JuMP 1.32.1, HiGHS 1.15.1 |
+| Quy mô | 12 cấu hình × 10 lần chạy = **120 lần chạy**, cả 120 qua kiểm chứng độc lập |
+| Mô hình đầy đủ | setA-01…05, cả P1 (chỉ $t=0$, 1800 s) và P2 ($t=0,1$, 3600 s) |
+| Mô hình thu gọn | setA-10 (P1) và setA-07 (P2) |
+| Baseline | mọi nhu cầu đi thẳng $\langle s,t\rangle$, không waypoint |
+
+### 12.3. Kết quả chính thức
+
+![MLU trước và sau](figures/ket_qua/k1_mlu_truoc_sau.png)
+
+*Hình K1 — Xanh lá: đã chứng minh tối ưu; xanh dương: nghiệm hợp lệ chưa chứng minh tối ưu; đỏ: mô hình thu gọn, chỉ là cận trên.*
+
+**P1 (chỉ $t=0$, 1800 s):**
+
+| Instance | Baseline | **MLU** | Cận dưới | Giảm | Trạng thái | Thời gian TB / trung vị (s) |
+|---|---|---|---|---|---|---|
+| setA-01 | 1,0000 | **0,92938** | 0,92938 | 7,1 % | Optimal 10/10 | 0,7 / 0,7 |
+| setA-02 | 1,0000 | **0,54858** | 0,54858 | 45,1 % | Optimal 10/10 | 3,7 / 3,4 |
+| setA-03 | 1,0000 | **0,94354** | 0,94354 | 5,6 % | Optimal 10/10 | 32 / 5 |
+| setA-04 | 0,6918 | **0,51828** | 0,45907 | 25,1 % | chưa tối ưu, gap TB 20,3 % | 1800 / 1800 |
+| setA-05 | 0,3333 | **0,11552** | 0,11552 | 65,3 % | Optimal 10/10 | 149 / 145 |
+| setA-10 (thu gọn) | 1,0000 | **0,07120** | – | 92,9 % | cận trên | 1801 / 1801 |
+
+**P2 ($t=0,1$ có cung bị tắt và ngân sách, 3600 s):**
+
+| Instance | Baseline | **MLU** | Cận dưới | Giảm | Trạng thái | Thời gian TB / trung vị (s) |
+|---|---|---|---|---|---|---|
+| setA-01 | 1,0000 | **0,92938** | 0,92938 | 7,1 % | Optimal 10/10 | 20,8 / 20,8 |
+| setA-02 | 1,0981 | **0,90307** | 0,90307 | 17,8 % | Optimal (chứng minh ở 4/10 lần) | 2235 / 3600 |
+| setA-03 | 1,0000 | **0,94354** | 0,94354 | 5,6 % | Optimal 10/10 | 760 / 727 |
+| setA-04 | 1,0000 | **0,58857** | 0,58114 | 41,1 % | chưa tối ưu, gap 1,3 % | 3601 / 3601 |
+| setA-05 | 0,99999 | **0,20499** | 0,20499 | 79,5 % | Optimal (chứng minh ở 5/10 lần) | 1880 / 1895 |
+| setA-07 (thu gọn) | 1,0000 | **0,90799** | – | 9,2 % | cận trên | 81 / 81 |
+
+**Tóm tắt:** 8/10 cấu hình mô hình đầy đủ được **chứng minh tối ưu**; hai cấu hình còn lại (setA-04 ở P1 và P2) có nghiệm hợp lệ nhưng chưa chứng minh.
+
+![Thời gian P1 và P2](figures/ket_qua/k3_thoi_gian_p1_p2.png)
+
+*Hình K3 — Thêm thời kỳ thứ hai làm bài toán khó hơn nhiều lần (số cột gấp khoảng 3); setA-04 chạm giới hạn ở cả hai.*
+
+### 12.4. Đọc kết quả
+
+1. **Waypoint giảm MLU từ 5,6 % (setA-03) đến 79,5 % (setA-05 P2).** Mức giảm phụ thuộc cấu trúc mạng: nếu điểm nghẽn nằm ở nút không có lối vòng, waypoint gần như không giúp được gì.
+2. **MLU của P2 luôn $\ge$ P1** (mất một cung, lưu lượng đổi): setA-02 từ 0,549 lên 0,903; setA-05 từ 0,116 lên 0,205.
+3. **Độ khó tăng theo $\lvert D\rvert\,n^2$.** setA-04 (200 nhu cầu) là bộ duy nhất chưa chứng minh được tối ưu, dù ít nút hơn setA-05.
+4. **MILP chủ yếu chứng minh tối ưu cho nghiệm của heuristic.** Trong cả 100 lần chạy mô hình đầy đủ, nghiệm cuối chính là nghiệm khởi đầu của `local_search`; solver đóng góp cận dưới và chứng minh tối ưu.
+5. **Kết quả phụ thuộc vào `seed`.** Ví dụ setA-05 P2: cùng mô hình, cùng nghiệm khởi đầu, LP nút gốc xong sau 1665 vòng simplex với seed 2 nhưng chưa xong sau 32 146 vòng với seed 1.
+
+### 12.5. Hai cải tiến quan trọng nhất
+
+**(a) setA-05 hai thời kỳ: từ 0,99999 xuống 0,20499 và chứng minh được là tối ưu.**
+
+![setA-05 P2](figures/ket_qua/k4_setA05_P2_nut_co_chai.png)
+
+*Hình K4 — Lúc đầu cả 10 lần chạy kẹt ở 0,99999 (bằng baseline). Nguyên nhân: nhu cầu 19 đi thẳng làm đầy link 100 % ở $t=1$; heuristic cũ chỉ đổi một thời kỳ mỗi bước, mà với $\kappa=1$ mọi bước như vậy đều vượt ngân sách; solver với 2,97 triệu cột không giải xong LP nút gốc. Lời giải: cho nhu cầu đó đi qua waypoint 99 ở **cả hai** thời kỳ (tốn 0 ngân sách). Chứng minh tối ưu không cần solver: ở $t=1$ nút 17 chỉ còn một link ra (dung lượng 26,465), các nhu cầu xuất phát từ nút 17 tổng 5,425, nên $\mathrm{MLU}\ge5{,}425/26{,}465=0{,}2049858$.*
+
+Sau khi sửa heuristic (thêm bước đổi đồng thời mọi thời kỳ), chạy lại chính thức 10 lần: cả 10 lần đều đạt 0,2049858752; 5 lần được solver chứng minh tối ưu trong 120–189 s, 5 lần còn lại hết giờ vì LP nút gốc chưa xong nhưng nghiệm vẫn đúng.
+
+**(b) Bổ đề "hai đường khác nhau lệch $\ge3$ segment" và mô hình gộp biến.**
+
+![Bổ đề và mô hình gộp](figures/ket_qua/k5_bo_de_va_model_gop.png)
+
+*Hình K5 — Hai đường segment hợp lệ khác nhau, cùng nguồn–đích, luôn có $\mathrm{dist}\ge3$ (chứng minh bằng cân bằng luồng tại nút; kiểm chứng vét cạn 2 882 574 cặp ở setA-01). Hệ quả: khi $\kappa<3$ không nhu cầu nào được đổi đường, nên có thể dùng **một** bộ biến cho mọi thời kỳ mà vẫn chính xác. Số biến giảm 3 lần; ở $\kappa=1$ setA-02 và setA-03 từ hết giờ xuống còn 7,6 s và 60,6 s.*
+
+### 12.6. Mục tiêu từ điển
+
+- Mục tiêu chính thức của bảng là **MLU thuần**, tức hạng đầu của mục tiêu từ điển (5). Các hạng sau chưa được tối ưu trong bảng.
+- Công thức sắp xếp có sẵn (`exact_lexicographic_loads!`, dùng ma trận gán $L\times L$ và big-M) **thất bại ngay ở hạng 1** trên setA-01 (P1, P2) và setA-02 (P1) vì hết giờ, trong khi bài min MLU tương đương giải trong chưa đầy 1 s.
+- Hướng sửa (đã đề xuất trong báo cáo và đã có `lex_topk!` trên nhánh `feature/tasr`): dùng **tổng $k$ tải lớn nhất** $\theta_k=\min\ k\,r+\sum_e\max(0,u_e-r)$, chỉ dùng biến liên tục, không cần biến gán hạng hay big-M; $\theta_1$ chính là MLU và có thể dừng sau vài hạng đầu.
+
+### 12.7. Đối chiếu với đợt chạy trên máy M1 (nhánh `feature/tasr`)
+
+Hai đợt chạy độc lập (máy 31,6 GB và server 125 GB) cho **cùng các giá trị tối ưu** ở mọi hàng mô hình đầy đủ giải được:
+
+| Hàng | Server (nhánh `kien`) | Máy M1 (`feature/tasr`) | Nhận xét |
+|---|---|---|---|
+| setA-01…03, 05 (P1) | tối ưu 10/10 | tối ưu 10/10 | trùng đến 5 chữ số |
+| setA-01…03 (P2) | tối ưu | tối ưu | trùng |
+| setA-05 (P2) | 0,20499, tối ưu ở 5/10 lần, cả 10 lần đạt giá trị này | 0,20499 chỉ ở 1/9 lần (seed 7); 8 lần kẹt ở 0,99999 | **Heuristic mới của nhánh `kien` là cải tiến thật**: từ 1/9 lên 10/10 lần |
+| setA-04 (P1) | 0,51828, cận dưới 0,45907 | tốt nhất 0,50105; mô hình waypoint cho 0,45912 | **tối ưu thật nằm trong [0,45907; 0,45912]**, hai kết quả của mô hình đầy đủ cao hơn khoảng 9–13 % |
+| setA-04 (P2) | 0,58857, cận dưới 0,58114 | 0,58857; mô hình waypoint 0,58281 | tối ưu thật nằm trong [0,58114; 0,58281] |
+| setA-06…20 | chưa chạy (chỉ setA-10 P1 và setA-07 P2 bằng mô hình thu gọn) | đủ 20 hàng bằng mô hình thu gọn (1 lần mỗi hàng) | hai đợt bổ sung cho nhau |
+
+Hai đợt cho thấy cùng một kết luận: mô hình của thầy giải **tối ưu** được các instance nhỏ và vừa (01–03, 05), setA-04 là điểm khó nhất, còn từ setA-06 trở lên phải dùng mô hình thu gọn vì kích thước.
+
+### 12.8. Đối chiếu với yêu cầu của thầy
+
+| Yêu cầu | Trạng thái |
+|---|---|
+| Mô hình JuMP đúng đề, $r$ theo `calculating_r.pdf` | Đạt |
+| Mục Data (r, $c(a)$, $\nu(d,0)$, MaxSeg) | Đạt (hàm `read_instance`, `build_r`) |
+| Bảng 1 ($t=0$, 1800 s) và Bảng 2 ($t=0,1$, 3600 s) cho SetA | Đạt cho setA-01…05 với trung bình **10 lần chạy** và nghiệm kiểm chứng độc lập; setA-06…20 bằng mô hình thu gọn (cận trên), chưa đủ 10 lần |
+| CPU time chỉ `optimize!`, status, gap, số nút B&B | Đạt |
+| Báo cáo $\le10$ trang | Chưa có (người khác viết); đã có bản báo cáo số liệu `BAO_CAO_KET_QUA_2026-10-24/BAO_CAO.md` |
+
+### 12.9. Còn dang dở
+
+- setA-04 chưa chứng minh được tối ưu (cận dưới 0,45907 so với nghiệm 0,51828 ở P1); mô hình gộp biến chưa áp dụng cho nó vì $\kappa(1)=44\ge3$.
+- Mục tiêu từ điển đầy đủ chưa có kết quả trên instance thật.
+- setA-06…20 mới là cận trên từ mô hình thu gọn, chưa đủ 10 lần chạy.
+- Heuristic mới mới chỉ được chạy lại chính thức trên setA-05 P2; các cấu hình P2 khác chưa chạy lại.

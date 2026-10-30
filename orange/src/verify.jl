@@ -27,15 +27,21 @@ max_utilization(inst::Instance, rs, paths, P::Int) =
 base_mlu(inst::Instance, rs, P::Int) = max_utilization(inst, rs, direct_paths(inst, P), P)
 
 function check_solution(inst::Instance, rs, paths, P::Int, z::Real; tol=1e-6)
+    for d in eachindex(inst.dem_s), p in 1:P
+        length(paths[(d, p)]) - 1 <= inst.maxseg ||
+            error("demand $d period $p exceeds maxSeg=$(inst.maxseg)")
+    end
     mlu = max_utilization(inst, rs, paths, P)
     mlu <= z + tol * max(1.0, abs(z)) || error("recomputed MLU $mlu exceeds solver z=$z")
     budget_ok = true
+    budget_changes = Dict{Int,Int}()
     for p in 2:P
         isfinite(inst.budget[p]) || continue
         ch = sum(changes(paths[(d, p-1)], paths[(d, p)]) for d in eachindex(inst.dem_s))
+        budget_changes[p] = ch
         ch <= inst.budget[p] || (budget_ok = false)
     end
-    return (mlu=mlu, budget_ok=budget_ok)
+    return (mlu=mlu, budget_ok=budget_ok, budget_changes=budget_changes)
 end
 
 function write_srpaths(inst::Instance, paths, P::Int, file::AbstractString)
@@ -48,17 +54,64 @@ function write_srpaths(inst::Instance, paths, P::Int, file::AbstractString)
     open(io -> JSON3.pretty(io, Dict("srpaths" => entries)), file, "w")
 end
 
-function write_loads(inst::Instance, rs, paths, P::Int, file::AbstractString)
-    collect_loads(ps) = sort(vcat([utilization(inst, rs, ps, p)[[a for a in 1:inst.m if !(a in inst.down[p])]]
-                                   for p in 1:P]...); rev=true)
-    base = collect_loads(direct_paths(inst, P))
-    opt = collect_loads(paths)
+function write_loads(inst::Instance, rs, paths, P::Int, file::AbstractString;
+                     run_id=0, instance="", routing_mode="")
+    base_util = [utilization(inst, rs, direct_paths(inst, P), p) for p in 1:P]
+    opt_util = [utilization(inst, rs, paths, p) for p in 1:P]
+    active = [(p, a) for p in 1:P for a in 1:inst.m if !(a in inst.down[p])]
+    base = sort([base_util[p][a] for (p, a) in active]; rev=true)
+    opt = sort([opt_util[p][a] for (p, a) in active]; rev=true)
+    metadata = (run_id, instance, P, routing_mode)
     open(file, "w") do io
-        println(io, "rank,base,opt")
+        println(io, "kind,rank,period,link_id,base,opt,run,instance,P,routing_mode")
         for k in eachindex(base)
-            println(io, "$k,$(base[k]),$(opt[k])")
+            println(io, "sorted,$k,,,$(base[k]),$(opt[k]),$(metadata[1]),$(metadata[2]),$(metadata[3]),$(metadata[4])")
+        end
+        for (p, a) in active
+            println(io, "arc,,$(p - 1),$(inst.link_id[a]),$(base_util[p][a]),$(opt_util[p][a]),$(metadata[1]),$(metadata[2]),$(metadata[3]),$(metadata[4])")
         end
     end
+end
+
+"Validate that an exact lexicographic model exports precisely the route it optimized."
+function check_lexicographic_solution(inst::Instance, rs, paths, P::Int, x, load, result; tol=1e-6)
+    exported_util = Float64[]
+    for p in 1:P
+        util = utilization(inst, rs, paths, p)
+        for d in eachindex(inst.dem_s)
+            path_edges = Set(zip(paths[(d, p)], paths[(d, p)][2:end]))
+            model_edges = Set((i, j) for i in 1:inst.n for j in 1:inst.n if i != j &&
+                              value(x[d, p, i, j]) > 0.5)
+            path_edges == model_edges ||
+                error("exported route differs from selected model arcs for demand $d period $p")
+        end
+        for a in 1:inst.m
+            a in inst.down[p] && continue
+            model_util = value(load[p][a]) / inst.cap[a]
+            abs(util[a] - model_util) <= tol * max(1.0, abs(model_util)) ||
+                error("exported utilization differs from model at period $p link $(inst.link_id[a])")
+            push!(exported_util, util[a])
+        end
+    end
+    sorted_util = sort(exported_util; rev=true)
+    length(sorted_util) == length(result.values) ||
+        error("exported load vector has the wrong number of entries")
+    all(isapprox(a, b; atol=tol, rtol=tol) for (a, b) in zip(sorted_util, result.values)) ||
+        error("exported sorted load vector differs from the lexicographic optimum")
+    mlu = isempty(sorted_util) ? 0.0 : first(sorted_util)
+    chk = check_solution(inst, rs, paths, P, mlu; tol=tol)
+    chk.budget_ok || error("exported route violates the intervention budget")
+    model_changes = Dict{Int,Int}()
+    for p in 2:P
+        isfinite(inst.budget[p]) || continue
+        model_changes[p] = sum((value(x[d, p, i, j]) > 0.5) !=
+                               (value(x[d, p-1, i, j]) > 0.5)
+                               for d in eachindex(inst.dem_s)
+                               for i in 1:inst.n for j in 1:inst.n if i != j)
+    end
+    chk.budget_changes == model_changes ||
+        error("exported budget changes differ from the optimized model")
+    return chk
 end
 
 "a <=_lex b (hai vector đã sắp giảm dần), so sánh có dung sai."

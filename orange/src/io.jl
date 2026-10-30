@@ -30,8 +30,6 @@ function read_instance(prefix::AbstractString; maxseg=nothing, budget=nothing)
     allunique(link_id) || error("duplicate link ids")
     arc_from = Int[v_of[Int(l["from"])] for l in links]
     arc_to = Int[v_of[Int(l["to"])] for l in links]
-    # cờ "multigraph" bị bỏ qua: tự kiểm tra
-    allunique(collect(zip(arc_from, arc_to))) || error("parallel arcs are not supported")
     any(arc_from .== arc_to) && error("self loops are not supported")
     omega = Float64[Float64(l.metric) for l in links]
     cap = Float64[Float64(l.capacity) for l in links]

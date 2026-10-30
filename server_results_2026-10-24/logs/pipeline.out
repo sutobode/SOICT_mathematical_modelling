@@ -1,0 +1,7 @@
+2026-10-20T15:49:48+00:00 STEP0 branch=hung commit=0da1a520dc086e2a7c3f2f74a6212205376680be
+julia version 1.13.1
+2026-10-20T15:49:48+00:00 instantiate start
+2026-10-20T15:50:57+00:00 tests start
+2026-10-20T15:52:02+00:00 tests end rc=0
+2026-10-20T15:52:02+00:00 STEP0 done
+2026-10-20T15:52:02+00:00 BATCH 1 START attempt=1 CMD: ORANGE_MAX_VARS=16000000 julia --project=orange orange/scripts/run_experiments.jl 1 1800 1 9 pc 1 10

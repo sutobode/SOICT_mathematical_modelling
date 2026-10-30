@@ -1,0 +1,41 @@
+===== 2026-10-21T06:23:14+00:00 attempt 1: ORANGE_MAX_VARS=10000000 julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 5 pc 1 10
+== setA-04 P=2 pathcount official run=1  1.792563885621263e9
+   ran
+== setA-04 P=2 pathcount official run=2  1.792564773003798e9
+   ran
+== setA-04 P=2 pathcount official run=3  1.792568440646235e9
+   ran
+== setA-04 P=2 pathcount official run=4  1.79257222179187e9
+   ran
+== setA-04 P=2 pathcount official run=5  1.792575894635112e9
+   ran
+== setA-04 P=2 pathcount official run=6  1.792579563600617e9
+   ran
+== setA-04 P=2 pathcount official run=7  1.792583232076652e9
+   ran
+== setA-04 P=2 pathcount official run=8  1.792586900852723e9
+   ran
+== setA-04 P=2 pathcount official run=9  1.792591518816803e9
+   ran
+== setA-04 P=2 pathcount official run=10  1.79259518648672e9
+   ran
+== setA-05 P=2 pathcount official run=1  1.792598857709661e9
+   ran
+== setA-05 P=2 pathcount official run=2  1.792602615117319e9
+   ran
+== setA-05 P=2 pathcount official run=3  1.792608978791655e9
+   ran
+== setA-05 P=2 pathcount official run=4  1.792615524470589e9
+   ran
+== setA-05 P=2 pathcount official run=5  1.792619274715136e9
+   ran
+== setA-05 P=2 pathcount official run=6  1.792623035152064e9
+   ran
+== setA-05 P=2 pathcount official run=7  1.792630164717356e9
+   ran
+== setA-05 P=2 pathcount official run=8  1.792636788790322e9
+   ran
+== setA-05 P=2 pathcount official run=9  1.792640547652211e9
+   ran
+== setA-05 P=2 pathcount official run=10  1.792644319632333e9
+   ran

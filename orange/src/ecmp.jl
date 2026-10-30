@@ -12,11 +12,21 @@ function routing(inst::Instance, p::Int)
     active = [a for a in 1:inst.m if !(a in inst.down[p])]
     g = SimpleDiGraph(n)
     out = [Int[] for _ in 1:n]
+    # Dijkstra dùng projection đơn; out vẫn giữ riêng từng cung vật lý.
+    weight = Dict{Tuple{Int,Int},Float64}()
     for a in active
-        add_edge!(g, inst.arc_from[a], inst.arc_to[a])
-        push!(out[inst.arc_from[a]], a)
+        x, y = inst.arc_from[a], inst.arc_to[a]
+        add_edge!(g, x, y)
+        push!(out[x], a)
+        weight[(x, y)] = min(get(weight, (x, y), Inf), inst.omega[a])
     end
-    W = sparse(inst.arc_from[active], inst.arc_to[active], inst.omega[active], n, n)
+    I, J, V = Int[], Int[], Float64[]
+    for ((x, y), w) in weight
+        push!(I, x)
+        push!(J, y)
+        push!(V, w)
+    end
+    W = sparse(I, J, V, n, n)
     D = Matrix{Float64}(undef, n, n)
     for s in 1:n
         D[s, :] = dijkstra_shortest_paths(g, s, W).dists

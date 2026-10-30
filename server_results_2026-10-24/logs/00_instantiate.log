@@ -1,0 +1,13 @@
+┌ Warning: The project dependencies or compat requirements have changed since the manifest was last resolved.
+│ It is recommended to `Pkg.resolve()` or consider `Pkg.update()` if necessary.
+└ @ Pkg.API ~/network-model-test/julia-1.13.1/share/julia/stdlib/v1.13/Pkg/src/API.jl:1308
+Precompiling packages...
+  48.0 s  ✓ MathOptInterface
+   1.6 s  ✓ MathOptIIS
+   8.2 s  ✓ HiGHS
+  16.1 s  ✓ JuMP
+   3.4 s  ✓ Orange
+  5 dependencies successfully precompiled in 68 seconds. 58 already precompiled.
+┌ Warning: The project dependencies or compat requirements have changed since the manifest was last resolved.
+│ It is recommended to `Pkg.resolve()` or consider `Pkg.update()` if necessary.
+└ @ Pkg.API ~/network-model-test/julia-1.13.1/share/julia/stdlib/v1.13/Pkg/src/API.jl:1308

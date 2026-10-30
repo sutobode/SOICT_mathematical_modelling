@@ -1,0 +1,2 @@
+instance,P,K,n,m,nD,binaries,status,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,heur_mlu,heur_time,cg_lp,cg_iters,cg_time,lns_mlu,lns_time
+setA-16,2,3,250,1452,4800,143320,Not Optimal,0.9426228000000002,0.9999997000000003,0.05737691721307525,0.1311475,0.860869586450161,3605.14097905159,0,ok,0.9426228001041669,0.9426228000000002,0.0776545,NaN,25,7123.5006924,NaN,NaN

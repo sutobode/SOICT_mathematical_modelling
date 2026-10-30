@@ -1,0 +1,1 @@
+== setA-10 P=2 cg=true pc=false  free RAM 14.8 GiB

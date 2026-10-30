@@ -1,0 +1,15 @@
+2026-10-21T00:43:14+00:00 V2 campaign start (deadline 2026-10-23T00:00:00+00:00)
+2026-10-21T00:43:14+00:00 V2 p1_s01-03 already complete, skipping
+2026-10-21T00:43:14+00:00 V2 p2_s01-03 START attempt=1 CMD: ORANGE_MAX_VARS=10000000 julia --project=orange orange/scripts/run_experiments.jl 2 3600 1 3 pc 1 10
+2026-10-21T00:43:22+00:00 V2 p2_s01-03 END attempt=1 rc=0
+2026-10-21T00:43:22+00:00 V2 p1_s04-05 START attempt=1 CMD: ORANGE_MAX_VARS=16000000 julia --project=orange orange/scripts/run_experiments.jl 1 1800 4 5 pc 1 10
+2026-10-21T06:23:14+00:00 V2 p1_s04-05 END attempt=1 rc=0
+2026-10-21T06:23:14+00:00 V2 p2_s04-05 START attempt=1 CMD: ORANGE_MAX_VARS=10000000 julia --project=orange orange/scripts/run_experiments.jl 2 3600 4 5 pc 1 10
+2026-10-22T06:33:29+00:00 V2 p2_s04-05 END attempt=1 rc=0
+2026-10-22T06:33:29+00:00 V2 wp_p1_s10 START attempt=1 CMD: julia --project=orange orange/scripts/run_official_wp.jl 1 1800 10 10 1 10
+2026-10-22T11:36:03+00:00 V2 wp_p1_s10 END attempt=1 rc=0
+2026-10-22T11:36:03+00:00 V2 wp_p2_s07 START attempt=1 CMD: julia --project=orange orange/scripts/run_official_wp.jl 2 3600 7 7 1 10
+2026-10-22T11:51:45+00:00 V2 wp_p2_s07 END attempt=1 rc=0
+2026-10-22T11:51:45+00:00 TABLES start
+2026-10-22T11:52:42+00:00 TABLES end rc=0
+2026-10-22T11:52:42+00:00 V2 PIPELINE FINISHED

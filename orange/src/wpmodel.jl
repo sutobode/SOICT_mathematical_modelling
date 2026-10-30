@@ -29,14 +29,11 @@ end
 
 wp_seq(inst, d, wl) = vcat(inst.dem_s[d], wl, inst.dem_t[d])
 
-function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::Int=0, tlimit=Inf, silent=true,
-                        eps=nothing, start_paths=nothing, cands=nothing, ucap=nothing, freeze=Int[])
-    nD = length(inst.dem_s)
-    eps = eps === nothing ? 1e-7 / nD : eps
+function waypoint_options(inst::Instance, rs, K::Int; K2::Int=0, cands=nothing,
+                          start_paths=nothing, extend_start_candidates::Bool=true)
+    nD, P = length(inst.dem_s), length(rs)
     C = cands === nothing ? candidates(inst, rs, K) : cands
     valid(sq) = all(p -> all(haskey(rs[p], sg) for sg in zip(sq, sq[2:end])), 1:P)
-
-    # W[d][c]: danh sách waypoint của phương án c (c = 1: không waypoint)
     W = Vector{Vector{Vector{Int}}}(undef, nD)
     for d in 1:nD
         ws = [w for w in C[d] if w != 0]
@@ -47,12 +44,35 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
         end
         W[d] = lst
     end
-    if start_paths !== nothing            # phương án của nghiệm khởi tạo luôn có mặt (nếu hợp lệ ở mọi thời kỳ)
+    if extend_start_candidates && start_paths !== nothing
         for d in 1:nD, p in 1:P
             wl = start_paths[(d, p)][2:end-1]
             length(wl) <= 2 && !(wl in W[d]) && valid(wp_seq(inst, d, wl)) && push!(W[d], wl)
         end
     end
+    return W
+end
+
+"Persistent cross-process fingerprint of the exact ordered waypoint option set."
+function candidate_fingerprint(W)
+    io = IOBuffer()
+    for (d, options) in enumerate(W)
+        print(io, d, ':')
+        for option in options
+            print(io, '[', join(option, ','), "];" )
+        end
+        print(io, '|')
+    end
+    return bytes2hex(sha256(take!(io)))
+end
+
+function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::Int=0, tlimit=Inf, silent=true,
+                         eps=nothing, start_paths=nothing, cands=nothing, ucap=nothing, freeze=Int[],
+                         extend_start_candidates::Bool=true)
+    nD = length(inst.dem_s)
+    eps = eps === nothing ? 1e-7 / nD : eps
+    W = waypoint_options(inst, rs, K; K2=K2, cands=cands, start_paths=start_paths,
+                         extend_start_candidates=extend_start_candidates)
 
     model = Model(optimizer)
     silent && set_silent(model)
@@ -79,7 +99,7 @@ function build_wp_model(inst::Instance, rs, P::Int, optimizer; K::Int=20, K2::In
         end
         for a in 1:inst.m
             a in inst.down[p] && continue
-            # ucap[p][a] hữu hạn: cung đã bị "đóng băng" ở mức tải tối đa đó (dùng cho lex_refine)
+            # ucap[p][a] hữu hạn: cung đã bị "đóng băng" ở mức tải tối đa đó
             level = (ucap === nothing || !isfinite(ucap[p][a])) ? z : ucap[p][a]
             loadcon[p][a] = @constraint(model, load[a] <= inst.cap[a] * level)
         end
@@ -226,11 +246,10 @@ function colgen(inst::Instance, rs, P::Int; K0::Int=3, add_per_demand::Int=3, ma
 end
 
 """
-Tinh chỉnh theo thứ tự từ điển trên vector tải (mục tiêu (5) của đề): giải min MLU, "đóng băng" các cung đang chạm
-mức tối đa (không cho vượt mức đó), rồi giải lại để tối thiểu MLU trên các cung còn lại; lặp tối đa `levels` mức.
-Trả về (paths, số mức đã giải). Luôn trả về nghiệm tốt hơn hoặc bằng `start_paths` theo thứ tự từ điển.
+Heuristic đóng băng các cung đang chạm mức tải hiện tại rồi giải lại trên các cung còn lại.
+Đây không phải tối ưu từ điển chính xác; dùng `exact_lexicographic_loads!` cho yêu cầu đó.
 """
-function lex_refine(inst::Instance, rs, P::Int, optimizer; K::Int=20, cands=nothing, levels::Int=5,
+function load_freezing_refine(inst::Instance, rs, P::Int, optimizer; K::Int=20, cands=nothing, levels::Int=5,
                     tlimit=Inf, start_paths=nothing)
     vec(paths) = sort(vcat([utilization(inst, rs, paths, p)[[a for a in 1:inst.m if !(a in inst.down[p])]] for p in 1:P]...); rev=true)
     ucap = [fill(Inf, inst.m) for _ in 1:P]

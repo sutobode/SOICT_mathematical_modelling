@@ -1,0 +1,78 @@
+Running HiGHS 1.15.1 (git hash: 04024d701f): Copyright (c) 2026 under MIT licence terms
+Includes third-party software components, see THIRD_PARTY_NOTICES.md for full details
+Using BLAS: libblastrampoline 
+MIP has 30450 rows; 490001 cols; 3857413 nonzeros; 490000 integer variables (472850 binary)
+Coefficient ranges:
+  Matrix  [1e-01, 1e+03]
+  Cost    [1e+00, 1e+00]
+  Bound   [1e+00, 1e+00]
+  RHS     [1e+00, 6e+00]
+Assessing feasibility of MIP using primal feasibility and integrality tolerance of       1e-06
+Solution has               num          max          sum
+Col     infeasibilities      0            0            0
+Integer infeasibilities      0            0            0
+Row     infeasibilities      0            0            0
+Row     residuals            0            0            0
+Presolving model
+29356 rows, 472851 cols, 3771626 nonzeros 2s
+29356 rows, 472851 cols, 3753141 nonzeros 17s
+Presolve reductions: rows 29356(-1094); columns 472851(-17150); nonzeros 3753141(-104272) 
+
+MIP start solution is feasible, objective value is 0.518279230769
+
+Solving MIP model with:
+   29356 rows
+   472851 cols (472850 binary, 0 integer, 0 implied int., 1 continuous, 0 domain fixed)
+   3753141 nonzeros
+   Thread count 1 (of 16 threads). Using 1 max workers. Parallel search off
+
+Src: B => Branching; C => Central rounding; F => Feasibility pump; H => Heuristic;
+     I => Shifting; J => Feasibility jump; L => Sub-MIP; P => Empty MIP; R => Randomized rounding;
+     S => Solve LP; T => Evaluate node; U => Unbounded; X => User solution; Y => HiGHS solution;
+     Z => ZI Round; l => Trivial lower; p => Trivial point; u => Trivial upper; z => Trivial zero
+
+        Nodes      |    B&B Tree     |            Objective Bounds              |  Dynamic Constraints |       Work      
+Src  Proc. InQueue |  Leaves   Expl. | BestBound       BestSol              Gap |   Cuts   InLp Confl. | LpIters     Time
+
+         0       0         0   0.00%   0               0.5182792308     100.00%        0      0      0         0    28.2s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%        0      0      1      6007    79.1s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%      100     14      1      6686    88.3s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%      180     26      1      7553    99.2s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%      299     39      1      8977   116.4s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%      430     53      1     10831   138.6s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%      610     68     16     13349   191.0s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%      840     78     16     23113   303.2s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     1112     93     16     35459   444.9s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     1391    110     16     65008   944.9s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     2397    204     16     67148   980.1s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     3437    278     16     70621  1033.6s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     4252    342     16     75624  1107.6s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     5286    409     16     84659  1238.8s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     6333    450     16     96270  1408.3s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     7375    501     16    101216  1485.3s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     8402    510     16    112424  1652.2s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     9392    542     16    122294  1800.1s
+         0       0         0   0.00%   0.459067803     0.5182792308      11.42%     9392    542     16    122294  1800.1s
+
+Solving report
+  Status            Time limit reached
+  Primal bound      0.518279230769
+  Dual bound        0.45906780303
+  Gap               11.42% (tolerance: 0.0001%)
+  P-D integral      246.596488468
+  Solution status   feasible
+                    0.518279230769 (objective)
+                    0 (bound viol.)
+                    0 (int. viol.)
+                    0 (row viol.)
+  Timing            1800.09
+                    17.36 (Presolve)
+                    1782.71 (Solve)
+                    0.00 (Postsolve)
+  Max sub-MIP depth 0
+  Nodes             0
+  Repair LPs        0
+  LP iterations     122294
+                    0 (strong br.)
+                    116287 (separation)
+                    0 (heuristics)

@@ -1,0 +1,61 @@
+===== 2026-10-20T16:17:43+00:00 attempt 1: ORANGE_MAX_VARS=16000000 julia --project=orange orange/scripts/run_experiments.jl 1 1800 1 3 pc 1 10
+== setA-01 P=1 pathcount official run=1  1.792513065766602e9
+   skipped
+== setA-01 P=1 pathcount official run=2  1.792513069228572e9
+   skipped
+== setA-01 P=1 pathcount official run=3  1.792513069269638e9
+   skipped
+== setA-01 P=1 pathcount official run=4  1.792513069319594e9
+   skipped
+== setA-01 P=1 pathcount official run=5  1.792513069360253e9
+   skipped
+== setA-01 P=1 pathcount official run=6  1.792513069401704e9
+   skipped
+== setA-01 P=1 pathcount official run=7  1.792513069442845e9
+   skipped
+== setA-01 P=1 pathcount official run=8  1.792513069483491e9
+   skipped
+== setA-01 P=1 pathcount official run=9  1.792513069524324e9
+   skipped
+== setA-01 P=1 pathcount official run=10  1.792513069564889e9
+   skipped
+== setA-02 P=1 pathcount official run=1  1.792513069605768e9
+   skipped
+== setA-02 P=1 pathcount official run=2  1.792513069655547e9
+   skipped
+== setA-02 P=1 pathcount official run=3  1.792513069704995e9
+   skipped
+== setA-02 P=1 pathcount official run=4  1.792513069755344e9
+   skipped
+== setA-02 P=1 pathcount official run=5  1.792513069805808e9
+   skipped
+== setA-02 P=1 pathcount official run=6  1.792513069858496e9
+   skipped
+== setA-02 P=1 pathcount official run=7  1.792513069908908e9
+   skipped
+== setA-02 P=1 pathcount official run=8  1.792513069959625e9
+   skipped
+== setA-02 P=1 pathcount official run=9  1.792513070009796e9
+   skipped
+== setA-02 P=1 pathcount official run=10  1.792513070061085e9
+   skipped
+== setA-03 P=1 pathcount official run=1  1.792513070112219e9
+   skipped
+== setA-03 P=1 pathcount official run=2  1.792513070174126e9
+   skipped
+== setA-03 P=1 pathcount official run=3  1.792513070236143e9
+   skipped
+== setA-03 P=1 pathcount official run=4  1.792513070299565e9
+   skipped
+== setA-03 P=1 pathcount official run=5  1.792513070361504e9
+   skipped
+== setA-03 P=1 pathcount official run=6  1.792513070423162e9
+   skipped
+== setA-03 P=1 pathcount official run=7  1.792513070485521e9
+   skipped
+== setA-03 P=1 pathcount official run=8  1.792513070547435e9
+   skipped
+== setA-03 P=1 pathcount official run=9  1.792513070608936e9
+   skipped
+== setA-03 P=1 pathcount official run=10  1.79251307067e9
+   skipped

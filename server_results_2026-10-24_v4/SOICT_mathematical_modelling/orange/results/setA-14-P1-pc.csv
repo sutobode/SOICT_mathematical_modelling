@@ -1,0 +1,2 @@
+instance,P,run,n,m,nD,status,z,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,start_time,start_mlu
+setA-14,1,0,250,1108,600,SKIPPED_TOO_LARGE,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,nvars=37350000,NaN,NaN,NaN

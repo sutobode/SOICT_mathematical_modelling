@@ -28,6 +28,8 @@ end
 @testset "ecmp toy (Bảng 2 của đề)" begin
     inst = read_instance(TOY)
     R = routing(inst, 1)
+    @test R.D[1, 6] ≈ 400.0
+    @test R.S[1, 6] ≈ 3.0
     f = ecmp_split(inst, R, 1, 6)                        # v0 -> v5
     @test f[arc(inst, 0)] ≈ 1.0                          # a0,1
     @test f[arc(inst, 2)] ≈ 0.5                          # a1,3
@@ -73,6 +75,70 @@ end
     f = ecmp_split(inst, routing(inst, 1), 1, 4)
     # 0.1+0.2 = 0.30000000000000004 và 0.15+0.15 = 0.3 phải hòa: 4 cung, mỗi cung 0.5
     @test length(f) == 4 && all(≈(0.5), values(f))
+end
+
+@testset "parallel arcs with different metrics" begin
+    dir = mktempdir()
+    write(joinpath(dir, "t-net.json"), """{"directed":true,"multigraph":true,
+      "nodes":[{"name":"s","id":0},{"name":"t","id":1}],
+      "links":[{"id":10,"from":0,"to":1,"metric":1,"capacity":10},
+               {"id":11,"from":0,"to":1,"metric":3,"capacity":20}]}""")
+    write(joinpath(dir, "t-tm.json"), """{"num_time_slots":2,"demands":[{"v":[1,1],"s":0,"t":1}]}""")
+    write(joinpath(dir, "t-scenario.json"), """{"max_segments":2,"budget":[],
+      "interventions":[{"t":1,"links":[10]}]}""")
+    inst = read_instance(joinpath(dir, "t"))
+    @test inst.link_id == [10, 11]
+    @test inst.down[2] == [1]
+    R1, R2 = routing(inst, 1), routing(inst, 2)
+    @test R1.D[1, 2] ≈ 1.0 && R1.S[1, 2] ≈ 1.0
+    @test R2.D[1, 2] ≈ 3.0 && R2.S[1, 2] ≈ 1.0
+    for mode in (:ecmp, :pathcount)
+        before = Dict(build_r(inst, 1; mode=mode)[(1, 2)])
+        after = Dict(build_r(inst, 2; mode=mode)[(1, 2)])
+        @test before[1] ≈ 1.0
+        @test get(before, 2, 0.0) ≈ 0.0
+        @test !haskey(after, 1) && after[2] ≈ 1.0
+    end
+end
+
+@testset "equal parallel arcs and intervention" begin
+    dir = mktempdir()
+    write(joinpath(dir, "t-net.json"), """{"directed":true,"multigraph":false,
+      "nodes":[{"name":"s","id":0},{"name":"t","id":1}],
+      "links":[{"id":10,"from":0,"to":1,"metric":1,"capacity":10},
+               {"id":11,"from":0,"to":1,"metric":1,"capacity":20}]}""")
+    write(joinpath(dir, "t-tm.json"), """{"num_time_slots":2,"demands":[{"v":[1,1],"s":0,"t":1}]}""")
+    write(joinpath(dir, "t-scenario.json"), """{"max_segments":2,"budget":[],
+      "interventions":[{"t":1,"links":[10]}]}""")
+    inst = read_instance(joinpath(dir, "t"))
+    R1, R2 = routing(inst, 1), routing(inst, 2)
+    @test R1.D[1, 2] ≈ 1.0 && R1.S[1, 2] ≈ 2.0
+    @test R2.D[1, 2] ≈ 1.0 && R2.S[1, 2] ≈ 1.0
+    for mode in (:ecmp, :pathcount)
+        before = Dict(build_r(inst, 1; mode=mode)[(1, 2)])
+        after = Dict(build_r(inst, 2; mode=mode)[(1, 2)])
+        @test before[1] ≈ 0.5 && before[2] ≈ 0.5
+        @test !haskey(after, 1) && after[2] ≈ 1.0
+    end
+end
+
+@testset "parallel arcs and another equal-cost route" begin
+    dir = mktempdir()
+    write(joinpath(dir, "t-net.json"), """{"directed":true,"multigraph":true,
+      "nodes":[{"name":"s","id":0},{"name":"t","id":1},{"name":"v","id":2}],
+      "links":[{"id":10,"from":0,"to":1,"metric":2,"capacity":10},
+               {"id":11,"from":0,"to":1,"metric":2,"capacity":10},
+               {"id":12,"from":0,"to":2,"metric":1,"capacity":10},
+               {"id":13,"from":2,"to":1,"metric":1,"capacity":10}]}""")
+    write(joinpath(dir, "t-tm.json"), """{"num_time_slots":1,"demands":[{"v":[1],"s":0,"t":1}]}""")
+    write(joinpath(dir, "t-scenario.json"), """{"max_segments":2,"budget":[],"interventions":[]}""")
+    inst = read_instance(joinpath(dir, "t"))
+    R = routing(inst, 1)
+    @test R.D[1, 2] ≈ 2.0 && R.S[1, 2] ≈ 3.0
+    for mode in (:ecmp, :pathcount)
+        f = Dict(build_r(inst, 1; mode=mode)[(1, 2)])
+        @test all(a -> f[a] ≈ 1 / 3, 1:4)
+    end
 end
 
 @testset "changes (Bảng 1 của đề)" begin
@@ -183,8 +249,9 @@ end
     g = tempname() * ".csv"
     write_loads(inst, rs, paths, 2, g)
     lines = readlines(g)
-    @test lines[1] == "rank,base,opt"
-    @test parse(Float64, split(lines[2], ",")[2]) ≈ base_mlu(inst, rs, 2)
+    @test lines[1] == "kind,rank,period,link_id,base,opt,run,instance,P,routing_mode"
+    first_sorted = first(filter(line -> startswith(line, "sorted,"), lines[2:end]))
+    @test parse(Float64, split(first_sorted, ",")[5]) ≈ base_mlu(inst, rs, 2)
     @test_throws ErrorException check_solution(inst, rs, paths, 2, value(z) - 0.1)
 end
 
@@ -243,18 +310,21 @@ end
     @test mlu >= brute_best(inst, 1) - 1e-9
     @test mlu ≈ max_utilization(inst, rs, paths, 1)
     inst0 = read_instance(TOY; maxseg=2, budget=0)
-    paths0, _ = local_search(inst0, rs, 2; time_limit=5.0)
+    paths0, mlu0 = local_search(inst0, rs, 2; time_limit=5.0)
     @test all(d -> paths0[(d, 1)] == paths0[(d, 2)], 1:2)
+    # ngân sách 0: chỉ bước đổi cùng lúc mọi thời kỳ cải thiện được
+    @test mlu0 ≈ brute_best(inst0, 2) atol = 1e-9
+    @test mlu0 < base_mlu(inst0, rs, 2) - 1e-9
 end
 
-@testset "lex second stage keeps MLU" begin
+@testset "total-load tie-breaker keeps MLU" begin
     inst = read_instance(TOY; maxseg=2)
     rs = [build_r(inst, 1)]
     model, x, z, load = build_model(inst, rs, 1, OPT)
     optimize!(model)
     zstar = value(z)
     total1 = sum(value(load[1][a]) / inst.cap[a] for a in 1:inst.m)
-    lex_second_stage!(model, z, load, inst, zstar)
+    total_load_second_stage!(model, z, load, inst, zstar)
     optimize!(model)
     @test termination_status(model) == MOI.OPTIMAL
     @test value(z) <= zstar + 1e-6
@@ -518,7 +588,7 @@ end
 
 sorted_loads(inst, rs, paths, P) = sort(vcat([utilization(inst, rs, paths, p)[[a for a in 1:inst.m if !(a in inst.down[p])]] for p in 1:P]...); rev=true)
 
-@testset "lexicographic refinement never worsens the sorted load vector" begin
+@testset "load-freezing heuristic never worsens the sorted load vector" begin
     for (b, P) in ((20, 1), (20, 2), (3, 2))
         inst = read_instance(TOY; maxseg=2, budget=b)
         rs = [build_r(inst, p) for p in 1:P]
@@ -526,7 +596,7 @@ sorted_loads(inst, rs, paths, P) = sort(vcat([utilization(inst, rs, paths, p)[[a
         optimize!(model)
         base_paths = extract_wp_paths(inst, y, W, P)
         zstar = maximum(sorted_loads(inst, rs, base_paths, P))
-        paths, levels = lex_refine(inst, rs, P, OPT; K=inst.n, levels=6, start_paths=base_paths)
+        paths, levels = load_freezing_refine(inst, rs, P, OPT; K=inst.n, levels=6, start_paths=base_paths)
         v0, v1 = sorted_loads(inst, rs, base_paths, P), sorted_loads(inst, rs, paths, P)
         @test v1[1] ≈ zstar atol = 1e-6                              # mức đầu giữ nguyên
         @test lexcmp_leq(v1, v0)
@@ -700,8 +770,9 @@ end
     out = mktempdir()
     logdir = joinpath(out, "solverlogs")
     csv = run_instance(TOY, "toy", 2, 60; runs=2, outdir=out, solver_log_dir=logdir)
-    files = sort(readdir(logdir))
+    files = sort(filter(endswith(".log"), readdir(logdir)))
     @test files == ["toy-P2-run1.log", "toy-P2-run2.log"]
+    @test sort(filter(endswith(".json"), readdir(logdir))) == ["toy-P2-run1-budget.json", "toy-P2-run2-budget.json"]
     txt = read(joinpath(logdir, files[1]), String)
     @test occursin("HiGHS", txt) || occursin("Presolv", txt) || occursin("Solving", txt)
     @test filesize(joinpath(logdir, files[1])) > 200
@@ -711,61 +782,131 @@ end
     @test !isdir(joinpath(out2, "solverlogs"))
 end
 
-# ---------- tối ưu từ điển chính xác cho K hạng đầu (lex_topk!) ----------
-# vét cạn: vector tải sắp giảm (mọi cung hoạt động, mọi thời kỳ) nhỏ nhất theo thứ tự từ điển
-function brute_lex(inst, P; mode=:pathcount)
-    n, nD = inst.n, length(inst.dem_s)
-    rs = [build_r(inst, p; mode=mode) for p in 1:P]
-    seq(d, w) = w == 0 ? [inst.dem_s[d], inst.dem_t[d]] : [inst.dem_s[d], w, inst.dem_t[d]]
-    opts = [[w for w in 0:n if w == 0 || (w != inst.dem_s[d] && w != inst.dem_t[d])] for d in 1:nD]
-    joint = collect(Iterators.product(opts...))
-    act(p) = [a for a in 1:inst.m if !(a in inst.down[p])]
-    utilvec(c, p) = utilization(inst, rs, Dict((d, p) => seq(d, c[d]) for d in 1:nD), p)[act(p)]
-    best = nothing
-    consider(v) = (vs = sort(v; rev=true); (best === nothing || lex_leq(vs, best)) && (best = vs))
-    if P == 1
-        for c in joint
-            consider(utilvec(c, 1))
-        end
-    else
-        for c0 in joint, c1 in joint
-            ch = sum(changes(seq(d, c0[d]), seq(d, c1[d])) for d in 1:nD)
-            ch <= inst.budget[2] || continue
-            consider(vcat(utilvec(c0, 1), utilvec(c1, 2)))
-        end
+@testset "official retry shares time and accumulates nodes" begin
+    inst = read_instance(TOY)
+    rs = [build_r(inst, p; mode=:pathcount) for p in 1:2]
+    start = direct_paths(inst, 2)
+    start_mlu = max_utilization(inst, rs, start, 2)
+    attempts = Tuple{Float64,Bool}[]
+    solve_attempt(inst, rs, P, limit, seed, acyclic, start_paths; kwargs...) =
+        (push!(attempts, (Float64(limit), acyclic)); (length(attempts), nothing, nothing))
+    function result(check, t, nodes; paths=nothing)
+        (; status="Not Optimal", zv=1.0, mlu=1.0, obj=1.0, bnd=0.3, gap=0.7,
+           pure_bound=0.3, pure_gap=0.7, t=Float64(t), nodes=Float64(nodes), check, paths)
     end
-    return best
+    evaluate_attempt(inst, rs, P, model, x, z; objective_mode) =
+        model == 1 ? result("budget_violation", 30, 5) : result("ok", 20, 7; paths=start)
+    res = Orange._solve_with_acyclic_retry(inst, rs, 2, 100.0, 1, start, start_mlu;
+                                            objective_mode=:pure_mlu,
+                                            solve_attempt=solve_attempt, evaluate_attempt=evaluate_attempt)
+    @test attempts == [(100.0, false), (70.0, true)]
+    @test res.t == 50.0 && res.nodes == 12.0 && res.check == "ok(acyclic)"
+
+    empty!(attempts)
+    evaluate_missing(inst, rs, P, model, x, z; objective_mode) =
+        model == 1 ? result("budget_violation", 30, NaN) : result("ok", 20, 7; paths=start)
+    res_missing = Orange._solve_with_acyclic_retry(inst, rs, 2, 100.0, 1, start, start_mlu;
+                                                    objective_mode=:pure_mlu,
+                                                    solve_attempt=solve_attempt, evaluate_attempt=evaluate_missing)
+    @test isnan(res_missing.nodes)
+
+    empty!(attempts)
+    evaluate_expired(inst, rs, P, model, x, z; objective_mode) = result("budget_violation", 100, 5)
+    expired = Orange._solve_with_acyclic_retry(inst, rs, 2, 100.0, 1, start, start_mlu;
+                                                objective_mode=:pure_mlu,
+                                                solve_attempt=solve_attempt, evaluate_attempt=evaluate_expired)
+    @test attempts == [(100.0, false)]
+    @test expired.status == "Not Optimal" && expired.check == "ok(fallback)" && expired.t == 100.0
+
+    inst0 = read_instance(TOY; budget=0)
+    rs0 = [build_r(inst0, p; mode=:pathcount) for p in 1:2]
+    invalid_start = direct_paths(inst0, 2)
+    invalid_start[(1, 2)] = [inst0.dem_s[1], 2, inst0.dem_t[1]]
+    invalid_mlu = max_utilization(inst0, rs0, invalid_start, 2)
+    empty!(attempts)
+    invalid = Orange._solve_with_acyclic_retry(inst0, rs0, 2, 100.0, 1, invalid_start, invalid_mlu;
+                                                objective_mode=:pure_mlu,
+                                                solve_attempt=solve_attempt, evaluate_attempt=evaluate_expired)
+    @test invalid.check == "budget_violation(fallback)"
 end
 
-@testset "lex_topk! equals brute-force lexicographic optimum (toy, maxSeg=2)" begin
-    for P in (1, 2)
-        inst = read_instance(TOY; maxseg=2)
-        rs = [build_r(inst, p; mode=:pathcount) for p in 1:P]
-        want = brute_lex(inst, P)
-        K = length(want)                                   # toàn bộ các hạng
-        model, x, z, load = build_model(inst, rs, P, OPT; eps=0.0, acyclic=true)
-        res = lex_topk!(model, load, inst, K)
-        @test res.proven == K
-        @test all(isapprox.(res.theta, want; atol=1e-6))
-        paths = extract_paths(inst, x, P)
-        got = sort(vcat([utilization(inst, rs, paths, p)[[a for a in 1:inst.m if !(a in inst.down[p])]] for p in 1:P]...); rev=true)
-        @test all(isapprox.(got, want; atol=1e-6))         # nghiệm xuất ra đúng là nghiệm tối ưu từ điển
-        @test res.theta[1] >= res.theta[end] - 1e-9        # vector sắp giảm
+@testset "official guard configuration and RAM guard" begin
+    @test DEFAULT_MAX_VARS == 3_000_000
+    @test configured_max_vars(Dict{String,String}()) == 3_000_000
+    @test configured_max_vars(Dict("ORANGE_MAX_VARS" => "16000000")) == 16_000_000
+    @test_throws ErrorException configured_max_vars(Dict("ORANGE_MAX_VARS" => "bad"))
+    @test_throws ErrorException configured_max_vars(Dict("ORANGE_MAX_VARS" => "0"))
+    out = mktempdir()
+    csv = run_instance(TOY, "toy", 1, 1; runs=1, outdir=out, max_vars=typemax(Int),
+                       mem_budget_bytes=1.0)
+    row = Dict(zip(split(readlines(csv)[1], ","), split(readlines(csv)[2], ",")))
+    @test row["status"] == "SKIPPED_LOW_MEMORY"
+end
+
+@testset "official restricted candidates are run-independent" begin
+    out = mktempdir()
+    rows = Dict{String,String}[]
+    for run_id in 1:2
+        csv = run_wp_instance(TOY, "toy", 1, 60; outdir=out, r_mode=:pathcount,
+                              tag="-official-r$run_id", run_id=run_id, official=true,
+                              objective_mode=:pure_mlu)
+        lines = readlines(csv)
+        push!(rows, Dict(zip(split(lines[1], ","), split(lines[2], ","))))
     end
+    @test rows[1]["candidate_fingerprint"] == rows[2]["candidate_fingerprint"]
+    @test !isempty(rows[1]["candidate_fingerprint"])
+    @test rows[1]["run"] == "1" && rows[2]["run"] == "2"
+    cfg = official_wp_configuration(TOY, 1)
+    @test cfg.K == parse(Int, rows[1]["K"])
+    @test cfg.candidate_fingerprint == rows[1]["candidate_fingerprint"]
 end
 
-@testset "lex_topk! first levels are no worse lexicographically than min-MLU solution" begin
-    inst = read_instance(TOY; maxseg=2)
-    rs = [build_r(inst, 1; mode=:pathcount)]
-    m0, x0, z0, load0 = build_model(inst, rs, 1, OPT; eps=0.0, acyclic=true)
-    optimize!(m0)
-    p0 = extract_paths(inst, x0, 1)
-    v0 = sort(utilization(inst, rs, p0, 1)[[a for a in 1:inst.m if !(a in inst.down[1])]]; rev=true)
-    model, x, z, load = build_model(inst, rs, 1, OPT; eps=0.0, acyclic=true)
-    res = lex_topk!(model, load, inst, 4)
-    @test res.proven == 4
-    @test lex_leq(res.theta, v0[1:4]; tol=1e-6)
-    @test res.theta[1] ≈ value(z0) atol = 1e-6              # hạng đầu = MLU tối ưu
+@testset "budget guard keeps results within the time budget" begin
+    inst = read_instance(TOY)
+    P = 2
+    rs = [build_r(inst, p; mode=:pathcount) for p in 1:P]
+    start = direct_paths(inst, P)
+    logdir = mktempdir()
+    log_path = joinpath(logdir, "toy-run1.log")
+    model, x, z = Orange.solve_once(inst, rs, P, 60.0, 1, false, start; log_path=log_path,
+                                    objective_mode=:pure_mlu)
+    g = model.ext[:budget_guard]
+    @test g.limit == 60.0 && isfinite(g.wall) && g.wall <= 60.0 + Orange.BUDGET_GRACE_SEC
+    final = Orange.evaluate(inst, rs, P, model, x, z; objective_mode=:pure_mlu)
+    @test final.status == "Optimal" && final.check == "ok"
+    record = Orange.JSON3.read(read(replace(log_path, ".log" => "-budget.json"), String))
+    @test record["truncated"] == false && record["reported_mlu"] ≈ final.mlu
+    @test isempty(g.inc_sol) || g.inc_obj >= final.obj - 1e-6
+
+    # the solver ran past the budget: report the last improving solution found within it, at the budget time.
+    # The in-budget incumbent is the HiGHS column vector of the final solution, which checks the column mapping.
+    raw = Orange._evaluate_final(inst, rs, P, model, x, z; objective_mode=:pure_mlu)
+    inner = JuMP.unsafe_backend(model)
+    sol = zeros(MOI.get(inner, MOI.NumberOfVariables()))
+    for v in all_variables(model)
+        sol[HiGHS.column(inner, optimizer_index(v)) + 1] = value(v)
+    end
+    late = Orange.BudgetGuard(60.0)
+    late.inc_sol, late.inc_obj, late.inc_time, late.bound = sol, objective_value(model), 12.0, 0.1
+    over, rec = Orange._apply_budget(inst, rs, P, model, x, z, late, raw; objective_mode=:pure_mlu,
+                                     start_paths=start, wall=160.0)
+    @test rec["truncated"] && over.t == 60.0 && over.status == "Not Optimal"
+    @test over.check == "ok(budget-truncated)" && rec["reported_source"] == "callback@12.0s"
+    @test over.paths == raw.paths && over.mlu ≈ raw.mlu && over.pure_bound == 0.1
+
+    # nothing improved within the budget: the MIP start (known before the solve) is the in-budget incumbent
+    empty_guard = Orange.BudgetGuard(60.0)
+    empty_guard.bound = 0.25
+    over0, rec0 = Orange._apply_budget(inst, rs, P, model, x, z, empty_guard, raw; objective_mode=:pure_mlu,
+                                       start_paths=start, wall=200.0)
+    @test rec0["reported_source"] == "mip_start" && over0.paths == start
+    @test over0.mlu ≈ max_utilization(inst, rs, start, P) && over0.pure_bound == 0.25 && over0.t == 60.0
+
+    # the solver clock disagrees with the monotonic clock: report the monotonic time
+    skewed = merge(raw, (; t=10_000.0))
+    fixed, _ = Orange._apply_budget(inst, rs, P, model, x, z, g, skewed; objective_mode=:pure_mlu, wall=5.0)
+    @test fixed.t == 5.0 && fixed.check == raw.check * "(solver-clock)" && fixed.mlu == raw.mlu
 end
 
-include("multigraph.jl")   # SetA có thật sự là đa đồ thị không?
+include("lexicographic.jl")
+include("official_reporting.jl")

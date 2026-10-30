@@ -1,0 +1,2 @@
+instance,P,K,n,m,nD,binaries,status,mlu,mlu_base,improvement,bound,gap,solve_time,nodes,check,obj,heur_mlu,heur_time,cg_lp,cg_iters,cg_time
+setA-18,1,3,300,1500,2000,28000,Optimal,0.6333654970760234,0.6333654970760234,0.0,0.6333654970760234,0.0,1.340508222579956,0,ok,0.6333654970760234,0.6333654970760234,0.0147936,0.6333654970760234,1,2.0883494

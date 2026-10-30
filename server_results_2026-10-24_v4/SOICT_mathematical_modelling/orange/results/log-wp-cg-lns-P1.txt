@@ -1,0 +1,3 @@
+== setA-10 P=1 cg=true pc=false  free RAM 13.1 GiB
+== setA-13 P=1 cg=true pc=false  free RAM 13.6 GiB
+== setA-14 P=1 cg=true pc=false  free RAM 13.3 GiB

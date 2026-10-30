@@ -1,0 +1,4 @@
+== setA-18 P=1 cg=true pc=true  free RAM 14.9 GiB
+== setA-20 P=1 cg=true pc=true  free RAM 14.7 GiB
+== setA-18 P=2 cg=true pc=true  free RAM 14.5 GiB
+== setA-20 P=2 cg=true pc=true  free RAM 13.9 GiB

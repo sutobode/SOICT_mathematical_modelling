@@ -1,0 +1,8 @@
+"instance","n_vertices","n_arcs","n_demands","maxSeg","x_vars_P1","x_vars_P2","est_ram_GB_P1","est_ram_GB_P2","highs_cols_P1","highs_rows_P1","highs_cols_P2","highs_rows_P2","aux_cols_P2","used_in"
+"setA-01","20","80","40","6","15200","30400","0.07","0.17","15201","2520","45601","35440","15200","P1 full_arc; P2 full_arc"
+"setA-02","30","150","45","6","39150","78300","0.18","0.44","39151","4245","117451","86790","39150","P1 full_arc; P2 full_arc"
+"setA-03","50","250","20","6","49000","98000","0.22","0.55","49001","3270","147001","104540","49000","P1 full_arc; P2 full_arc"
+"setA-04","50","250","200","6","490000","980000","2.2","5.51","490001","30450","1470001","1040900","490000","P1 full_arc; P2 full_arc"
+"setA-05","100","396","100","6","990000","1980000","4.46","11.14","990001","30496","2970001","2040992","990000","P1 full_arc; P2 full_arc"
+"setA-07","100","500","800","6","7920000","15840000","35.64","89.1","NA (not run as full model)","NA","NA (not run as full model)","NA","NA","P2 restricted_waypoint"
+"setA-10","150","966","1000","6","22350000","44700000","100.58","251.44","NA (not run as full model)","NA","NA (not run as full model)","NA","NA","P1 restricted_waypoint"
